@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table class=" table table-hover">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Предмет</th>
+        <th>Преподаватель</th>
+        <th>Название задания</th>
+        <th>Количество возможных сдач</th>
+        <th>Обязательное</th>
+        <th>Временное</th>
+        <th>Дата создания</th>
+        <th>Дата закрытия</th>
+        <th>Минимальный рейтинг</th>
+        <th>Максимальнвй рейтинг</th>
+        <th>Тип задания</th>
+        <th>Текст</th>
+    </tr>
+    </thead>
+    <span>
+        <tbody>
+        <tr th:each="task : ${tasks}">
+            <td th:text="${task.id}"></td>
+            <td th:text="${task.getSubject().getName()}"></td>
+            <td th:text="${task.teacher.getName()}"></td>
+            <td th:text="${task.name}"></td>
+            <td th:text="${task.count_of_attempts}"></td>
+            <td th:text="${task.isMandatory}"></td>
+            <td th:text="${task.isTemporal}"></td>
+            <td th:text="${#temporals.format(task.date_of_creation,'dd MMMM yyyy HH:mm')}"></td>
+            <td th:text="${#temporals.format(task.last_date_of_delivery,'dd MMMM yyyy HH:mm')}"></td>
+            <td th:text="${task.min_rating}"></td>
+            <td th:text="${task.max_rating}"></td>
+            <td th:text="${task.taskType.getTitle()}"></td>
+            <td th:text="${task.text}"></td>
+        </tr>
+        </tbody>
+    </span>
+</table>
+<span th:text="${'Всего заданий ' + totalTasks}"></span>
+<br>
+</body>
+</html>

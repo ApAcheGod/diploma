@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>Добавить группу</h3>
+<div class="container">
+    <form th:action="@{/main/addGroup}"
+          th:object="${group}" method="post">
+        <input th:field="${group.id}" placeholder="id" hidden>
+        <input th:field="${group.name}" placeholder="Название группы">
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+</body>
+</html>

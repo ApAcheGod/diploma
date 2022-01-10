@@ -1,0 +1,76 @@
+    DROP SCHEMA IF EXISTS  DIPLOMA CASCADE ;
+--     CREATE SCHEMA diploma;
+--
+--     DROP TABLE IF EXISTS diploma.TEACHERS;
+--     CREATE TABLE diploma.TEACHERS(
+--         ID SERIAL NOT NULL PRIMARY KEY ,
+--         FIRST_NAME text NOT NULL ,
+--         LAST_NAME text  NOT NULL ,
+--         PATRONYMIC text NOT NULL
+--     );
+--
+--     DROP TABLE IF EXISTS diploma.GROUPS;
+--     CREATE TABLE diploma.GROUPS(
+--         ID SERIAL NOT NULL PRIMARY KEY ,
+--         NAME text  NOT NULL
+--     );
+--
+--     DROP TABLE IF EXISTS diploma.STUDENTS;
+--     CREATE TABLE diploma.STUDENTS(
+--                                      ID SERIAL NOT NULL PRIMARY KEY ,
+--                                      FIRST_NAME text NOT NULL ,
+--                                      LAST_NAME text NOT NULL ,
+--                                      PATRONYMIC text NOT NULL ,
+--                                      GROUP_ID INT REFERENCES diploma.GROUPS(ID)
+--     );
+--
+--     DROP TABLE IF EXISTS diploma.GRADES;
+--     CREATE TABLE diploma.GRADES(
+--         ID SERIAL NOT NULL PRIMARY KEY ,
+--         STUDENT_ID INT REFERENCES diploma.STUDENTS(ID),
+--         MARK INT ,
+--         CREATED_AT date
+--     );
+--
+--
+--     DROP TABLE IF EXISTS diploma.SUBJECTS;
+--     CREATE TABLE diploma.SUBJECTS(
+--                                      ID SERIAL NOT NULL PRIMARY KEY ,
+--                                      NAME text NOT NULL ,
+--                                      TEACHER_ID INT REFERENCES diploma.TEACHERS(ID)
+--     );
+--
+--     DROP TABLE IF EXISTS diploma.TASKS;
+--     CREATE TABLE diploma.TASKS(
+--         ID SERIAL NOT NULL PRIMARY KEY ,
+--         NAME text NOT NULL ,
+--         SUBJECT_ID INT REFERENCES diploma.SUBJECTS(ID),
+--         TEACHER_ID INT REFERENCES diploma.TEACHERS(ID),
+--         CREATED_AT date,
+--         STARTED_AT date,
+--         CLOSED_AT date,
+--         LAST_CLOSED_AT date,
+--         IS_CREDIT bool,
+--     --     MIN_RATING INT,
+--         MAX_RATING INT,
+--         TEXT text  NOT NULL ,
+--         IS_TEMPORAL bool,
+--         IS_MANDATORY BOOL
+--     );
+--
+--
+--     DROP TABLE IF EXISTS diploma.SOLUTIONS;
+--     CREATE TABLE diploma.SOLUTIONS(
+--                                       ID SERIAL NOT NULL PRIMARY KEY ,
+--                                       NAME text NOT NULL  ,
+--                                       STUDENT_ID INT REFERENCES diploma.STUDENTS(ID),
+--                                       TASK_ID INT REFERENCES diploma.TASKS(ID),
+--                                       CREATED_AT date,
+--                                       TEXT text  NOT NULL
+--     );
+--
+--     DROP TABLE IF EXISTS diploma.ROOMS;
+--     CREATE TABLE diploma.ROOMS(
+--                                   ID SERIAL NOT NULL PRIMARY KEY ,
+--                                   TEACHER_ID INT REFERENCES diploma.TEACHERS(ID)
+--     );

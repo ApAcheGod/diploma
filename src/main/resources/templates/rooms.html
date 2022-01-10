@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table class=" table table-hover">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Название комнаты</th>
+    </tr>
+    </thead>
+    <span>
+        <tbody>
+        <tr th:each="room : ${rooms}">
+            <td th:text="${room.id}"></td>
+            <td th:text="${room.name}"></td>
+<!--                <span th:if="${room.getTeacher().isEmpty()}">-->
+<!--                    <p>Студентов нет</p>-->
+<!--                </span>-->
+<!--            <span th:if="${!group.getStudents().isEmpty()} ">-->
+<!--                    <table>-->
+<!--                        <thead>-->
+<!--                        <tr>-->
+<!--                            <th>ID</th>-->
+<!--                            <th>Имя</th>-->
+<!--                            <th>Фамилия</th>-->
+<!--                            <th>Отчество</th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                                <tr th:each="student : ${group.getStudents()}">-->
+<!--                                    <td th:text="${student.id}"></td>-->
+<!--                                    <td th:text="${student.first_name}"></td>-->
+<!--                                    <td th:text="${student.last_name}"></td>-->
+<!--                                    <td th:text="${student.patronymic}"></td>-->
+<!--                                </tr>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+                </span>
+        </tr>
+        </tbody>
+    </span>
+</table>
+<!--        <td th:text="${product.price}"></td>-->
+<!--        <td>-->
+<!--            <a th:href="@{'/products/show/' + ${product.id}}" th:text="Посмотреть"></a>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--            <form th:action="@{/products/remove}" method="get">-->
+<!--                <input type="hidden" th:name="id" th:value="${product.id}"/>-->
+<!--                <input type="submit" value="Delete"/>-->
+<!--            </form>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+
+
+<span th:text="${'Всего комнат ' + totalRooms}"></span>
+<br>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table class=" table table-hover">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Преподаватель</th>
+        <th>Предмет</th>
+        <th>Текст</th>
+    </tr>
+    </thead>
+    <span>
+        <tbody>
+        <tr th:each="material : ${materials}">
+            <td th:text="${material.id}"></td>
+            <td th:text="${material.name}"></td>
+            <td th:text="${material.teacher.getName()}"></td>
+            <td th:text="${material.subject}"></td>
+            <td th:text="${material.text}"></td>
+        </tr>
+        </tbody>
+    </span>
+</table>
+<span th:text="${'Всего материалов ' + totalMaterials}"></span>
+</body>
+</html>

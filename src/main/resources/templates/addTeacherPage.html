@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>Добавить преподавателя</h3>
+<div class="container">
+
+    <form th:action="@{/main/addTeacher}"
+          th:object="${teacher}"
+          method="post">
+        <label>
+            <input th:field="${teacher.id}" placeholder="id" hidden>
+        </label>
+        <label>
+            <input th:field="${teacher.first_name}" placeholder="Имя">
+        </label>
+        <label>
+            <input th:field="${teacher.last_name}" placeholder="Фамилия">
+        </label>
+        <label>
+            <input th:field="${teacher.patronymic}" placeholder="Отчество">
+        </label>
+
+<!--        <label>-->
+<!--            <select th:field="${student.group}">-->
+<!--                <option value=""> Группа </option>-->
+<!--                <option th:each="group : ${groups}"-->
+<!--                        th:text="${group.getName()}"-->
+<!--                        th:value="${group.getId()}">-->
+<!--                </option>-->
+<!--            </select>-->
+<!--        </label>-->
+
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+</body>
+</html>
