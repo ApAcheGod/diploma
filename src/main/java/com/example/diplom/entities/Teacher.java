@@ -17,11 +17,11 @@ import java.util.UUID;
 @ToString
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Builder
-public class Teacher {
+//@Builder
+public class Teacher extends User{
 
-    @Id
-    @GeneratedValue
+//    @Id
+//    @GeneratedValue
     private UUID id;
 
     @NotNull(message = "Имя преподавателя не может быть пустым")

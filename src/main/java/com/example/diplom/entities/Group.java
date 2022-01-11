@@ -27,7 +27,7 @@ public class Group {
 
     @NotNull(message = "Название группы не может быть пустым")
     @Column(name = "group_name")
-    @NaturalId
+    @NaturalId(mutable = true)
     private String name;
 
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -53,6 +53,10 @@ public class Group {
     public void addStudent(Student student){
         students.add(student);
         student.setGroup(this);
+    }
+
+    public void setStudents(Set<Student> students){
+        students.forEach(this::addStudent);
     }
 
     public void removeStudent(Student student){
