@@ -11,6 +11,34 @@
           th:object="${group}" method="post">
         <input th:field="${group.id}" placeholder="id" hidden>
         <input th:field="${group.name}" placeholder="Название группы">
+
+
+        <div th:field="${group.students}">
+            <!--        <select name="group_students[]" th:field="${group.students}" multiple="multiple">-->
+            <!--            <option th:each="student : ${students}"-->
+            <!--                    th:value="${student.id}" th:text="${student.getName()}">-->
+            <input name="students" th:each="student : ${students}"
+                   th:field="*{students}"
+                   th:text="${student.getName()}"
+                   th:value="${student.id}"
+            <!--                   th:checked="${#studentsInGroup.contains}"-->
+            type="checkbox">
+        </div>
+        <!--        </select>-->
+
+        <!--        <label>Студенты-->
+        <!--            <input name="students" th:each="student : ${students}"-->
+        <!--                   th:field="*{students}"-->
+        <!--                   th:text="${student.getName()}"-->
+        <!--                   th:value="${student.id}"-->
+        <!--                   type="checkbox"-->
+        <!---->
+        <!--            />-->
+        <!---->
+        <!--        </label>-->
+
+
+
         <button type="submit">Добавить</button>
     </form>
 </div>

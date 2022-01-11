@@ -5,10 +5,7 @@ import com.example.diplom.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +38,21 @@ public class MainController {
         Group group = new Group();
         model.addAttribute("group", group);
         return "addGroupPage";
+    }
+
+    @GetMapping("/editGroup/{UUID}")
+    public String editGroup(Model model, @PathVariable("UUID") UUID uuid){
+        Group group = groupService.findById(uuid);
+        model.addAttribute("group", group);
+        model.addAttribute("students", studentService.findAll());
+        model.addAttribute("studentsInGroup", group.getStudents());
+        return "editGroupPage";
+    }
+
+    @PostMapping("/editGroup")
+    public String editGroup(@ModelAttribute("group") Group group){
+        groupService.save(group);
+        return "redirect:/main/allGroups";
     }
 
 

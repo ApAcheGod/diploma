@@ -14,14 +14,14 @@ import java.util.UUID;
 @Table(schema = "diploma", name = "students")
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Builder
+//@Builder
 @Getter
 @Setter
 @ToString
-public class Student {
+public class Student extends User{
 
-    @Id
-    @GeneratedValue
+//    @Id
+//    @GeneratedValue
     private UUID id;
 
     private String first_name;
@@ -46,6 +46,10 @@ public class Student {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
     private Set<Task> tasks = new HashSet<>();
+
+    public String getName(){
+        return last_name + " " + first_name + " " + patronymic;
+    }
 
     public void addGroup(Group group){
         group.addStudent(this);
