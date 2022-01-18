@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +25,13 @@ public class MainController {
     private final SubjectService subjectService;
     private final MaterialServcie materialServcie;
     private final SolutionService solutionService;
+    private final CreateLoginService loginService;
+
+    @GetMapping
+    public String adminMain(){
+        return "adminPage";
+    }
+
 
     @PostMapping("/addGroup")
     public String addGroup(@ModelAttribute("group") Group group){
@@ -55,6 +61,18 @@ public class MainController {
         return "redirect:/main/allGroups";
     }
 
+    @GetMapping("/removeGroup/{UUID}")
+    public String removeGroup(@PathVariable("UUID") UUID uuid){
+        groupService.removeById(uuid);
+        return "redirect:/main/allGroups";
+    }
+
+    @GetMapping("/infoGroup/{UUID}")
+    public String infoAboutGroup(Model model, @PathVariable("UUID") UUID uuid){
+        Group group =  groupService.findById(uuid);
+        model.addAttribute("group", group);
+        return "groupInfoPage";
+    }
 
     @GetMapping("/addStudent")
     public String addStudent(Model model){
@@ -66,9 +84,13 @@ public class MainController {
 
     @PostMapping("/addStudent")
     public String addStudent(@ModelAttribute("student") Student student){
+        loginService.createLoginForUser(student);
         studentService.save(student);
+        studentService.findAll().forEach(s -> System.out.println(s.getLogin()));
         return "redirect:/main/allGroups";
     }
+
+
 
     @GetMapping("/addTeacher")
     public String addTeacher(Model model){
@@ -79,6 +101,7 @@ public class MainController {
 
     @PostMapping("/addTeacher")
     public String addTeacher(@ModelAttribute("teacher") Teacher teacher){
+        loginService.createLoginForUser(teacher);
         teacherService.save(teacher);
         return "redirect:/main/allTeachers";
     }
@@ -133,8 +156,15 @@ public class MainController {
         List<Material> materials = materialServcie.findAll();
         model.addAttribute("materials", materials);
         model.addAttribute("totalMaterials",materials.size());
-        System.out.println(UUID.randomUUID());
         return "materials";
+    }
+
+    @GetMapping("/allStudents")
+    public String showAllStudent(Model model){
+        List<Student> students = studentService.findAll();
+        model.addAttribute("students", students);
+        model.addAttribute("totalStudents", students.size());
+        return "students";
     }
 
     @GetMapping("/allTasks")

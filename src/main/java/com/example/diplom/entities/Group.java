@@ -1,7 +1,6 @@
 package com.example.diplom.entities;
 
 import lombok.*;
-import org.hibernate.Hibernate;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;

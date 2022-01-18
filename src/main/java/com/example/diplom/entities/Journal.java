@@ -1,13 +1,5 @@
 package com.example.diplom.entities;
 
-import lombok.*;
-import org.hibernate.Hibernate;
-
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
 //@Entity
 //@Table(schema = "diploma", name = "journals")
 //@Getter

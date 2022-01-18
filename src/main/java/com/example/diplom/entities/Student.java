@@ -30,6 +30,18 @@ public class Student extends User{
 
     private String patronymic;
 
+//    @Column(name = "login")
+//    @Formula("lower(concat(substring(first_name,1,1), last_name)")
+//    @org.hibernate.annotations.Generated(value = GenerationTime.ALWAYS)
+//    @Column(columnDefinition = "" +
+//        "AS CONCAT (COALESCE(first_name, ''), COALESCE(second_name, ''), COALESCE(patronymic, '')")
+//    @Column(columnDefinition =
+//            "AS CONCAT(" +
+//                    "    COALESCE(first_name, ''), " +
+//                    "    COALESCE(' ' + last_name, ''), " +
+//                    "    COALESCE(' ' + patronymic, '') " + ")")
+    private String login;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id", referencedColumnName = "id")
     @ToString.Exclude

@@ -20,7 +20,10 @@
 <!--            <td th:text="${group.id}"></td>-->
             <td th:text="${group.name}"></td>
             <td>
-                 <a th:href="@{'/main/editGroup/' + ${group.id}}" th:text="Редактировать"></a>
+                <a th:href="@{'/main/editGroup/' + ${group.id}}" th:text="Редактировать"></a>
+                <a th:href="@{'/main/infoGroup/' + ${group.id}}" th:text="Информация"></a>
+                <a th:href="@{'/main/removeGroup/' + ${group.id}}" th:text="Удалить"></a>
+
             </td>
             <td>
 <!--                <span th:if="${group.getStudents().isEmpty()}">-->
