@@ -32,6 +32,8 @@ public class Teacher extends User{
 
     private String patronymic;
 
+    private String login;
+
     @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
     private Set<Subject> subjects = new HashSet<>();

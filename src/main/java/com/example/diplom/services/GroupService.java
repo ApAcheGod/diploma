@@ -25,4 +25,8 @@ public class GroupService{
     public Group findById(UUID id) {
         return groupRepository.findById(id).get();
     }
+
+    public void removeById(UUID uuid) {
+        groupRepository.deleteById(uuid);
+    }
 }
