@@ -5,23 +5,17 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(schema = "diploma", name = "students")
 @AllArgsConstructor
 @RequiredArgsConstructor
-//@Builder
 @Getter
 @Setter
 @ToString
 public class Student extends User{
 
-//    @Id
-//    @GeneratedValue
     private UUID id;
 
     private String first_name;
@@ -30,16 +24,6 @@ public class Student extends User{
 
     private String patronymic;
 
-//    @Column(name = "login")
-//    @Formula("lower(concat(substring(first_name,1,1), last_name)")
-//    @org.hibernate.annotations.Generated(value = GenerationTime.ALWAYS)
-//    @Column(columnDefinition = "" +
-//        "AS CONCAT (COALESCE(first_name, ''), COALESCE(second_name, ''), COALESCE(patronymic, '')")
-//    @Column(columnDefinition =
-//            "AS CONCAT(" +
-//                    "    COALESCE(first_name, ''), " +
-//                    "    COALESCE(' ' + last_name, ''), " +
-//                    "    COALESCE(' ' + patronymic, '') " + ")")
     private String login;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
