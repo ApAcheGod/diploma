@@ -30,7 +30,5 @@ public class CreatePasswordService {
         String encryptedPassword = new BCryptPasswordEncoder().encode(rowPassword);
         log.info("row password {} encrypted password {}", rowPassword, encryptedPassword);
         return encryptedPassword;
-//        log.info("row password {}", rowPassword);
-//        return rowPassword;
     }
 }

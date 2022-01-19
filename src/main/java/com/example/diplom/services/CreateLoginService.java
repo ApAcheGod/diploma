@@ -28,8 +28,5 @@ public class CreateLoginService {
                             user.getPatronymic().substring(0,3) +
                             user.getLast_name()) + countOfBodies);
         }
-
     }
-
-
 }

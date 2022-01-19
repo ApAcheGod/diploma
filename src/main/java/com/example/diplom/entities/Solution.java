@@ -21,9 +21,6 @@ import java.util.UUID;
 @EntityListeners(AuditingEntityListener.class)
 public class Solution {
 
-//    @EmbeddedId TODO
-//    private StudentTask id;
-
     @Id
     @GeneratedValue
     private UUID id;
