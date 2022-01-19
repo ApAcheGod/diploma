@@ -1,12 +1,15 @@
 package com.example.diplom.controllers;
 
 import com.example.diplom.entities.*;
+import com.example.diplom.repositories.RoleRepository;
 import com.example.diplom.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,12 +29,19 @@ public class MainController {
     private final MaterialServcie materialServcie;
     private final SolutionService solutionService;
     private final CreateLoginService loginService;
+    private final CreatePasswordService passwordService;
+    private final RoleRepository roleRepository;
 
     @GetMapping
     public String adminMain(){
         return "adminPage";
     }
 
+    @GetMapping("/welcome")
+    public String welcome(Principal principal, Model model){
+        model.addAttribute("userName", principal.getName() == null ? "Не авторизован" : principal.getName());
+        return "welcomePage";
+    }
 
     @PostMapping("/addGroup")
     public String addGroup(@ModelAttribute("group") Group group){
@@ -85,8 +95,10 @@ public class MainController {
     @PostMapping("/addStudent")
     public String addStudent(@ModelAttribute("student") Student student){
         loginService.createLoginForUser(student);
+        student.setPassword(passwordService.createPassword());
+        student.setRoles(List.of(roleRepository.findRoleByRoleName("ROLE_STUDENT")));
         studentService.save(student);
-        studentService.findAll().forEach(s -> System.out.println(s.getLogin()));
+//        studentService.findAll().forEach(s -> System.out.println(s.getLogin()));
         return "redirect:/main/allGroups";
     }
 

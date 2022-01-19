@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -20,15 +21,10 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
 
     public int numberOfBodies(User user) {
-        System.out.println(user.getFirst_name());
-        System.out.println(user.getLast_name());
-        System.out.println(user.getPatronymic());
         return userRepository.countUsersByFirst_nameAndAndLast_nameAndPatronymic(
                 user.getFirst_name(),
                 user.getLast_name(),
                 user.getPatronymic());
-//        System.out.println(userRepository.countUsersByFirst_name(user.getFirst_name()));
-//        return userRepository.countUsersByFirst_name(user.getFirst_name());
     }
 
     @Override
@@ -41,7 +37,6 @@ public class UserServiceImpl implements UserService{
         return new org.springframework.security.core.userdetails.User(
                 user.getLogin(), user.getPassword(), mapRolesToAuthorities(user.getRoles())
         );
-
     }
 
     @Override
