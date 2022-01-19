@@ -32,8 +32,8 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .logout().permitAll();
     }
     @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService);
+    public void configure(AuthenticationManagerBuilder auth){
+        auth.authenticationProvider(authenticationProvider());
     }
 
     @Bean

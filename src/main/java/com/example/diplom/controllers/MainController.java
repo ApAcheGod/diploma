@@ -31,6 +31,7 @@ public class MainController {
     private final CreateLoginService loginService;
     private final CreatePasswordService passwordService;
     private final RoleRepository roleRepository;
+    private final UserService userService;
 
     @GetMapping
     public String adminMain(){
@@ -40,6 +41,7 @@ public class MainController {
     @GetMapping("/welcome")
     public String welcome(Principal principal, Model model){
         model.addAttribute("userName", principal.getName() == null ? "Не авторизован" : principal.getName());
+        model.addAttribute("roles", userService.findByUserLogin(principal.getName()).getRoles());
         return "welcomePage";
     }
 
@@ -98,7 +100,6 @@ public class MainController {
         student.setPassword(passwordService.createPassword());
         student.setRoles(List.of(roleRepository.findRoleByRoleName("ROLE_STUDENT")));
         studentService.save(student);
-//        studentService.findAll().forEach(s -> System.out.println(s.getLogin()));
         return "redirect:/main/allGroups";
     }
 
@@ -114,6 +115,8 @@ public class MainController {
     @PostMapping("/addTeacher")
     public String addTeacher(@ModelAttribute("teacher") Teacher teacher){
         loginService.createLoginForUser(teacher);
+        teacher.setPassword(passwordService.createPassword());
+        teacher.setRoles(List.of(roleRepository.findRoleByRoleName("ROLE_TEACHER")));
         teacherService.save(teacher);
         return "redirect:/main/allTeachers";
     }
