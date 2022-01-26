@@ -6,10 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class MaterialServcie {
+public class MaterialService {
 
     private final MaterialRepository materialRepository;
 
@@ -19,5 +20,9 @@ public class MaterialServcie {
 
     public List<Material> findAll() {
         return materialRepository.findAll();
+    }
+
+    public Material findByID(UUID uuid) {
+        return materialRepository.getById(uuid);
     }
 }

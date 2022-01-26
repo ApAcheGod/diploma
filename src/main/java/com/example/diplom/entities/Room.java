@@ -51,12 +51,18 @@ public class Room {
     }
 
     public void addTeacher(Teacher teacher){
-        teacher.addRoom(this); // TODO проверить как рбаотает
+        this.teacher = teacher;
+        teacher.getRooms().add(this);
+//        teacher.addRoom(this); // TODO проверить как рбаотает
     }
 
     public void removeTeacher(){
         teacher.getRooms().remove(this);
         this.teacher = null;
+    }
+
+    public void setGroup(Set<Group> group){
+        group.forEach(this::addGroup);
     }
 
     public void addGroup(Group group){

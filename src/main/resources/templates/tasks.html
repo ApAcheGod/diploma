@@ -37,7 +37,7 @@
             <td th:text="${#temporals.format(task.last_date_of_delivery,'dd MMMM yyyy HH:mm')}"></td>
             <td th:text="${task.min_rating}"></td>
             <td th:text="${task.max_rating}"></td>
-            <td th:text="${task.taskType.getTitle()}"></td>
+<!--            <td th:text="${(task.taskType.getTitle() == null) ? "ytm" : ${task.taskType.getTitle()}}"></td>-->
             <td th:text="${task.text}"></td>
         </tr>
         </tbody>

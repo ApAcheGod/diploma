@@ -22,11 +22,15 @@ public class GroupService{
         return groupRepository.findAll();
     }
 
-    public Group findById(UUID id) {
-        return groupRepository.findById(id).get();
-    }
+//    public Group findById(UUID id) {
+//        return groupRepository.findById(id).get();
+//    }
 
     public void removeById(UUID uuid) {
         groupRepository.deleteById(uuid);
+    }
+
+    public Group findById(UUID uuid) {
+        return groupRepository.getById(uuid);
     }
 }
