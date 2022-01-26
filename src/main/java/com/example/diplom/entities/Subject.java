@@ -30,7 +30,6 @@ public class Subject {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-    @ToString.Exclude
     private Teacher teacher;
 
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -46,15 +45,15 @@ public class Subject {
     private Set<Group> groups = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @ToString.Exclude
     private Room room;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
     private Student student;
 
-    public void addTeacher(Teacher teacher){
-        teacher.addSubject(this);
+    public void setTeacher(Teacher teacher){
+        this.teacher = teacher;
+        teacher.getSubjects().add(this);
     }
 
     public void removeTeacher(Teacher teacher){
@@ -81,6 +80,10 @@ public class Subject {
         task.setSubject(null);
     }
 
+    public void setGroup(Set<Group> group){
+        groups.forEach(this::addGroup);
+    }
+
     public void addGroup(Group group){
         group.addSubject(this);
     }
@@ -89,8 +92,9 @@ public class Subject {
         group.removeSubject(this);
     }
 
-    public void addRoom(Room room){
-        room.addSubject(this);
+    public void setRoom(Room room){
+        room.getSubjects().add(this);
+        this.room = room;
     }
 
     public void removeRoom(Room room){

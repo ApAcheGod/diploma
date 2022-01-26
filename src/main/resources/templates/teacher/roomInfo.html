@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Информация о комнате</title>
+</head>
+<body>
+<p th:text="${room.name}"></p>
+<span th:each="subject : ${subjects}">
+<!--    <a th:href="@{'/teacher/room/'+ ${room.id}}" th:text="${room.getName()}"></a>-->
+<!--    <p th:text="${subject.getName()}"></p>-->
+    <div>
+        <a th:href="@{'/teacher/subject/' + ${subject.id}}" th:text="${subject.getName()}"></a>
+    </div>
+</span>
+
+<a th:href="@{${room.id} + '/addSubject'}">Добавить предмет</a>
+</body>
+</html>
