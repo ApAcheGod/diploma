@@ -3,6 +3,7 @@ package com.example.diplom.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -28,6 +29,9 @@ public class User {
     private String patronymic;
 
     private String password;
+
+//    @Email
+//    private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",

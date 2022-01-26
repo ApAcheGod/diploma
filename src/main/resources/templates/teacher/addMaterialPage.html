@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>Добавить Материалы</h3>
+<div class="container">
+    <form th:action="@{/teacher/addMaterial}"
+          th:object="${material}" method="post">
+        <label>
+            <input th:field="${material.id}" placeholder="id" hidden>
+        </label>
+        <label>
+            <input th:field="${material.name}" placeholder="Название материала">
+        </label>
+
+        <label>
+            <input th:field="${material.teacher}" placeholder="teacher_id" hidden>
+        </label>
+
+        <label>
+            <input th:field="${material.subject}" placeholder="teacher_id" hidden>
+        </label>
+
+        <label>
+            <input type="text" th:field="${material.text}" placeholder="Текст">
+        </label>
+
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить комнату</title>
+</head>
+<body>
+<h3>Добавить комнату</h3>
+<div class="container">
+    <form th:action="@{/teacher/addRoom}"
+          th:object="${room}" method="post">
+        <label>
+            <input th:field="${room.id}" placeholder="id" hidden>
+        </label>
+
+        <label>
+            <input th:field="${room.teacher}" placeholder="teacher_id" hidden>
+        </label>
+
+        <label>
+            <input th:field="${room.name}" placeholder="Название комнаты">
+        </label>
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>Добавить Задания</h3>
+<div class="container">
+    <form th:action="@{/teacher/addTask}"
+          th:object="${task}" method="post">
+        <label>
+            <input th:field="${task.id}" placeholder="id" hidden>
+        </label>
+        <label>
+            <input th:field="${task.name}" placeholder="Название задания">
+        </label>
+
+        <label>
+            <input th:field="${task.teacher}" placeholder="teacher_id" hidden>
+        </label>
+
+        <label>
+            <input th:field="${task.subject}" placeholder="subject_id" hidden>
+        </label>
+
+        <label>
+            <input th:field="${task.groups}" placeholder="groups_id" hidden>
+        </label>
+
+        <label>
+            <input th:field="${task.count_of_attempts}" placeholder="Количество возможных сдач">
+        </label>
+        <label>
+            <input name="is_mandatory" type="checkbox" th:field="${task.isMandatory}" th:value="${task.isMandatory}">Обязательное
+        </label>
+        <label>
+            <input name="is_temporal" type="checkbox" th:field="${task.isTemporal}" th:value="${task.isTemporal}">Временное
+        </label>
+
+        <label>
+            <select th:field="${task.taskType}">
+                <option value=""> Тип задания </option>
+                <option th:each="task : ${T(com.example.diplom.entities.TaskType).values()}"
+                        th:value="${task}" th:text="${task.getTitle()}"></option>
+            </select>
+        </label>
+
+        <label>
+            <input th:field="${task.max_rating}" placeholder="Максимальный балл">
+        </label>
+
+        <label>
+            <input type="datetime-local" th:field="${task.last_date_of_delivery}" placeholder="Сдать до">
+        </label>
+
+        <label>
+            <input type="text" th:field="${task.text}" placeholder="Текст">
+        </label>
+
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+</body>
+</html>

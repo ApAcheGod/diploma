@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p th:text="${task.name}"></p>
+
+    <p th:text="${task.teacher.getName()}"></p>
+
+    <p th:text="${task.getTaskType().getTitle()}"></p>
+
+    <p th:text="${task.subject.name}"></p>
+
+    <p th:text="'Количество сдач ' + ${task.getCount_of_attempts()}"></p>
+
+    <p th:text="'Дата создания ' + ${#temporals.format(task.date_of_creation,'dd MMMM yyyy HH:mm')}"></p>
+    <p th:text="'Сдать до ' + ${#temporals.format(task.date_of_creation,'dd MMMM yyyy HH:mm')}"></p>
+
+    <p th:text="'Максимальный балл '+ ${task.max_rating}"></p>
+
+    <p th:text="'Временное ' + ${task.isTemporal}"></p>
+
+    <p th:text="'Обязательно ' + ${task.isMandatory}"></p>
+
+    <span th:each="group : ${task.groups}">
+    <div>
+        <a th:href="@{'/teacher/group/' + ${group.id}}" th:text="${group.name}"/>
+    </div>
+    </span>
+
+<div th:text="${task.text}"></div>
+</body>
+</html>

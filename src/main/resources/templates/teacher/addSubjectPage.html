@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>Добавить предмет</h3>
+<div class="container">
+    <form th:action="@{/teacher/addSubject}"
+          th:object="${subject}" method="post">
+        <label>
+            <input th:field="${subject.id}" placeholder="id" hidden>
+        </label>
+        <label>
+            <input th:field="${subject.room}" placeholder="room_id" hidden>
+        </label>
+        <label>
+            <input th:field="${subject.teacher}" placeholder="teacher_id" hidden>
+        </label>
+        <label>
+            <input th:field="${subject.name}" placeholder="Название предмета">
+        </label>
+
+        <label>Группы
+            <input name="groups" th:each="group : ${groups}"
+                   th:field="${subject.groups}"
+                   th:text="${group.getName()}"
+                   th:value="${group.id}"
+                   type="checkbox"
+            />
+        </label>
+
+
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+</body>
+</html>

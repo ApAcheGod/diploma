@@ -65,6 +65,7 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>5.4.3.Final</version>
+<!--            <version>5.4.3.Final</version>-->
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -113,6 +114,16 @@
             <artifactId>passay</artifactId>
             <version>1.6.1</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.0.0</version>
         </dependency>
     </dependencies>
 

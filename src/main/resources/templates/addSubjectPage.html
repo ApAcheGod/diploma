@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>Добавить предмет</h3>
+<div class="container">
+    <form th:action="@{/main/addSubject}"
+          th:object="${subject}" method="post">
+        <label>
+            <input th:field="${subject.id}" placeholder="id" hidden>
+        </label>
+        <label>
+            <input th:field="${subject.name}" placeholder="Название задания">
+        </label>
+
+        <label>
+            <select th:field="${subject.teacher}">
+                <option value=""> Преподаватель </option>
+                <option th:each="teacher : ${teachers}"
+                        th:text="${teacher.name}"
+                        th:value="${teacher.getId()}">
+                </option>
+            </select>
+        </label>
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+</body>
+</html>
