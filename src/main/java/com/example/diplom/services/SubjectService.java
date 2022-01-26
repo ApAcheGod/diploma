@@ -5,6 +5,9 @@ import com.example.diplom.repositories.SubjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class SubjectService {
@@ -15,7 +18,11 @@ public class SubjectService {
         subjectRepository.save(subject);
     }
 
-    public Object findAll() {
+    public List<Subject> findAll() {
         return subjectRepository.findAll();
+    }
+
+    public Subject findByID(UUID uuid) {
+        return subjectRepository.getById(uuid);
     }
 }

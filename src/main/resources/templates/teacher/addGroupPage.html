@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Прикрепить группу</title>
+</head>
+<body>
+<h3>Прикрепить группу</h3>
+<div class="container">
+    <form th:action="@{/teacher/addGroup}" method="post">
+
+        <div th:field="${room.groups}">
+            <input name="group" th:each="group : ${groups}"
+                   th:field="*{groups}"
+                   th:text="${group.name}"
+                   th:value="${group.id}"
+                   type="checkbox">
+        </div>
+
+        <label>
+            <input th:field="${room.id}" placeholder="id" hidden>
+        </label>
+
+
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+</body>
+</html>

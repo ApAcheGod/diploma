@@ -5,7 +5,10 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(schema = "diploma", name = "students")
@@ -63,7 +66,7 @@ public class Student extends User{
 
     public void addSubject(Subject subject){
         subjects.add(subject);
-        subject.setStudent(this);
+        subject.addStudent(this);
     }
 
     public void removeSubject(Subject subject){

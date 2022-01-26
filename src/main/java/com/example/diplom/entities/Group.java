@@ -63,9 +63,14 @@ public class Group {
         student.setGroup(null);
     }
 
+    public void setSubjects(Set<Subject> subjects){
+        subjects.forEach(this::addSubject);
+    }
+
     public void addSubject(Subject subject){
         subjects.add(subject); // TODO если добавить предмет группе - он должен добавиться всем студентам группы
         subject.getGroups().add(this);
+        students.forEach(student -> student.addSubject(subject));
     }
 
     public void removeSubject(Subject subject){
@@ -93,29 +98,20 @@ public class Group {
         room.getGroups().remove(this);
     }
 
+    public void setTask(Set<Task> tasks){
+        tasks.forEach(this::addTask);
+    }
+
     public void addTask(Task task){
         tasks.add(task);
         task.getGroups().add(this);
+        students.forEach(student -> student.addTask(task));
     }
 
     public void removeTask(Task task){
         tasks.remove(task);
         task.getGroups().remove(this);
     }
-
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-//        Group group = (Group) o;
-//        return id != null && Objects.equals(id, group.id);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return getClass().hashCode();
-//    }
-
 
     @Override
     public boolean equals(Object o) {

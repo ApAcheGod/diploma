@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Информация о предмете</title>
+</head>
+<body>
+<p th:text="${subject.name}"></p>
+<p>GROUPS</p>
+<span th:each="group : ${groups}">
+    <div>
+<!--        <span th:text="${group.name}"></span>-->
+                <a th:href="@{'/teacher/group/' + ${group.id}}" th:text="${group.name}"/>
+    </div>
+</span>
+<a th:href="@{'/teacher/room/' + ${subject.room.id} + '/subject/' + ${subject.id} + '/addGroup'}">Добавить группу</a>
+
+
+<p>MATERIALS</p>
+<span th:each="material : ${materials}">
+    <div>
+        <a th:href="@{'/teacher/material/' + ${material.id}}" th:text="${material.name}"/>
+    </div>
+</span>
+<a th:href="@{'/teacher/room/' + ${subject.room.id} + '/subject/' + ${subject.id} + '/addMaterial'}">Добавить материал</a>
+
+<p>TASKS</p>
+<span th:each="task : ${tasks}">
+    <div>
+        <a th:href="@{'/teacher/task/' + ${task.id}}" th:text="${task.name}"/>
+    </div>
+</span>
+
+<a th:href="@{'/teacher/room/' + ${subject.room.id} + '/subject/' + ${subject.id} + '/addTask'}">Добавить задание</a>
+
+</body>
+</html>

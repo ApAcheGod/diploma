@@ -86,6 +86,9 @@ public class Task {
         student.getTasks().remove(this);
     }
 
+    public void setGroup(Set<Group> groups){
+        groups.forEach(this::addGroup);
+    }
     public void addGroup(Group group){
         groups.add(group);
         group.getTasks().add(this);
@@ -113,6 +116,10 @@ public class Task {
     public void addSolution(Solution solution){
         solutions.add(solution);
         solution.addTask(this);
+    }
+
+    public void setGroups(Set<Group> groups){
+        groups.forEach(this::addGroup);
     }
 
     @Override
