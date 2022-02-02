@@ -26,11 +26,15 @@ public class TeacherService {
         return teacherRepository.findAll();
     }
 
-    public Teacher findTeacherById(UUID uuid){
-        return teacherRepository.findById(uuid).get();
+    public Teacher findById(UUID uuid){
+        return teacherRepository.getById(uuid);
     }
 
-    public Teacher findTeacherByLogin(String login){
+    public Teacher findByLogin(String login){
         return teacherRepository.findTeacherByLogin(login);
+    }
+
+    public void deleteById(UUID uuid) {
+        teacherRepository.deleteById(uuid);
     }
 }

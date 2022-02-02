@@ -1,11 +1,14 @@
 package com.example.diplom.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -16,6 +19,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Material {
 
     @Id
@@ -29,31 +33,50 @@ public class Material {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     @ToString.Exclude
+    @JsonBackReference
     private Teacher teacher;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
     @ToString.Exclude
+    @JsonBackReference
     private Subject subject;
 
     private String text;
 
     public void addTeacher(Teacher teacher){
-//        this.teacher = teacher;
-        teacher.addMaterial(this); // TODO проверить как работает
+        this.teacher = teacher;
+        teacher.getMaterials().add(this);
     }
 
-    public void removeTeacher(){
-        this.teacher = null;
+    public void addTeacher(Set<Teacher> teachers){
+        teachers.forEach(this::addTeacher);
     }
 
     public void addSubject(Subject subject){
-        subject.addMaterial(this);
+        this.subject = subject;
+        subject.getMaterials().add(this);
+    }
+    public void addSubject(Set<Subject> subjects){
+        subjects.forEach(this::addSubject);
     }
 
-    public void removeSubject(){
-        this.subject = null;
-    }
+
+//    public void addTeacher(Teacher teacher){
+//        teacher.addMaterial(this); // TODO проверить как работает
+//    }
+//
+//    public void removeTeacher(){
+//        this.teacher = null;
+//    }
+//
+//    public void addSubject(Subject subject){
+//        subject.addMaterial(this);
+//    }
+//
+//    public void removeSubject(){
+//        this.subject = null;
+//    }
 
     @Override
     public boolean equals(Object o) {

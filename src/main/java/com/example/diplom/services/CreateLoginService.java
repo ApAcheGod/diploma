@@ -17,16 +17,16 @@ public class CreateLoginService {
     public void createLoginForUser(User user){
 
         int countOfBodies = userServiceImpl.numberOfBodies(user);
+        char first_name = user.getFirst_name().charAt(0);
+        String last_name = user.getLast_name();
+        String patronymic = ((user.getPatronymic().length() > 2) ? user.getPatronymic().substring(0,3) : "");
+
         if (countOfBodies == 0){
             user.setLogin(toLatinTrans.transliterate(
-                    user.getFirst_name().charAt(0) +
-                            user.getPatronymic().substring(0,3) +
-                            user.getLast_name()));
+                    first_name + patronymic + last_name));
         }else{
             user.setLogin(toLatinTrans.transliterate(
-                    user.getFirst_name().charAt(0) +
-                            user.getPatronymic().substring(0,3) +
-                            user.getLast_name()) + countOfBodies);
+                    first_name + patronymic + last_name + countOfBodies));
         }
     }
 }

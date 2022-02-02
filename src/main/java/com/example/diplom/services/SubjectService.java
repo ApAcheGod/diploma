@@ -22,7 +22,11 @@ public class SubjectService {
         return subjectRepository.findAll();
     }
 
-    public Subject findByID(UUID uuid) {
+    public Subject findById(UUID uuid) {
         return subjectRepository.getById(uuid);
+    }
+
+    public void deleteById(UUID uuid) {
+        subjectRepository.deleteById(uuid);
     }
 }

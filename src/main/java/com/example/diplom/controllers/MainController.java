@@ -36,15 +36,15 @@ public class MainController {
     @GetMapping
     @Secured("ROLE_ADMIN")
     public String adminMain(){
-        return "adminPage";
+        return "admin/adminPage";
     }
 
-    @GetMapping("/welcome")
-    public String welcome(Principal principal, Model model){
-        model.addAttribute("userName", principal.getName() == null ? "Не авторизован" : principal.getName());
-        model.addAttribute("roles", userService.findByUserLogin(principal.getName()).getRoles());
-        return "welcomePage";
-    }
+//    @GetMapping("/welcome")
+//    public String welcome(Principal principal, Model model){
+//        model.addAttribute("user", principal.getName() == null ? "Не авторизован" : principal.getName());
+//        model.addAttribute("roles", userService.findByUserLogin(principal.getName()).getRoles());
+//        return "welcomePage";
+//    }
 
     @PostMapping("/addGroup")
     @Secured("ROLE_ADMIN")
@@ -60,7 +60,7 @@ public class MainController {
         List<Room> rooms = roomService.findAll();
         model.addAttribute("group", group);
         model.addAttribute("rooms", rooms);
-        return "addGroupPage";
+        return "admin/addGroupPage";
     }
 
     @GetMapping("/editGroup/{UUID}")
@@ -72,7 +72,7 @@ public class MainController {
         model.addAttribute("students", studentService.findAll());
         model.addAttribute("studentsInGroup", group.getStudents());
         model.addAttribute("rooms", rooms);
-        return "editGroupPage";
+        return "admin/editGroupPage";
     }
 
     @PostMapping("/editGroup")
@@ -94,7 +94,7 @@ public class MainController {
     public String infoAboutGroup(Model model, @PathVariable("UUID") UUID uuid){
         Group group =  groupService.findById(uuid);
         model.addAttribute("group", group);
-        return "groupInfoPage";
+        return "admin/groupInfoPage";
     }
 
     @GetMapping("/addStudent")
@@ -103,7 +103,7 @@ public class MainController {
         Student student = new Student();
         model.addAttribute("student", student);
         model.addAttribute("groups", groupService.findAll());
-        return "addStudentPage";
+        return "admin/addStudentPage";
     }
 
     @PostMapping("/addStudent")
@@ -123,7 +123,7 @@ public class MainController {
     public String addTeacher(Model model){
         Teacher teacher = new Teacher();
         model.addAttribute("teacher", teacher);
-        return "addTeacherPage";
+        return "admin/addTeacherPage";
     }
 
     @PostMapping("/addTeacher")
@@ -142,7 +142,7 @@ public class MainController {
         Room room = new Room();
         model.addAttribute("room", room);
         model.addAttribute("teachers", teacherService.findAll());
-        return "addRoomPage";
+        return "admin/addRoomPage";
     }
 
     @PostMapping("/addRoom")
@@ -160,7 +160,7 @@ public class MainController {
         model.addAttribute("subjects", subjectService.findAll());
         model.addAttribute("teachers", teacherService.findAll());
         model.addAttribute("type", TaskType.class);
-        return "addTaskPage";
+        return "admin/addTaskPage";
     }
 
     @PostMapping("addTask")
@@ -177,7 +177,7 @@ public class MainController {
         model.addAttribute("material", material);
         model.addAttribute("subjects", subjectService.findAll());
         model.addAttribute("teachers", teacherService.findAll());
-        return "addMaterialPage";
+        return "admin/addMaterialPage";
     }
 
     @PostMapping("/addMaterial")
@@ -194,7 +194,7 @@ public class MainController {
         List<Teacher> teachers = teacherService.findAll();
         model.addAttribute("subject", subject);
         model.addAttribute("teachers", teachers);
-        return "addSubjectPage";
+        return "admin/addSubjectPage";
     }
 
     @PostMapping("/addSubject")
@@ -210,7 +210,7 @@ public class MainController {
         List<Material> materials = materialService.findAll();
         model.addAttribute("materials", materials);
         model.addAttribute("totalMaterials",materials.size());
-        return "materials";
+        return "admin/materials";
     }
 
     @GetMapping("/allStudents")
@@ -218,7 +218,7 @@ public class MainController {
         List<Student> students = studentService.findAll();
         model.addAttribute("students", students);
         model.addAttribute("totalStudents", students.size());
-        return "students";
+        return "admin/students";
     }
 
     @GetMapping("/allSubjects")
@@ -226,7 +226,7 @@ public class MainController {
         List<Subject> subjects = subjectService.findAll();
         model.addAttribute("subjects", subjects);
         model.addAttribute("totalSubjects", subjects.size());
-        return "subjects";
+        return "admin/subjects";
     }
 
     @GetMapping("/allTasks")
@@ -234,7 +234,7 @@ public class MainController {
         List<Task> tasks = taskService.findAll();
         model.addAttribute("tasks", tasks);
         model.addAttribute("totalTasks", tasks.size());
-        return "tasks";
+        return "admin/tasks";
     }
 
     @GetMapping("/allRooms")
@@ -242,7 +242,7 @@ public class MainController {
         List<Room> rooms = roomService.findAll();
         model.addAttribute("rooms", rooms);
         model.addAttribute("totalRooms", rooms.size());
-        return "rooms";
+        return "admin/rooms";
     }
 
     @GetMapping("/allTeachers")
@@ -250,7 +250,7 @@ public class MainController {
         List<Teacher> teachers = teacherService.findAll();
         model.addAttribute("teachers", teachers);
         model.addAttribute("totalTeachers", teachers.size());
-        return "teachers";
+        return "admin/teachers";
     }
 
     @GetMapping("/allGroups")
@@ -258,7 +258,7 @@ public class MainController {
         List<Group> groups = groupService.findAll();
         model.addAttribute("groups", groups);
         model.addAttribute("totalGroups", groups.size());
-        return "groups";
+        return "admin/groups";
     }
 
 //    @GetMapping("")

@@ -1,5 +1,7 @@
 package com.example.diplom.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,6 +30,7 @@ public class User {
 
     private String patronymic;
 
+    @JsonIgnore
     private String password;
 
 //    @Email
@@ -37,6 +40,7 @@ public class User {
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonBackReference
     private Collection<Role> roles;
 
     private String login;

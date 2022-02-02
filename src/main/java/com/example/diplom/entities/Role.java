@@ -1,5 +1,6 @@
 package com.example.diplom.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Role {
 
     @Id

@@ -25,4 +25,8 @@ public class TaskService {
     public Task findById(UUID uuid) {
         return taskRepository.getById(uuid);
     }
+
+    public void deleteById(UUID uuid) {
+        taskRepository.deleteById(uuid);
+    }
 }
