@@ -22,7 +22,11 @@ public class MaterialService {
         return materialRepository.findAll();
     }
 
-    public Material findByID(UUID uuid) {
+    public Material findById(UUID uuid) {
         return materialRepository.getById(uuid);
+    }
+
+    public void deleteById(UUID uuid) {
+        materialRepository.deleteById(uuid);
     }
 }

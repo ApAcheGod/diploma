@@ -45,7 +45,7 @@ public class TeacherController {
     @PostMapping("/addRoom")
     @Secured({"ROLE_TEACHER"})
     public String addRoom(Principal principal, @ModelAttribute("room") Room room){
-        Teacher teacher = teacherService.findTeacherByLogin(principal.getName());
+        Teacher teacher = teacherService.findByLogin(principal.getName());
         room.addTeacher(teacher);
         roomService.save(room);
         return "redirect:/teacher/rooms";
@@ -60,10 +60,10 @@ public class TeacherController {
 //            model.addAttribute("subjects", room.getSubjects());
 //        }
 
-        Room room = teacherService.findTeacherByLogin(principal.getName()).getRooms()
+        Room room = teacherService.findByLogin(principal.getName()).getRooms()
                 .stream()
                 .filter(r -> r.getId().equals(uuid))
-                .findFirst().orElseThrow(NotOwnerException::new); // что возвращает если нет такой комнаты
+                .findFirst().orElseThrow(NotOwnerException::new); //TODO что возвращает если нет такой комнаты
         model.addAttribute("room", room);
         model.addAttribute("subjects", room.getSubjects());
         return "teacher/roomInfo";
@@ -73,9 +73,9 @@ public class TeacherController {
     @PreAuthorize("hasAuthority('ROLE_TEACHER')")
     public String addSubject(Model model, Principal principal, @PathVariable("UUID") UUID uuid){
         Subject subject = new Subject();
-        Teacher teacher = teacherService.findTeacherByLogin(principal.getName());
+        Teacher teacher = teacherService.findByLogin(principal.getName());
         List<Group> groups = groupService.findAll();
-        Room room = roomService.findRoomById(uuid);
+        Room room = roomService.findById(uuid);
         subject.setTeacher(teacher);
         subject.setRoom(room);
         model.addAttribute("subject", subject);
@@ -86,7 +86,6 @@ public class TeacherController {
     @PostMapping("/addSubject")
     @PreAuthorize("hasAuthority('ROLE_TEACHER')")
     public String addSubject(@ModelAttribute("subject") Subject subject){
-        System.out.println("subject groups == " + subject.getGroups());
         subjectService.save(subject);
         return "redirect:/teacher/rooms";
     }
@@ -94,11 +93,12 @@ public class TeacherController {
     @GetMapping("/subject/{UUID}")
     @PreAuthorize("hasAuthority('ROLE_TEACHER')")
     public String subjectInfo(Model model, Principal principal, @PathVariable("UUID") UUID uuid){
-        Subject subject = subjectService.findByID(uuid);
+        Subject subject = subjectService.findById(uuid);
         model.addAttribute("subject", subject);
         model.addAttribute("groups", subject.getGroups());
         model.addAttribute("materials", subject.getMaterials());
         model.addAttribute("tasks", subject.getTasks());
+//        model.addAttribute("student", subject.getStudent()); // TODO Предмет у студента надо ли
         return "teacher/subjectInfo";
     }
 
@@ -108,12 +108,12 @@ public class TeacherController {
                               @PathVariable("room_id") UUID room_id,
                               @PathVariable("subject_id") UUID subject_id){
         Material material = new Material();
-        Teacher teacher = teacherService.findTeacherByLogin(principal.getName());
-        System.out.println("Subjects in this room");
-        roomService.findRoomById(room_id).getSubjects().forEach(System.out::println);
-        Subject subject = subjectService.findByID(subject_id);
+        Teacher teacher = teacherService.findByLogin(principal.getName());
+        roomService.findById(room_id).getSubjects().forEach(System.out::println);
+        Subject subject = subjectService.findById(subject_id);
         material.addTeacher(teacher);
         material.addSubject(subject);
+
         model.addAttribute("material", material);
         return "teacher/addMaterialPage";
     }
@@ -131,31 +131,24 @@ public class TeacherController {
 //                              @PathVariable("room_id") UUID room_id,
 //                              @PathVariable("subject_id") UUID subject_id){
 //        List<Group> groups = groupService.findAll();
-//        Teacher teacher = teacherService.findTeacherByLogin(principal.getName());
-//        System.out.println("Subjects in this room");
-//        roomService.findRoomById(room_id).getSubjects().forEach(System.out::println);
-//        Subject subject = subjectService.findByID(subject_id);
+//        Subject subject = subjectService.findById(subject_id);
 //        model.addAttribute("groups", groups);
-//        model.addAttribute("room", roomService.findRoomById(room_id));
 //        model.addAttribute("subject", subject);
 //        return "teacher/addGroupPage";
 //    }
     // TODO переделать
 //    @PostMapping("/addGroup")
 //    @PreAuthorize("hasAuthority('ROLE_TEACHER')")
-//    public String addGroup(@ModelAttribute("room") Room room){
-//        System.out.println("ROOM " + room);
-//        System.out.println(room.getGroups());
-//        Room room1 = roomService.findRoomById(room.getId());
-//        System.out.println(room1.getGroups());
-//        roomService.save(room);
+//    public String addGroup(@ModelAttribute("subject") Subject subject){
+//        System.out.println(subject);
+//        System.out.println(subject.getGroups());
 //        return "redirect:/teacher/rooms";
 //    }
-
+//
     @GetMapping("/material/{UUID}")
     @PreAuthorize("hasAuthority('ROLE_TEACHER')")
     public String materialInfo(Model model, Principal principal, @PathVariable("UUID") UUID uuid){
-        Material material = materialService.findByID(uuid);
+        Material material = materialService.findById(uuid);
         model.addAttribute("material", material);
         return "teacher/materialInfo";
     }
@@ -167,15 +160,12 @@ public class TeacherController {
                               @PathVariable("room_id") UUID room_id,
                               @PathVariable("subject_id") UUID subject_id){
         Task task = new Task();
-        Teacher teacher = teacherService.findTeacherByLogin(principal.getName());
-        Subject subject = subjectService.findByID(subject_id);
-        Room room = roomService.findRoomById(room_id);
-        System.out.println("room " + room);
+        Teacher teacher = teacherService.findByLogin(principal.getName());
+        Subject subject = subjectService.findById(subject_id);
+        Room room = roomService.findById(room_id);
         task.addTeacher(teacher); // TODO где-то сделать присвоение группы комнате
-        System.out.println(room.getGroups());
-        System.out.println("room.getGroups()" + room.getGroups());
-        task.setGroups(room.getGroups()); //
-        task.addSubject(subject);
+        task.setGroups(room.getGroups());
+        task.addSubjects(subject);
         model.addAttribute("task", task);
         model.addAttribute("groups", room.getGroups());
         return "teacher/addTaskPage";
@@ -185,8 +175,6 @@ public class TeacherController {
     @PreAuthorize("hasAuthority('ROLE_TEACHER')")
     public String addTask(@ModelAttribute("task") Task task){
         taskService.save(task);
-        System.out.println("task groups == " + task.getGroups());
-
         return "redirect:/teacher/rooms";
     }
 
@@ -204,9 +192,11 @@ public class TeacherController {
     public String groupInfo(Model model, Principal principal, @PathVariable("UUID") UUID uuid){
         Group group = groupService.findById(uuid);
         model.addAttribute("group", group);
-        model.addAttribute("students", group.getStudents());
-        System.out.println("group tasks === " + group.getTasks());
-        System.out.println("group subjects === " + group.getSubjects());
+        model.addAttribute("studentsInGroup", group.getStudents());
+        model.addAttribute("groupTasks", group.getTasks());
+//        model.addAttribute("students", group.getStudents());
+//        System.out.println("group tasks === " + group.getTasks());
+//        System.out.println("group subjects === " + group.getSubjects());
         return "teacher/groupInfo";
     }
 
@@ -214,8 +204,7 @@ public class TeacherController {
     @Secured({"ROLE_TEACHER"})
     public String getRooms(Principal principal, Model model){
         model.addAttribute("login", principal.getName());
-        model.addAttribute("rooms", teacherService.findTeacherByLogin(principal.getName()).getRooms());
+        model.addAttribute("rooms", teacherService.findByLogin(principal.getName()).getRooms());
         return "teacher/roomsPage";
     }
-
 }

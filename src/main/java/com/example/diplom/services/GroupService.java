@@ -33,4 +33,8 @@ public class GroupService{
     public Group findById(UUID uuid) {
         return groupRepository.getById(uuid);
     }
+
+    public void deleteById(UUID uuid) {
+        groupRepository.deleteById(uuid);
+    }
 }

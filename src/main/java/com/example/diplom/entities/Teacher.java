@@ -1,5 +1,9 @@
 package com.example.diplom.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -18,6 +22,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @RequiredArgsConstructor
 //@Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Teacher extends User{
 
 //    @Id
@@ -36,81 +41,87 @@ public class Teacher extends User{
 
     @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
+    @JsonManagedReference
     private Set<Subject> subjects = new HashSet<>();
 
     @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
+    @JsonManagedReference
     private Set<Room> rooms = new HashSet<>();
 
     @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
+    @JsonManagedReference
     private Set<Material> materials = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
+//    @JsonBackReference
     private Set<Group> groups = new HashSet<>();
 
     @OneToMany(mappedBy = "teacher" ,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
+    @JsonManagedReference
     private Set<Task> tasks = new HashSet<>();
 
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "journal_id", referencedColumnName = "id")
 //    private Journal journal;
 
+    @JsonIgnore
     public String getName(){
         return last_name + " " + first_name + " " + patronymic;
     }
 
-    public void addSubject(Subject subject){
-        subjects.add(subject);
-        subject.setTeacher(this);
-    }
-
-    public void removeSubject(Subject subject){
-        subjects.remove(subject);
-        subject.setTeacher(null);
-    }
-
-    public void addRoom(Room room){
-        rooms.add(room);
-        room.setTeacher(this);
-    }
-
-    public void removeRoom(Room room){
-        rooms.remove(room);
-        room.setTeacher(null);
-    }
-
-    public void addMaterial(Material material){
-        materials.add(material);
-        material.setTeacher(this);
-    }
-
-    public void removeMaterial(Material material){
-        materials.remove(material);
-        material.setTeacher(null);
-    }
-
-    public void addGroup(Group group){
-        groups.add(group);
-        group.getTeachers().add(this);
-    }
-
-    public void removeGroup(Group group){
-        groups.remove(group);
-        group.getTeachers().remove(this);
-    }
-
-    public void addTask(Task task){
-        tasks.add(task);
-        task.setTeacher(this);
-    }
-
-    public void removeTask(Task task){
-        tasks.remove(task);
-        task.setTeacher(null);
-    }
+//    public void addSubject(Subject subject){
+//        subjects.add(subject);
+//        subject.setTeacher(this);
+//    }
+//
+//    public void removeSubject(Subject subject){
+//        subjects.remove(subject);
+//        subject.setTeacher(null);
+//    }
+//
+//    public void addRoom(Room room){
+//        rooms.add(room);
+//        room.setTeacher(this);
+//    }
+//
+//    public void removeRoom(Room room){
+//        rooms.remove(room);
+//        room.setTeacher(null);
+//    }
+//
+//    public void addMaterial(Material material){
+//        materials.add(material);
+//        material.setTeacher(this);
+//    }
+//
+//    public void removeMaterial(Material material){
+//        materials.remove(material);
+//        material.setTeacher(null);
+//    }
+//
+//    public void addGroup(Group group){
+//        groups.add(group);
+//        group.getTeachers().add(this);
+//    }
+//
+//    public void removeGroup(Group group){
+//        groups.remove(group);
+//        group.getTeachers().remove(this);
+//    }
+//
+//    public void addTask(Task task){
+//        tasks.add(task);
+//        task.setTeacher(this);
+//    }
+//
+//    public void removeTask(Task task){
+//        tasks.remove(task);
+//        task.setTeacher(null);
+//    }
 
 //    public void addJournal(Journal journal){
 //        journal.addTeacher(this);
@@ -130,5 +141,50 @@ public class Teacher extends User{
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public void addSubjects(Subject subject){
+        this.subjects.add(subject);
+        subject.setTeacher(this);
+    }
+
+    public void addSubjects(Set<Subject> subjects){
+        subjects.forEach(this::addSubjects);
+    }
+
+    public void addRooms(Room room){
+        this.rooms.add(room);
+        room.setTeacher(this);
+    }
+
+    public void addRooms(Set<Room> rooms){
+        rooms.forEach(this::addRooms);
+    }
+
+    public void addMaterials(Material material){
+        this.materials.add(material);
+        material.setTeacher(this);
+    }
+
+    public void addMaterials(Set<Material> materials){
+        materials.forEach(this::addMaterials);
+    }
+
+    public void addGroups(Group group){
+        this.groups.add(group);
+        group.getTeachers().add(this);
+    }
+
+    public void addGroups(Set<Group> groups){
+        groups.forEach(this::addGroups);
+    }
+
+    public void addTasks(Task task){
+        this.tasks.add(task);
+        task.setTeacher(this);
+    }
+
+    public void addTasks(Set<Task> tasks){
+        tasks.forEach(this::addTasks);
     }
 }

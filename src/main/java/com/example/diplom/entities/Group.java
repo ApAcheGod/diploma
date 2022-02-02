@@ -1,5 +1,7 @@
 package com.example.diplom.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
 
@@ -18,6 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Group {
 
     @Id
@@ -30,88 +33,137 @@ public class Group {
     private String name;
 
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @ToString.Exclude
     private Set<Student> students = new HashSet<>();
 
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @ToString.Exclude
+//    @JsonBackReference
     private Set<Subject> subjects = new HashSet<>();
 
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @ToString.Exclude
+    @JsonBackReference
     private Set<Teacher> teachers = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @ToString.Exclude
+    @JsonBackReference
     private Set<Room> rooms = new HashSet<>();
 
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @ToString.Exclude
+    @JsonBackReference
     private Set<Task> tasks = new HashSet<>();
 
-    public void addStudent(Student student){
+//    public void addStudent(Student student){
+//        students.add(student);
+//        student.setGroup(this);
+//    }
+//
+//    public void setStudents(Set<Student> students){
+//        students.forEach(this::addStudent);
+//    }
+//
+//    public void removeStudent(Student student){
+//        students.remove(student);
+//        student.setGroup(null);
+//    }
+//
+//    public void setSubjects(Set<Subject> subjects){
+//        subjects.forEach(this::addSubject);
+//    }
+//
+//    public void addSubject(Subject subject){
+//        subjects.add(subject); // TODO если добавить предмет группе - он должен добавиться всем студентам группы
+//        subject.getGroups().add(this);
+//        this.setTask(subject.getTasks());
+//        students.forEach(student -> {
+//            student.addSubject(subject);
+//        });
+//    }
+//
+//    public void removeSubject(Subject subject){
+//        subjects.remove(subject); // TODO если удалить предмет у группы - он должен удалиться у всех студентов этой группы, но если студент прошел этот предмет что будет
+//        subject.getGroups().remove(this);
+//    }
+//
+//    public void addTeacher(Teacher teacher){
+//        teachers.add(teacher);
+//        teacher.getGroups().add(this);
+//    }
+//
+//    public void removeTeacher(Teacher teacher){
+//        teachers.remove(teacher);
+//        teacher.getGroups().remove(this);
+//    }
+//
+//    public void addRoom(Room room){
+//        rooms.add(room);
+//        room.getGroups().add(this);
+//        teachers.add(room.getTeacher());
+//        this.setSubjects(room.getSubjects());
+//    }
+//
+//    public void removeRoom(Room room){
+//        rooms.remove(room);
+//        room.getGroups().remove(this);
+//    }
+//
+//
+//    public void setTask(Set<Task> tasks){
+//        tasks.forEach(this::addTask);
+//    }
+//
+//    public void addTask(Task task){
+//        tasks.add(task);
+//        task.getGroups().add(this);
+//        students.forEach(student -> student.addTask(task));
+//    }
+//
+//    public void removeTask(Task task){
+//        tasks.remove(task);
+//        task.getGroups().remove(this);
+//    }
+
+    public void addStudents(Student student){
         students.add(student);
         student.setGroup(this);
     }
 
-    public void setStudents(Set<Student> students){
-        students.forEach(this::addStudent);
+    public void addStudents(Set<Student> students){
+        students.forEach(this::addStudents);
     }
 
-    public void removeStudent(Student student){
-        students.remove(student);
-        student.setGroup(null);
-    }
-
-    public void setSubjects(Set<Subject> subjects){
-        subjects.forEach(this::addSubject);
-    }
-
-    public void addSubject(Subject subject){
-        subjects.add(subject); // TODO если добавить предмет группе - он должен добавиться всем студентам группы
+    public void addSubjects(Subject subject){
+        subjects.add(subject);
         subject.getGroups().add(this);
-        students.forEach(student -> student.addSubject(subject));
     }
 
-    public void removeSubject(Subject subject){
-        subjects.remove(subject); // TODO если удалить предмет у группы - он должен удалиться у всех студентов этой группы, но если студент прошел этот предмет что будет
-        subject.getGroups().remove(this);
+    public void addSubjects(Set<Subject> subjects){
+        subjects.forEach(this::addSubjects);
     }
 
-    public void addTeacher(Teacher teacher){
+    public void addTeachers(Teacher teacher){
         teachers.add(teacher);
         teacher.getGroups().add(this);
     }
 
-    public void removeTeacher(Teacher teacher){
-        teachers.remove(teacher);
-        teacher.getGroups().remove(this);
+    public void addTeachers(Set<Teacher> teachers){
+        teachers.forEach(this::addTeachers);
     }
 
-    public void addRoom(Room room){
+    public void addRooms(Room room){
         rooms.add(room);
         room.getGroups().add(this);
     }
-
-    public void removeRoom(Room room){
-        rooms.remove(room);
-        room.getGroups().remove(this);
+    public void addRooms(Set<Room> rooms){
+        rooms.forEach(this::addRooms);
     }
-
-    public void setTask(Set<Task> tasks){
-        tasks.forEach(this::addTask);
-    }
-
-    public void addTask(Task task){
+    public void addTasks(Task task){
         tasks.add(task);
         task.getGroups().add(this);
-        students.forEach(student -> student.addTask(task));
+    }
+    public void addTasks(Set<Task> tasks){
+        tasks.forEach(this::addTasks);
     }
 
-    public void removeTask(Task task){
-        tasks.remove(task);
-        task.getGroups().remove(this);
-    }
+
 
     @Override
     public boolean equals(Object o) {

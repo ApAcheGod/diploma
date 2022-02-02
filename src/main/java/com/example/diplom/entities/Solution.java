@@ -1,5 +1,7 @@
 package com.example.diplom.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.springframework.data.annotation.CreatedDate;
@@ -19,6 +21,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Solution {
 
     @Id
@@ -38,10 +41,12 @@ public class Solution {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
+    @JsonBackReference
     private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
+    @JsonBackReference
     private Task task;
 
 //    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -49,24 +54,26 @@ public class Solution {
 //    @ToString.Exclude
 //    private Set<Journal> journals = new HashSet<>();
 
-    public void addStudent(Student student){
-        student.addSolution(this); // TODO проверить как работает
-    }
 
 //    public void removeSolution(){
 //
 //    }
 
-    public void addTask(Task task){
-//        task.addSolution(this);
-        this.task = task;
-        task.getSolutions().add(this);
-    }
-
-//    public void addJournal(Journal journal){
-//        journal.addSolution(this);
+//    public void addStudent(Student student){
+//        student.addSolution(this); // TODO проверить как работает
 //    }
-
+//
+//
+//    public void addTask(Task task){
+////        task.addSolution(this);
+//        this.task = task;
+//        task.getSolutions().add(this);
+//    }
+//
+////    public void addJournal(Journal journal){
+////        journal.addSolution(this);
+////    }
+//
 
     @Override
     public boolean equals(Object o) {

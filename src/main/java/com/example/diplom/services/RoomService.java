@@ -22,9 +22,11 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
-    public Room findRoomById(UUID uuid){
+    public Room findById(UUID uuid){
         return roomRepository.findRoomById(uuid);
     }
 
-
+    public void deleteById(UUID uuid) {
+        roomRepository.deleteById(uuid);
+    }
 }

@@ -6,17 +6,16 @@
 </head>
 <body>
   <p th:text="${group.name}"></p>
-  <span th:each="student : ${students}">
+  <span th:each="student : ${studentsInGroup}">
     <div>
-        <span th:text="${student.getName()}"></span>
-        <p>Предметы</p>
-        <p th:text="${student.getSubjects()}"></p>
-        <span th:each="subject : ${student.getSubjects()}">
-            <div th:text="${subject.name}"></div>
-        </span>
+        <span th:text="${student.name}"></span>
         <p>Задания</p>
-        <p th:text="${student.getTasks()}"></p>
-        <span th:each="task : ${student.getTasks()}">
+<!--        <span th:each="subject : ${student.getSubjects()}">-->
+<!--            <div th:text="${subject.name}"></div>-->
+<!--        </span>-->
+<!--        <p>Задания</p>-->
+<!--        <p th:text="${group.tasks}"></p>-->
+        <span th:each="task : ${groupTasks}">
             <div th:text="${task.name}"></div>
         </span>
     </div>
