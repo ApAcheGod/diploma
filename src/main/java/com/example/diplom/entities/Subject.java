@@ -50,75 +50,12 @@ public class Subject {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
-//    @JsonBackReference
+    @JsonBackReference
     private Set<Group> groups = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
     private Room room;
-
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @ToString.Exclude
-//    @JsonBackReference
-//    private Student student;
-
-//    public void setTeacher(Teacher teacher){
-//        this.teacher = teacher;
-//        teacher.getSubjects().add(this);
-//    }
-//
-//    public void removeTeacher(Teacher teacher){
-//        teacher.removeSubject(this);
-//    }
-//
-//    public void addMaterial(Material material){
-//        materials.add(material);
-//        material.setSubject(this);
-//    }
-//
-//    public void removeMaterial(Material material){
-//        materials.remove(material);
-//        material.setSubject(null);
-//    }
-//
-//    public void addTask(Task task){
-//        tasks.add(task);
-//        task.setSubject(this);
-//    }
-//
-//    public void removeTask(Task task){
-//        tasks.remove(task);
-//        task.setSubject(null);
-//    }
-//
-//    public void setGroup(Set<Group> group){
-//        groups.forEach(this::addGroup);
-//    }
-//
-//    public void addGroup(Group group){
-//        group.addSubject(this);
-//    }
-//
-//    public void removeGroup(Group group){
-//        group.removeSubject(this);
-//    }
-//
-//    public void setRoom(Room room){
-//        room.getSubjects().add(this);
-//        this.room = room;
-//    }
-//
-//    public void removeRoom(Room room){
-//        room.removeSubject(this);
-//    }
-//
-//    public void addStudent(Student student){
-//        student.addSubject(this);
-//    }
-//
-//    public void removeStudent(Student student){
-//        student.removeSubject(this);
-//    }
 
     public void addTeacher(Teacher teacher){
         this.teacher = teacher;

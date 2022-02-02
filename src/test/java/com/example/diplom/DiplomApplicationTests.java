@@ -7,8 +7,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @SpringBootTest
 class DiplomApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+//    @Test
+//    void contextLoads() {
+//    }
 
 }
