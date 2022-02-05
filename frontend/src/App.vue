@@ -2,13 +2,54 @@
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 import HelloWorld from './components/HelloWorld.vue'
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, shallowReactive } from 'vue';
 
 let groups = ref();
 
-onMounted(() => {
-  fetch('http://localhost:8080/api/groups').then(res => res.json().then(json => groups.value = json));
+onMounted(async () => { 
+  console.log(await getStudents());
+
+  console.log(await createStudent({
+    first_name : 'Артем',
+    last_name : 'Мирвода',
+    patronymic : 'Валерьевич',
+    login : 'mirvoda2',
+    password : 'asdasd',
+  }));
+  
+  console.log(await getStudents());
 });
+async function getStudents(){
+  const header = {
+    method: 'GET',
+  };
+  await fetch('http://localhost:8080/api/students', header)
+    .then(res => res.json())
+    .then(json => json)
+    .catch(error => console.error(error));
+}
+async function createStudent(student){
+  const header = {
+    method: 'POST',
+    body: JSON.stringify({
+      first_name : student.first_name,
+      last_name : student.last_name,
+      patronymic : student.patronymic,
+      login : student.login,
+      password : student.password,
+    }),
+  };
+  await fetch('http://localhost:8080/api/students', header)
+    .then(res => res.json())
+    .then(json => json)
+    .catch(error => console.error(error));  
+}
+function updateStudnet(student){
+
+}
+function deleteStudent(student){
+
+}
 </script>
 
 <template>

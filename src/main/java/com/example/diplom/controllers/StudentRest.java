@@ -26,7 +26,7 @@ public class StudentRest {
         return studentService.findById(uuid);
     }
 
-    @PostMapping("/student")
+    @PostMapping("/student") //-javaconfig
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody Student student) {
         studentService.save(student);
