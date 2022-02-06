@@ -1,10 +1,7 @@
 package com.example.diplom.entities;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -22,6 +19,7 @@ import java.util.UUID;
 @Setter
 @ToString
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
+//@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Student extends User{
 
     private UUID id;

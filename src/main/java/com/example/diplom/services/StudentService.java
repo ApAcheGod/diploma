@@ -14,9 +14,6 @@ import java.util.UUID;
 public class StudentService {
 
     private final StudentRepository studentRepository;
-    private final CreatePasswordService passwordService;
-    private final RoleRepository roleRepository;
-    private final CreateLoginService loginService;
 
     public void save(Student student) {
         studentRepository.save(student);
