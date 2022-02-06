@@ -26,10 +26,14 @@ public class StudentRest {
         return studentService.findById(uuid);
     }
 
-    @PostMapping("/student") //-javaconfig
+    @PostMapping(value = "/student") //-javaconfig
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody Student student) {
-        studentService.save(student);
+        Student s =  new Student();
+        s.setFirst_name(student.getFirst_name());
+        s.setLast_name(student.getLast_name());
+        s.setPatronymic(student.getPatronymic());
+        studentService.save(s);
     }
 
     @PutMapping(value = "/student/{id}")
