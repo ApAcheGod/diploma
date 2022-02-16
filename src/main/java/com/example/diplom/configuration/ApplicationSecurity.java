@@ -1,8 +1,11 @@
 package com.example.diplom.configuration;
 
+import com.example.diplom.security.jwt.JwtConfigurer;
+import com.example.diplom.security.jwt.JwtTokenProvider;
 import com.example.diplom.services.UserService;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,50 +31,65 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 
-    private final UserService userService;
+    private final JwtTokenProvider jwtTokenProvider;
+
+    private static final String ADMIN_ENDPOINT = "/api/v1/admin/**";
+    private static final String LOGIN_ENDPOINT = "/api/v1/auth/login";
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
-        http.csrf().disable()
-                .cors().and()
-                .authorizeRequests()
-                .antMatchers("/main").hasAnyRole("ADMIN")
-                .antMatchers("/welcome/**").authenticated()
-                .anyRequest().permitAll()
+
+        http
+                .httpBasic().disable()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .formLogin()
-//                    .loginPage("/login.html")
-//                    .loginProcessingUrl("/login")
-                    .successHandler(myAuthenticationSuccessHandler())
-                    .permitAll()
-                .and().httpBasic()//basic authentication
-//                .and().sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().logout().permitAll();
+                .authorizeRequests()
+                .antMatchers(LOGIN_ENDPOINT).permitAll()
+                .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .apply(new JwtConfigurer(jwtTokenProvider));
     }
-    @Override
-    public void configure(AuthenticationManagerBuilder auth){
-        auth.authenticationProvider(authenticationProvider());
-    }
+
+//        http.authorizeRequests()
+//                .antMatchers("/main").hasAnyRole("ADMIN")
+//                .antMatchers("/welcome/**").authenticated()
+//                .anyRequest().permitAll()
+//                .and()
+//                .formLogin()
+////                    .loginPage("/login.html")
+////                    .loginProcessingUrl("/login")
+//                    .successHandler(myAuthenticationSuccessHandler())
+//                    .permitAll()
+//                .and()
+//                .logout().permitAll();
+//    }
+//    @Override
+//    public void configure(AuthenticationManagerBuilder auth){
+//        auth.authenticationProvider(authenticationProvider());
+//    }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        return daoAuthenticationProvider;
-    }
-
-    @Bean("authenticationManager")
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+//    @Bean
+//    public DaoAuthenticationProvider authenticationProvider(){
+//        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+//        daoAuthenticationProvider.setUserDetailsService(userService);
+//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+//        return daoAuthenticationProvider;
+//    }
+//
+//    @Bean("authenticationManager")
+//    @Override
+//    public AuthenticationManager authenticationManagerBean() throws Exception {
+//        return super.authenticationManagerBean();
+//    }
 
     @Bean
     public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
@@ -82,7 +100,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE", "OPTIONAL"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

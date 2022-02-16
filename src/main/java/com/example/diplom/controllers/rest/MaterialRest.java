@@ -1,4 +1,4 @@
-package com.example.diplom.controllers;
+package com.example.diplom.controllers.rest;
 
 import com.example.diplom.entities.Material;
 import com.example.diplom.services.MaterialService;

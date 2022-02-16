@@ -26,26 +26,26 @@ public class UserServiceImpl implements UserService{
                 user.getPatronymic());
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserByLogin(username);
-        if (user == null){
-            throw new UsernameNotFoundException("Invalid username or password");
-        }
-
-        return new org.springframework.security.core.userdetails.User(
-                user.getLogin(), user.getPassword(), mapRolesToAuthorities(user.getRoles())
-        );
-    }
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        User user = userRepository.findUserByLogin(username);
+//        if (user == null){
+//            throw new UsernameNotFoundException("Invalid username or password");
+//        }
+//
+//        return new org.springframework.security.core.userdetails.User(
+//                user.getLogin(), user.getPassword(), mapRolesToAuthorities(user.getRoles())
+//        );
+//    }
 
     @Override
     public User findByUserLogin(String login) {
         return userRepository.findUserByLogin(login);
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
-                .collect(Collectors.toList());
-    }
+//    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
+//        return roles.stream()
+//                .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
+//                .collect(Collectors.toList());
+//    }
 }

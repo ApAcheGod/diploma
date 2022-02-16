@@ -1,18 +1,17 @@
-package com.example.diplom.controllers;
+package com.example.diplom.controllers.rest;
 
 import com.example.diplom.entities.Student;
+import com.example.diplom.entities.dto.StudentDTO;
 import com.example.diplom.repositories.RoleRepository;
 import com.example.diplom.services.CreateLoginService;
 import com.example.diplom.services.CreatePasswordService;
 import com.example.diplom.services.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -35,25 +34,17 @@ public class StudentRest {
         return studentService.findById(uuid);
     }
 
-    @PostMapping(value = "/student"
-            ,
-            consumes = MediaType.APPLICATION_JSON_VALUE
-            ,
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            headers = "Accept=application/json"
-    ) //-javaconfig
-//    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(value = "/student")
     @ResponseBody
-    public ResponseEntity<Student> create(@RequestBody Map<String, Object> transactionalMap) {
+    public ResponseEntity<Student> create(@RequestBody StudentDTO student) {
         Student s =  new Student();
-        s.setFirst_name(transactionalMap.get("first_name").toString());
-        s.setLast_name(transactionalMap.get("last_name").toString());
-        s.setPatronymic(transactionalMap.get("patronymic").toString());
+        s.setFirst_name(student.getFirst_name());
+        s.setLast_name(student.getLast_name());
+        s.setPatronymic(student.getPatronymic());
         loginService.createLoginForUser(s);
         s.setPassword(passwordService.createPassword());
         s.setRoles(List.of(roleRepository.findRoleByRoleName("ROLE_STUDENT")));
         studentService.save(s);
-//        studentService.save(student);
         return new ResponseEntity<Student>(s,  HttpStatus.OK);
     }
 

@@ -1,4 +1,4 @@
-package com.example.diplom.controllers;
+package com.example.diplom.controllers.rest;
 
 import com.example.diplom.entities.Group;
 import com.example.diplom.services.GroupService;

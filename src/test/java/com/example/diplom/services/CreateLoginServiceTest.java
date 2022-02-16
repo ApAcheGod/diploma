@@ -1,13 +1,5 @@
 package com.example.diplom.services;
 
-import com.example.diplom.entities.Teacher;
-import com.example.diplom.entities.User;
-import com.example.diplom.repositories.TeacherRepository;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class CreateLoginServiceTest {
 
 //    @Autowired

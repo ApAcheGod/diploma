@@ -1,7 +1,8 @@
 package com.example.diplom.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
 
@@ -21,6 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Builder
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Group {
 
     @Id
@@ -40,15 +42,15 @@ public class Group {
     private Set<Subject> subjects = new HashSet<>();
 
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonBackReference
+//    @JsonBackReference
     private Set<Teacher> teachers = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonBackReference
+//    @JsonBackReference
     private Set<Room> rooms = new HashSet<>();
 
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonBackReference
+//    @JsonBackReference
     private Set<Task> tasks = new HashSet<>();
 
 //    public void addStudent(Student student){
