@@ -65,7 +65,7 @@ public class MainController {
     @GetMapping("/editGroup/{UUID}")
     @Secured("ROLE_ADMIN")
     public String editGroup(Model model, @PathVariable("UUID") UUID uuid){
-        Group group = groupService.findById(uuid).orElse(null);
+        Group group = groupService.findById(uuid);
         List<Room> rooms = roomService.findAll();
         model.addAttribute("group", group);
         model.addAttribute("students", studentService.findAll());
@@ -91,7 +91,7 @@ public class MainController {
     @GetMapping("/infoGroup/{UUID}")
     @Secured("ROLE_ADMIN")
     public String infoAboutGroup(Model model, @PathVariable("UUID") UUID uuid){
-        Group group =  groupService.findById(uuid).orElse(null);
+        Group group =  groupService.findById(uuid);
         model.addAttribute("group", group);
         return "admin/groupInfoPage";
     }

@@ -1,8 +1,9 @@
 package com.example.diplom.services.mappers;
 
-import com.example.diplom.entities.*;
+import com.example.diplom.entities.Material;
+import com.example.diplom.entities.Subject;
+import com.example.diplom.entities.Teacher;
 import com.example.diplom.entities.dto.MaterialDto;
-import com.example.diplom.entities.dto.StudentDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -31,8 +30,8 @@ public class GroupService{
         groupRepository.deleteById(uuid);
     }
 
-    public Optional<Group> findById(UUID uuid) {
-        return groupRepository.findById(uuid);
+    public Group findById(UUID uuid) {
+        return groupRepository.getById(uuid);
     }
 
     public void deleteById(UUID uuid) {

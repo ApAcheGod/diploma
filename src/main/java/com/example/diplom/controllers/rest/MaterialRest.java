@@ -1,9 +1,12 @@
-package com.example.diplom.controllers;
+package com.example.diplom.controllers.rest;
 
 import com.example.diplom.entities.Material;
+import com.example.diplom.entities.dto.MaterialDto;
 import com.example.diplom.services.MaterialService;
+import com.example.diplom.services.mappers.MaterialMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +18,7 @@ import java.util.UUID;
 public class MaterialRest {
 
     private final MaterialService materialService;
+    private final MaterialMapper materialMapper;
 
     @GetMapping("/materials")
     public List<Material> allMaterials(){
@@ -22,24 +26,23 @@ public class MaterialRest {
     }
 
     @GetMapping("/material/{id}")
-    public Material oneMaterials(@PathVariable("id") UUID uuid){
-        return materialService.findById(uuid);
+    public ResponseEntity<MaterialDto> oneMaterials(@PathVariable("id") UUID uuid){
+        return new ResponseEntity<>(materialMapper.toDto(materialService.findById(uuid)), HttpStatus.OK);
     }
 
     @PostMapping("/material")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody Material material) {
+    public ResponseEntity<Material> create(@RequestBody MaterialDto materialDto) {
+        Material material = materialMapper.toEntity(materialDto);
         materialService.save(material);
+        return new ResponseEntity<>(material, HttpStatus.CREATED);
     }
 
     @PutMapping("/material/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public void update(@PathVariable( "id" ) UUID id, @RequestBody Material material) {
         materialService.save(material);
     }
 
     @DeleteMapping("material/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable("id") UUID id) {
         materialService.deleteById(id);
     }

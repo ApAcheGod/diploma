@@ -190,7 +190,7 @@ public class TeacherController {
     @GetMapping("/group/{UUID}")
     @PreAuthorize("hasAuthority('ROLE_TEACHER')")
     public String groupInfo(Model model, Principal principal, @PathVariable("UUID") UUID uuid){
-        Group group = groupService.findById(uuid).orElse(null);
+        Group group = groupService.findById(uuid);
         model.addAttribute("group", group);
         model.addAttribute("studentsInGroup", group.getStudents());
         model.addAttribute("groupTasks", group.getTasks());

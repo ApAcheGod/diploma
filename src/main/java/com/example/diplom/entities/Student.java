@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;

@@ -1,9 +1,12 @@
-package com.example.diplom.controllers;
+package com.example.diplom.controllers.rest;
 
 import com.example.diplom.entities.Task;
+import com.example.diplom.entities.dto.TaskDto;
 import com.example.diplom.services.TaskService;
+import com.example.diplom.services.mappers.TaskMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +18,7 @@ import java.util.UUID;
 public class TaskRest {
 
     private final TaskService taskService;
+    private final TaskMapper taskMapper;
 
     @GetMapping("/tasks")
     public List<Task> allSubjects(){
@@ -22,24 +26,23 @@ public class TaskRest {
     }
 
     @GetMapping("/task/{id}")
-    public Task oneSubject(@PathVariable("id")UUID uuid){
-        return taskService.findById(uuid);
+    public ResponseEntity<TaskDto> oneSubject(@PathVariable("id")UUID uuid){
+        return new ResponseEntity<>(taskMapper.toDto(taskService.findById(uuid)), HttpStatus.OK);
     }
 
     @PostMapping("/task")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody Task task) {
+    public ResponseEntity<Task> create(@RequestBody TaskDto taskDto) {
+        Task task = taskMapper.toEntity(taskDto);
         taskService.save(task);
+        return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/task/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public void update(@PathVariable( "id" ) UUID id, @RequestBody Task task) {
         taskService.save(task);
     }
 
     @DeleteMapping(value = "task/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable("id") UUID id) {
         taskService.deleteById(id);
     }

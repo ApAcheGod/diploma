@@ -52,7 +52,7 @@ public class StudentMapper {
 
     private void mapSpecificFields(StudentDto source, Student destination) {
         if (source.getGroupId() != null){
-            destination.addGroup(groupService.findById(source.getGroupId()).get());
+            destination.addGroup(groupService.findById(source.getGroupId()));
         }
 
     }

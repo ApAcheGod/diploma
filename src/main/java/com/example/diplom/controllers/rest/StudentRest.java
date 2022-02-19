@@ -1,4 +1,4 @@
-package com.example.diplom.controllers;
+package com.example.diplom.controllers.rest;
 
 import com.example.diplom.entities.Student;
 import com.example.diplom.entities.dto.StudentDto;
@@ -33,8 +33,8 @@ public class StudentRest {
     }
 
     @GetMapping("/student/{id}")
-    public Student oneStudent(@PathVariable("id")UUID uuid){
-        return studentService.findById(uuid);
+    public ResponseEntity<StudentDto> oneStudent(@PathVariable("id")UUID uuid){
+        return new ResponseEntity<>(studentMapper.toDto(studentService.findById(uuid)), HttpStatus.OK);
     }
 
     @PostMapping(value = "/student")
@@ -44,21 +44,17 @@ public class StudentRest {
         student.setPassword(passwordService.createPassword());
         student.setRoles(List.of(roleRepository.findRoleByRoleName("ROLE_STUDENT")));
         studentService.save(student);
-        return new ResponseEntity<Student>(student,  HttpStatus.OK);
+        return new ResponseEntity<>(student,  HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/student/{uuid}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StudentDto> update(@PathVariable( "uuid" ) UUID uuid, @RequestBody StudentDto studentDto) {
-
-        System.out.println(uuid);
-        System.out.println(studentDto);
         Student student = studentMapper.toEntity(studentDto);
         studentService.save(student);
-        return new ResponseEntity<StudentDto> (studentMapper.toDto(student), HttpStatus.OK);
+        return new ResponseEntity<> (studentMapper.toDto(student), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "student/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable("id") UUID id) {
         studentService.deleteById(id);
     }
