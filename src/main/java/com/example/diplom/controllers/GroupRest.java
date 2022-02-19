@@ -23,7 +23,7 @@ public class GroupRest {
 
     @GetMapping("/group/{id}")
     public Group oneGroup(@PathVariable("id") UUID uuid){
-        return groupService.findById(uuid);
+        return groupService.findById(uuid).orElse(null);
     }
 
     @PostMapping("/group")

@@ -1,10 +1,9 @@
 package com.example.diplom.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
-import org.apache.poi.ss.formula.functions.T;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -23,6 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Builder
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Subject {
 
     @Id
@@ -35,26 +35,23 @@ public class Subject {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-    @JsonBackReference
+    @ToString.Exclude
     private Teacher teacher;
 
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
-    @JsonManagedReference
     private Set<Material> materials = new HashSet<>();
 
     @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
-    @JsonManagedReference
     private Set<Task> tasks = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
-    @JsonBackReference
     private Set<Group> groups = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonBackReference
+    @ToString.Exclude
     private Room room;
 
     public void addTeacher(Teacher teacher){

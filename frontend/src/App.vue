@@ -10,15 +10,31 @@ onMounted(async () => {
   console.log(await getStudents());
 
   console.log(await createStudent({
-    first_name : 'Артем',
-    last_name : 'Мирвода',
-    patronymic : 'Валерьевич',
-    login : 'mirvoda2',
-    password : 'asdasd',
+    student: {
+      first_name: 'Артем',
+      last_name: 'Мирвода',
+      patronymic: 'Валерьевич',
+      email: '@email.ru',
+      groupId: '86bac443-c896-4cf9-b45e-bf7956d68a19'
+    }
   }));
-  
+
   console.log(await getStudents());
+
+  console.log(await updateStudent({
+    student: {
+      id: 'f8198222-5e3f-4a5e-aadf-673e9c6e904d',
+      first_name: 'Артем',
+      last_name: 'Мирвода',
+      patronymic: 'Валерьевич',
+      email: 'asd@email.ru',
+      groupId: '86bac443-c896-4cf9-b45e-bf7956d68a19'
+    }
+  }))
+
 });
+
+
 async function getStudents(){
   const header = {
     method: 'GET',
@@ -28,24 +44,34 @@ async function getStudents(){
     .then(json => json)
     .catch(error => console.error(error));
 }
-async function createStudent(student){
+
+async function createStudent({student}){
   const header = {
     method: 'POST',
-    body: JSON.stringify({
-      first_name : student.first_name,
-      last_name : student.last_name,
-      patronymic : student.patronymic,
-      login : student.login,
-      password : student.password,
-    }),
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(student),
   };
-  await fetch('http://localhost:8080/api/students', header)
+  await fetch('http://localhost:8080/api/student', header)
     .then(res => res.json())
     .then(json => json)
-    .catch(error => console.error(error));  
+    .catch(error => console.error(error));
 }
-function updateStudnet(student){
-
+async function updateStudent(student){
+  const header = {
+    method: 'PUT',
+    header: {
+      'Content-Type': 'application/json;charset=utf-8',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(student),
+  };
+  await fetch('http://localhost:8080/api/student/f8198222-5e3f-4a5e-aadf-673e9c6e904d', header)
+      .then(res => res.json())
+      .then(json => json)
+      .catch(error => console.error(error));
 }
 function deleteStudent(student){
 

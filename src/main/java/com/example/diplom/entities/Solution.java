@@ -1,7 +1,8 @@
 package com.example.diplom.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,6 +23,7 @@ import java.util.UUID;
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Solution {
 
     @Id
@@ -41,39 +43,11 @@ public class Solution {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
-    @JsonBackReference
     private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
-    @JsonBackReference
     private Task task;
-
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "journal_id", referencedColumnName = "id")
-//    @ToString.Exclude
-//    private Set<Journal> journals = new HashSet<>();
-
-
-//    public void removeSolution(){
-//
-//    }
-
-//    public void addStudent(Student student){
-//        student.addSolution(this); // TODO проверить как работает
-//    }
-//
-//
-//    public void addTask(Task task){
-////        task.addSolution(this);
-//        this.task = task;
-//        task.getSolutions().add(this);
-//    }
-//
-////    public void addJournal(Journal journal){
-////        journal.addSolution(this);
-////    }
-//
 
     @Override
     public boolean equals(Object o) {
@@ -86,5 +60,15 @@ public class Solution {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public void addStudent(Student student){
+        this.student = student;
+        task.getSolutions().add(this);
+    }
+
+    public void addTask(Task task){
+        this.task = task;
+        task.getSolutions().add(this);
     }
 }

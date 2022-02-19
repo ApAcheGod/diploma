@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -66,7 +65,7 @@ public class MainController {
     @GetMapping("/editGroup/{UUID}")
     @Secured("ROLE_ADMIN")
     public String editGroup(Model model, @PathVariable("UUID") UUID uuid){
-        Group group = groupService.findById(uuid);
+        Group group = groupService.findById(uuid).orElse(null);
         List<Room> rooms = roomService.findAll();
         model.addAttribute("group", group);
         model.addAttribute("students", studentService.findAll());
@@ -92,7 +91,7 @@ public class MainController {
     @GetMapping("/infoGroup/{UUID}")
     @Secured("ROLE_ADMIN")
     public String infoAboutGroup(Model model, @PathVariable("UUID") UUID uuid){
-        Group group =  groupService.findById(uuid);
+        Group group =  groupService.findById(uuid).orElse(null);
         model.addAttribute("group", group);
         return "admin/groupInfoPage";
     }

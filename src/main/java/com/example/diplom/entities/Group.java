@@ -1,7 +1,8 @@
 package com.example.diplom.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
 
@@ -21,6 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Builder
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Group {
 
     @Id
@@ -33,93 +35,24 @@ public class Group {
     private String name;
 
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Set<Student> students = new HashSet<>();
 
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JsonBackReference
+    @ToString.Exclude
     private Set<Subject> subjects = new HashSet<>();
 
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonBackReference
+    @ToString.Exclude
     private Set<Teacher> teachers = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonBackReference
+    @ToString.Exclude
     private Set<Room> rooms = new HashSet<>();
 
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonBackReference
+    @ToString.Exclude
     private Set<Task> tasks = new HashSet<>();
-
-//    public void addStudent(Student student){
-//        students.add(student);
-//        student.setGroup(this);
-//    }
-//
-//    public void setStudents(Set<Student> students){
-//        students.forEach(this::addStudent);
-//    }
-//
-//    public void removeStudent(Student student){
-//        students.remove(student);
-//        student.setGroup(null);
-//    }
-//
-//    public void setSubjects(Set<Subject> subjects){
-//        subjects.forEach(this::addSubject);
-//    }
-//
-//    public void addSubject(Subject subject){
-//        subjects.add(subject); // TODO если добавить предмет группе - он должен добавиться всем студентам группы
-//        subject.getGroups().add(this);
-//        this.setTask(subject.getTasks());
-//        students.forEach(student -> {
-//            student.addSubject(subject);
-//        });
-//    }
-//
-//    public void removeSubject(Subject subject){
-//        subjects.remove(subject); // TODO если удалить предмет у группы - он должен удалиться у всех студентов этой группы, но если студент прошел этот предмет что будет
-//        subject.getGroups().remove(this);
-//    }
-//
-//    public void addTeacher(Teacher teacher){
-//        teachers.add(teacher);
-//        teacher.getGroups().add(this);
-//    }
-//
-//    public void removeTeacher(Teacher teacher){
-//        teachers.remove(teacher);
-//        teacher.getGroups().remove(this);
-//    }
-//
-//    public void addRoom(Room room){
-//        rooms.add(room);
-//        room.getGroups().add(this);
-//        teachers.add(room.getTeacher());
-//        this.setSubjects(room.getSubjects());
-//    }
-//
-//    public void removeRoom(Room room){
-//        rooms.remove(room);
-//        room.getGroups().remove(this);
-//    }
-//
-//
-//    public void setTask(Set<Task> tasks){
-//        tasks.forEach(this::addTask);
-//    }
-//
-//    public void addTask(Task task){
-//        tasks.add(task);
-//        task.getGroups().add(this);
-//        students.forEach(student -> student.addTask(task));
-//    }
-//
-//    public void removeTask(Task task){
-//        tasks.remove(task);
-//        task.getGroups().remove(this);
-//    }
 
     public void addStudents(Student student){
         students.add(student);
@@ -162,8 +95,6 @@ public class Group {
     public void addTasks(Set<Task> tasks){
         tasks.forEach(this::addTasks);
     }
-
-
 
     @Override
     public boolean equals(Object o) {

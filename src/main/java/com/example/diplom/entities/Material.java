@@ -1,7 +1,8 @@
 package com.example.diplom.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -20,6 +21,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Builder
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Material {
 
     @Id
@@ -33,13 +35,11 @@ public class Material {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     @ToString.Exclude
-    @JsonBackReference
     private Teacher teacher;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
     @ToString.Exclude
-    @JsonBackReference
     private Subject subject;
 
     private String text;
@@ -60,23 +60,6 @@ public class Material {
     public void addSubject(Set<Subject> subjects){
         subjects.forEach(this::addSubject);
     }
-
-
-//    public void addTeacher(Teacher teacher){
-//        teacher.addMaterial(this); // TODO проверить как работает
-//    }
-//
-//    public void removeTeacher(){
-//        this.teacher = null;
-//    }
-//
-//    public void addSubject(Subject subject){
-//        subject.addMaterial(this);
-//    }
-//
-//    public void removeSubject(){
-//        this.subject = null;
-//    }
 
     @Override
     public boolean equals(Object o) {

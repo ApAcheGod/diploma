@@ -1,10 +1,12 @@
 package com.example.diplom.controllers;
 
 import com.example.diplom.entities.Student;
+import com.example.diplom.entities.dto.StudentDto;
 import com.example.diplom.repositories.RoleRepository;
 import com.example.diplom.services.CreateLoginService;
 import com.example.diplom.services.CreatePasswordService;
 import com.example.diplom.services.StudentService;
+import com.example.diplom.services.mappers.StudentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -24,6 +25,7 @@ public class StudentRest {
     private final CreatePasswordService passwordService;
     private final RoleRepository roleRepository;
     private final CreateLoginService loginService;
+    private final StudentMapper studentMapper;
 
     @GetMapping("/students")
     public List<Student> allStudents(){
@@ -35,32 +37,24 @@ public class StudentRest {
         return studentService.findById(uuid);
     }
 
-    @PostMapping(value = "/student"
-            ,
-            consumes = MediaType.APPLICATION_JSON_VALUE
-            ,
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            headers = "Accept=application/json"
-    ) //-javaconfig
-//    @ResponseStatus(HttpStatus.CREATED)
-    @ResponseBody
-    public ResponseEntity<Student> create(@RequestBody Map<String, Object> transactionalMap) {
-        Student s =  new Student();
-        s.setFirst_name(transactionalMap.get("first_name").toString());
-        s.setLast_name(transactionalMap.get("last_name").toString());
-        s.setPatronymic(transactionalMap.get("patronymic").toString());
-        loginService.createLoginForUser(s);
-        s.setPassword(passwordService.createPassword());
-        s.setRoles(List.of(roleRepository.findRoleByRoleName("ROLE_STUDENT")));
-        studentService.save(s);
-//        studentService.save(student);
-        return new ResponseEntity<Student>(s,  HttpStatus.OK);
+    @PostMapping(value = "/student")
+    public ResponseEntity<Student> create(@RequestBody StudentDto studentDto) {
+        Student student = studentMapper.toEntity(studentDto);
+        loginService.createLoginForUser(student);
+        student.setPassword(passwordService.createPassword());
+        student.setRoles(List.of(roleRepository.findRoleByRoleName("ROLE_STUDENT")));
+        studentService.save(student);
+        return new ResponseEntity<Student>(student,  HttpStatus.OK);
     }
 
-    @PutMapping(value = "/student/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable( "id" ) UUID id, @RequestBody Student student) {
+    @PutMapping(value = "/student/{uuid}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<StudentDto> update(@PathVariable( "uuid" ) UUID uuid, @RequestBody StudentDto studentDto) {
+
+        System.out.println(uuid);
+        System.out.println(studentDto);
+        Student student = studentMapper.toEntity(studentDto);
         studentService.save(student);
+        return new ResponseEntity<StudentDto> (studentMapper.toDto(student), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "student/{id}")
