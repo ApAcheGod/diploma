@@ -48,4 +48,8 @@ public class UserServiceImpl implements UserService{
                 .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
                 .collect(Collectors.toList());
     }
+
+    public void save(User user){
+        userRepository.save(user);
+    }
 }
