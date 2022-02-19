@@ -1,7 +1,6 @@
 package com.example.diplom.services;
 
 import com.example.diplom.entities.Student;
-import com.example.diplom.repositories.RoleRepository;
 import com.example.diplom.repositories.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

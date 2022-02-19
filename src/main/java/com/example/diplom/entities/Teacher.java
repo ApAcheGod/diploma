@@ -1,9 +1,9 @@
 package com.example.diplom.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -21,12 +21,10 @@ import java.util.UUID;
 @ToString
 @AllArgsConstructor
 @RequiredArgsConstructor
-//@Builder
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Teacher extends User{
 
-//    @Id
-//    @GeneratedValue
     private UUID id;
 
     @NotNull(message = "Имя преподавателя не может быть пустым")
@@ -39,96 +37,32 @@ public class Teacher extends User{
 
     private String login;
 
+    private String email;
+
     @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
-    @JsonManagedReference
     private Set<Subject> subjects = new HashSet<>();
 
     @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
-    @JsonManagedReference
     private Set<Room> rooms = new HashSet<>();
 
     @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
-    @JsonManagedReference
     private Set<Material> materials = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
-//    @JsonBackReference
     private Set<Group> groups = new HashSet<>();
 
     @OneToMany(mappedBy = "teacher" ,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
-    @JsonManagedReference
     private Set<Task> tasks = new HashSet<>();
-
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "journal_id", referencedColumnName = "id")
-//    private Journal journal;
 
     @JsonIgnore
     public String getName(){
         return last_name + " " + first_name + " " + patronymic;
     }
-
-//    public void addSubject(Subject subject){
-//        subjects.add(subject);
-//        subject.setTeacher(this);
-//    }
-//
-//    public void removeSubject(Subject subject){
-//        subjects.remove(subject);
-//        subject.setTeacher(null);
-//    }
-//
-//    public void addRoom(Room room){
-//        rooms.add(room);
-//        room.setTeacher(this);
-//    }
-//
-//    public void removeRoom(Room room){
-//        rooms.remove(room);
-//        room.setTeacher(null);
-//    }
-//
-//    public void addMaterial(Material material){
-//        materials.add(material);
-//        material.setTeacher(this);
-//    }
-//
-//    public void removeMaterial(Material material){
-//        materials.remove(material);
-//        material.setTeacher(null);
-//    }
-//
-//    public void addGroup(Group group){
-//        groups.add(group);
-//        group.getTeachers().add(this);
-//    }
-//
-//    public void removeGroup(Group group){
-//        groups.remove(group);
-//        group.getTeachers().remove(this);
-//    }
-//
-//    public void addTask(Task task){
-//        tasks.add(task);
-//        task.setTeacher(this);
-//    }
-//
-//    public void removeTask(Task task){
-//        tasks.remove(task);
-//        task.setTeacher(null);
-//    }
-
-//    public void addJournal(Journal journal){
-//        journal.addTeacher(this);
-//    }
-
-//    public void removeJournal(){
-//    }
 
     @Override
     public boolean equals(Object o) {

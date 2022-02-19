@@ -1,10 +1,14 @@
 package com.example.diplom.entities;
 
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -19,7 +23,7 @@ import java.util.UUID;
 @Setter
 @ToString
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
-//@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Student extends User{
 
     private UUID id;
@@ -32,65 +36,25 @@ public class Student extends User{
 
     private String login;
 
+    private String email;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id", referencedColumnName = "id")
-    @ToString.Exclude
-    @JsonBackReference
+//    @ToString.Exclude
     private Group group;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
-    @JsonManagedReference
     private Set<Solution> solutions = new HashSet<>();
-
-//    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @ToString.Exclude
-//    @JsonManagedReference
-//    private Set<Subject> subjects = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
-//    @JsonBackReference
     private Set<Task> tasks = new HashSet<>();
 
     @JsonIgnore
     public String getName(){
         return last_name + " " + first_name + " " + patronymic;
     }
-
-//    public void addGroup(Group group){
-//        group.addStudent(this);
-//    }
-//
-//    public void addSolution(Solution solution){
-//        solutions.add(solution);
-//        solution.setStudent(this);
-//    }
-//
-//    public void removeSolution(Solution solution){
-//        solutions.remove(solution);
-//        solution.setStudent(null);
-//    }
-//
-//    public void addSubject(Subject subject){
-//        subjects.add(subject);
-//        subject.addStudent(this);
-//    }
-//
-//    public void removeSubject(Subject subject){
-//        subjects.remove(subject);
-//        subject.setStudent(null);
-//    }
-//
-//    public void addTask(Task task){
-//        tasks.add(task);
-//        task.addStudent(this);
-//    }
-//
-//    public void removeTask(Task task){
-//        tasks.remove(task);
-//        task.getStudents().remove(this);
-//    }
 
     @Override
     public boolean equals(Object o) {

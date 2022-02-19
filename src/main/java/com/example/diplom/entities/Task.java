@@ -1,9 +1,9 @@
 package com.example.diplom.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.springframework.data.annotation.CreatedDate;
@@ -28,6 +28,7 @@ import java.util.UUID;
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Task {
 
     @Id
@@ -40,21 +41,17 @@ public class Task {
 
     @ManyToMany(mappedBy = "tasks", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
-    @JsonBackReference
     private Set<Student> students = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
-    @JsonBackReference
     private Set<Group> groups = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
-    @JsonBackReference
     private Subject subject;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonBackReference
     private Teacher teacher;
 
     @CreatedDate
@@ -82,55 +79,8 @@ public class Task {
     private String text;
 
     @OneToMany(mappedBy = "task", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @ToString.Exclude
     private Set<Solution> solutions = new HashSet<>();
-
-//    public void addStudent(Student student){
-//        students.add(student);
-//        student.getTasks().add(this);
-//    }
-//
-//    public void removeStudents(Student student){
-//        students.remove(student);
-//        student.getTasks().remove(this);
-//    }
-//
-//    public void setGroup(Set<Group> groups){
-//        groups.forEach(this::addGroup);
-//    }
-//    public void addGroup(Group group){
-//        groups.add(group);
-//        group.getTasks().add(this);
-//    }
-//
-//    public void removeGroup(Group group){
-//        groups.remove(group);
-//        group.getTasks().remove(this);
-//    }
-//
-//    public void addSubject(Subject subject){
-//        this.subject = subject;
-//    }
-//
-//    public void addTeacher(Teacher teacher){
-//        this.teacher = teacher;
-//        teacher.getTasks().add(this);
-//    }
-//
-////    public void removeTeacher(){
-////        teacher.getTasks().remove(this);
-////        this.teacher = null;
-////    }
-//
-//    public void addSolution(Solution solution){
-//        solutions.add(solution);
-//        solution.addTask(this);
-//    }
-//
-//    public void setGroups(Set<Group> groups){
-//        groups.forEach(this::addGroup);
-//    }
-
 
     public void addStudents(Student student){
         students.add(student);
