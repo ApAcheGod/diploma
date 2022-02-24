@@ -38,8 +38,19 @@ onMounted(async () => {
 
 });
 
-function updateStudent(){
-
+async function updateStudent(newStudent){
+  let updateResult = await updateStudentFetch({
+    id: newStudent.id,
+    first_name: newStudent.first_name,
+    last_name: newStudent.last_name,
+    patronymic: newStudent.patronymic,
+  });
+  if(updateResult){
+    students.value = await getStudentsFetch();
+    triggerPositive('Информация о студенте успешно обновлена!');
+  }
+  else
+    triggerNegative('Не удалось обновить информацию о студенте');
 }
 
 async function addNewFixedStudent(){
@@ -52,10 +63,10 @@ async function addNewFixedStudent(){
   const createResult = await createStudentFetch(newStudent);
   if (createResult) {
     students.value = await getStudentsFetch();
-    triggerPositive('Успешно добавлен новый студент!')
+    triggerPositive('Успешно добавлен новый студент!');
   }
   else
-    triggerNegative('Не удалось добавить студента')
+    triggerNegative('Не удалось добавить студента');
 }
 
 async function deleteStudent(student){
@@ -114,7 +125,8 @@ function deleteStudentFetch(student){
 
 </script>
 <template>
-  <q-layout view="hHh LpR fFf">
+  <q-layout view="hHh lpR fFf">
+    
     <q-header class="bg-primary text-white">
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
@@ -123,17 +135,43 @@ function deleteStudentFetch(student){
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
-    <q-drawer v-model="leftDrawerOpen" side="left" overlay>
-      <q-btn dense flat round icon="close" @click="toggleLeftDrawer" />
+    
+    <q-drawer v-model="leftDrawerOpen" side="left" overlay elevated>
+
+      <q-list bordered separator>
+        <q-item clickable v-ripple>
+          <q-item-section>Студенты</q-item-section>
+        </q-item>
+
+        <q-item clickable v-ripple>
+          <q-item-section>
+            <q-item-label>Материалы</q-item-label>
+            <!-- <q-item-label caption>Caption</q-item-label> -->
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable v-ripple>
+          <q-item-section>
+            <!-- <q-item-label overline>OVERLINE</q-item-label> -->
+            <q-item-label>Задания</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
+      <!-- <q-btn dense flat round icon="close" @click="toggleLeftDrawer" /> -->
     </q-drawer>
+    
     <q-page-container class="q-pa-md row items-start q-gutter-md">
-      <router-view />
-      <StudentCard v-for="student in students"
-        :key="student.id"
-        :student="student"
-        @delete-click="deleteStudent"
-        @update-click="(student) => studentPrompt = student"
-      />
+      <!-- <router-view /> -->
+      
+      <transition-group name="list">
+        <StudentCard v-for="student in students"
+          :key="student.id"
+          :student="student"
+          @delete-click="deleteStudent"
+          @update-click="updateStudent"
+        />
+      </transition-group>
+
       <q-page-sticky position="bottom-right" :offset="[20, 20]">
         <q-btn 
           fab 
@@ -142,9 +180,23 @@ function deleteStudentFetch(student){
           @click="addNewFixedStudent"/>
       </q-page-sticky>
     </q-page-container>
+  
   </q-layout>
-  <StudentDialog
-    :prompt="!!studentPrompt"
-    @update-click=""/>
 </template>
-<style scoped></style>
+<style scoped>
+.list-item {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
+</style>

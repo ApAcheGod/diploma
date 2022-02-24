@@ -1,10 +1,14 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import StudentDialog from './StudentDialog.vue';
 
 const emits = defineEmits(['update-click', 'delete-click']);
 const props = defineProps({
     student: Object,
 });
+
+let promptIsOpen = ref(false);
+
 const initials = computed(() => {
     return `${props.student.first_name[0].toUpperCase()}${props.student.patronymic[0].toUpperCase()}`
 });
@@ -25,13 +29,11 @@ const initials = computed(() => {
         {{props.student.email}}
       </div>
     </q-card-section>
-
     <q-separator />
-
     <q-card-actions align="right">
       <q-btn 
         flat
-        @click="() => emits('update-click', props.student)"
+        @click="promptIsOpen = true"
         >
         Изменить
       </q-btn>
@@ -43,6 +45,12 @@ const initials = computed(() => {
       Удалить
       </q-btn>
     </q-card-actions>
-    </q-card>
+    <student-dialog
+    :prompt="promptIsOpen"
+    :student="props.student"
+    @prompt-close="promptIsOpen = false"
+    @update-click="(newStudent) => emits('update-click', newStudent)"
+    />
+  </q-card>
 </template>
 <style scoped></style>
