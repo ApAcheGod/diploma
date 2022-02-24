@@ -1,73 +1,79 @@
 package com.example.diplom.entities;
 
-//@Entity
-//@Table(schema = "diploma", name = "journals")
-//@Getter
-//@Setter
-//@ToString
-//@AllArgsConstructor
-//@RequiredArgsConstructor
-//@Builder
+
+import lombok.*;
+import org.hibernate.annotations.Immutable;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.time.LocalDate;
+import java.util.UUID;
+
+@Entity
+@Immutable
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Builder
 public class Journal {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-//
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-//    @ManyToMany
-//    @JoinColumn(name = "teacher_id")
-//    private Set<Teacher> teachers = new HashSet<>();
+    @Id
+    @Type(type="pg-uuid")
+    @Column(name = "examination_id")
+    private UUID examinationId;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "subject_id", referencedColumnName = "id")
-//    @ManyToMany
-//    @JoinColumn(name = "subject_id")
-//    private Set<Subject> subject = new HashSet<>();
+    @Column(name = "examination_status")
+    private String examinationStatus;
 
-//    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "journal", fetch = FetchType.LAZY)
-//    @ToString.Exclude
-//    private Set<Solution> solutions = new HashSet<>();
+    @Column(name = "examination_mark")
+    private Integer mark;
 
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "group_id", referencedColumnName = "id")
-//    private Set<Group> groups = new HashSet<>();
+    @Type(type="pg-uuid")
+    @Column(name = "teacher_id")
+    private UUID teacherId;
 
-//    private int mark;
+    @Column(name = "teacher_login")
+    private String teacherLogin;
 
-//    public void addSubject(Subject subject){
-//        this.subject = subject;
-//        subject.setJournal(this);
-//    }
-//
-//    public void addTeacher(Teacher teacher){
-//        this.teacher = teacher;
-//        teacher.setJournal(this);
-//    }
-//
-//    public void addSolution(Solution solution){
-//        solutions.add(solution);
-//        solution.setJournal(this);
-//    }
-//
-//    public void addGroup(Group group){
-//        groups.add(group);
-//        group.setJournal(this);
-//    }
-//
-//
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-//        Journal journal = (Journal) o;
-//        return id != null && Objects.equals(id, journal.id);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return getClass().hashCode();
-//    }
+    @Type(type="pg-uuid")
+    @Column(name = "subject_id")
+    private UUID subjectId;
+
+    @Column(name = "subject_name")
+    private String subjectName;
+
+    @Type(type="pg-uuid")
+    @Column(name = "group_id")
+    private UUID groupId;
+
+    @Column(name = "group_name")
+    private String groupName;
+
+    @Type(type="pg-uuid")
+    @Column(name = "student_id")
+    private UUID studentId;
+
+    @Column(name = "student_login")
+    private String studentLogin;
+
+    @Type(type="pg-uuid")
+    @Column(name = "task_id")
+    private UUID taskId;
+
+    @Column(name = "task_name")
+    private String taskName;
+
+    @Type(type="pg-uuid")
+    @Column(name = "solution_id")
+    private UUID solutionId;
+
+    @Column(name = "date_of_delivery")
+    private LocalDate dateOfDelivery;
+
+    @Column(name = "date_of_valuation")
+    private LocalDate dateOfValuation;
 }
-

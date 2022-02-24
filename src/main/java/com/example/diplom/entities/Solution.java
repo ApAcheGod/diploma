@@ -31,15 +31,11 @@ public class Solution {
     private UUID id;
 
     @CreatedDate
-    private LocalDateTime date_of_delivery;
-
-//    private LocalDateTime date_od_valuation; // TODO перенести в новую сущность оценки решения
+    private LocalDateTime dateOfDelivery;
 
     private String text;
 
 //    private int count_of_attempts; // количество сдачь  // TODO перенести в новую сущность оценки решения
-
-//    private int mark; // TODO перенести в новую сущность оценки решения
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude

@@ -7,6 +7,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -44,6 +46,11 @@ public class User {
     private Collection<Role> roles;
 
     private String login;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @JoinColumn(name = "user_id")
+    private Set<Notification> notifications = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
