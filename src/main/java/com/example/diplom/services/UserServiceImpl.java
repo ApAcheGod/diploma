@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,5 +52,9 @@ public class UserServiceImpl implements UserService{
 
     public void save(User user){
         userRepository.save(user);
+    }
+
+    public void deleteById(UUID id){
+        userRepository.deleteById(id);
     }
 }

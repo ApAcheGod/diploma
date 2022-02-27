@@ -35,7 +35,7 @@ public class Task {
     @GeneratedValue
     private UUID id;
 
-    @NotNull(message = "Название задания не может быть пусытм")
+//    @NotNull(message = "Название задания не может быть пусытм")
     @Column(name = "task_name")
     private String name;
 

@@ -4,6 +4,7 @@ import com.example.diplom.entities.Student;
 import com.example.diplom.repositories.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,6 +27,7 @@ public class StudentService {
         return studentRepository.getById(uuid);
     }
 
+    @Transactional
     public void deleteById(UUID uuid) {
         studentRepository.deleteById(uuid);
     }

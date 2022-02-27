@@ -28,7 +28,7 @@ public class Material {
     @GeneratedValue
     private UUID id;
 
-    @NotNull(message = "Название материала не может быть пустым")
+//    @NotNull(message = "Название материала не может быть пустым")
     @Column(name = "material_name")
     private String name;
 

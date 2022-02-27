@@ -42,6 +42,7 @@ public class SubjectRest {
     }
 
     @DeleteMapping(value = "subject/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable("id") UUID id) {
         subjectService.deleteById(id);
     }

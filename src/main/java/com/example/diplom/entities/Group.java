@@ -29,7 +29,7 @@ public class Group {
     @GeneratedValue
     private UUID id;
 
-    @NotNull(message = "Название группы не может быть пустым")
+//    @NotNull(message = "Название группы не может быть пустым")
     @Column(name = "group_name")
     @NaturalId(mutable = true)
     private String name;

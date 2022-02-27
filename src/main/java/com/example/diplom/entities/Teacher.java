@@ -27,10 +27,10 @@ public class Teacher extends User{
 
     private UUID id;
 
-    @NotNull(message = "Имя преподавателя не может быть пустым")
+//    @NotNull(message = "Имя преподавателя не может быть пустым")
     private String first_name;
 
-    @NotNull(message = "Фамилия преподавателя не может быть пустым")
+//    @NotNull(message = "Фамилия преподавателя не может быть пустым")
     private String last_name;
 
     private String patronymic;

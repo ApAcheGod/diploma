@@ -9,7 +9,6 @@ import com.example.diplom.services.StudentService;
 import com.example.diplom.services.mappers.StudentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,14 +46,15 @@ public class StudentRest {
         return new ResponseEntity<>(student,  HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/student/{uuid}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<StudentDto> update(@PathVariable( "uuid" ) UUID uuid, @RequestBody StudentDto studentDto) {
-        Student student = studentMapper.toEntity(studentDto);
-        studentService.save(student);
-        return new ResponseEntity<> (studentMapper.toDto(student), HttpStatus.OK);
+    @PutMapping(value = "/student/{uuid}")
+    public ResponseEntity update(@PathVariable( "uuid" ) UUID uuid, @RequestBody StudentDto studentDto) {
+            Student student = studentMapper.toEntity(studentDto);
+            studentService.save(student);
+            return new ResponseEntity<> (studentMapper.toDto(student), HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "student/{id}")
+
+    @DeleteMapping(value = "/student/{id}")
     public void delete(@PathVariable("id") UUID id) {
         studentService.deleteById(id);
     }

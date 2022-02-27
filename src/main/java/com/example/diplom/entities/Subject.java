@@ -29,7 +29,7 @@ public class Subject {
     @GeneratedValue
     private UUID id;
 
-    @NotNull(message = "Название предмета не может быть пустым")
+//    @NotNull(message = "Название предмета не может быть пустым")
     @Column(name = "subject_name")
     private String name;
 

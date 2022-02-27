@@ -47,10 +47,10 @@ public class User {
 
     private String login;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @ToString.Exclude
-    @JoinColumn(name = "user_id")
-    private Set<Notification> notifications = new HashSet<>();
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+//    @ToString.Exclude
+//    @JoinColumn(name = "user_id")
+//    private Set<Notification> notifications = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

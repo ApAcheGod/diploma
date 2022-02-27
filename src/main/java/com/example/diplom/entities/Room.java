@@ -28,7 +28,7 @@ public class Room {
     @GeneratedValue
     private UUID id;
 
-    @NotNull(message = "Название комнаты не может быть пустым")
+//    @NotNull(message = "Название комнаты не может быть пустым")
     @Column(name = "room_name")
     private String name;
 
