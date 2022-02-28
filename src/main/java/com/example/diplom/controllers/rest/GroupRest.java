@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,8 +22,8 @@ public class GroupRest {
     private final GroupMapper groupMapper;
 
     @GetMapping("/groups")
-    public List<Group> allGroups(){
-        return groupService.findAll();
+    public List<GroupDto> allGroups(){
+        return groupService.findAll().stream().map(groupMapper::toDto).collect(Collectors.toList());
     }
 
     @GetMapping("/group/{id}")

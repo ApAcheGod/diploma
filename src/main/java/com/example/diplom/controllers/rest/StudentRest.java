@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,8 +28,8 @@ public class StudentRest {
     private final StudentMapper studentMapper;
 
     @GetMapping("/students")
-    public List<Student> allStudents(){
-        return studentService.findAll();
+    public List<StudentDto> allStudents(){
+        return studentService.findAll().stream().map(studentMapper::toDto).collect(Collectors.toList());
     }
 
     @GetMapping("/student/{id}")
@@ -47,10 +48,10 @@ public class StudentRest {
     }
 
     @PutMapping(value = "/student/{uuid}")
-    public ResponseEntity update(@PathVariable( "uuid" ) UUID uuid, @RequestBody StudentDto studentDto) {
-            Student student = studentMapper.toEntity(studentDto);
-            studentService.save(student);
-            return new ResponseEntity<> (studentMapper.toDto(student), HttpStatus.OK);
+    public ResponseEntity<StudentDto> update(@PathVariable( "uuid" ) UUID uuid, @RequestBody StudentDto studentDto) {
+        Student student = studentMapper.toEntity(studentDto);
+        studentService.save(student);
+        return new ResponseEntity<> (studentMapper.toDto(student), HttpStatus.OK);
     }
 
 

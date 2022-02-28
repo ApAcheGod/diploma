@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,8 +26,8 @@ public class TeacherRest {
     private final CreatePasswordService passwordService;
 
     @GetMapping("/teachers")
-    public List<Teacher> allTeachers(){
-        return teacherService.findAll();
+    public List<TeacherDto> allTeachers(){
+        return teacherService.findAll().stream().map(teacherMapper::toDto).collect(Collectors.toList());
     }
 
     @GetMapping("/teacher/{id}")

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,8 +22,8 @@ public class TaskRest {
     private final TaskMapper taskMapper;
 
     @GetMapping("/tasks")
-    public List<Task> allSubjects(){
-        return taskService.findAll();
+    public List<TaskDto> allSubjects(){
+        return taskService.findAll().stream().map(taskMapper::toDto).collect(Collectors.toList());
     }
 
     @GetMapping("/task/{id}")

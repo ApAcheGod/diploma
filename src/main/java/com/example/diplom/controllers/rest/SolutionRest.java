@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,9 +20,10 @@ public class SolutionRest {
 
     private final SolutionService solutionService;
     private final SolutionMapper solutionMapper;
+
     @GetMapping("/solutions")
-    public List<Solution> allSolutions(){
-        return solutionService.findAll();
+    public List<SolutionDto> allSolutions(){
+        return solutionService.findAll().stream().map(solutionMapper::toDto).collect(Collectors.toList());
     }
 
     @GetMapping("/solution/{id}")

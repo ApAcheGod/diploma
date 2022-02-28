@@ -1,5 +1,8 @@
 package com.example.diplom.entities.dto;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,14 +14,19 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class MaterialDto {
 
     private UUID id;
+
     private String name;
-//    private TeacherDto teacher;
-//    private SubjectDto subject;
+
     private UUID teacherId;
+
     private UUID subjectId;
+
     private String text;
+
 
 }

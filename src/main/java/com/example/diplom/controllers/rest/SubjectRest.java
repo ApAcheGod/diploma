@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,9 +20,11 @@ public class SubjectRest {
 
     private final SubjectService subjectService;
     private final SubjectMapper subjectMapper;
+
     @GetMapping("/subjects")
-    public List<Subject> allSubjects(){
-        return subjectService.findAll();
+    public List<SubjectDto> allSubjects(){
+        return subjectService.findAll().stream().map(subjectMapper::toDto).collect(Collectors.toList());
+
     }
 
     @GetMapping("/subject/{id}")
