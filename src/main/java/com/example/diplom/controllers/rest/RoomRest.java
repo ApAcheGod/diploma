@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,8 +22,8 @@ public class RoomRest {
     private final RoomMapper roomMapper;
 
     @GetMapping("/rooms")
-    public List<Room> allRooms(){
-        return roomService.findAll();
+    public List<RoomDto> allRooms(){
+        return roomService.findAll().stream().map(roomMapper::toDto).collect(Collectors.toList());
     }
 
     @GetMapping("/room/{id}")
