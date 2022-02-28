@@ -104,7 +104,7 @@ function createStudentFetch(student){
 function updateStudentFetch(student){
   const header = {
     method: 'PUT',
-    header: {
+    headers: {
       'Content-Type': 'application/json;charset=utf-8',
       'Accept': 'application/json'
     },
