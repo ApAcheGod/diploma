@@ -47,9 +47,13 @@ public class StudentRest {
         return new ResponseEntity<>(student,  HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/student/{uuid}")
-    public ResponseEntity<StudentDto> update(@PathVariable( "uuid" ) UUID uuid, @RequestBody StudentDto studentDto) {
-        Student student = studentMapper.toEntity(studentDto);
+    @PutMapping(value = "/student/{id}")
+    public ResponseEntity<StudentDto> update(@PathVariable( "id" ) UUID id, @RequestBody StudentDto studentDto) {
+        Student student = studentService.findById(id);
+        student.setFirst_name(studentDto.getFirst_name());
+        student.setLast_name(studentDto.getLast_name());
+        student.setPatronymic(studentDto.getPatronymic());
+        student.setEmail(studentDto.getEmail());
         studentService.save(student);
         return new ResponseEntity<> (studentMapper.toDto(student), HttpStatus.OK);
     }
