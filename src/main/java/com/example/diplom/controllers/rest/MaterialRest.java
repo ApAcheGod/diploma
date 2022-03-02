@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,8 +22,8 @@ public class MaterialRest {
     private final MaterialMapper materialMapper;
 
     @GetMapping("/materials")
-    public List<Material> allMaterials(){
-        return materialService.findAll();
+    public List<MaterialDto> allMaterials(){
+        return materialService.findAll().stream().map(materialMapper::toDto).collect(Collectors.toList());
     }
 
     @GetMapping("/material/{id}")

@@ -1,29 +1,32 @@
-package com.example.diplom.entities.dto;
+package com.example.diplom.entities.dto.to;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
-public class SolutionDto {
+public class Room2Dto {
 
     private UUID id;
 
-    private String text;
+    private String name;
 
-    private UUID studentId;
+    private UUID teacherId;
 
-    private UUID taskId;
+    private Set<Group2Dto> groups = new HashSet<>();
+
+    private Set<Subject2Dto> subjects = new HashSet<>();
 
 }

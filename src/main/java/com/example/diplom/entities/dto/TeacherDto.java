@@ -1,5 +1,9 @@
 package com.example.diplom.entities.dto;
 
+import com.example.diplom.entities.dto.to.Group2Dto;
+import com.example.diplom.entities.dto.to.Room2Dto;
+import com.example.diplom.entities.dto.to.Subject2Dto;
+import com.example.diplom.entities.dto.to.Task2Dto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -33,18 +37,18 @@ public class TeacherDto {
     private String email;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Set<SubjectDto> subjects = new HashSet<>();
+    private Set<Subject2Dto> subjects = new HashSet<>();
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Set<RoomDto> rooms = new HashSet<>();
+    private Set<Room2Dto> rooms = new HashSet<>();
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<MaterialDto> materials = new HashSet<>();
 
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Set<GroupDto> groups = new HashSet<>();
+//    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+//    private Set<Group2Dto> groups = new HashSet<>();
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Set<TaskDto> tasks = new HashSet<>();
+    private Set<Task2Dto> tasks = new HashSet<>();
 
 }

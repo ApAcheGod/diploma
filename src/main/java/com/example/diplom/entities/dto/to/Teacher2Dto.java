@@ -1,29 +1,31 @@
-package com.example.diplom.entities.dto;
+package com.example.diplom.entities.dto.to;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
-public class SolutionDto {
+public class Teacher2Dto {
 
     private UUID id;
 
-    private String text;
+    private String first_name;
 
-    private UUID studentId;
+    private String last_name;
 
-    private UUID taskId;
+    private String patronymic;
 
+    private String login;
+
+    private String email;
 }

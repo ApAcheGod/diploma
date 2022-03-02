@@ -102,13 +102,12 @@ public class Group {
 
         Group group = (Group) o;
 
-        if (!Objects.equals(id, group.id)) return false;
-        if (!Objects.equals(name, group.name)) return false;
-        if (!Objects.equals(students, group.students)) return false;
-        if (!Objects.equals(subjects, group.subjects)) return false;
-        if (!Objects.equals(teachers, group.teachers)) return false;
-        if (!Objects.equals(rooms, group.rooms)) return false;
-        return Objects.equals(tasks, group.tasks);
+        if (id != null ? !id.equals(group.id) : group.id != null) return false;
+        if (name != null ? !name.equals(group.name) : group.name != null) return false;
+        if (students != null ? !students.equals(group.students) : group.students != null) return false;
+        if (subjects != null ? !subjects.equals(group.subjects) : group.subjects != null) return false;
+        if (teachers != null ? !teachers.equals(group.teachers) : group.teachers != null) return false;
+        return rooms != null ? rooms.equals(group.rooms) : group.rooms == null;
     }
 
     @Override
@@ -119,7 +118,6 @@ public class Group {
         result = 31 * result + (subjects != null ? subjects.hashCode() : 0);
         result = 31 * result + (teachers != null ? teachers.hashCode() : 0);
         result = 31 * result + (rooms != null ? rooms.hashCode() : 0);
-        result = 31 * result + (tasks != null ? tasks.hashCode() : 0);
         return result;
     }
 }

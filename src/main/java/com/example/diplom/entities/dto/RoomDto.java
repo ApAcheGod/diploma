@@ -1,5 +1,7 @@
 package com.example.diplom.entities.dto;
 
+import com.example.diplom.entities.dto.to.Group2Dto;
+import com.example.diplom.entities.dto.to.Subject2Dto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -26,9 +28,9 @@ public class RoomDto {
 
     private UUID teacherId;
 
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Set<GroupDto> groups = new HashSet<>();
+//    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+//    private Set<Group2Dto> groups = new HashSet<>();
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Set<SubjectDto> subjects = new HashSet<>();
+    private Set<Subject2Dto> subjects = new HashSet<>();
 }

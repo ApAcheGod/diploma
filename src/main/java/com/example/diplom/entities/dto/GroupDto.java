@@ -1,18 +1,16 @@
 package com.example.diplom.entities.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.diplom.entities.dto.to.*;
+import com.fasterxml.jackson.annotation.*;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,18 +23,18 @@ public class GroupDto {
     private String name;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Set<StudentDto> students = new HashSet<>();
+    private Set<Student2Dto> students = new HashSet<>();
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Set<SubjectDto> subjects = new HashSet<>();
+    private Set<Subject2Dto> subjects = new HashSet<>();
+
+//    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+//    private Set<Teacher2Dto> teachers = new HashSet<>();
+
+//    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+//    private Set<Room2Dto> rooms = new HashSet<>();
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Set<TeacherDto> teachers = new HashSet<>();
-
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Set<RoomDto> rooms = new HashSet<>();
-
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Set<TaskDto> tasks = new HashSet<>();
+    private Set<Task2Dto> tasks = new HashSet<>();
 
 }

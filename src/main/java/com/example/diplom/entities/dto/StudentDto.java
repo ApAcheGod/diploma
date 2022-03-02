@@ -1,5 +1,6 @@
 package com.example.diplom.entities.dto;
 
+import com.example.diplom.entities.dto.to.Task2Dto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -39,6 +40,6 @@ public class StudentDto {
     private Set<SolutionDto> solutions = new HashSet<>();
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Set<TaskDto> tasks = new HashSet<>();
+    private Set<Task2Dto> tasks = new HashSet<>();
 
 }
