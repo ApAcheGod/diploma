@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import MainVue from './views/Main.vue';
+import state from './store';
+import { provide } from 'vue';
+
+provide('state', state);
 
 </script>
 
 <template>
-  <main-vue></main-vue>
+  <router-view />
 </template>
 
 <style scoped>

@@ -133,6 +133,7 @@ function deleteStudentFetch(student){
         <q-toolbar-title>
           Студенты
         </q-toolbar-title>
+        <router-link to="/teacher">Учитель</router-link>
       </q-toolbar>
     </q-header>
     
@@ -146,13 +147,11 @@ function deleteStudentFetch(student){
         <q-item clickable v-ripple>
           <q-item-section>
             <q-item-label>Материалы</q-item-label>
-            <!-- <q-item-label caption>Caption</q-item-label> -->
           </q-item-section>
         </q-item>
 
         <q-item clickable v-ripple>
           <q-item-section>
-            <!-- <q-item-label overline>OVERLINE</q-item-label> -->
             <q-item-label>Задания</q-item-label>
           </q-item-section>
         </q-item>
@@ -163,9 +162,9 @@ function deleteStudentFetch(student){
     <q-page-container class="q-pa-md row items-start q-gutter-md">
       <!-- <router-view /> -->
       
-      <transition-group name="list">
+      <transition-group name="list" >
         <StudentCard v-for="student in students"
-          :key="student.id"
+          v-bind:key="student?.id"
           :student="student"
           @delete-click="deleteStudent"
           @update-click="updateStudent"
