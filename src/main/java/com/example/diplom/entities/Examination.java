@@ -30,7 +30,7 @@ public class Examination {
     private UUID id;
 
     @CreatedDate
-    private LocalDateTime date_of_valuation;
+    private LocalDateTime dateOfValuation;
 
     @OneToOne
     private Solution solution;
