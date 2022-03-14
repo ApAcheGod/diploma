@@ -1,6 +1,5 @@
 package com.example.diplom.entities.dto;
 
-import com.example.diplom.entities.dto.to.Group2Dto;
 import com.example.diplom.entities.dto.to.Room2Dto;
 import com.example.diplom.entities.dto.to.Subject2Dto;
 import com.example.diplom.entities.dto.to.Task2Dto;

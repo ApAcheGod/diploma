@@ -2,7 +2,6 @@ package com.example.diplom.services.mappers;
 
 import com.example.diplom.entities.Room;
 import com.example.diplom.entities.dto.RoomDto;
-import com.example.diplom.entities.dto.to.Subject2Dto;
 import com.example.diplom.services.TeacherService;
 import com.example.diplom.services.mappers.mappers2.Group2Mapper;
 import com.example.diplom.services.mappers.mappers2.Subject2Mapper;

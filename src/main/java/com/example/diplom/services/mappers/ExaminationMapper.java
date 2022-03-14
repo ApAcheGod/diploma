@@ -1,10 +1,10 @@
 package com.example.diplom.services.mappers;
 
 import com.example.diplom.entities.Examination;
-import com.example.diplom.entities.Group;
+import com.example.diplom.entities.ExaminationStatus;
 import com.example.diplom.entities.dto.ExaminationDto;
-import com.example.diplom.entities.dto.GroupDto;
 import com.example.diplom.services.ExaminationService;
+import com.example.diplom.services.SolutionService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -20,6 +19,7 @@ public class ExaminationMapper {
 
     private final ModelMapper modelMapper;
     private final ExaminationService examinationService;
+    private final SolutionService solutionService;
 
 
     @PostConstruct
@@ -95,7 +95,13 @@ public class ExaminationMapper {
     }
 
     private void mapSpecificFields(ExaminationDto source, Examination destination) {
+        if (source.getSolutionId() != null){
+            destination.setSolution(solutionService.findById(source.getSolutionId()));
+        }
 
+        if (source.getExaminationStatus() != null){
+            destination.setExaminationStatus(ExaminationStatus.getNameByTitle(source.getExaminationStatus()));
+        }
     }
 
     public Examination toEntity(ExaminationDto examinationDto){

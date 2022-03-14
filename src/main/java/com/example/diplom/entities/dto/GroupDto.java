@@ -1,7 +1,11 @@
 package com.example.diplom.entities.dto;
 
-import com.example.diplom.entities.dto.to.*;
-import com.fasterxml.jackson.annotation.*;
+import com.example.diplom.entities.dto.to.Student2Dto;
+import com.example.diplom.entities.dto.to.Subject2Dto;
+import com.example.diplom.entities.dto.to.Task2Dto;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import java.util.HashSet;

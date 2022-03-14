@@ -1,9 +1,7 @@
 package com.example.diplom.services.mappers;
 
-import com.example.diplom.entities.Group;
 import com.example.diplom.entities.Task;
 import com.example.diplom.entities.dto.TaskDto;
-import com.example.diplom.services.GroupService;
 import com.example.diplom.services.SubjectService;
 import com.example.diplom.services.TeacherService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor

@@ -1,13 +1,7 @@
 package com.example.diplom.services.mappers;
 
-import com.example.diplom.entities.Task;
 import com.example.diplom.entities.Teacher;
-import com.example.diplom.entities.dto.TaskDto;
 import com.example.diplom.entities.dto.TeacherDto;
-import com.example.diplom.entities.dto.to.Group2Dto;
-import com.example.diplom.entities.dto.to.Room2Dto;
-import com.example.diplom.entities.dto.to.Subject2Dto;
-import com.example.diplom.entities.dto.to.Task2Dto;
 import com.example.diplom.services.TeacherService;
 import com.example.diplom.services.mappers.mappers2.Group2Mapper;
 import com.example.diplom.services.mappers.mappers2.Room2Mapper;
