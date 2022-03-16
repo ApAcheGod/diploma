@@ -259,6 +259,32 @@ create table diploma.user_roles
 --                                   TEACHER_ID INT REFERENCES diploma.TEACHERS(ID)
 --     );
 
+create table examinations
+(
+    id                 uuid    not null
+        primary key,
+    examination_status varchar(255),
+    mark               integer not null,
+    solution_id        uuid
+        constraint fko84r0u7bp903rkda2st5mkalw
+            references diploma.solutions on DELETE cascade ,
+    date_of_valuation  timestamp
+);
+
+create table solutions
+(
+    id               uuid not null
+        primary key,
+    date_of_delivery timestamp,
+    text             varchar(255),
+    student_id       uuid
+        constraint fk1pcfy9sr41qrjfjnryxw7ld1o
+            references diploma.students on DELETE cascade ,
+    task_id          uuid
+        constraint fkbqabgk1lnu9xg0rbmno60q2tw
+            references diploma.tasks
+);
+
 insert into diploma.users(id, first_name, last_name, login, password, patronymic) values
     ('22bec816-8702-4595-960a-7b004664b3e9', 'Никита', 'Алпатов', 'admin',
      '$2a$10$EvVOWkhyVR5sdk2dQD7JFOQCd6M8a7kX4/MIfUkTXZDpr9.pHs1Li', 'Сергеевич');
