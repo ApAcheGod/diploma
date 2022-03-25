@@ -24,6 +24,10 @@ public class SolutionDto {
 
     private UUID studentId;
 
+    private String studentName;
+
     private UUID taskId;
+
+    private String taskName;
 
 }
