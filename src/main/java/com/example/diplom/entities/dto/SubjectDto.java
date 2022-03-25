@@ -28,6 +28,8 @@ public class SubjectDto {
 
     private UUID teacherId;
 
+    private String teacherName;
+
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<MaterialDto> materials = new HashSet<>();
 

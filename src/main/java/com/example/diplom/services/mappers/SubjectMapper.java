@@ -26,6 +26,7 @@ public class SubjectMapper {
         modelMapper.createTypeMap(Subject.class, SubjectDto.class)
                 .addMappings(m -> m.skip(SubjectDto::setRoomId))
                 .addMappings(m -> m.skip(SubjectDto::setTeacherId))
+                .addMappings(m -> m.skip(SubjectDto::setTeacherName))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(SubjectDto.class, Subject.class)
                 .addMappings(m -> m.skip(Subject::setRoom))
@@ -52,6 +53,10 @@ public class SubjectMapper {
     }
 
     private void mapSpecificFields(Subject source, SubjectDto destination) {
+
+        destination.setTeacherName(source.getTeacher().getLast_name()
+                + " " + source.getTeacher().getFirst_name()
+                + " " + source.getTeacher().getPatronymic());
 
         if (source.getRoom() != null){
             destination.setRoomId(source.getRoom().getId());

@@ -19,7 +19,7 @@ public class Teacher2Mapper {
     @PostConstruct
     public void setupMapper(){
         modelMapper.createTypeMap(Teacher.class, Teacher2Dto.class)
-                .addMappings(m -> m.skip(Teacher2Dto::setFirst_name));
+                .addMappings(m -> m.skip(Teacher2Dto::setTeacherName));
         modelMapper.createTypeMap(Teacher2Dto.class, Teacher.class)
                 .setPostConverter(toEntityConverter());
     }
