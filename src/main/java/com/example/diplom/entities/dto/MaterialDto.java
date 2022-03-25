@@ -24,7 +24,11 @@ public class MaterialDto {
 
     private UUID teacherId;
 
+    private String teacherName;
+
     private UUID subjectId;
+
+    private String subjectName;
 
     private String text;
 

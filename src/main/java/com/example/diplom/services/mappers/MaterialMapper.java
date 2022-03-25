@@ -26,6 +26,8 @@ public class MaterialMapper {
         modelMapper.createTypeMap(Material.class, MaterialDto.class)
                 .addMappings(m -> m.skip(MaterialDto::setSubjectId))
                 .addMappings(m -> m.skip(MaterialDto::setTeacherId))
+                .addMappings(m -> m.skip(MaterialDto::setTeacherName))
+                .addMappings(m -> m.skip(MaterialDto::setSubjectName))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(MaterialDto.class, Material.class)
                 .addMappings(m -> m.skip(Material::setSubject))
@@ -52,6 +54,9 @@ public class MaterialMapper {
     }
 
     private void mapSpecificFields(Material source, MaterialDto destination) {
+
+        destination.setTeacherName(source.getTeacher().getTeacherName());
+        destination.setSubjectName(source.getSubject().getName());
 
         if (source.getSubject() != null){
             destination.setSubjectId(source.getSubject().getId());

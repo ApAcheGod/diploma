@@ -31,6 +31,8 @@ public class TeacherDto {
 
     private String patronymic;
 
+    private String teacherName;
+
     private String login;
 
     private String email;

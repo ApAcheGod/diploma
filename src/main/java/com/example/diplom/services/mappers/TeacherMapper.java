@@ -35,6 +35,7 @@ public class TeacherMapper {
                 .addMappings(m -> m.skip(TeacherDto::setRooms))
                 .addMappings(m -> m.skip(TeacherDto::setSubjects))
 //                .addMappings(m -> m.skip(TeacherDto::setGroups))
+                .addMappings(m -> m.skip(TeacherDto::setTeacherName))
                 .addMappings(m -> m.skip(TeacherDto::setTasks))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(TeacherDto.class, Teacher.class)
@@ -65,12 +66,19 @@ public class TeacherMapper {
 
     private void mapSpecificFields(Teacher source, TeacherDto destination) {
 
+        destination.setTeacherName(source.getLast_name() + " " + source.getFirst_name() + " " + source.getPatronymic());
+
+        destination.setFirst_name(null);
+        destination.setLast_name(null);
+        destination.setPatronymic(null)
+        ;
         if (source.getRooms() != null){
             destination.setRooms(source.getRooms().stream().map(room2Mapper::toDto).collect(Collectors.toSet()));
         }
         if (source.getSubjects() != null){
             destination.setSubjects(source.getSubjects().stream().map(subject2Mapper::toDto).collect(Collectors.toSet()));
         }
+
 //        if (source.getGroups() != null){
 //            destination.setGroups(source.getGroups().stream().map(group2Mapper::toDto).collect(Collectors.toSet()));
 //        }

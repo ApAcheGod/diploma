@@ -59,7 +59,7 @@ public class Teacher extends User{
     private Set<Task> tasks = new HashSet<>();
 
     @JsonIgnore
-    public String getName(){
+    public String getTeacherName(){
         return last_name + " " + first_name + " " + patronymic;
     }
 

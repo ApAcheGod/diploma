@@ -7,7 +7,7 @@
 <body>
 <p th:text="${material.name}"></p>
 <div th:text="${material.subject.name}"></div>
-<div th:text="${material.teacher.getName()}"></div>
+<div th:text="${material.teacher.getTeacherName()}"></div>
 <div th:text="${material.text}"></div>
 <!--<a th:href="@{${material.subject.room.id} + '/subject/' + ${material.subject.id} + '/addMaterial'}">Добавить материал</a>-->
 </body>

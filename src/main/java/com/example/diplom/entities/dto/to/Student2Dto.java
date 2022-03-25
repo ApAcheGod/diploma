@@ -30,4 +30,5 @@ public class Student2Dto {
     private String email;
 
     private UUID groupId;
+
 }
