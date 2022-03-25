@@ -20,7 +20,7 @@
             <select th:field="${material.teacher}">
                 <option value=""> Преподаватель </option>
                 <option th:each="teacher : ${teachers}"
-                        th:text="${teacher.name}"
+                        th:text="${teacher.getTeacherName}"
                         th:value="${teacher.getId()}">
                 </option>
             </select>
