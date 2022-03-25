@@ -25,6 +25,8 @@ public class Room2Dto {
 
     private UUID teacherId;
 
+    private String teacherName;
+
     private Set<Group2Dto> groups = new HashSet<>();
 
     private Set<Subject2Dto> subjects = new HashSet<>();

@@ -27,6 +27,8 @@ public class RoomDto {
 
     private UUID teacherId;
 
+    private String teacherName;
+
 //    @JsonInclude(JsonInclude.Include.NON_EMPTY)
 //    private Set<Group2Dto> groups = new HashSet<>();
 

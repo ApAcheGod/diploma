@@ -28,6 +28,7 @@ public class RoomMapper {
     public void setupMapper(){
         modelMapper.createTypeMap(Room.class, RoomDto.class)
                 .addMappings(m -> m.skip(RoomDto::setTeacherId))
+                .addMappings(m -> m.skip(RoomDto::setTeacherName))
 //                .addMappings(m -> m.skip(RoomDto::setGroups))
                 .addMappings(m -> m.skip(RoomDto::setSubjects))
                 .setPostConverter(toDtoConverter());
@@ -57,6 +58,10 @@ public class RoomMapper {
     }
 
     private void mapSpecificFields(Room source, RoomDto destination) {
+
+        destination.setTeacherName(source.getTeacher().getLast_name()
+                + " " + source.getTeacher().getFirst_name()
+                + " " + source.getTeacher().getPatronymic());
 
         if (source.getSubjects() != null){
             destination.setSubjects(source.getSubjects().stream().map(subject2Mapper::toDto).collect(Collectors.toSet()));
