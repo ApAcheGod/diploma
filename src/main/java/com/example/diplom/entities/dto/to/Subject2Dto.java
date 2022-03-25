@@ -26,4 +26,6 @@ public class Subject2Dto {
     private String teacherName;
 
     private UUID roomId;
+
+    private String roomName;
 }

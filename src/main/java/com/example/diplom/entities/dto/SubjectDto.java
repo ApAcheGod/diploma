@@ -40,4 +40,6 @@ public class SubjectDto {
     private Set<Group2Dto> groups = new HashSet<>();
 
     private UUID roomId;
+
+    private String roomName;
 }

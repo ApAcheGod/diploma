@@ -21,7 +21,8 @@ public class Subject2Mapper {
     @PostConstruct
     public void setupMapper(){
         modelMapper.createTypeMap(Subject.class, Subject2Dto.class)
-                .addMappings(m -> m.skip(Subject2Dto::setTeacherName));
+                .addMappings(m -> m.skip(Subject2Dto::setTeacherName))
+                .addMappings(m -> m.skip(Subject2Dto::setRoomName));
         modelMapper.createTypeMap(Subject2Dto.class, Subject.class)
                 .setPostConverter(toEntityConverter());
     }
@@ -50,6 +51,7 @@ public class Subject2Mapper {
                 + " " + source.getTeacher().getFirst_name()
                 + " " + source.getTeacher().getPatronymic());
 
+        destination.setRoomName(source.getRoom().getName());
     }
 
     private void mapSpecificFields(Subject2Dto source, Subject destination) {
