@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import state from './store';
-import { provide } from 'vue';
 
-provide('state', state);
+import { provide } from 'vue';
+import store from './store';
+
+provide('store', store);
 
 </script>
 

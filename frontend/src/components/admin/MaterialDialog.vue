@@ -7,15 +7,19 @@ const emits = defineEmits(['update-click', 'prompt-close']);
 const props = defineProps({
   prompt: Boolean,
   student: Object,
+  updateButtonLabel: {
+    default: 'Изменить',
+    type: String
+  }
 });
 
 let newStudent = ref({
-  id: "",
-  first_name:  "",
-  last_name:  "",
-  patronymic:  "",
-  email:  "",
-  login:  "",
+  id: '',
+  first_name: '',
+  last_name:  '',
+  patronymic:  '',
+  email:  '',
+  login:  '',
 });
 
 onMounted(() => {
@@ -33,7 +37,7 @@ onMounted(() => {
 
 <template>
   <q-dialog v-model="props.prompt" persistent>
-    <q-card style="min-width: 350px">
+    <q-card style="min-width: 350px" @keyup.enter="emits('update-click', newStudent)">
       <q-card-section>
         <div class="text-h5">Редактирование</div>
       </q-card-section>
@@ -51,7 +55,7 @@ onMounted(() => {
       </q-card-section>
       <q-card-actions align="right" class="text-primary">
         <q-btn flat label="Отмена"  @click="emits('prompt-close')"/>
-        <q-btn flat label="Изменить" @click="emits('update-click', newStudent)" />
+        <q-btn flat :label="updateButtonLabel" @click="emits('update-click', newStudent)" />
       </q-card-actions>
     </q-card>
   </q-dialog>

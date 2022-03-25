@@ -1,0 +1,53 @@
+<script setup>
+import { onMounted, ref, inject } from 'vue';
+
+const store = inject('store');
+
+let leftDrawerOpen = ref(false)
+
+const toggleLeftDrawer = () => {
+  leftDrawerOpen.value = !leftDrawerOpen.value
+}
+
+</script>
+<template>
+  <q-layout view="hHh lpR fFf">
+    
+    <q-header class="bg-primary text-white">
+      <q-toolbar>
+        <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
+        <q-toolbar-title>
+          Администратор
+        </q-toolbar-title>
+        <router-link to="/teacher">Учитель</router-link>
+      </q-toolbar>
+    </q-header>
+    
+    <q-drawer v-model="leftDrawerOpen" side="left" overlay elevated>
+
+      <q-list bordered separator>
+        <q-item clickable v-ripple :to="{ name: 'AdminStudents' }"  @click="() => {}">
+          Студенты
+        </q-item>
+
+        <q-item clickable v-ripple :to="{ name: 'AdminMaterials' }">
+          Материалы
+        </q-item>
+
+        <q-item clickable v-ripple>
+          <q-item-section>
+            <q-item-label>Задания</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-drawer>
+    
+    <q-page-container class="q-pa-md row items-start q-gutter-md m-1"> 
+      <router-view />
+    </q-page-container>
+  
+  </q-layout>
+</template>
+<style scoped>
+
+</style>
