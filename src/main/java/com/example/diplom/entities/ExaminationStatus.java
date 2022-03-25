@@ -15,4 +15,13 @@ public enum ExaminationStatus {
     public String getTitle(){
         return title;
     }
+
+    public static ExaminationStatus getNameByTitle(String title){
+        for (ExaminationStatus examinationStatus: ExaminationStatus.values()){
+            if (title.equals(examinationStatus.getTitle())){
+                return examinationStatus;
+            }
+        }
+        return null;
+    }
 }

@@ -45,6 +45,10 @@ public class Solution {
     @ToString.Exclude
     private Task task;
 
+//    @OneToOne
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+//    private Examination examination;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -60,7 +64,7 @@ public class Solution {
 
     public void addStudent(Student student){
         this.student = student;
-        task.getSolutions().add(this);
+        student.getSolutions().add(this);
     }
 
     public void addTask(Task task){

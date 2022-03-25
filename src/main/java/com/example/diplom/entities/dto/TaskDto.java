@@ -5,7 +5,6 @@ import com.example.diplom.entities.dto.to.Group2Dto;
 import com.example.diplom.entities.dto.to.Student2Dto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 

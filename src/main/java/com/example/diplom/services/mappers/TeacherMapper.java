@@ -1,13 +1,7 @@
 package com.example.diplom.services.mappers;
 
-import com.example.diplom.entities.Task;
 import com.example.diplom.entities.Teacher;
-import com.example.diplom.entities.dto.TaskDto;
 import com.example.diplom.entities.dto.TeacherDto;
-import com.example.diplom.entities.dto.to.Group2Dto;
-import com.example.diplom.entities.dto.to.Room2Dto;
-import com.example.diplom.entities.dto.to.Subject2Dto;
-import com.example.diplom.entities.dto.to.Task2Dto;
 import com.example.diplom.services.TeacherService;
 import com.example.diplom.services.mappers.mappers2.Group2Mapper;
 import com.example.diplom.services.mappers.mappers2.Room2Mapper;
@@ -41,6 +35,7 @@ public class TeacherMapper {
                 .addMappings(m -> m.skip(TeacherDto::setRooms))
                 .addMappings(m -> m.skip(TeacherDto::setSubjects))
 //                .addMappings(m -> m.skip(TeacherDto::setGroups))
+                .addMappings(m -> m.skip(TeacherDto::setTeacherName))
                 .addMappings(m -> m.skip(TeacherDto::setTasks))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(TeacherDto.class, Teacher.class)
@@ -71,12 +66,19 @@ public class TeacherMapper {
 
     private void mapSpecificFields(Teacher source, TeacherDto destination) {
 
+        destination.setTeacherName(source.getLast_name() + " " + source.getFirst_name() + " " + source.getPatronymic());
+
+        destination.setFirst_name(null);
+        destination.setLast_name(null);
+        destination.setPatronymic(null)
+        ;
         if (source.getRooms() != null){
             destination.setRooms(source.getRooms().stream().map(room2Mapper::toDto).collect(Collectors.toSet()));
         }
         if (source.getSubjects() != null){
             destination.setSubjects(source.getSubjects().stream().map(subject2Mapper::toDto).collect(Collectors.toSet()));
         }
+
 //        if (source.getGroups() != null){
 //            destination.setGroups(source.getGroups().stream().map(group2Mapper::toDto).collect(Collectors.toSet()));
 //        }

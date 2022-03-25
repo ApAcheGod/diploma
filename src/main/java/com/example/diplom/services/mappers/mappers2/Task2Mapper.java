@@ -1,8 +1,6 @@
 package com.example.diplom.services.mappers.mappers2;
 
-import com.example.diplom.entities.Group;
 import com.example.diplom.entities.Task;
-import com.example.diplom.entities.dto.TaskDto;
 import com.example.diplom.entities.dto.to.Task2Dto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;

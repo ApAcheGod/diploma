@@ -65,7 +65,7 @@ public class SolutionMapper {
     private void mapSpecificFields(SolutionDto source, Solution destination) {
 
         if (source.getStudentId() != null){
-            destination.addStudent(studentService.findById(source.getId()));
+            destination.addStudent(studentService.findById(source.getStudentId()));
         }
 
         if (source.getTaskId() != null){

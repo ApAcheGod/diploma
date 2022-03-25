@@ -1,13 +1,15 @@
 package com.example.diplom.services.mappers;
 
 import com.example.diplom.entities.Group;
-import com.example.diplom.entities.Material;
-import com.example.diplom.entities.Task;
-import com.example.diplom.entities.Teacher;
 import com.example.diplom.entities.dto.GroupDto;
-import com.example.diplom.entities.dto.MaterialDto;
-import com.example.diplom.services.*;
-import com.example.diplom.services.mappers.mappers2.*;
+import com.example.diplom.services.RoomService;
+import com.example.diplom.services.StudentService;
+import com.example.diplom.services.SubjectService;
+import com.example.diplom.services.TeacherService;
+import com.example.diplom.services.mappers.mappers2.Student2Mapper;
+import com.example.diplom.services.mappers.mappers2.Subject2Mapper;
+import com.example.diplom.services.mappers.mappers2.Task2Mapper;
+import com.example.diplom.services.mappers.mappers2.Teacher2Mapper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;

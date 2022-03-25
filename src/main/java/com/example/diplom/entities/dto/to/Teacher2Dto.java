@@ -28,4 +28,6 @@ public class Teacher2Dto {
     private String login;
 
     private String email;
+
+    private String teacherName;
 }

@@ -2,7 +2,6 @@ package com.example.diplom.entities.dto;
 
 import com.example.diplom.entities.dto.to.Task2Dto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
