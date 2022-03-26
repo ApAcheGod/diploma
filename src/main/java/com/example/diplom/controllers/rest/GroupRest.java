@@ -38,9 +38,12 @@ public class GroupRest {
         return new ResponseEntity<>(group, HttpStatus.CREATED);
     }
 
-    @PutMapping("/group/{id}")
-    public void update(@PathVariable( "id" ) UUID id, @RequestBody Group group) {
+    @PutMapping("/group")
+    public ResponseEntity<GroupDto> update(@RequestBody GroupDto groupDto) {
+        Group group = groupService.findById(groupDto.getId());
+        group.setName(groupDto.getName());
         groupService.save(group);
+        return new ResponseEntity<>(groupMapper.toDto(group), HttpStatus.OK);
     }
 
     @DeleteMapping("group/{id}")

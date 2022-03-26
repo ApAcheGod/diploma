@@ -45,9 +45,12 @@ public class SolutionRest {
         return new ResponseEntity<>(solution, HttpStatus.CREATED);
     }
 
-    @PutMapping("/solution/{id}")
-    public void update(@PathVariable( "id" ) UUID id, @RequestBody Solution solution) {
+    @PutMapping("/solution")
+    public ResponseEntity<SolutionDto> update(@RequestBody SolutionDto solutionDto) {
+        Solution solution = solutionService.findById(solutionDto.getId());
+        solution.setText(solutionDto.getText());
         solutionService.save(solution);
+        return new ResponseEntity<>(solutionMapper.toDto(solution), HttpStatus.OK);
     }
 
     @DeleteMapping("solution/{id}")
