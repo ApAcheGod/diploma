@@ -26,6 +26,8 @@ public class SolutionMapper {
         modelMapper.createTypeMap(Solution.class, SolutionDto.class)
                 .addMappings(m -> m.skip(SolutionDto::setStudentId))
                 .addMappings(m -> m.skip(SolutionDto::setTaskId))
+                .addMappings(m -> m.skip(SolutionDto::setStudentName))
+                .addMappings(m -> m.skip(SolutionDto::setTaskName))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(SolutionDto.class, Solution.class)
                 .addMappings(m -> m.skip(Solution::setStudent))
@@ -52,6 +54,9 @@ public class SolutionMapper {
     }
 
     private void mapSpecificFields(Solution source, SolutionDto destination) {
+
+        destination.setStudentName(source.getStudent().getName());
+        destination.setTaskName(source.getTask().getName());
 
         if (source.getStudent() != null){
             destination.setStudentId(source.getStudent().getId());

@@ -21,7 +21,9 @@ public class Task2Mapper {
     public void setupMapper(){
         modelMapper.createTypeMap(Task.class, Task2Dto.class)
                 .addMappings(m -> m.skip(Task2Dto::setSubjectId))
+                .addMappings(m -> m.skip(Task2Dto::setSubjectName))
                 .addMappings(m -> m.skip(Task2Dto::setTeacherId))
+                .addMappings(m -> m.skip(Task2Dto::setTeacherName))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(Task2Dto.class, Task.class)
                 .addMappings(m -> m.skip(Task::setSubject))
@@ -48,6 +50,12 @@ public class Task2Mapper {
     }
 
     private void mapSpecificFields(Task source, Task2Dto destination) {
+
+        destination.setTeacherName(source.getTeacher().getLast_name()
+                + " " + source.getTeacher().getFirst_name()
+                + " " + source.getTeacher().getPatronymic());
+
+        destination.setSubjectName(source.getSubject().getName());
 
         if (source.getSubject() != null){
             destination.setSubjectId(source.getSubject().getId());
