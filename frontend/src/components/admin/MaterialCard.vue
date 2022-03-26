@@ -1,10 +1,14 @@
 <script setup>
 import { computed, ref } from 'vue';
-import StudentDialog from './StudentDialog.vue';
+import MaterialDialog from './MaterialDialog.vue';
 
 const emits = defineEmits(['update-click', 'delete-click']);
+
 const props = defineProps({
-    student: Object,
+  material: Object,
+
+  subjects: Array, 
+  teachers: Array,
 });
 
 let promptIsOpen = ref(false);
@@ -18,15 +22,16 @@ const initials = computed(() => {
   <q-card class="my-card">
     <q-card-section class="bg-secondary text-white">
       <div class="text-h6">   
-        {{props.student.login}}
+        {{props.material.name}}
       </div>
-      <div class="text-subtitle2">        
-        {{props.student.last_name}} 
-        {{props.student.first_name}} 
-        {{props.student.patronymic}}
+      <div class="text my-3">        
+        {{props.material.text}} 
       </div>
-      <div class="text-subtitle2">
-        {{props.student.email}}
+      <div class="text text-right">
+        {{props.material.subjectName}}
+      </div>
+      <div class="text text-right">
+        {{props.material.teacherName}}
       </div>
     </q-card-section>
     <q-separator />
@@ -40,16 +45,18 @@ const initials = computed(() => {
       <q-btn 
       color="accent" 
       flat
-      @click="() => emits('delete-click', props.student)"
+      @click="() => emits('delete-click', props.material)"
       >
       Удалить
       </q-btn>
     </q-card-actions>
-    <student-dialog
-    :prompt="promptIsOpen"
-    :student="props.student"
-    @prompt-close="promptIsOpen = false"
-    @update-click="(newStudent) => emits('update-click', newStudent)"
+    <material-dialog
+      :prompt="promptIsOpen"
+      :material="props.material"
+      :subjects="props.subjects"
+      :teachers="props.teachers"
+      @prompt-close="promptIsOpen = false"
+      @update-click="(newMaterial) => emits('update-click', newMaterial)"
     />
   </q-card>
 </template>

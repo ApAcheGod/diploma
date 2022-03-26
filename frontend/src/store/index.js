@@ -128,6 +128,104 @@ const methods = {
       .catch(error => console.error(error));
   },
 
+  //  Subjects
+
+  getSubjectsFetch(){
+    const header = {
+      method: 'GET',
+    };
+    return fetch('http://localhost:8080/api/subjects', header)
+      .then(res => res.json())
+      .then(json => json)
+      .catch(error => console.error(error));
+  },
+
+  createSubjectFetch(subject){
+    const header = {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      'Accept': 'application/json'
+      },
+      body: JSON.stringify(subject),
+    };
+    return fetch('http://localhost:8080/api/subject', header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
+
+  updateSubjectFetch(subject){
+    const header = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(subject),
+    };
+    return fetch(`http://localhost:8080/api/subject/${subject.id}`, header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
+
+  deleteSubjectFetch(subject){
+    const header = {
+      method: 'DELETE',
+    };
+    return fetch(`http://localhost:8080/api/subject/${subject.id}`, header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
+
+  //  Teachers
+
+  getTeachersFetch(){
+    const header = {
+      method: 'GET',
+    };
+    return fetch('http://localhost:8080/api/teachers', header)
+      .then(res => res.json())
+      .then(json => json)
+      .catch(error => console.error(error));
+  },
+
+  createTeacherFetch(teacher){
+    const header = {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      'Accept': 'application/json'
+      },
+      body: JSON.stringify(teacher),
+    };
+    return fetch('http://localhost:8080/api/teacher', header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
+
+  updateTeacherFetch(teacher){
+    const header = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(subject),
+    };
+    return fetch(`http://localhost:8080/api/teacher/${teacher.id}`, header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
+
+  deleteTeacherFetch(teacher){
+    const header = {
+      method: 'DELETE',
+    };
+    return fetch(`http://localhost:8080/api/teacher/${teacher.id}`, header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
+
 };
 
 

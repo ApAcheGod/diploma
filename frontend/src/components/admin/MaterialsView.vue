@@ -9,14 +9,24 @@ let $q = useQuasar();
 
 let materials = ref();
 
+let teachers = ref();
+let subjects = ref();
+
 const store = inject('store');
 
-let materialPromptOpen = ref(false);
-let materialPrompt = ref();
+let materialPromptIsOpen = ref(false);
 
 onMounted(async () => { 
-  materials.value = (await Promise.allSettled([store.methods.getMaterialsFetch()]))[0].value;
-
+  Promise.allSettled([
+    store.methods.getMaterialsFetch(),
+    store.methods.getTeachersFetch(),
+    store.methods.getSubjectsFetch(),
+    ])
+  .then((results) => {
+    materials.value = results[0].value;
+    teachers.value = results[1].value;
+    subjects.value = results[2].value;
+  });
 });
 
 function triggerPositive(msg) {
@@ -34,38 +44,33 @@ function triggerNegative(msg) {
 }
 
 async function updateMaterial(newMaterial){
-  let updateResult = await store.methods.updateMaterialFetch({
-    id: newMaterial.id,
-    first_name: newMaterial.first_name,
-    last_name: newMaterial.last_name,
-    patronymic: newMaterial.patronymic,
-  });
+  let updateResult = await store.methods.updateMaterialFetch(newMaterial);
   if(updateResult){
     materials.value = await store.methods.getMaterialsFetch();
-    triggerPositive('Информация о студенте успешно обновлена!');
+    triggerPositive('Информация о материале успешно обновлена!');
   }
   else
-    triggerNegative('Не удалось обновить информацию о студенте');
+    triggerNegative('Не удалось обновить информацию о материале');
 }
 
 async function addNewMaterial(newMaterial){
   const createResult = await store.methods.createMaterialFetch(newMaterial);
   if (createResult) {
     materials.value = await store.methods.getMaterialsFetch();
-    triggerPositive('Успешно добавлен новый студент!');
+    triggerPositive('Успешно добавлен новый материал!');
   }
   else
-    triggerNegative('Не удалось добавить студента');
+    triggerNegative('Не удалось добавить материал');
 }
 
 async function deleteMaterial(material){
   const deleteResult = await store.methods.deleteMaterialFetch(material);
   if(deleteResult){
     materials.value = await store.methods.getMaterialsFetch();
-    triggerPositive('Информация о студенте успешно удалена!')
+    triggerPositive('Информация о материалу успешно удалена!')
   }
   else
-    triggerNegative('Не удалось удалить информацию о студенте')
+    triggerNegative('Не удалось удалить информацию о материале')
 }
 
 </script>
@@ -74,6 +79,8 @@ async function deleteMaterial(material){
     <material-card v-for="material in materials"
       v-bind:key="material?.id"
       :material="material"
+      :subjects="subjects"
+      :teachers="teachers"
       @delete-click="deleteMaterial"
       @update-click="updateMaterial"
     />
@@ -84,8 +91,17 @@ async function deleteMaterial(material){
       fab 
       icon="add" 
       color="accent"
-      @click="addNewMaterial"/>
+      @click="materialPromptIsOpen = true"/>
   </q-page-sticky>
+
+  <material-dialog
+    updateButtonLabel="Добавить"
+    :prompt="materialPromptIsOpen"
+    :subjects="subjects"
+    :teachers="teachers"
+    @update-click="addNewMaterial"
+    @prompt-close="materialPromptIsOpen = false"
+  />
 </template>
 <style scoped>
 
