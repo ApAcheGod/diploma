@@ -38,9 +38,15 @@ public class MaterialRest {
         return new ResponseEntity<>(material, HttpStatus.CREATED);
     }
 
-    @PutMapping("/material/{id}")
-    public void update(@PathVariable( "id" ) UUID id, @RequestBody Material material) {
+    @PutMapping("/material")
+    public ResponseEntity<MaterialDto> update(@RequestBody MaterialDto materialDto) {
+        Material material = materialService.findById(materialDto.getId());
+        material.getSubject().setName(materialDto.getSubjectName());
+        material.setText(materialDto.getText());
+        material.setName(materialDto.getName());
         materialService.save(material);
+        return new ResponseEntity<>(materialMapper.toDto(material), HttpStatus.OK);
+
     }
 
     @DeleteMapping("material/{id}")

@@ -38,9 +38,19 @@ public class TaskRest {
         return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/task/{id}")
-    public void update(@PathVariable( "id" ) UUID id, @RequestBody Task task) {
+    @PutMapping(value = "/task")
+    public ResponseEntity<TaskDto> update(@RequestBody TaskDto taskDto) {
+        Task task = taskService.findById(taskDto.getId());
+        task.setText(taskDto.getText());
+        task.setTaskType(taskDto.getTaskType());
+        task.setMax_rating(taskDto.getMax_rating());
+        task.setMin_rating(taskDto.getMin_rating());
+        task.setIsTemporal(taskDto.getIsTemporal());
+        task.setIsMandatory(taskDto.getIsMandatory());
+        task.setCount_of_attempts(taskDto.getCount_of_attempts());
+        task.setLast_date_of_delivery(taskDto.getLast_date_of_delivery());
         taskService.save(task);
+        return new ResponseEntity<>(taskMapper.toDto(task), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "task/{id}")
