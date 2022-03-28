@@ -2,8 +2,6 @@ import { reactive } from 'vue';
 import { useQuasar } from 'quasar'
 import teacherData from '../data/Teacher.json'
 
-// let $q = useQuasar();
-
 const state = reactive(
   {
     teacher : {},
@@ -11,23 +9,6 @@ const state = reactive(
   });
 
 const methods = {
-  // Notifications
-
-  // triggerPositive(msg) {
-  //   console.log($q);
-  //   $q.notify({
-  //     type: 'positive',
-  //     message: msg
-  //   })
-  // },
-  
-  // triggerNegative(msg) {
-  //   $q.notify({
-  //     type: 'negative',
-  //     message: msg
-  //   })
-  // },
-
   // Fetchs
 
   //  Students
@@ -49,7 +30,14 @@ const methods = {
       'Content-Type': 'application/json;charset=utf-8',
       'Accept': 'application/json'
       },
-      body: JSON.stringify(student),
+      body: JSON.stringify(
+        {
+          first_name: student.first_name,
+          last_name: student.last_name,
+          patronymic: student.patronymic,
+          email: student.email
+        }
+      ),
     };
     return fetch('http://localhost:8080/api/student', header)
       .then(res => res.ok)
@@ -65,7 +53,7 @@ const methods = {
       },
       body: JSON.stringify(student),
     };
-    return fetch(`http://localhost:8080/api/student/${student.id}`, header)
+    return fetch(`http://localhost:8080/api/student`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
@@ -114,7 +102,7 @@ const methods = {
       },
       body: JSON.stringify(material),
     };
-    return fetch(`http://localhost:8080/api/material/${material.id}`, header)
+    return fetch(`http://localhost:8080/api/material`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
@@ -163,7 +151,7 @@ const methods = {
       },
       body: JSON.stringify(subject),
     };
-    return fetch(`http://localhost:8080/api/subject/${subject.id}`, header)
+    return fetch(`http://localhost:8080/api/subject`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
@@ -210,9 +198,9 @@ const methods = {
         'Content-Type': 'application/json;charset=utf-8',
         'Accept': 'application/json'
       },
-      body: JSON.stringify(subject),
+      body: JSON.stringify(teacher),
     };
-    return fetch(`http://localhost:8080/api/teacher/${teacher.id}`, header)
+    return fetch(`http://localhost:8080/api/teacher`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
@@ -226,6 +214,54 @@ const methods = {
       .catch(error => console.error(error));
   },
 
+  //  Tasks
+
+  getTasksFetch(){
+    const header = {
+      method: 'GET',
+    };
+    return fetch('http://localhost:8080/api/tasks', header)
+      .then(res => res.json())
+      .then(json => json)
+      .catch(error => console.error(error));
+  },
+
+  createTaskFetch(task){
+    const header = {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      'Accept': 'application/json'
+      },
+      body: JSON.stringify(teacher),
+    };
+    return fetch('http://localhost:8080/api/teacher', header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
+
+  updateTaskFetch(task){
+    const header = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(task),
+    };
+    return fetch(`http://localhost:8080/api/task`, header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
+
+  deleteTaskFetch(task){
+    const header = {
+      method: 'DELETE',
+    };
+    return fetch(`http://localhost:8080/api/task/${task.id}`, header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
 };
 
 

@@ -1,36 +1,36 @@
 <script setup>
 import { computed, ref } from 'vue';
-import StudentDialog from './StudentDialog.vue';
+import TeacherDialog from './TeacherDialog.vue';
 
 const emits = defineEmits(['update-click', 'delete-click']);
 const props = defineProps({
-    student: Object,
-    promptIsOpen: {
-      default: false,
-      type: Boolean,
-    }
+  teacher: Object,
 });
 
 let promptIsOpen = ref(false);
-
-const initials = computed(() => {
-    return `${props.student.first_name[0].toUpperCase()}${props.student.patronymic[0].toUpperCase()}`
-});
 
 </script>
 <template>
   <q-card class="my-card">
     <q-card-section class="bg-secondary text-white">
       <div class="text-h6">   
-        {{props.student.login}}
+        {{props.teacher.login}}
       </div>
-      <div class="text-subtitle2">        
-        {{props.student.last_name}} 
-        {{props.student.first_name}} 
-        {{props.student.patronymic}}
+
+      <div class="text-subtitle2">   
+        {{props.teacher.teacherName}}
       </div>
-      <div class="text-subtitle2">
-        {{props.student.email}}
+
+      <div class="text-subtitle2" v-for="subject in props.teacher.subjects">        
+        {{subject.name}} 
+      </div>
+
+      <div class="text-subtitle2" v-for="room in props.teacher.rooms">        
+        {{room.name}} 
+      </div>
+      
+      <div class="text-subtitle2" v-for="task in props.teacher.tasks">        
+        {{task.name}}
       </div>
     </q-card-section>
     <q-separator />
@@ -44,16 +44,16 @@ const initials = computed(() => {
       <q-btn 
       color="accent" 
       flat
-      @click="() => emits('delete-click', props.student)"
+      @click="() => emits('delete-click', props.teacher)"
       >
       Удалить
       </q-btn>
     </q-card-actions>
-    <student-dialog
+    <teacher-dialog
     :prompt="promptIsOpen"
-    :student="props.student"
+    :teacher="props.teacher"
     @prompt-close="promptIsOpen = false"
-    @update-click="(newStudent) => emits('update-click', newStudent)"
+    @update-click="(newTeacher) => emits('update-click', newTeacher)"
     />
   </q-card>
 </template>

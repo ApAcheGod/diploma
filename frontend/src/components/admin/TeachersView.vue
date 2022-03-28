@@ -1,20 +1,19 @@
 <script setup>
 import { onMounted, ref, inject } from 'vue';
 import { useQuasar } from 'quasar'
-import StudentCard from './StudentCard.vue';
-import StudentDialog from './StudentDialog.vue';
+import teacherCard from './teacherCard.vue';
+import teacherDialog from './teacherDialog.vue';
 
 let $q = useQuasar();
 
-let students = ref();
+let teachers = ref();
 
 const store = inject('store');
 
-let studentPromptIsOpen = ref(false);
+let teacherPromptIsOpen = ref(false);
 
 onMounted(async () => { 
-  students.value = (await Promise.allSettled([store.methods.getStudentsFetch()]))[0].value;
-
+  teachers.value = (await Promise.allSettled([store.methods.getTeachersFetch()]))[0].value;
 });
 
 function triggerPositive(msg) {
@@ -31,37 +30,30 @@ function triggerNegative(msg) {
   })
 }
 
-async function updateStudent(newStudent){
-  let updateResult = await store.methods.updateStudentFetch({
-    id: newStudent.id,
-    first_name: newStudent.first_name,
-    last_name: newStudent.last_name,
-    patronymic: newStudent.patronymic,
-  });
+async function updateTeacher(newTeacher){
+  let updateResult = await store.methods.updateTeacherFetch(newTeacher);
   if(updateResult){
-    students.value = await store.methods.getStudentsFetch();
+    teachers.value = await store.methods.getTeachersFetch();
     triggerPositive('Информация о студенте успешно обновлена!');
-    studentPromptIsOpen.value = false;
   }
   else
     triggerNegative('Не удалось обновить информацию о студенте');
 }
 
-async function addNewStudent(newStudent){
-  const createResult = await store.methods.createStudentFetch(newStudent);
+async function addNewTeacher(newteacher){
+  const createResult = await store.methods.createTeacherFetch(newteacher);
   if (createResult) {
-    students.value = await store.methods.getStudentsFetch();
+    teachers.value = await store.methods.getTeachersFetch();
     triggerPositive('Успешно добавлен новый студент!');
-    studentPromptIsOpen.value = false;
   }
   else
     triggerNegative('Не удалось добавить студента');
 }
 
-async function deleteStudent(student){
-  const deleteResult = await store.methods.deleteStudentFetch(student);
+async function deleteTeacher(teacher){
+  const deleteResult = await store.methods.deleteTeacherFetch(teacher);
   if(deleteResult){
-    students.value = await store.methods.getStudentsFetch();
+    teachers.value = await store.methods.getTeachersFetch();
     triggerPositive('Информация о студенте успешно удалена!')
   }
   else
@@ -71,11 +63,11 @@ async function deleteStudent(student){
 </script>
 <template>
   <transition-group name="list" >
-    <student-card v-for="student in students"
-      v-bind:key="student?.id"
-      :student="student"
-      @delete-click="deleteStudent"
-      @update-click="updateStudent"
+    <teacher-card v-for="teacher in teachers"
+      v-bind:key="teacher?.id"
+      :teacher="teacher"
+      @delete-click="deleteTeacher"
+      @update-click="updateTeacher"
     />
   </transition-group>
 
@@ -84,14 +76,14 @@ async function deleteStudent(student){
       fab 
       icon="add" 
       color="accent"
-      @click="studentPromptIsOpen = true"/>
+      @click="teacherPromptIsOpen = true"/>
   </q-page-sticky>
 
-  <student-dialog
-    :prompt="studentPromptIsOpen"
+  <teacher-dialog
+    :prompt="teacherPromptIsOpen"
     updateButtonLabel="Добавить"
-    @update-click="addNewStudent"
-    @prompt-close="studentPromptIsOpen = false"
+    @update-click="addNewTeacher"
+    @prompt-close="teacherPromptIsOpen = false"
   />
 </template>
 <style scoped>
