@@ -9,6 +9,19 @@ const state = reactive(
   });
 
 const methods = {
+
+  // Helpers
+
+  idArrToObjs(array){
+    array = array.map((m) => {
+      if (typeof m === 'string' || m instanceof String)
+        return {
+          id: m,
+        };
+      return m;
+    });
+  },
+
   // Fetchs
 
   //  Students
@@ -233,9 +246,9 @@ const methods = {
       'Content-Type': 'application/json;charset=utf-8',
       'Accept': 'application/json'
       },
-      body: JSON.stringify(teacher),
+      body: JSON.stringify(task),
     };
-    return fetch('http://localhost:8080/api/teacher', header)
+    return fetch('http://localhost:8080/api/task', header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
@@ -262,6 +275,55 @@ const methods = {
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
+
+    //  Rooms
+
+    getRoomsFetch(){
+      const header = {
+        method: 'GET',
+      };
+      return fetch('http://localhost:8080/api/rooms', header)
+        .then(res => res.json())
+        .then(json => json)
+        .catch(error => console.error(error));
+    },
+  
+    createRoomFetch(room){
+      const header = {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json'
+        },
+        body: JSON.stringify(room),
+      };
+      return fetch('http://localhost:8080/api/room', header)
+        .then(res => res.ok)
+        .catch(error => console.error(error));
+    },
+  
+    updateRoomFetch(room){
+      const header = {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(room),
+      };
+      return fetch(`http://localhost:8080/api/room`, header)
+        .then(res => res.ok)
+        .catch(error => console.error(error));
+    },
+  
+    deleteRoomFetch(room){
+      const header = {
+        method: 'DELETE',
+      };
+      return fetch(`http://localhost:8080/api/room/${room.id}`, header)
+        .then(res => res.ok)
+        .catch(error => console.error(error));
+    },
 };
 
 

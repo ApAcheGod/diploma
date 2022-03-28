@@ -1,6 +1,8 @@
 <script setup>
  
-import { onMounted, ref, watch, computed } from "vue";
+import { onMounted, ref, watch, computed, inject } from "vue";
+
+const store = inject('store');
 
 const emits = defineEmits(['update-click', 'prompt-close']);
 
@@ -17,7 +19,6 @@ const props = defineProps({
 });
 
 let newSubject = ref({
-  id: null,
   name: null,
   teacherId:  null,
   teacherName:  null,
@@ -45,26 +46,9 @@ const teacherOptions = computed(() => {
 
 const newSubjectFormatted = computed(() => {
   let newSubjectFormatted = JSON.parse(JSON.stringify(newSubject.value));
-  if (!newSubjectFormatted.id)
-    delete newSubjectFormatted.id
 
-  newSubjectFormatted.materials = newSubjectFormatted.materials.map((m) => {
-    if (typeof m === 'string' || m instanceof String)
-      return {
-        id: m,
-      }
-    else 
-      return m;
-  });
-
-  newSubjectFormatted.tasks = newSubjectFormatted.tasks.map((t) => {
-    if (typeof t === 'string' || t instanceof String)
-      return {
-        id: t,
-      }
-    else 
-      return t;
-  });
+  newSubjectFormatted.materials = store.methods.idArrToObjs(newSubjectFormatted.materials);
+  newSubjectFormatted.tasks = store.methods.idArrToObjs(newSubjectFormatted.tasks);
 
   return newSubjectFormatted;
 });
@@ -110,17 +94,17 @@ const newSubjectFormatted = computed(() => {
           :options="props.materials"
           v-model="newSubject.materials"
         >
-        <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
-          <q-item v-bind="itemProps">
-            <q-item-section>
-              <q-item-label v-html="opt.name" />
-            </q-item-section>
-            <q-item-section side>
-              <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
-            </q-item-section>
-          </q-item>
-        </template>
-      </q-select>
+          <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
+            <q-item v-bind="itemProps">
+              <q-item-section>
+                <q-item-label v-html="opt.name" />
+              </q-item-section>
+              <q-item-section side>
+                <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
       </q-card-section>
 
       <q-card-section class="q-pt-none">

@@ -7,13 +7,30 @@ import teacherDialog from './teacherDialog.vue';
 let $q = useQuasar();
 
 let teachers = ref();
+let subjects = ref();
+let tasks = ref();
+let materials = ref();
+let rooms = ref();
 
 const store = inject('store');
 
 let teacherPromptIsOpen = ref(false);
 
 onMounted(async () => { 
-  teachers.value = (await Promise.allSettled([store.methods.getTeachersFetch()]))[0].value;
+  Promise.allSettled([
+    store.methods.getTeachersFetch(),
+    store.methods.getSubjectsFetch(),
+    store.methods.getTasksFetch(),
+    store.methods.getMaterialsFetch(),
+    store.methods.getRoomsFetch(),
+    ])
+  .then((results) => {
+    teachers.value = results[0].value;
+    subjects.value = results[1].value;
+    tasks.value = results[2].value;
+    materials.value = results[3].value;
+    rooms.value = results[4].value;
+  });
 });
 
 function triggerPositive(msg) {
@@ -66,6 +83,10 @@ async function deleteTeacher(teacher){
     <teacher-card v-for="teacher in teachers"
       v-bind:key="teacher?.id"
       :teacher="teacher"
+      :subjects="subjects"
+      :tasks="tasks"
+      :materials="materials"
+      :rooms="rooms"
       @delete-click="deleteTeacher"
       @update-click="updateTeacher"
     />
@@ -80,8 +101,12 @@ async function deleteTeacher(teacher){
   </q-page-sticky>
 
   <teacher-dialog
-    :prompt="teacherPromptIsOpen"
     updateButtonLabel="Добавить"
+    :subjects="subjects"
+    :tasks="tasks"
+    :materials="materials"
+    :rooms="rooms"
+    :prompt="teacherPromptIsOpen"
     @update-click="addNewTeacher"
     @prompt-close="teacherPromptIsOpen = false"
   />

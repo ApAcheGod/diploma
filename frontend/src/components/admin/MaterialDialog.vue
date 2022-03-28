@@ -16,11 +16,10 @@ const props = defineProps({
 });
 
 let newMaterial = ref({
-  id: '',
-  name: '',
-  text:  '',
-  teacherId:  '',
-  subjectId:  '',
+  name: null,
+  text:  null,
+  teacherId:  null,
+  subjectId:  null,
 });
 
 onMounted(() => {
