@@ -35,7 +35,7 @@ public class Room {
     @ToString.Exclude
     private Teacher teacher;
 
-    @ManyToMany(mappedBy = "rooms", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "rooms")
     @ToString.Exclude
     private Set<Group> groups = new HashSet<>();
 
@@ -70,5 +70,12 @@ public class Room {
         subjects.forEach(this::addSubjects);
     }
 
-
+//    public void addGroups(Group group){
+//        groups.add(group);
+//        group.getRooms().add(this);
+//    }
+//
+//    public void addGroups(Set<Group> groups){
+//        groups.forEach(this::addGroups);
+//    }
 }

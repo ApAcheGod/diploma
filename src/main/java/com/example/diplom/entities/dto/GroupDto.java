@@ -1,5 +1,6 @@
 package com.example.diplom.entities.dto;
 
+import com.example.diplom.entities.dto.to.Room2Dto;
 import com.example.diplom.entities.dto.to.Student2Dto;
 import com.example.diplom.entities.dto.to.Subject2Dto;
 import com.example.diplom.entities.dto.to.Task2Dto;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", scope = GroupDto.class)
 public class GroupDto {
 
     private UUID id;
@@ -35,8 +36,8 @@ public class GroupDto {
 //    @JsonInclude(JsonInclude.Include.NON_EMPTY)
 //    private Set<Teacher2Dto> teachers = new HashSet<>();
 
-//    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-//    private Set<Room2Dto> rooms = new HashSet<>();
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private Set<Room2Dto> rooms = new HashSet<>();
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<Task2Dto> tasks = new HashSet<>();
