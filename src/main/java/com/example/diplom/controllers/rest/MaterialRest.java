@@ -40,8 +40,10 @@ public class MaterialRest {
 
     @PutMapping("/material")
     public ResponseEntity<MaterialDto> update(@RequestBody MaterialDto materialDto) {
+        Material materialTemplate = materialMapper.toEntity(materialDto);
         Material material = materialService.findById(materialDto.getId());
-        material.getSubject().setName(materialDto.getSubjectName());
+        material.setTeacher(materialTemplate.getTeacher());
+        material.setSubject(materialTemplate.getSubject());
         material.setText(materialDto.getText());
         material.setName(materialDto.getName());
         materialService.save(material);

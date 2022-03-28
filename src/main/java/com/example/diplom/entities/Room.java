@@ -30,16 +30,16 @@ public class Room {
     @Column(name = "room_name")
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     @ToString.Exclude
     private Teacher teacher;
 
-    @ManyToMany(mappedBy = "rooms", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "rooms", fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Group> groups = new HashSet<>();
 
-    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, orphanRemoval = true)
     @ToString.Exclude
     private Set<Subject> subjects = new HashSet<>();
 

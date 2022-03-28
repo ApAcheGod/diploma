@@ -34,7 +34,7 @@ public class Examination {
     @CreatedDate
     private LocalDateTime dateOfValuation;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Solution solution;
 

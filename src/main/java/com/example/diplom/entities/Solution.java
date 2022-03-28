@@ -37,11 +37,11 @@ public class Solution {
 
 //    private int count_of_attempts; // количество сдачь  // TODO перенести в новую сущность оценки решения
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
     private Student student;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
     private Task task;
 
