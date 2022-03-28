@@ -13,13 +13,16 @@ const methods = {
   // Helpers
 
   idArrToObjs(array){
-    array = array.map((m) => {
-      if (typeof m === 'string' || m instanceof String)
-        return {
-          id: m,
-        };
-      return m;
-    });
+    if (array) {
+      return array.map((m) => {
+        if (typeof m === 'string' || m instanceof String)
+          return {
+            id: m,
+          };
+        return m;
+      });
+    }
+    return [];
   },
 
   // Fetchs

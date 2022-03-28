@@ -26,7 +26,7 @@ const toggleLeftDrawer = () => {
     <q-drawer v-model="leftDrawerOpen" side="left" overlay elevated>
 
       <q-list bordered separator>
-        <q-item clickable v-ripple :to="{ name: 'AdminStudents' }"  @click="() => {}">
+        <q-item clickable v-ripple :to="{ name: 'AdminStudents' }">
           Студенты
         </q-item>
 
@@ -42,12 +42,16 @@ const toggleLeftDrawer = () => {
           <q-item-label>Преподаватели</q-item-label>
         </q-item>
 
-        <q-item clickable v-ripple>
+        <q-item clickable v-ripple :to="{ name: 'AdminTasks' }">
           <q-item-label>Задания</q-item-label>
         </q-item>
 
-        <q-item clickable v-ripple>
+        <q-item clickable v-ripple :to="{ name: 'AdminGroups' }">
           <q-item-label>Группы</q-item-label>
+        </q-item>
+
+        <q-item clickable v-ripple>
+          <q-item-label>Комнаты</q-item-label>
         </q-item>
 
       </q-list>

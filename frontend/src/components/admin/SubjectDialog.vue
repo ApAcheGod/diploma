@@ -18,23 +18,11 @@ const props = defineProps({
   teachers: Array,
 });
 
-let newSubject = ref({
-  name: null,
-  teacherId:  null,
-  teacherName:  null,
-  materials: [],
-  tasks: [],
-});
+let newSubject = ref({});
 
 onMounted(() => {
-  if (props.subject) {
-    newSubject.value.id =  props.subject.id;
-    newSubject.value.name =  props.subject.name;
-    newSubject.value.teacherId =  props.subject.teacherId;
-    newSubject.value.teacherName =  props.subject.teacherName;
-    newSubject.value.materials =  props.subject.materials;
-    newSubject.value.tasks =  props.subject.tasks;
-  }
+  if (props.subject)
+    newSubject.value = JSON.parse(JSON.stringify(props.subject));
 });
 
 const teacherOptions = computed(() => {
