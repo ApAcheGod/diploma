@@ -32,23 +32,23 @@ public class Group {
     @NaturalId(mutable = true)
     private String name;
 
-    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Student> students = new HashSet<>();
 
-    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "groups")
     @ToString.Exclude
     private Set<Subject> subjects = new HashSet<>();
 
-    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Teacher> teachers = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Room> rooms = new HashSet<>();
 
-    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "groups")
     @ToString.Exclude
     private Set<Task> tasks = new HashSet<>();
 
@@ -94,29 +94,19 @@ public class Group {
         tasks.forEach(this::addTasks);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Group group = (Group) o;
-
-        if (id != null ? !id.equals(group.id) : group.id != null) return false;
-        if (name != null ? !name.equals(group.name) : group.name != null) return false;
-        if (students != null ? !students.equals(group.students) : group.students != null) return false;
-        if (subjects != null ? !subjects.equals(group.subjects) : group.subjects != null) return false;
-        if (teachers != null ? !teachers.equals(group.teachers) : group.teachers != null) return false;
-        return rooms != null ? rooms.equals(group.rooms) : group.rooms == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (students != null ? students.hashCode() : 0);
-        result = 31 * result + (subjects != null ? subjects.hashCode() : 0);
-        result = 31 * result + (teachers != null ? teachers.hashCode() : 0);
-        result = 31 * result + (rooms != null ? rooms.hashCode() : 0);
-        return result;
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//
+//        Group group = (Group) o;
+//
+//        if (id != null ? !id.equals(group.id) : group.id != null) return false;
+//        return name != null ? name.equals(group.name) : group.name == null;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return id != null ? id.hashCode() : 0;
+//    }
 }

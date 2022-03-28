@@ -171,9 +171,9 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>5.2.4</version>
                 <configuration>
-                    <url>jdbc:postgresql://ec2-99-80-170-190.eu-west-1.compute.amazonaws.com:5432/deeuh34r19ovof?currentSchema=diploma</url>
-                    <user>odctzegvjnyfwc</user>
-                    <password>b5340382fcf985089bfecef43bdb102c666880d4a507dd4a133930df2a3cfbaa</password>
+                    <url>jdbc:postgresql://ec2-34-242-84-130.eu-west-1.compute.amazonaws.com:5432/d7ssqet6el01rt?currentSchema=diploma</url>
+                    <user>wevzdiibabwqcf</user>
+                    <password>dd60fa2d22c3d4b2666cc008152c3ae1367bb9450c6c24cc1184758f2e65ae52</password>
                     <schemas>
                         <schema>diploma</schema>
                     </schemas>

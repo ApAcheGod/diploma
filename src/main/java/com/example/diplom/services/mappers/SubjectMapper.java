@@ -2,8 +2,7 @@ package com.example.diplom.services.mappers;
 
 import com.example.diplom.entities.Subject;
 import com.example.diplom.entities.dto.SubjectDto;
-import com.example.diplom.services.RoomService;
-import com.example.diplom.services.TeacherService;
+import com.example.diplom.services.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -20,6 +19,9 @@ public class SubjectMapper {
 
     private final RoomService roomService;
     private final TeacherService teacherService;
+    private final GroupService groupService;
+    private final MaterialService materialService;
+    private final TaskService taskService;
 
     @PostConstruct
     public void setupMapper(){
@@ -81,6 +83,19 @@ public class SubjectMapper {
         if (source.getTeacherId() != null){
             destination.addTeacher(teacherService.findById(source.getTeacherId()));
         }
+
+        if (source.getGroups() != null){
+            source.getGroups().forEach(group2Dto ->  destination.setGroups(groupService.findById(group2Dto.getId())));
+        }
+
+        if (source.getMaterials() != null){
+            source.getMaterials().forEach(materialDto ->  destination.addMaterials(materialService.findById(materialDto.getId())));
+        }
+
+        if (source.getTasks() != null){
+            source.getTasks().forEach(task2Dto ->  destination.addTasks(taskService.findById(task2Dto.getId())));
+        }
+
     }
 
     public Subject toEntity(SubjectDto subjectDto){
