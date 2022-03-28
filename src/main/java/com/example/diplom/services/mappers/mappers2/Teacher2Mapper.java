@@ -44,11 +44,7 @@ public class Teacher2Mapper {
 
     private void mapSpecificFields(Teacher source, Teacher2Dto destination) {
 
-        destination.setTeacherName(source.getLast_name() + " " + source.getFirst_name() + " " + source.getPatronymic());
-
-        destination.setFirst_name(null);
-        destination.setLast_name(null);
-        destination.setPatronymic(null);
+        destination.setTeacherName(source.getTeacherName());
     }
 
     private void mapSpecificFields(Teacher2Dto source, Teacher destination) {

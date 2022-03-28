@@ -55,15 +55,15 @@ public class MaterialMapper {
 
     private void mapSpecificFields(Material source, MaterialDto destination) {
 
-        destination.setTeacherName(source.getTeacher().getTeacherName());
-        destination.setSubjectName(source.getSubject().getName());
 
         if (source.getSubject() != null){
             destination.setSubjectId(source.getSubject().getId());
+            destination.setSubjectName(source.getSubject().getName());
         }
 
         if (source.getTeacher() != null){
             destination.setTeacherId(source.getTeacher().getId());
+            destination.setTeacherName(source.getTeacher().getTeacherName());
         }
     }
 
