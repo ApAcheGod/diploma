@@ -2,7 +2,7 @@ package com.example.diplom.services.mappers;
 
 import com.example.diplom.entities.Teacher;
 import com.example.diplom.entities.dto.TeacherDto;
-import com.example.diplom.services.TeacherService;
+import com.example.diplom.services.*;
 import com.example.diplom.services.mappers.mappers2.Group2Mapper;
 import com.example.diplom.services.mappers.mappers2.Room2Mapper;
 import com.example.diplom.services.mappers.mappers2.Subject2Mapper;
@@ -26,8 +26,11 @@ public class TeacherMapper {
     private final Subject2Mapper subject2Mapper;
     private final Group2Mapper group2Mapper;
     private final Task2Mapper task2Mapper;
-//    private final GroupMapper groupMapper;
-//    private final GroupService groupService;
+    private final RoomService roomService;
+    private final SubjectService subjectService;
+    private final MaterialService materialService;
+    private final TaskService taskService;
+    private final MaterialMapper materialMapper;
 
     @PostConstruct
     public void setupMapper(){
@@ -70,8 +73,8 @@ public class TeacherMapper {
 
         destination.setFirst_name(null);
         destination.setLast_name(null);
-        destination.setPatronymic(null)
-        ;
+        destination.setPatronymic(null);
+
         if (source.getRooms() != null){
             destination.setRooms(source.getRooms().stream().map(room2Mapper::toDto).collect(Collectors.toSet()));
         }
@@ -79,20 +82,33 @@ public class TeacherMapper {
             destination.setSubjects(source.getSubjects().stream().map(subject2Mapper::toDto).collect(Collectors.toSet()));
         }
 
-//        if (source.getGroups() != null){
-//            destination.setGroups(source.getGroups().stream().map(group2Mapper::toDto).collect(Collectors.toSet()));
-//        }
         if (source.getTasks() != null){
             destination.setTasks(source.getTasks().stream().map(task2Mapper::toDto).collect(Collectors.toSet()));
+        }
+
+        if (source.getMaterials() != null){
+            destination.setMaterials(source.getMaterials().stream().map(materialMapper::toDto).collect(Collectors.toSet()));
         }
     }
 
     private void mapSpecificFields(TeacherDto source, Teacher destination) {
 
-//        if (source.getRooms() != null){
-//            destination.addSubjects(subjectService.findById(source.getSubjectId()));
-//        }
+        if (source.getRooms() != null){
+            source.getRooms().forEach(room2Dto ->  destination.addRooms(roomService.findById(room2Dto.getId())));
+        }
 
+        if (source.getSubjects() != null){
+            source.getSubjects().forEach(subject2Dto ->  destination.addSubjects(subjectService.findById(subject2Dto.getId())));
+        }
+
+        if (source.getMaterials() != null){
+            source.getMaterials().forEach(materialDto ->  destination.addMaterials(materialService.findById(materialDto.getId())));
+
+        }
+
+        if (source.getTasks() != null){
+            source.getTasks().forEach(task2Dto ->  destination.addTasks(taskService.findById(task2Dto.getId())));
+        }
     }
 
 

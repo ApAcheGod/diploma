@@ -2,6 +2,7 @@ package com.example.diplom.controllers.rest;
 
 import com.example.diplom.entities.Teacher;
 import com.example.diplom.entities.dto.TeacherDto;
+import com.example.diplom.repositories.RoleRepository;
 import com.example.diplom.services.CreateLoginService;
 import com.example.diplom.services.CreatePasswordService;
 import com.example.diplom.services.TeacherService;
@@ -23,6 +24,7 @@ public class TeacherRest {
     private final TeacherService teacherService;
     private final TeacherMapper teacherMapper;
     private final CreateLoginService loginService;
+    private final RoleRepository roleRepository;
     private final CreatePasswordService passwordService;
 
     @GetMapping("/teachers")
@@ -40,6 +42,7 @@ public class TeacherRest {
         Teacher teacher = teacherMapper.toEntity(teacherDto);
         loginService.createLoginForUser(teacher);
         teacher.setPassword(passwordService.createPassword());
+        teacher.setRoles(List.of(roleRepository.findRoleByRoleName("ROLE_TEACHER")));
         teacherService.save(teacher);
         return new ResponseEntity<>(teacher, HttpStatus.CREATED);
     }
