@@ -62,4 +62,10 @@ public class TeacherRest {
     public void delete(@PathVariable("id") UUID id) {
         teacherService.deleteById(id);
     }
+
+    @GetMapping(value = "/testMethod")
+    public ResponseEntity<Teacher> testMethod(@RequestBody TeacherDto teacherDto) {
+        return new ResponseEntity<>(teacherMapper.toEntity(teacherDto), HttpStatus.OK);
+    }
+
 }

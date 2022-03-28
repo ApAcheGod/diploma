@@ -71,10 +71,6 @@ public class TeacherMapper {
 
         destination.setTeacherName(source.getLast_name() + " " + source.getFirst_name() + " " + source.getPatronymic());
 
-        destination.setFirst_name(null);
-        destination.setLast_name(null);
-        destination.setPatronymic(null);
-
         if (source.getRooms() != null){
             destination.setRooms(source.getRooms().stream().map(room2Mapper::toDto).collect(Collectors.toSet()));
         }
