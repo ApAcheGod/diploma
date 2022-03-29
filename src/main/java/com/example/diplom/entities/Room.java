@@ -39,7 +39,7 @@ public class Room {
     @ToString.Exclude
     private Set<Group> groups = new HashSet<>();
 
-    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Subject> subjects = new HashSet<>();
 

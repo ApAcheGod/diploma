@@ -44,7 +44,7 @@ public class Student extends User{
     @ToString.Exclude
     private Group group;
 
-    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Solution> solutions = new HashSet<>();
 

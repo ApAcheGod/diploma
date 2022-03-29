@@ -37,11 +37,11 @@ public class Subject {
     @ToString.Exclude
     private Teacher teacher;
 
-    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Material> materials = new HashSet<>();
 
-    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Task> tasks = new HashSet<>();
 
