@@ -24,7 +24,6 @@ public class SubjectRest {
     @GetMapping("/subjects")
     public List<SubjectDto> allSubjects(){
         return subjectService.findAll().stream().map(subjectMapper::toDto).collect(Collectors.toList());
-
     }
 
     @GetMapping("/subject/{id}")
@@ -33,16 +32,15 @@ public class SubjectRest {
     }
 
     @PostMapping("/subject")
-    public ResponseEntity<Subject> create(@RequestBody SubjectDto subjectDto) {
+    public ResponseEntity<SubjectDto> create(@RequestBody SubjectDto subjectDto) {
         Subject subject = subjectMapper.toEntity(subjectDto);
         subjectService.save(subject);
-        return new ResponseEntity<>(subject, HttpStatus.CREATED);
+        return new ResponseEntity<>(subjectMapper.toDto(subject), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/subject")
     public ResponseEntity<SubjectDto> update(@RequestBody SubjectDto subjectDto) {
-        Subject subject = subjectService.findById(subjectDto.getId());
-        subject.setName(subjectDto.getName());
+        Subject subject = subjectMapper.toEntity(subjectDto);
         subjectService.save(subject);
         return new ResponseEntity<>(subjectMapper.toDto(subject), HttpStatus.OK);
     }

@@ -55,15 +55,16 @@ public class SolutionMapper {
 
     private void mapSpecificFields(Solution source, SolutionDto destination) {
 
-        destination.setStudentName(source.getStudent().getName());
-        destination.setTaskName(source.getTask().getName());
+
 
         if (source.getStudent() != null){
+            destination.setStudentName(source.getStudent().getName());
             destination.setStudentId(source.getStudent().getId());
         }
 
         if (source.getTask() != null){
             destination.setTaskId(source.getTask().getId());
+            destination.setTaskName(source.getTask().getName());
         }
     }
 

@@ -2,14 +2,8 @@ package com.example.diplom.services.mappers;
 
 import com.example.diplom.entities.Group;
 import com.example.diplom.entities.dto.GroupDto;
-import com.example.diplom.services.RoomService;
-import com.example.diplom.services.StudentService;
-import com.example.diplom.services.SubjectService;
-import com.example.diplom.services.TeacherService;
-import com.example.diplom.services.mappers.mappers2.Student2Mapper;
-import com.example.diplom.services.mappers.mappers2.Subject2Mapper;
-import com.example.diplom.services.mappers.mappers2.Task2Mapper;
-import com.example.diplom.services.mappers.mappers2.Teacher2Mapper;
+import com.example.diplom.services.*;
+import com.example.diplom.services.mappers.mappers2.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -32,6 +26,8 @@ public class GroupMapper {
 
     private final StudentService studentService;
     private final SubjectService subjectService;
+    private final TaskService taskService;
+    private final Room2Mapper room2Mapper;
     private final TeacherService teacherService;
     private final RoomService roomService;
 
@@ -42,13 +38,13 @@ public class GroupMapper {
     public void setupMapper(){
         modelMapper.createTypeMap(Group.class, GroupDto.class)
                 .addMappings(m -> m.skip(GroupDto::setStudents))
-//                .addMappings(m -> m.skip(GroupDto::setRooms))
+                .addMappings(m -> m.skip(GroupDto::setRooms))
                 .addMappings(m -> m.skip(GroupDto::setSubjects))
                 .addMappings(m -> m.skip(GroupDto::setTasks))
 //                .addMappings(m -> m.skip(GroupDto::setTeachers))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(GroupDto.class, Group.class)
-//                .addMappings(m -> m.skip(Group::setRooms))
+                .addMappings(m -> m.skip(Group::setRooms))
                 .addMappings(m -> m.skip(Group::setStudents))
                 .addMappings(m -> m.skip(Group::setSubjects))
 //                .addMappings(m -> m.skip(Group::setTeachers))
@@ -77,6 +73,11 @@ public class GroupMapper {
 
     private void mapSpecificFields(Group source, GroupDto destination) {
 
+        if (source.getRooms() != null){
+            destination.setRooms(source.getRooms().stream().map(room2Mapper::toDto).collect(Collectors.toSet()));
+        }
+
+
         if (source.getTasks() != null){
             destination.setTasks(source.getTasks().stream().map(task2Mapper::toDto).collect(Collectors.toSet()));
         }
@@ -85,24 +86,28 @@ public class GroupMapper {
             destination.setSubjects(source.getSubjects().stream().map(subject2Mapper::toDto).collect(Collectors.toSet()));
         }
 
-//        if (source.getTeachers() != null){
-//            destination.setTeachers(source.getTeachers().stream().map(teacher2Mapper::toDto).collect(Collectors.toSet()));
-//        }
-
         if (source.getStudents() != null){
             destination.setStudents(source.getStudents().stream().map(student2Mapper::toDto).collect(Collectors.toSet()));
         }
-
-//        if (source.getRooms() != null){
-//            destination.setRooms(source.getRooms().stream().map(room2Mapper::toDto).collect(Collectors.toSet()));
-//        }
     }
 
     private void mapSpecificFields(GroupDto source, Group destination) {
 
-//        if (source.getTasks() != null){
-//            source.getTasks().forEach(t -> destination.addTasks(taskService.findById(t.getId())));
-//        }
+        if (source.getStudents() != null){
+            source.getStudents().forEach(student2Dto -> destination.addStudents(studentService.findById(student2Dto.getId())));
+        }
+
+        if (source.getRooms() != null){
+            source.getRooms().forEach(room2Dto -> destination.addRooms(roomService.findById(room2Dto.getId())));
+        }
+
+        if (source.getSubjects() != null){
+            source.getSubjects().forEach(subject2Dto -> destination.addSubjects(subjectService.findById(subject2Dto.getId())));
+        }
+
+        if (source.getTasks() != null){
+            source.getTasks().forEach(task2Dto -> destination.addTasks(taskService.findById(task2Dto.getId())));
+        }
 
     }
 

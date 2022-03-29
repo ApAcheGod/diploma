@@ -39,16 +39,15 @@ public class SolutionRest {
 //            "taskId": "bade7bd8-f95e-440e-a0a5-07a0fa9a9987"
 //    }
     @PostMapping("/solution")
-    public ResponseEntity<Solution> create(@RequestBody SolutionDto solutionDto) {
+    public ResponseEntity<SolutionDto> create(@RequestBody SolutionDto solutionDto) {
         Solution solution = solutionMapper.toEntity(solutionDto);
         solutionService.save(solution);
-        return new ResponseEntity<>(solution, HttpStatus.CREATED);
+        return new ResponseEntity<>(solutionMapper.toDto(solution), HttpStatus.CREATED);
     }
 
     @PutMapping("/solution")
     public ResponseEntity<SolutionDto> update(@RequestBody SolutionDto solutionDto) {
-        Solution solution = solutionService.findById(solutionDto.getId());
-        solution.setText(solutionDto.getText());
+        Solution solution = solutionMapper.toEntity(solutionDto);
         solutionService.save(solution);
         return new ResponseEntity<>(solutionMapper.toDto(solution), HttpStatus.OK);
     }

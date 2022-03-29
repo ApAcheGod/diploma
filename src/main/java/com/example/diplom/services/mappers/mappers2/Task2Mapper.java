@@ -51,9 +51,7 @@ public class Task2Mapper {
 
     private void mapSpecificFields(Task source, Task2Dto destination) {
 
-        destination.setTeacherName(source.getTeacher().getLast_name()
-                + " " + source.getTeacher().getFirst_name()
-                + " " + source.getTeacher().getPatronymic());
+        destination.setTeacherName(source.getTeacher().getTeacherName());
 
         destination.setSubjectName(source.getSubject().getName());
 

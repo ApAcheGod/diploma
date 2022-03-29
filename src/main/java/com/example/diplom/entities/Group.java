@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
-import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -29,10 +28,10 @@ public class Group {
 
 //    @NotNull(message = "Название группы не может быть пустым")
     @Column(name = "group_name")
-    @NaturalId(mutable = true)
+//    @NaturalId(mutable = true)
     private String name;
 
-    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
     @ToString.Exclude
     private Set<Student> students = new HashSet<>();
 
@@ -44,7 +43,12 @@ public class Group {
     @ToString.Exclude
     private Set<Teacher> teachers = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(cascade = { CascadeType.MERGE } )
+    @JoinTable(
+            name = "groups_rooms",
+            joinColumns = {@JoinColumn(name = "groups_id")},
+            inverseJoinColumns = {@JoinColumn(name = "rooms_id")}
+    )
     @ToString.Exclude
     private Set<Room> rooms = new HashSet<>();
 
@@ -86,6 +90,14 @@ public class Group {
     public void addRooms(Set<Room> rooms){
         rooms.forEach(this::addRooms);
     }
+
+//    public void setRooms(Room room){
+//        this.rooms.add(room);
+//    }
+//    public void setRooms(Set<Room> rooms){
+//        this.
+//    }
+
     public void addTasks(Task task){
         tasks.add(task);
         task.getGroups().add(this);

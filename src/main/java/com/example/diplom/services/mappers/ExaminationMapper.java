@@ -42,6 +42,7 @@ public class ExaminationMapper {
                 .addMappings(m -> m.skip(ExaminationDto::setDateOfValuation))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(ExaminationDto.class, Examination.class)
+                .addMappings(m -> m.skip(Examination::setExaminationStatus))
                 .setPostConverter(toEntityConverter());
     }
 

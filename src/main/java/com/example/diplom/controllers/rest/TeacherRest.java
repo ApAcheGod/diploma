@@ -49,11 +49,7 @@ public class TeacherRest {
 
     @PutMapping(value = "/teacher")
     public ResponseEntity<TeacherDto> update(@RequestBody TeacherDto teacherDto) {
-        Teacher teacher = teacherService.findById(teacherDto.getId());
-        teacher.setFirst_name(teacherDto.getFirst_name());
-        teacher.setLast_name(teacherDto.getLast_name());
-        teacher.setPatronymic(teacherDto.getPatronymic());
-        teacher.setEmail(teacherDto.getEmail());
+        Teacher teacher = teacherMapper.toEntity(teacherDto);
         teacherService.save(teacher);
         return new ResponseEntity<>(teacherMapper.toDto(teacher), HttpStatus.OK);
     }
