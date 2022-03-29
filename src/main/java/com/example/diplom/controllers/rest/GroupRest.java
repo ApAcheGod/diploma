@@ -32,16 +32,15 @@ public class GroupRest {
     }
 
     @PostMapping("/group")
-    public ResponseEntity<Group> create(@RequestBody GroupDto groupDto) {
+    public ResponseEntity<GroupDto> create(@RequestBody GroupDto groupDto) {
         Group group = groupMapper.toEntity(groupDto);
         groupService.save(group);
-        return new ResponseEntity<>(group, HttpStatus.CREATED);
+        return new ResponseEntity<>(groupMapper.toDto(group), HttpStatus.CREATED);
     }
 
     @PutMapping("/group")
     public ResponseEntity<GroupDto> update(@RequestBody GroupDto groupDto) {
-        Group group = groupService.findById(groupDto.getId());
-        group.setName(groupDto.getName());
+        Group group = groupMapper.toEntity(groupDto);
         groupService.save(group);
         return new ResponseEntity<>(groupMapper.toDto(group), HttpStatus.OK);
     }
