@@ -38,23 +38,23 @@ public class Teacher extends User{
 
     private String email;
 
-    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, orphanRemoval = true)
     @ToString.Exclude
     private Set<Subject> subjects = new HashSet<>();
 
-    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, orphanRemoval = true)
     @ToString.Exclude
     private Set<Room> rooms = new HashSet<>();
 
-    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, orphanRemoval = true)
     @ToString.Exclude
     private Set<Material> materials = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Group> groups = new HashSet<>();
 
-    @OneToMany(mappedBy = "teacher" ,fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "teacher" ,fetch = FetchType.LAZY, orphanRemoval = true)
     @ToString.Exclude
     private Set<Task> tasks = new HashSet<>();
 

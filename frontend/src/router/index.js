@@ -3,6 +3,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Admin from '../views/Admin.vue'
 import AdminStudents from '../components/admin/StudentsView.vue'
 import AdminMaterials from '../components/admin/MaterialsView.vue'
+import AdminTeachers from '../components/admin/TeachersView.vue'
+import AdminSubjects from '../components/admin/SubjectsView.vue'
+import AdminGroups from '../components/admin/GroupView.vue'
+import AdminTasks from '../components/admin/TaskView.vue'
 
 import Teacher from '../views/Teacher.vue'
 import TeacherProfile from '../components/TeacherProfile.vue'
@@ -40,7 +44,27 @@ const routes = [
         path: 'materials',
         name: 'AdminMaterials',
         component: AdminMaterials
-      }
+      },
+      {
+        path: 'subjects',
+        name: 'AdminSubjects',
+        component: AdminSubjects
+      },
+      {
+        path: 'teachers',
+        name: 'AdminTeachers',
+        component: AdminTeachers
+      },
+      {
+        path: 'groups',
+        name: 'AdminGroups',
+        component: AdminTeachers
+      },
+      {
+        path: 'tasks',
+        name: 'AdminTasks',
+        component: AdminTeachers
+      },
     ],
   },
   {

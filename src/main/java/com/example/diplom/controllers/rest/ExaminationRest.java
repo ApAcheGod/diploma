@@ -1,6 +1,7 @@
 package com.example.diplom.controllers.rest;
 
 import com.example.diplom.entities.Examination;
+import com.example.diplom.entities.ExaminationStatus;
 import com.example.diplom.entities.dto.ExaminationDto;
 import com.example.diplom.services.ExaminationService;
 import com.example.diplom.services.mappers.ExaminationMapper;
@@ -43,11 +44,13 @@ public class ExaminationRest {
         return new ResponseEntity<>(examination, HttpStatus.CREATED);
     }
 
-    @PutMapping("/examination/{id}")
-    public void update(@PathVariable( "id" ) UUID id, @RequestBody ExaminationDto examinationDto) {
-        Examination examination = examinationService.findById(id);
-        // TDOD change fields
+    @PutMapping("/examination")
+    public ResponseEntity<ExaminationDto> update(@RequestBody ExaminationDto examinationDto) {
+        Examination examination = examinationService.findById(examinationDto.getExaminationId());
+        examination.setMark(examinationDto.getMark());
+        examination.setExaminationStatus(ExaminationStatus.getNameByTitle(examinationDto.getExaminationStatus()));
         examinationService.save(examination);
+        return new ResponseEntity<>(examinationMapper.toDto(examination), HttpStatus.OK);
     }
 
     @DeleteMapping("examination/{id}")

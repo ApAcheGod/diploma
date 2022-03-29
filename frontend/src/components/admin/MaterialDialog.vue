@@ -1,61 +1,101 @@
 <script setup>
  
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch, computed } from "vue";
 
 const emits = defineEmits(['update-click', 'prompt-close']);
 
 const props = defineProps({
   prompt: Boolean,
-  student: Object,
+  material: Object,
   updateButtonLabel: {
     default: 'Изменить',
     type: String
-  }
+  },
+  subjects: Array,
+  teachers: Array,
 });
 
-let newStudent = ref({
-  id: '',
-  first_name: '',
-  last_name:  '',
-  patronymic:  '',
-  email:  '',
-  login:  '',
+let newMaterial = ref({
+  name: null,
+  text:  null,
+  teacherId:  null,
+  subjectId:  null,
 });
 
 onMounted(() => {
-  if (props.student) {
-    newStudent.value.id =  props.student.id;
-    newStudent.value.first_name =  props.student.first_name;
-    newStudent.value.last_name =  props.student.last_name;
-    newStudent.value.patronymic =  props.student.patronymic;
-    newStudent.value.email =  props.student.email;
-    newStudent.value.login =  props.student.login;
+  if (props.material) {
+    newMaterial.value.id =  props.material.id;
+    newMaterial.value.name =  props.material.name;
+    newMaterial.value.text =  props.material.text;
+    newMaterial.value.teacherId =  props.material.teacherId;
+    newMaterial.value.teacherName =  props.material.teacherName;
+    newMaterial.value.subjectId =  props.material.subjectId;
+    newMaterial.value.subjectName =  props.material.subjectName;
   }
+});
+
+const teacherOptions = computed(() => {
+  return props.teachers?.map(t => {
+    t.teacherId = t.id;
+    return t;
+  });
+});
+
+const subjectOptions = computed(() => {
+  return props.subjects?.map(s => {
+    s.subjectId = s.id;
+    s.subjectName = s.name;
+    return s;
+  });
 });
 
 </script>
 
 <template>
   <q-dialog v-model="props.prompt" persistent>
-    <q-card style="min-width: 350px" @keyup.enter="emits('update-click', newStudent)">
+    <q-card style="min-width: 350px" @keyup.enter="emits('update-click', newMaterial)">
+
       <q-card-section>
         <div class="text-h5">Редактирование</div>
       </q-card-section>
+
       <q-card-section class="q-pt-none">
-        <q-input dense v-model="newStudent.last_name" autofocus label="Фамилия"/>
+        <q-input dense v-model="newMaterial.name" autofocus label="Название"/>
       </q-card-section>
+
       <q-card-section class="q-pt-none">
-        <q-input dense v-model="newStudent.first_name" autofocus label="Имя"/>
+        <q-input dense v-model="newMaterial.text" autofocus label="Текст"/>
       </q-card-section>
+
       <q-card-section class="q-pt-none">
-        <q-input dense v-model="newStudent.patronymic" autofocus label="Отчество"/>
+        <q-select
+          filled
+          v-model="newMaterial.subjectId"
+          :options="subjectOptions"
+          option-value="subjectId"
+          option-label="subjectName"
+          label="Предмет"
+          emit-value
+          map-options
+        />
       </q-card-section>
+
       <q-card-section class="q-pt-none">
-        <q-input dense v-model="newStudent.email" autofocus label="Email"/>
+        <q-select
+          filled
+          v-model="newMaterial.teacherId"
+          :options="teacherOptions"
+          option-value="teacherId"
+          option-label="teacherName"
+          label="Преподаватель"
+          emit-value
+          map-options
+        />
       </q-card-section>
+
       <q-card-actions align="right" class="text-primary">
         <q-btn flat label="Отмена"  @click="emits('prompt-close')"/>
-        <q-btn flat :label="updateButtonLabel" @click="emits('update-click', newStudent)" />
+        <q-btn flat :label="updateButtonLabel" @click="emits('update-click', newMaterial)" />
       </q-card-actions>
     </q-card>
   </q-dialog>

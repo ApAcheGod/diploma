@@ -36,19 +36,19 @@ public class Task {
     @Column(name = "task_name")
     private String name;
 
-    @ManyToMany(mappedBy = "tasks", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "tasks",fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Student> students = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Group> groups = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
     private Subject subject;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Teacher teacher;
 
     @CreatedDate
@@ -75,7 +75,7 @@ public class Task {
 
     private String text;
 
-    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Solution> solutions = new HashSet<>();
 

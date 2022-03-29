@@ -47,9 +47,9 @@ public class StudentRest {
         return new ResponseEntity<>(student,  HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/student/{id}")
-    public ResponseEntity<StudentDto> update(@PathVariable( "id" ) UUID id, @RequestBody StudentDto studentDto) {
-        Student student = studentService.findById(id);
+    @PutMapping(value = "/student")
+    public ResponseEntity<StudentDto> update(@RequestBody StudentDto studentDto) {
+        Student student = studentService.findById(studentDto.getId());
         student.setFirst_name(studentDto.getFirst_name());
         student.setLast_name(studentDto.getLast_name());
         student.setPatronymic(studentDto.getPatronymic());

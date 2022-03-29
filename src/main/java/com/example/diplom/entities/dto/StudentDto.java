@@ -21,7 +21,7 @@ import java.util.UUID;
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class StudentDto {
 
-    private String id;
+    private UUID id;
 
     private String first_name;
 

@@ -32,24 +32,30 @@ public class Subject {
     @Column(name = "subject_name")
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     @ToString.Exclude
     private Teacher teacher;
 
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, orphanRemoval = true)
     @ToString.Exclude
     private Set<Material> materials = new HashSet<>();
 
-    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, orphanRemoval = true)
     @ToString.Exclude
     private Set<Task> tasks = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(cascade = { CascadeType.MERGE } )
+    @JoinTable(
+            name = "subjects_groups",
+            joinColumns = {@JoinColumn(name = "subjects_id")},
+            inverseJoinColumns = {@JoinColumn(name = "groups_id")}
+    )
     @ToString.Exclude
     private Set<Group> groups = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
     private Room room;
 
@@ -72,7 +78,7 @@ public class Subject {
         task.setSubject(this);
     }
 
-    public void adTasks(Set<Task> tasks){
+    public void addTasks(Set<Task> tasks){
         tasks.forEach(this::addTasks);
     }
 
@@ -85,21 +91,32 @@ public class Subject {
         groups.forEach(this::addGroups);
     }
 
+    public void setGroups(Group group){
+        this.groups.add(group);
+    }
+
+    public void setGroups(Set<Group> groups){
+        this.groups = groups;
+    }
+
     public void addRoom(Room room){
         this.room = room;
         room.getSubjects().add(this);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Subject subject = (Subject) o;
-        return id != null && Objects.equals(id, subject.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//
+//        Subject subject = (Subject) o;
+//
+//        if (id != null ? !id.equals(subject.id) : subject.id != null) return false;
+//        return name != null ? name.equals(subject.name) : subject.name == null;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return id != null ? id.hashCode() : 0;
+//    }
 }

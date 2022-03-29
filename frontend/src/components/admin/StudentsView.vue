@@ -41,6 +41,7 @@ async function updateStudent(newStudent){
   if(updateResult){
     students.value = await store.methods.getStudentsFetch();
     triggerPositive('Информация о студенте успешно обновлена!');
+    studentPromptIsOpen.value = false;
   }
   else
     triggerNegative('Не удалось обновить информацию о студенте');
@@ -51,6 +52,7 @@ async function addNewStudent(newStudent){
   if (createResult) {
     students.value = await store.methods.getStudentsFetch();
     triggerPositive('Успешно добавлен новый студент!');
+    studentPromptIsOpen.value = false;
   }
   else
     triggerNegative('Не удалось добавить студента');

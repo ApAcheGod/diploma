@@ -39,11 +39,7 @@ public class MaterialRest {
     }
 
     @PutMapping("/material/{id}")
-    public void update(@PathVariable( "id" ) UUID id, @RequestBody MaterialDto materialDto) {
-        Material material = materialService.findById(id);
-        material.getSubject().setName(materialDto.getSubjectName());
-        material.setText(materialDto.getText());
-        material.setName(materialDto.getName());
+    public void update(@PathVariable( "id" ) UUID id, @RequestBody Material material) {
         materialService.save(material);
     }
 

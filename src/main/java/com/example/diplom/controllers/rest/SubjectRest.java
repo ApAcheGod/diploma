@@ -39,9 +39,12 @@ public class SubjectRest {
         return new ResponseEntity<>(subject, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/subject/{id}")
-    public void update(@PathVariable( "id" ) UUID id, @RequestBody Subject subject) {
+    @PutMapping(value = "/subject")
+    public ResponseEntity<SubjectDto> update(@RequestBody SubjectDto subjectDto) {
+        Subject subject = subjectService.findById(subjectDto.getId());
+        subject.setName(subjectDto.getName());
         subjectService.save(subject);
+        return new ResponseEntity<>(subjectMapper.toDto(subject), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "subject/{id}")

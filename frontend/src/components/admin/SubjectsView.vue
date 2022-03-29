@@ -2,8 +2,8 @@
 import { onMounted, ref, inject } from 'vue';
 import { useQuasar } from 'quasar'
 
-import MaterialCard from './MaterialCard.vue';
-import MaterialDialog from './MaterialDialog.vue';
+import SubjectCard from './SubjectCard.vue';
+import SubjectDialog from './SubjectDialog.vue';
 
 let $q = useQuasar();
 
@@ -11,21 +11,24 @@ let materials = ref();
 
 let teachers = ref();
 let subjects = ref();
+let tasks = ref();
 
 const store = inject('store');
 
-let materialPromptIsOpen = ref(false);
+let subjectPromptIsOpen = ref(false);
 
 onMounted(async () => { 
   Promise.allSettled([
-    store.methods.getMaterialsFetch(),
-    store.methods.getTeachersFetch(),
     store.methods.getSubjectsFetch(),
+    store.methods.getTeachersFetch(),
+    store.methods.getTasksFetch(),
+    store.methods.getMaterialsFetch(),
     ])
   .then((results) => {
-    materials.value = results[0].value;
+    subjects.value = results[0].value;
     teachers.value = results[1].value;
-    subjects.value = results[2].value;
+    tasks.value = results[2].value;
+    materials.value = results[3].value;
   });
 });
 
@@ -43,32 +46,32 @@ function triggerNegative(msg) {
   })
 }
 
-async function updateMaterial(newMaterial){
-  let updateResult = await store.methods.updateMaterialFetch(newMaterial);
+async function updateSubject(newSubject){
+  let updateResult = await store.methods.updateSubjectFetch(newSubject);
   if(updateResult){
-    materials.value = await store.methods.getMaterialsFetch();
+    subjects.value = await store.methods.getSubjectsFetch();
     triggerPositive('Информация о материале успешно обновлена!');
-    materialPromptIsOpen.value = false;
+    subjectPromptIsOpen.value = false;
   }
   else
     triggerNegative('Не удалось обновить информацию о материале');
 }
 
-async function addNewMaterial(newMaterial){
-  const createResult = await store.methods.createMaterialFetch(newMaterial);
+async function addNewSubject(newSubject){
+  const createResult = await store.methods.createSubjectFetch(newSubject);
   if (createResult) {
-    materials.value = await store.methods.getMaterialsFetch();
+    subjects.value = await store.methods.getSubjectsFetch();
     triggerPositive('Успешно добавлен новый материал!');
-    materialPromptIsOpen.value = false;
+    subjectPromptIsOpen.value = false;
   }
   else
     triggerNegative('Не удалось добавить материал');
 }
 
-async function deleteMaterial(material){
-  const deleteResult = await store.methods.deleteMaterialFetch(material);
+async function deleteSubject(subject){
+  const deleteResult = await store.methods.deleteSubjectFetch(subject);
   if(deleteResult){
-    materials.value = await store.methods.getMaterialsFetch();
+    subjects.value = await store.methods.getSubjectsFetch();
     triggerPositive('Информация о материалу успешно удалена!')
   }
   else
@@ -78,13 +81,14 @@ async function deleteMaterial(material){
 </script>
 <template>
   <transition-group name="list" >
-    <material-card v-for="material in materials"
-      v-bind:key="material?.id"
-      :material="material"
-      :subjects="subjects"
+    <subject-card v-for="subject in subjects"
+      v-bind:key="subject?.id"
+      :subject="subject"
+      :materials="materials"
       :teachers="teachers"
-      @delete-click="deleteMaterial"
-      @update-click="updateMaterial"
+      :tasks="tasks"
+      @delete-click="deleteSubject"
+      @update-click="updateSubject"
     />
   </transition-group>
 
@@ -93,16 +97,17 @@ async function deleteMaterial(material){
       fab 
       icon="add" 
       color="accent"
-      @click="materialPromptIsOpen = true"/>
+      @click="subjectPromptIsOpen = true"/>
   </q-page-sticky>
 
-  <material-dialog
+  <subject-dialog
     updateButtonLabel="Добавить"
-    :prompt="materialPromptIsOpen"
-    :subjects="subjects"
+    :prompt="subjectPromptIsOpen"
+    :materials="materials"
     :teachers="teachers"
-    @update-click="addNewMaterial"
-    @prompt-close="materialPromptIsOpen = false"
+    :tasks="tasks"
+    @update-click="addNewSubject"
+    @prompt-close="subjectPromptIsOpen = false"
   />
 </template>
 <style scoped>

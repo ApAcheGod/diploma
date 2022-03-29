@@ -5,6 +5,10 @@ import StudentDialog from './StudentDialog.vue';
 const emits = defineEmits(['update-click', 'delete-click']);
 const props = defineProps({
     student: Object,
+    promptIsOpen: {
+      default: false,
+      type: Boolean,
+    }
 });
 
 let promptIsOpen = ref(false);

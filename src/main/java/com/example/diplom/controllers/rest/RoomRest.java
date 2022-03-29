@@ -38,9 +38,12 @@ public class RoomRest {
         return new ResponseEntity<>(room, HttpStatus.CREATED);
     }
 
-    @PutMapping("/room/{id}")
-    public void update(@PathVariable( "id" ) UUID id, @RequestBody Room room) {
+    @PutMapping("/room")
+    public ResponseEntity<RoomDto> update(@RequestBody RoomDto roomDto) {
+        Room room = roomService.findById(roomDto.getId());
+        room.setName(roomDto.getName());
         roomService.save(room);
+        return new ResponseEntity<>(roomMapper.toDto(room), HttpStatus.OK);
     }
 
     @DeleteMapping("room/{id}")

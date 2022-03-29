@@ -39,16 +39,16 @@ public class Student extends User{
 
     private String email;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id", referencedColumnName = "id")
     @ToString.Exclude
     private Group group;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, orphanRemoval = true)
     @ToString.Exclude
     private Set<Solution> solutions = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Task> tasks = new HashSet<>();
 
