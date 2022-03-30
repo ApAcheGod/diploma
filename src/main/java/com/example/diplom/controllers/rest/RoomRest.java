@@ -32,16 +32,15 @@ public class RoomRest {
     }
 
     @PostMapping("/room")
-    public ResponseEntity<Room> create(@RequestBody RoomDto roomDto) {
+    public ResponseEntity<RoomDto> create(@RequestBody RoomDto roomDto) {
         Room room = roomMapper.toEntity(roomDto);
         roomService.save(room);
-        return new ResponseEntity<>(room, HttpStatus.CREATED);
+        return new ResponseEntity<>(roomMapper.toDto(room), HttpStatus.CREATED);
     }
 
     @PutMapping("/room")
     public ResponseEntity<RoomDto> update(@RequestBody RoomDto roomDto) {
-        Room room = roomService.findById(roomDto.getId());
-        room.setName(roomDto.getName());
+        Room room = roomMapper.toEntity(roomDto);
         roomService.save(room);
         return new ResponseEntity<>(roomMapper.toDto(room), HttpStatus.OK);
     }

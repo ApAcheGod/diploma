@@ -32,15 +32,17 @@ public class MaterialRest {
     }
 
     @PostMapping("/material")
-    public ResponseEntity<Material> create(@RequestBody MaterialDto materialDto) {
+    public ResponseEntity<MaterialDto> create(@RequestBody MaterialDto materialDto) {
         Material material = materialMapper.toEntity(materialDto);
         materialService.save(material);
-        return new ResponseEntity<>(material, HttpStatus.CREATED);
+        return new ResponseEntity<>(materialMapper.toDto(material), HttpStatus.CREATED);
     }
 
-    @PutMapping("/material/{id}")
-    public void update(@PathVariable( "id" ) UUID id, @RequestBody Material material) {
+    @PutMapping("/material")
+    public ResponseEntity<MaterialDto> update(@RequestBody MaterialDto materialDto) {
+        Material material = materialMapper.toEntity(materialDto);
         materialService.save(material);
+        return new ResponseEntity<>(materialMapper.toDto(material), HttpStatus.OK);
     }
 
     @DeleteMapping("material/{id}")

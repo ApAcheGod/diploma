@@ -1,7 +1,6 @@
 package com.example.diplom.controllers.rest;
 
 import com.example.diplom.entities.Examination;
-import com.example.diplom.entities.ExaminationStatus;
 import com.example.diplom.entities.dto.ExaminationDto;
 import com.example.diplom.services.ExaminationService;
 import com.example.diplom.services.mappers.ExaminationMapper;
@@ -38,17 +37,18 @@ public class ExaminationRest {
 //        "mark": 5,
 //    }
     @PostMapping("/examination")
-    public ResponseEntity<Examination> create(@RequestBody ExaminationDto examinationDto) {
+    public ResponseEntity<ExaminationDto> create(@RequestBody ExaminationDto examinationDto) {
         Examination examination = examinationMapper.toEntity(examinationDto);
         examinationService.save(examination);
-        return new ResponseEntity<>(examination, HttpStatus.CREATED);
+        return new ResponseEntity<>(examinationMapper.toDto(examination), HttpStatus.CREATED);
     }
 
     @PutMapping("/examination")
     public ResponseEntity<ExaminationDto> update(@RequestBody ExaminationDto examinationDto) {
-        Examination examination = examinationService.findById(examinationDto.getExaminationId());
-        examination.setMark(examinationDto.getMark());
-        examination.setExaminationStatus(ExaminationStatus.getNameByTitle(examinationDto.getExaminationStatus()));
+        Examination examination = examinationMapper.toEntity(examinationDto);
+//        Examination examination = examinationService.findById(examinationDto.getExaminationId());
+//        examination.setMark(examinationDto.getMark());
+//        examination.setExaminationStatus(ExaminationStatus.getNameByTitle(examinationDto.getExaminationStatus()));
         examinationService.save(examination);
         return new ResponseEntity<>(examinationMapper.toDto(examination), HttpStatus.OK);
     }

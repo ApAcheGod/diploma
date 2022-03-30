@@ -2,7 +2,6 @@ package com.example.diplom.entities.dto;
 
 import com.example.diplom.entities.TaskType;
 import com.example.diplom.entities.dto.to.Group2Dto;
-import com.example.diplom.entities.dto.to.Student2Dto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -28,8 +27,8 @@ public class TaskDto {
 
     private String name;
 
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Set<Student2Dto> students = new HashSet<>();
+//    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+//    private Set<Student2Dto> students = new HashSet<>();
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<Group2Dto> groups = new HashSet<>();

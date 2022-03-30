@@ -19,7 +19,7 @@ public class ExaminationDto {
 
     private String examinationStatus;
 
-    private int mark;
+//    private int mark;
 
     private UUID teacherId;
 

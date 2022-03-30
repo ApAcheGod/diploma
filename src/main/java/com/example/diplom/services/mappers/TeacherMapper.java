@@ -44,6 +44,7 @@ public class TeacherMapper {
         modelMapper.createTypeMap(TeacherDto.class, Teacher.class)
                 .addMappings(m -> m.skip(Teacher::setRooms))
                 .addMappings(m -> m.skip(Teacher::setSubjects))
+                .addMappings(m -> m.skip(Teacher::setLogin))
 //                .addMappings(m -> m.skip(Teacher::setGroups))
                 .addMappings(m -> m.skip(Teacher::setTasks))
                 .setPostConverter(toEntityConverter());

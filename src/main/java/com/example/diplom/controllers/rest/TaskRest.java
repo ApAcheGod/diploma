@@ -32,23 +32,15 @@ public class TaskRest {
     }
 
     @PostMapping("/task")
-    public ResponseEntity<Task> create(@RequestBody TaskDto taskDto) {
+    public ResponseEntity<TaskDto> create(@RequestBody TaskDto taskDto) {
         Task task = taskMapper.toEntity(taskDto);
         taskService.save(task);
-        return new ResponseEntity<>(task, HttpStatus.CREATED);
+        return new ResponseEntity<>(taskMapper.toDto(task), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/task")
     public ResponseEntity<TaskDto> update(@RequestBody TaskDto taskDto) {
-        Task task = taskService.findById(taskDto.getId());
-        task.setText(taskDto.getText());
-        task.setTaskType(taskDto.getTaskType());
-        task.setMax_rating(taskDto.getMax_rating());
-        task.setMin_rating(taskDto.getMin_rating());
-        task.setIsTemporal(taskDto.getIsTemporal());
-        task.setIsMandatory(taskDto.getIsMandatory());
-        task.setCount_of_attempts(taskDto.getCount_of_attempts());
-        task.setLast_date_of_delivery(taskDto.getLast_date_of_delivery());
+        Task task = taskMapper.toEntity(taskDto);
         taskService.save(task);
         return new ResponseEntity<>(taskMapper.toDto(task), HttpStatus.OK);
     }

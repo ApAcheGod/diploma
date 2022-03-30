@@ -38,22 +38,18 @@ public class StudentRest {
     }
 
     @PostMapping(value = "/student")
-    public ResponseEntity<Student> create(@RequestBody StudentDto studentDto) {
+    public ResponseEntity<StudentDto> create(@RequestBody StudentDto studentDto) {
         Student student = studentMapper.toEntity(studentDto);
         loginService.createLoginForUser(student);
         student.setPassword(passwordService.createPassword());
         student.setRoles(List.of(roleRepository.findRoleByRoleName("ROLE_STUDENT")));
         studentService.save(student);
-        return new ResponseEntity<>(student,  HttpStatus.CREATED);
+        return new ResponseEntity<>(studentMapper.toDto(student),  HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/student")
     public ResponseEntity<StudentDto> update(@RequestBody StudentDto studentDto) {
-        Student student = studentService.findById(studentDto.getId());
-        student.setFirst_name(studentDto.getFirst_name());
-        student.setLast_name(studentDto.getLast_name());
-        student.setPatronymic(studentDto.getPatronymic());
-        student.setEmail(studentDto.getEmail());
+        Student student = studentMapper.toEntity(studentDto);
         studentService.save(student);
         return new ResponseEntity<> (studentMapper.toDto(student), HttpStatus.OK);
     }
