@@ -8,58 +8,53 @@ const emits = defineEmits(['update-click', 'prompt-close']);
 
 const props = defineProps({
   prompt: Boolean,
-  teacher: Object,
+  group: Object,
   updateButtonLabel: {
     default: 'Изменить',
     type: String
   },
-  subjects: Array, 
-  rooms: Array,
-  materials: Array, 
+  students: Array, 
+  subjects: Array,
+  rooms: Array, 
   tasks: Array,
 });
 
-let newTeacher = ref({});
+let newGroup = ref({});
 
-onMounted(() => {
-  if (props.teacher)
-    newTeacher.value = JSON.parse(JSON.stringify(props.teacher));
+const studentsOptions = computed(() => {
+  return props.students?.map(s => {
+    s.name = `${s.last_name} ${s.first_name} ${s.patronymic}`;
+    return s;
+  });
 });
 
-const newTeacherFormatted = computed(() => {
-  let newTeacherFormatted = JSON.parse(JSON.stringify(newTeacher.value));
+onMounted(() => {
+  if (props.group)
+    newGroup.value = JSON.parse(JSON.stringify(props.group));
+});
 
-  newTeacherFormatted.materials = store.methods.idArrToObjs(newTeacherFormatted.materials);
-  newTeacherFormatted.tasks = store.methods.idArrToObjs(newTeacherFormatted.tasks);
-  newTeacherFormatted.rooms = store.methods.idArrToObjs(newTeacherFormatted.rooms);
-  newTeacherFormatted.subjects = store.methods.idArrToObjs(newTeacherFormatted.subjects);
+const newGroupFormatted = computed(() => {
+  let newGroupFormatted = JSON.parse(JSON.stringify(newGroup.value));
 
-  return newTeacherFormatted;
+  newGroupFormatted.students = store.methods.idArrToObjs(newGroupFormatted.students);
+  newGroupFormatted.tasks = store.methods.idArrToObjs(newGroupFormatted.tasks);
+  newGroupFormatted.rooms = store.methods.idArrToObjs(newGroupFormatted.rooms);
+  newGroupFormatted.subjects = store.methods.idArrToObjs(newGroupFormatted.subjects);
+
+  return newGroupFormatted;
 });
 
 </script>
 
 <template>
   <q-dialog v-model="props.prompt" persistent>
-    <q-card style="min-width: 350px" @keyup.esc="emits('prompt-close')" @keyup.enter="emits('update-click', newTeacherFormatted)">
+    <q-card style="min-width: 350px" @keyup.esc="emits('prompt-close')" @keyup.enter="emits('update-click', newGroupFormatted)">
       <q-card-section>
         <div class="text-h5">Редактирование</div>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
-        <q-input dense v-model="newTeacher.last_name" autofocus label="Фамилия"/>
-      </q-card-section>
-
-      <q-card-section class="q-pt-none">
-        <q-input dense v-model="newTeacher.first_name" autofocus label="Имя"/>
-      </q-card-section>
-
-      <q-card-section class="q-pt-none">
-        <q-input dense v-model="newTeacher.patronymic" autofocus label="Отчество"/>
-      </q-card-section>
-      
-      <q-card-section class="q-pt-none">
-        <q-input dense v-model="newTeacher.email" autofocus label="Email"/>
+        <q-input dense v-model="newGroup.name" autofocus label="Название"/>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
@@ -72,9 +67,9 @@ const newTeacherFormatted = computed(() => {
           stack-label
           option-value="id"
           option-label="name"
-          label="Материалы"
-          :options="props.materials"
-          v-model="newTeacher.materials"
+          label="Студенты"
+          :options="studentsOptions"
+          v-model="newGroup.students"
         >
           <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
             <q-item v-bind="itemProps">
@@ -101,7 +96,7 @@ const newTeacherFormatted = computed(() => {
           option-label="name"
           label="Предметы"
           :options="props.subjects"
-          v-model="newTeacher.subjects"
+          v-model="newGroup.subjects"
         >
           <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
             <q-item v-bind="itemProps">
@@ -128,7 +123,7 @@ const newTeacherFormatted = computed(() => {
           option-label="name"
           label="Комнаты"
           :options="props.rooms"
-          v-model="newTeacher.rooms"
+          v-model="newGroup.rooms"
         >
           <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
             <q-item v-bind="itemProps">
@@ -155,7 +150,7 @@ const newTeacherFormatted = computed(() => {
           option-label="name"
           label="Задания"
           :options="props.tasks"
-          v-model="newTeacher.tasks"
+          v-model="newGroup.tasks"
         >
           <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
             <q-item v-bind="itemProps">
@@ -172,7 +167,7 @@ const newTeacherFormatted = computed(() => {
 
       <q-card-actions align="right" class="text-primary">
         <q-btn flat label="Отмена"  @click="emits('prompt-close')"/>
-        <q-btn flat :label="updateButtonLabel" @click="emits('update-click', newTeacherFormatted)" />
+        <q-btn flat :label="updateButtonLabel" @click="emits('update-click', newGroupFormatted)" />
       </q-card-actions>
     </q-card>
   </q-dialog>

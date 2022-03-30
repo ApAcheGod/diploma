@@ -50,7 +50,7 @@ const toggleLeftDrawer = () => {
           <q-item-label>Группы</q-item-label>
         </q-item>
 
-        <q-item clickable v-ripple>
+        <q-item clickable v-ripple :to="{ name: 'AdminRooms' }">
           <q-item-label>Комнаты</q-item-label>
         </q-item>
 

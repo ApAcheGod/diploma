@@ -1,14 +1,14 @@
 <script setup>
 import { computed, ref } from 'vue';
-import TeacherDialog from './TeacherDialog.vue';
+import TaskDialog from './TaskDialog.vue';
 
 const emits = defineEmits(['update-click', 'delete-click']);
 const props = defineProps({
-  teacher: Object,
+  task: Object,
   subjects: Array, 
-  rooms: Array,
-  materials: Array, 
-  tasks: Array,
+  groups: Array,
+  teachers: Array, 
+  solutions: Array,
 });
 
 let promptIsOpen = ref(false);
@@ -18,28 +18,49 @@ let promptIsOpen = ref(false);
   <q-card class="my-card">
     <q-card-section class="bg-secondary text-white">
       <div class="text-h6">   
-        {{props.teacher.login}}
+        {{props.task.name}}
       </div>
 
       <div class="text-subtitle2">   
-        {{props.teacher.teacherName}}
+        {{props.task.subjectName}}
       </div>
 
       <div class="text-subtitle2">   
-        {{props.teacher.email}}
+        {{props.task.teacherName}}
       </div>
+
+      <div class="text-subtitle2">   
+        {{props.task.last_date_of_delivery}}
+      </div>
+
+      <div class="text-subtitle2">   
+        {{props.task.min_rating}} - {{props.task.max_rating}}
+      </div>
+
+      <div class="text-subtitle2">   
+        {{props.task.min_isTemporal}}
+      </div>
+
+      <div class="text-subtitle2">   
+        {{props.task.min_isMandatory}}
+      </div>
+
+      <div class="text-subtitle2">   
+        {{props.task.count_of_attemps}}
+      </div>
+
+      <div class="text-subtitle2">   
+        {{props.task.text}}
+      </div>
+
+        <div class="text-subtitle2" v-for="group in props.task.groups">        
+          {{group.name}} 
+        </div>
 
       <div class="mt-2">
-        <div class="text-subtitle2" v-for="subject in props.teacher.subjects">        
-          {{subject.name}} 
-        </div>
-
-        <div class="text-subtitle2" v-for="room in props.teacher.rooms">        
-          {{room.name}} 
-        </div>
-        
-        <div class="text-subtitle2" v-for="task in props.teacher.tasks">        
-          {{task.name}}
+        <div class="text-subtitle2" v-for="solution in props.task.solutions">        
+          {{solution.text}} 
+          {{solution.studentName}} 
         </div>
       </div>
 
@@ -55,20 +76,20 @@ let promptIsOpen = ref(false);
       <q-btn 
         color="accent" 
         flat
-        @click="() => emits('delete-click', props.teacher)"
+        @click="() => emits('delete-click', props.task)"
       >
       Удалить
       </q-btn>
     </q-card-actions>
-    <teacher-dialog
+    <task-dialog
       :subjects="subjects"
-      :tasks="tasks"
-      :materials="materials"
-      :rooms="rooms"
+      :groups="groups"
+      :teachers="teachers"
+      :solutions="solutions"
       :prompt="promptIsOpen"
-      :teacher="props.teacher"
+      :task="props.task"
       @prompt-close="promptIsOpen = false"
-      @update-click="(newTeacher) => emits('update-click', newTeacher)"
+      @update-click="(newTask) => emits('update-click', newTask)"
     />
   </q-card>
 </template>
