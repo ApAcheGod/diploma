@@ -45,7 +45,7 @@ const newSubjectFormatted = computed(() => {
 
 <template>
   <q-dialog v-model="props.prompt" persistent>
-    <q-card style="min-width: 350px" @keyup.enter="emits('update-click', newSubjectFormatted)">
+    <q-card style="min-width: 350px" @keyup.esc="emits('prompt-close')" @keyup.enter="emits('update-click', newSubjectFormatted)">
 
       <q-card-section>
         <div class="text-h5">Редактирование</div>
