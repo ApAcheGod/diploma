@@ -38,13 +38,13 @@ public class TeacherRest {
     }
 
     @PostMapping("/teacher")
-    public ResponseEntity<Teacher> create(@RequestBody TeacherDto teacherDto) {
+    public ResponseEntity<TeacherDto> create(@RequestBody TeacherDto teacherDto) {
         Teacher teacher = teacherMapper.toEntity(teacherDto);
         loginService.createLoginForUser(teacher);
         teacher.setPassword(passwordService.createPassword());
         teacher.setRoles(List.of(roleRepository.findRoleByRoleName("ROLE_TEACHER")));
         teacherService.save(teacher);
-        return new ResponseEntity<>(teacher, HttpStatus.CREATED);
+        return new ResponseEntity<>(teacherMapper.toDto(teacher), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/teacher")
