@@ -60,6 +60,7 @@ public class StudentMapper {
     }
 
     private void mapSpecificFields(Student source, StudentDto destination) {
+
         if (source.getGroup() != null){
             destination.setGroupId(source.getGroup().getId());
         }

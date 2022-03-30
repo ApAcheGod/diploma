@@ -45,11 +45,13 @@ public class Subject2Mapper {
 
     private void mapSpecificFields(Subject source, Subject2Dto destination) {
 
-        destination.setTeacherName(source.getTeacher().getLast_name()
-                + " " + source.getTeacher().getFirst_name()
-                + " " + source.getTeacher().getPatronymic());
+        if (source.getTeacher() != null){
+            destination.setTeacherName(source.getTeacher().getTeacherName());
+        }
 
-        destination.setRoomName(source.getRoom().getName());
+        if (source.getRoom() != null){
+            destination.setRoomName(source.getRoom().getName());
+        }
     }
 
     private void mapSpecificFields(Subject2Dto source, Subject destination) {
