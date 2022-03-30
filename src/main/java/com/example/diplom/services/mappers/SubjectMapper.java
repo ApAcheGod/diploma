@@ -57,9 +57,7 @@ public class SubjectMapper {
 
     private void mapSpecificFields(Subject source, SubjectDto destination) {
 
-        destination.setTeacherName(source.getTeacher().getLast_name()
-                + " " + source.getTeacher().getFirst_name()
-                + " " + source.getTeacher().getPatronymic());
+
 
         if (source.getRoom() != null){
             destination.setRoomName(source.getRoom().getName());
@@ -71,6 +69,7 @@ public class SubjectMapper {
 
         if (source.getTeacher() != null){
             destination.setTeacherId(source.getTeacher().getId());
+            destination.setTeacherName(source.getTeacher().getTeacherName());
         }
     }
 
