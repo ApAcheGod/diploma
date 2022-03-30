@@ -54,10 +54,6 @@ public class Room2Mapper {
 
     private void mapSpecificFields(Room source, Room2Dto destination) {
 
-        destination.setTeacherName(source.getTeacher().getLast_name()
-                + " " + source.getTeacher().getFirst_name()
-                + " " + source.getTeacher().getPatronymic());
-
         if (source.getGroups() != null){
             destination.setGroups(source.getGroups().stream().map(group2Mapper::toDto).collect(Collectors.toSet()));
         }
@@ -68,6 +64,7 @@ public class Room2Mapper {
 
         if (source.getTeacher() != null){
             destination.setTeacherId(source.getTeacher().getId());
+            destination.setTeacherName(source.getTeacher().getTeacherName());
         }
 
 //        if (source.getGroups() != null){
