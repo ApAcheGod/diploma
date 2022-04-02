@@ -65,6 +65,7 @@ public class Room2Mapper {
         if (source.getTeacher() != null){
             destination.setTeacherName(source.getTeacher().getTeacherName());
             destination.setTeacherId(source.getTeacher().getId());
+            destination.setTeacherName(source.getTeacher().getTeacherName());
         }
 
 //        if (source.getGroups() != null){

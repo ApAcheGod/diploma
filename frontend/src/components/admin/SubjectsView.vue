@@ -50,32 +50,32 @@ async function updateSubject(newSubject){
   let updateResult = await store.methods.updateSubjectFetch(newSubject);
   if(updateResult){
     subjects.value = await store.methods.getSubjectsFetch();
-    triggerPositive('Информация о материале успешно обновлена!');
+    triggerPositive('Информация о предмете успешно обновлена!');
     subjectPromptIsOpen.value = false;
   }
   else
-    triggerNegative('Не удалось обновить информацию о материале');
+    triggerNegative('Не удалось обновить информацию о предмете');
 }
 
 async function addNewSubject(newSubject){
   const createResult = await store.methods.createSubjectFetch(newSubject);
   if (createResult) {
     subjects.value = await store.methods.getSubjectsFetch();
-    triggerPositive('Успешно добавлен новый материал!');
+    triggerPositive('Успешно добавлен новый предмет!');
     subjectPromptIsOpen.value = false;
   }
   else
-    triggerNegative('Не удалось добавить материал');
+    triggerNegative('Не удалось добавить предмет');
 }
 
 async function deleteSubject(subject){
   const deleteResult = await store.methods.deleteSubjectFetch(subject);
   if(deleteResult){
     subjects.value = await store.methods.getSubjectsFetch();
-    triggerPositive('Информация о материалу успешно удалена!')
+    triggerPositive('Информация о предмете успешно удалена!')
   }
   else
-    triggerNegative('Не удалось удалить информацию о материале')
+    triggerNegative('Не удалось удалить информацию о предмете')
 }
 
 </script>

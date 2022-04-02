@@ -7,6 +7,7 @@ import AdminTeachers from '../components/admin/TeachersView.vue'
 import AdminSubjects from '../components/admin/SubjectsView.vue'
 import AdminGroups from '../components/admin/GroupView.vue'
 import AdminTasks from '../components/admin/TaskView.vue'
+import AdminRooms from '../components/admin/RoomView.vue'
 
 import Teacher from '../views/Teacher.vue'
 import TeacherProfile from '../components/TeacherProfile.vue'
@@ -58,12 +59,17 @@ const routes = [
       {
         path: 'groups',
         name: 'AdminGroups',
-        component: AdminTeachers
+        component: AdminGroups
       },
       {
         path: 'tasks',
         name: 'AdminTasks',
-        component: AdminTeachers
+        component: AdminTasks
+      },
+      {
+        path: 'rooms',
+        name: 'AdminRooms',
+        component: AdminRooms
       },
     ],
   },

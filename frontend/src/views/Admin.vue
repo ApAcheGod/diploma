@@ -16,6 +16,7 @@ const toggleLeftDrawer = () => {
     <q-header class="bg-primary text-white">
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
+        <q-separator dark vertical inset class="ml-3 mr-2"/>
         <q-toolbar-title>
           Администратор
         </q-toolbar-title>
@@ -25,33 +26,33 @@ const toggleLeftDrawer = () => {
     
     <q-drawer v-model="leftDrawerOpen" side="left" overlay elevated>
 
-      <q-list bordered separator>
-        <q-item clickable v-ripple :to="{ name: 'AdminStudents' }">
+      <q-list>
+        <q-item class="mt-8 pl-5 text-sm flex items-center tracking-wider font-sans text-weight-medium backdrop-blur-xl"  clickable v-ripple :to="{ name: 'AdminStudents' }">
           Студенты
         </q-item>
 
-        <q-item clickable v-ripple :to="{ name: 'AdminMaterials' }">
+        <q-item class="pl-5 text-sm flex items-center tracking-wider font-sans text-weight-medium backdrop-blur-xl" clickable v-ripple :to="{ name: 'AdminMaterials' }">
           Материалы
         </q-item>
 
-        <q-item clickable v-ripple :to="{ name: 'AdminSubjects' }">
-          <q-item-label>Предметы</q-item-label>
+        <q-item class="pl-5 text-sm flex items-center tracking-wider font-sans text-weight-medium backdrop-blur-xl" clickable v-ripple :to="{ name: 'AdminSubjects' }">
+          Предметы
         </q-item>
 
-        <q-item clickable v-ripple :to="{ name: 'AdminTeachers' }">
-          <q-item-label>Преподаватели</q-item-label>
+        <q-item class="pl-5 text-sm flex items-center tracking-wider font-sans text-weight-medium backdrop-blur-xl" clickable v-ripple :to="{ name: 'AdminTeachers' }">
+          Преподаватели
         </q-item>
 
-        <q-item clickable v-ripple :to="{ name: 'AdminTasks' }">
-          <q-item-label>Задания</q-item-label>
+        <q-item class="pl-5 text-sm flex items-center tracking-wider font-sans text-weight-medium backdrop-blur-xl" clickable v-ripple :to="{ name: 'AdminTasks' }">
+          Задания
         </q-item>
 
-        <q-item clickable v-ripple :to="{ name: 'AdminGroups' }">
-          <q-item-label>Группы</q-item-label>
+        <q-item class="pl-5 text-sm flex items-center tracking-wider font-sans text-weight-medium backdrop-blur-xl" clickable v-ripple :to="{ name: 'AdminGroups' }">
+          Группы
         </q-item>
 
-        <q-item clickable v-ripple>
-          <q-item-label>Комнаты</q-item-label>
+        <q-item class="pl-5 text-sm flex items-center tracking-wider font-sans text-weight-medium backdrop-blur-xl" clickable v-ripple :to="{ name: 'AdminRooms' }">
+          Комнаты
         </q-item>
 
       </q-list>
@@ -63,6 +64,14 @@ const toggleLeftDrawer = () => {
   
   </q-layout>
 </template>
-<style scoped>
+<style>
 
+.q-drawer {
+  background-color: rgba(170, 170, 170, 0.01);
+  backdrop-filter: blur(12px);
+}
+
+.my-card {
+  flex-basis: 30%;
+}
 </style>

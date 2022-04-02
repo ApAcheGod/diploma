@@ -1,35 +1,35 @@
 <script setup>
 import { onMounted, ref, inject } from 'vue';
-import { useQuasar } from 'quasar'
-import teacherCard from './teacherCard.vue';
-import teacherDialog from './teacherDialog.vue';
+import { useQuasar } from 'quasar';
+import TaskCard from './TaskCard.vue';
+import TaskDialog from './TaskDialog.vue';
 
 let $q = useQuasar();
 
-let teachers = ref();
-let subjects = ref();
 let tasks = ref();
-let materials = ref();
-let rooms = ref();
+let subjects = ref();
+let groups = ref();
+let teachers = ref ();
+let solutions = ref();
 
 const store = inject('store');
 
-let teacherPromptIsOpen = ref(false);
+let taskPromptIsOpen = ref(false);
 
 onMounted(async () => { 
   Promise.allSettled([
-    store.methods.getTeachersFetch(),
-    store.methods.getSubjectsFetch(),
     store.methods.getTasksFetch(),
-    store.methods.getMaterialsFetch(),
-    store.methods.getRoomsFetch(),
+    store.methods.getSubjectsFetch(),
+    store.methods.getGroupsFetch(),
+    store.methods.getTeachersFetch(),
+    store.methods.getSolutionsFetch(),
     ])
   .then((results) => {
-    teachers.value = results[0].value;
+    tasks.value = results[0].value;
     subjects.value = results[1].value;
-    tasks.value = results[2].value;
-    materials.value = results[3].value;
-    rooms.value = results[4].value;
+    groups.value = results[2].value;
+    teachers.value = results[3].value;
+    solutions.value = results[4].value;
   });
 });
 
@@ -47,48 +47,48 @@ function triggerNegative(msg) {
   })
 }
 
-async function updateTeacher(newTeacher){
-  let updateResult = await store.methods.updateTeacherFetch(newTeacher);
+async function updateTask(newTask){
+  let updateResult = await store.methods.updateTaskFetch(newTask);
   if(updateResult){
-    teachers.value = await store.methods.getTeachersFetch();
-    triggerPositive('Информация о студенте успешно обновлена!');
+    tasks.value = await store.methods.getTasksFetch();
+    triggerPositive('Информация о задании успешно обновлена!');
   }
   else
-    triggerNegative('Не удалось обновить информацию о студенте');
+    triggerNegative('Не удалось обновить информацию о задании');
 }
 
-async function addNewTeacher(newteacher){
-  const createResult = await store.methods.createTeacherFetch(newteacher);
+async function addNewTask(newTask){
+  const createResult = await store.methods.createTaskFetch(newTask);
   if (createResult) {
-    teachers.value = await store.methods.getTeachersFetch();
-    triggerPositive('Успешно добавлен новый студент!');
+    tasks.value = await store.methods.getTasksFetch();
+    triggerPositive('Успешно добавлено новое задание!');
   }
   else
-    triggerNegative('Не удалось добавить студента');
+    triggerNegative('Не удалось добавить задание');
 }
 
-async function deleteTeacher(teacher){
-  const deleteResult = await store.methods.deleteTeacherFetch(teacher);
+async function deleteTask(task){
+  const deleteResult = await store.methods.deleteTaskFetch(task);
   if(deleteResult){
-    teachers.value = await store.methods.getTeachersFetch();
-    triggerPositive('Информация о студенте успешно удалена!')
+    tasks.value = await store.methods.getTasksFetch();
+    triggerPositive('Информация о задании успешно удалена!')
   }
   else
-    triggerNegative('Не удалось удалить информацию о студенте')
+    triggerNegative('Не удалось удалить информацию о задании')
 }
 
 </script>
 <template>
   <transition-group name="list" >
-    <teacher-card v-for="teacher in teachers"
-      v-bind:key="teacher?.id"
-      :teacher="teacher"
+    <task-card v-for="task in tasks"
+      v-bind:key="task?.id"
+      :task="task"
       :subjects="subjects"
-      :tasks="tasks"
-      :materials="materials"
-      :rooms="rooms"
-      @delete-click="deleteTeacher"
-      @update-click="updateTeacher"
+      :groups="groups"
+      :teachers="teachers"
+      :solutions="solutions"
+      @delete-click="deleteTask"
+      @update-click="updateTask"
     />
   </transition-group>
 
@@ -97,18 +97,18 @@ async function deleteTeacher(teacher){
       fab 
       icon="add" 
       color="accent"
-      @click="teacherPromptIsOpen = true"/>
+      @click="taskPromptIsOpen = true"/>
   </q-page-sticky>
 
-  <teacher-dialog
+  <task-dialog
     updateButtonLabel="Добавить"
     :subjects="subjects"
-    :tasks="tasks"
-    :materials="materials"
-    :rooms="rooms"
-    :prompt="teacherPromptIsOpen"
-    @update-click="addNewTeacher"
-    @prompt-close="teacherPromptIsOpen = false"
+    :groups="groups"
+    :teachers="teachers"
+    :solutions="solutions"
+    :prompt="taskPromptIsOpen"
+    @update-click="addNewTask"
+    @prompt-close="taskPromptIsOpen = false"
   />
 </template>
 <style scoped>

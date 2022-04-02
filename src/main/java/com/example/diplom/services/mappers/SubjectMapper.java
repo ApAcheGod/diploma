@@ -57,8 +57,6 @@ public class SubjectMapper {
 
     private void mapSpecificFields(Subject source, SubjectDto destination) {
 
-
-
         if (source.getRoom() != null){
             destination.setRoomName(source.getRoom().getName());
         }

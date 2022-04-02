@@ -1,34 +1,34 @@
 <script setup>
 import { onMounted, ref, inject } from 'vue';
 import { useQuasar } from 'quasar'
-import teacherCard from './teacherCard.vue';
-import teacherDialog from './teacherDialog.vue';
+import GroupCard from './GroupCard.vue';
+import GroupDialog from './GroupDialog.vue';
 
 let $q = useQuasar();
 
-let teachers = ref();
+let groups = ref();
 let subjects = ref();
 let tasks = ref();
-let materials = ref();
+let students = ref();
 let rooms = ref();
 
 const store = inject('store');
 
-let teacherPromptIsOpen = ref(false);
+let groupPromptIsOpen = ref(false);
 
 onMounted(async () => { 
   Promise.allSettled([
-    store.methods.getTeachersFetch(),
+    store.methods.getGroupsFetch(),
     store.methods.getSubjectsFetch(),
     store.methods.getTasksFetch(),
-    store.methods.getMaterialsFetch(),
+    store.methods.getStudentsFetch(),
     store.methods.getRoomsFetch(),
     ])
   .then((results) => {
-    teachers.value = results[0].value;
+    groups.value = results[0].value;
     subjects.value = results[1].value;
     tasks.value = results[2].value;
-    materials.value = results[3].value;
+    students.value = results[3].value;
     rooms.value = results[4].value;
   });
 });
@@ -47,48 +47,48 @@ function triggerNegative(msg) {
   })
 }
 
-async function updateTeacher(newTeacher){
-  let updateResult = await store.methods.updateTeacherFetch(newTeacher);
+async function updateGroup(newGroup){
+  let updateResult = await store.methods.updateGroupFetch(newGroup);
   if(updateResult){
-    teachers.value = await store.methods.getTeachersFetch();
-    triggerPositive('Информация о студенте успешно обновлена!');
+    groups.value = await store.methods.getGroupsFetch();
+    triggerPositive('Информация о группе успешно обновлена!');
   }
   else
-    triggerNegative('Не удалось обновить информацию о студенте');
+    triggerNegative('Не удалось обновить информацию о группе');
 }
 
-async function addNewTeacher(newteacher){
-  const createResult = await store.methods.createTeacherFetch(newteacher);
+async function addNewGroup(newgroup){
+  const createResult = await store.methods.createGroupFetch(newgroup);
   if (createResult) {
-    teachers.value = await store.methods.getTeachersFetch();
-    triggerPositive('Успешно добавлен новый студент!');
+    groups.value = await store.methods.getGroupsFetch();
+    triggerPositive('Успешно добавлена новая группа!');
   }
   else
-    triggerNegative('Не удалось добавить студента');
+    triggerNegative('Не удалось добавить группу');
 }
 
-async function deleteTeacher(teacher){
-  const deleteResult = await store.methods.deleteTeacherFetch(teacher);
+async function deleteGroup(group){
+  const deleteResult = await store.methods.deleteGroupFetch(group);
   if(deleteResult){
-    teachers.value = await store.methods.getTeachersFetch();
-    triggerPositive('Информация о студенте успешно удалена!')
+    groups.value = await store.methods.getGroupsFetch();
+    triggerPositive('Информация о группе успешно удалена!')
   }
   else
-    triggerNegative('Не удалось удалить информацию о студенте')
+    triggerNegative('Не удалось удалить информацию о группе')
 }
 
 </script>
 <template>
   <transition-group name="list" >
-    <teacher-card v-for="teacher in teachers"
-      v-bind:key="teacher?.id"
-      :teacher="teacher"
+    <group-card v-for="group in groups"
+      v-bind:key="group?.id"
+      :group="group"
       :subjects="subjects"
       :tasks="tasks"
-      :materials="materials"
+      :students="students"
       :rooms="rooms"
-      @delete-click="deleteTeacher"
-      @update-click="updateTeacher"
+      @delete-click="deleteGroup"
+      @update-click="updateGroup"
     />
   </transition-group>
 
@@ -97,18 +97,18 @@ async function deleteTeacher(teacher){
       fab 
       icon="add" 
       color="accent"
-      @click="teacherPromptIsOpen = true"/>
+      @click="groupPromptIsOpen = true"/>
   </q-page-sticky>
 
-  <teacher-dialog
+  <group-dialog
     updateButtonLabel="Добавить"
     :subjects="subjects"
     :tasks="tasks"
-    :materials="materials"
+    :students="students"
     :rooms="rooms"
-    :prompt="teacherPromptIsOpen"
-    @update-click="addNewTeacher"
-    @prompt-close="teacherPromptIsOpen = false"
+    :prompt="groupPromptIsOpen"
+    @update-click="addNewGroup"
+    @prompt-close="groupPromptIsOpen = false"
   />
 </template>
 <style scoped>

@@ -17,29 +17,52 @@ let promptIsOpen = ref(false);
 <template>
   <q-card class="my-card">
     <q-card-section class="bg-secondary text-white">
-      <div class="text-h6">   
-        {{props.teacher.login}}
+
+      <div class="ml-2 text-h6 font-semibold">   
+        {{props.teacher.login ? props.teacher.login : "Нет логина"}}
       </div>
 
-      <div class="text-subtitle2">   
-        {{props.teacher.teacherName}}
+      <div class="text-subtitle2 font-semibold">   
+        {{props.teacher.teacherName ? props.teacher.teacherName : "Нет имени"}}
       </div>
 
-      <div class="text-subtitle2">   
-        {{props.teacher.email}}
+      <div class="text-subtitle2 font-semibold">   
+        {{props.teacher.email ? props.teacher.email : "Нет адреса почты" }}
       </div>
 
-      <div class="mt-2">
-        <div class="text-subtitle2" v-for="subject in props.teacher.subjects">        
-          {{subject.name}} 
+      <div class="text-subtitle2">
+
+        <div v-if="props.teacher.subjects?.length > 0">
+          <div class="mt-1 font-semibold">
+            Предметы:
+          </div>
+
+          <q-chip size="s" v-for="(subject, id) in props.teacher.subjects.slice(0, 2)">        
+            {{subject.name}} 
+          </q-chip>
+
         </div>
 
-        <div class="text-subtitle2" v-for="room in props.teacher.rooms">        
-          {{room.name}} 
+        <div v-if="props.teacher.rooms?.length > 0">
+          <div class="mt-1 font-semibold">
+            Комнаты:
+          </div>
+
+          <q-chip size="s" v-for="(room, id) in props.teacher.rooms.slice(0, 2)">        
+            {{room.name}} 
+          </q-chip>
+
         </div>
-        
-        <div class="text-subtitle2" v-for="task in props.teacher.tasks">        
-          {{task.name}}
+
+        <div v-if="props.teacher.tasks?.length > 0">
+          <div class="mt-1 font-semibold">
+            Задания:
+          </div>
+
+          <q-chip size="s" v-for="(task, id) in props.teacher.tasks.slice(0, 2)">        
+            {{task.name}}
+          </q-chip>
+
         </div>
       </div>
 

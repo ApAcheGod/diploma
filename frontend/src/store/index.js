@@ -327,6 +327,104 @@ const methods = {
         .then(res => res.ok)
         .catch(error => console.error(error));
     },
+
+    //  Groups
+
+    getGroupsFetch(){
+      const header = {
+        method: 'GET',
+      };
+      return fetch('http://localhost:8080/api/groups', header)
+        .then(res => res.json())
+        .then(json => json)
+        .catch(error => console.error(error));
+    },
+  
+    createGroupFetch(group){
+      const header = {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json'
+        },
+        body: JSON.stringify(group),
+      };
+      return fetch('http://localhost:8080/api/group', header)
+        .then(res => res.ok)
+        .catch(error => console.error(error));
+    },
+  
+    updateGroupFetch(group){
+      const header = {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(group),
+      };
+      return fetch(`http://localhost:8080/api/group`, header)
+        .then(res => res.ok)
+        .catch(error => console.error(error));
+    },
+  
+    deleteGroupFetch(group){
+      const header = {
+        method: 'DELETE',
+      };
+      return fetch(`http://localhost:8080/api/group/${group.id}`, header)
+        .then(res => res.ok)
+        .catch(error => console.error(error));
+    },
+
+    //  Solutions
+
+    getSolutionsFetch(){
+      const header = {
+        method: 'GET',
+      };
+      return fetch('http://localhost:8080/api/solutions', header)
+        .then(res => res.json())
+        .then(json => json)
+        .catch(error => console.error(error));
+    },
+  
+    createSolutionFetch(solution){
+      const header = {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json'
+        },
+        body: JSON.stringify(solution),
+      };
+      return fetch('http://localhost:8080/api/solution', header)
+        .then(res => res.ok)
+        .catch(error => console.error(error));
+    },
+  
+    updateSolutionFetch(solution){
+      const header = {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(solution),
+      };
+      return fetch(`http://localhost:8080/api/solution`, header)
+        .then(res => res.ok)
+        .catch(error => console.error(error));
+    },
+  
+    deleteSolutionFetch(solution){
+      const header = {
+        method: 'DELETE',
+      };
+      return fetch(`http://localhost:8080/api/group/${solution.id}`, header)
+        .then(res => res.ok)
+        .catch(error => console.error(error));
+    },
 };
 
 

@@ -40,8 +40,8 @@ const newTeacherFormatted = computed(() => {
 </script>
 
 <template>
-  <q-dialog v-model="props.prompt" persistent>
-    <q-card style="min-width: 350px" @keyup.enter="emits('update-click', newTeacherFormatted)">
+  <q-dialog v-model="props.prompt" persistent transition-show="none" transition-hide="none">
+    <q-card style="min-width: 45%" @keyup.esc="emits('prompt-close')" @keyup.enter="emits('update-click', newTeacherFormatted)">
       <q-card-section>
         <div class="text-h5">Редактирование</div>
       </q-card-section>
@@ -179,4 +179,5 @@ const newTeacherFormatted = computed(() => {
 </template>
 
 <style scoped>
+  
 </style>

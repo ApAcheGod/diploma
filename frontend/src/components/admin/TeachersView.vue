@@ -92,13 +92,13 @@ async function deleteTeacher(teacher){
     />
   </transition-group>
 
-  <q-page-sticky position="bottom-right" :offset="[20, 20]">
+  <q-card class="my-card add-card flex justify-center items-center h-48">
     <q-btn 
       fab 
       icon="add" 
       color="accent"
       @click="teacherPromptIsOpen = true"/>
-  </q-page-sticky>
+  </q-card>
 
   <teacher-dialog
     updateButtonLabel="Добавить"

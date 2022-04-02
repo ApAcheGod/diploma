@@ -66,6 +66,7 @@ public class RoomMapper {
         if (source.getTeacher() != null){
             destination.setTeacherName(source.getTeacher().getTeacherName());
             destination.setTeacherId(source.getTeacher().getId());
+            destination.setTeacherName(source.getTeacher().getTeacherName());
         }
 
     }
