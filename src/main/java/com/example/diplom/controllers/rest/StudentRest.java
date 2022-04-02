@@ -50,10 +50,12 @@ public class StudentRest {
     @PutMapping(value = "/student")
     public ResponseEntity<StudentDto> update(@RequestBody StudentDto studentDto) {
         Student student = studentMapper.toEntity(studentDto);
+        Student source = studentService.findById(studentDto.getId());
+        student.setPassword(source.getPassword());
+        student.setLogin(source.getLogin());
         studentService.save(student);
         return new ResponseEntity<> (studentMapper.toDto(student), HttpStatus.OK);
     }
-
 
     @DeleteMapping(value = "/student/{id}")
     public void delete(@PathVariable("id") UUID id) {

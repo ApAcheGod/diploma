@@ -50,6 +50,9 @@ public class TeacherRest {
     @PutMapping(value = "/teacher")
     public ResponseEntity<TeacherDto> update(@RequestBody TeacherDto teacherDto) {
         Teacher teacher = teacherMapper.toEntity(teacherDto);
+        Teacher source = teacherService.findById(teacherDto.getId());
+        teacher.setPassword(source.getPassword());
+        teacher.setLogin(source.getLogin());
         teacherService.save(teacher);
         return new ResponseEntity<>(teacherMapper.toDto(teacher), HttpStatus.OK);
     }
@@ -57,11 +60,6 @@ public class TeacherRest {
     @DeleteMapping(value = "teacher/{id}")
     public void delete(@PathVariable("id") UUID id) {
         teacherService.deleteById(id);
-    }
-
-    @GetMapping(value = "/testMethod")
-    public ResponseEntity<Teacher> testMethod(@RequestBody TeacherDto teacherDto) {
-        return new ResponseEntity<>(teacherMapper.toEntity(teacherDto), HttpStatus.OK);
     }
 
 }
