@@ -16,6 +16,7 @@ const toggleLeftDrawer = () => {
     <q-header class="bg-primary text-white">
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
+        <q-separator dark vertical inset class="ml-3 mr-2"/>
         <q-toolbar-title>
           Администратор
         </q-toolbar-title>
@@ -23,7 +24,7 @@ const toggleLeftDrawer = () => {
       </q-toolbar>
     </q-header>
     
-    <q-drawer v-model="leftDrawerOpen" side="left" overlay elevated>
+    <q-drawer class="backdrop-blur-sm" v-model="leftDrawerOpen" side="left" overlay elevated>
 
       <q-list bordered separator>
         <q-item clickable v-ripple :to="{ name: 'AdminStudents' }">
@@ -63,6 +64,8 @@ const toggleLeftDrawer = () => {
   
   </q-layout>
 </template>
-<style scoped>
-
+<style>
+.my-card {
+  flex-basis: 30%;
+}
 </style>
