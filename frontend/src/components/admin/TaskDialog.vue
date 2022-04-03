@@ -64,6 +64,10 @@ const subjectOptions = computed(() => {
       </q-card-section>
 
       <q-card-section class="q-pt-none">
+        <q-input dense autogrow v-model="newTask.text" autofocus label="Текст задания"/>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
         <q-select
           filled
           v-model="newTask.subjectId"
@@ -87,10 +91,6 @@ const subjectOptions = computed(() => {
           emit-value
           map-options
         />
-      </q-card-section>
-
-      <q-card-section class="q-pt-none">
-        <q-input dense v-model="newTask.text" autofocus label="Текст задания"/>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
