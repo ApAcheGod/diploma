@@ -36,9 +36,9 @@ public class Task {
     @Column(name = "task_name")
     private String name;
 
-    @ManyToMany(mappedBy = "tasks",fetch = FetchType.LAZY)
-    @ToString.Exclude
-    private Set<Student> students = new HashSet<>();
+//    @ManyToMany(mappedBy = "tasks",fetch = FetchType.LAZY)
+//    @ToString.Exclude
+//    private Set<Student> students = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinTable(
@@ -54,6 +54,7 @@ public class Task {
     private Subject subject;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Teacher teacher;
 
     @CreatedDate
@@ -84,14 +85,14 @@ public class Task {
     @ToString.Exclude
     private Set<Solution> solutions = new HashSet<>();
 
-    public void addStudents(Student student){
-        students.add(student);
-        student.getTasks().add(this);
-    }
+//    public void addStudents(Student student){
+//        students.add(student);
+//        student.getTasks().add(this);
+//    }
 
-    public void addStudents(Set<Student> students){
-        students.forEach(this::addStudents);
-    }
+//    public void addStudents(Set<Student> students){
+//        students.forEach(this::addStudents);
+//    }
 
     public void addGroups(Group group){
         groups.add(group);
@@ -136,7 +137,7 @@ public class Task {
         if (count_of_attempts != task.count_of_attempts) return false;
         if (id != null ? !id.equals(task.id) : task.id != null) return false;
         if (name != null ? !name.equals(task.name) : task.name != null) return false;
-        if (students != null ? !students.equals(task.students) : task.students != null) return false;
+//        if (students != null ? !students.equals(task.students) : task.students != null) return false;
         if (subject != null ? !subject.equals(task.subject) : task.subject != null) return false;
         if (teacher != null ? !teacher.equals(task.teacher) : task.teacher != null) return false;
         if (date_of_creation != null ? !date_of_creation.equals(task.date_of_creation) : task.date_of_creation != null)
@@ -154,7 +155,7 @@ public class Task {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (students != null ? students.hashCode() : 0);
+//        result = 31 * result + (students != null ? students.hashCode() : 0);
         result = 31 * result + (subject != null ? subject.hashCode() : 0);
         result = 31 * result + (teacher != null ? teacher.hashCode() : 0);
         result = 31 * result + (date_of_creation != null ? date_of_creation.hashCode() : 0);
