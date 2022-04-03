@@ -50,7 +50,12 @@ public class Teacher extends User{
     @ToString.Exclude
     private Set<Material> materials = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @JoinTable(
+            name = "teachers_groups",
+            joinColumns = {@JoinColumn(name = "teachers_id")},
+            inverseJoinColumns = {@JoinColumn(name = "groups_id")}
+    )
     @ToString.Exclude
     private Set<Group> groups = new HashSet<>();
 
@@ -97,6 +102,38 @@ public class Teacher extends User{
     public void addMaterials(Material material){
         this.materials.add(material);
         material.setTeacher(this);
+    }
+
+    public void deleteLinks(){
+        this.removeMaterials();
+        this.removeGroups();
+        this.removeRooms();
+        this.removeSubjects();
+        this.removeTasks();
+    }
+    private void removeMaterials(){
+        this.materials.forEach(material -> material.setTeacher(null));
+        this.materials = new HashSet<>();
+    }
+
+    private void removeRooms(){
+        this.rooms.forEach(room -> room.setTeacher(null));
+        this.rooms = new HashSet<>();
+    }
+
+    private void removeTasks(){
+        this.tasks.forEach(task -> task.setTeacher(null));
+        this.tasks = new HashSet<>();
+    }
+
+    private void removeSubjects(){
+        this.subjects.forEach(subject -> subject.setTeacher(null));
+        this.subjects = new HashSet<>();
+    }
+
+    private void removeGroups(){
+        this.groups.forEach(group -> group.getTeachers().remove(this));
+        this.groups = new HashSet<>();
     }
 
     public void addMaterials(Set<Material> materials){

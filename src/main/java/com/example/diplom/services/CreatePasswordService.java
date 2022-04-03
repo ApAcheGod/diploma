@@ -8,11 +8,15 @@ import org.passay.PasswordGenerator;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 @Service
 @Slf4j
 public class CreatePasswordService {
 
-    public String createPassword(){
+    public List<String> createPassword(){
         CharacterData lowerCaseChars = EnglishCharacterData.LowerCase;
         CharacterRule lowerCaseRule = new CharacterRule(lowerCaseChars);
         lowerCaseRule.setNumberOfCharacters(6);
@@ -28,7 +32,6 @@ public class CreatePasswordService {
         PasswordGenerator passwordGenerator = new PasswordGenerator();
         String rowPassword = passwordGenerator.generatePassword(10, lowerCaseRule, upperCaseRule, digitRule);
         String encryptedPassword = new BCryptPasswordEncoder().encode(rowPassword);
-        log.info("row password {} encrypted password {}", rowPassword, encryptedPassword);
-        return encryptedPassword;
+        return List.of(rowPassword, encryptedPassword);
     }
 }

@@ -40,7 +40,12 @@ public class Task {
     @ToString.Exclude
     private Set<Student> students = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @JoinTable(
+            name = "tasks_groups",
+            joinColumns = {@JoinColumn(name = "tasks_id")},
+            inverseJoinColumns = {@JoinColumn(name = "groups_id")}
+    )
     @ToString.Exclude
     private Set<Group> groups = new HashSet<>();
 
