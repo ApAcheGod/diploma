@@ -43,14 +43,14 @@ public class Subject {
     @ToString.Exclude
     private Set<Task> tasks = new HashSet<>();
 
-    @ManyToMany(cascade = { CascadeType.MERGE } )
-    @JoinTable(
-            name = "subjects_groups",
-            joinColumns = {@JoinColumn(name = "subjects_id")},
-            inverseJoinColumns = {@JoinColumn(name = "groups_id")}
-    )
-    @ToString.Exclude
-    private Set<Group> groups = new HashSet<>();
+//    @ManyToMany(cascade = { CascadeType.MERGE } )
+//    @JoinTable(
+//            name = "subjects_groups",
+//            joinColumns = {@JoinColumn(name = "subjects_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "groups_id")}
+//    )
+//    @ToString.Exclude
+//    private Set<Group> groups = new HashSet<>();
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -80,22 +80,22 @@ public class Subject {
         tasks.forEach(this::addTasks);
     }
 
-    public void addGroups(Group group){
-        groups.add(group);
-        group.getSubjects().add(this);
-    }
-
-    public void addGroups(Set<Group> groups){
-        groups.forEach(this::addGroups);
-    }
-
-    public void setGroups(Group group){
-        this.groups.add(group);
-    }
-
-    public void setGroups(Set<Group> groups){
-        this.groups = groups;
-    }
+//    public void addGroups(Group group){
+//        groups.add(group);
+//        group.getSubjects().add(this);
+//    }
+//
+//    public void addGroups(Set<Group> groups){
+//        groups.forEach(this::addGroups);
+//    }
+//
+//    public void setGroups(Group group){
+//        this.groups.add(group);
+//    }
+//
+//    public void setGroups(Set<Group> groups){
+//        this.groups = groups;
+//    }
 
     public void addRoom(Room room){
         this.room = room;

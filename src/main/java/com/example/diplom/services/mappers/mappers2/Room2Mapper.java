@@ -1,14 +1,20 @@
 package com.example.diplom.services.mappers.mappers2;
 
+import com.example.diplom.entities.Material;
 import com.example.diplom.entities.Room;
+import com.example.diplom.entities.Subject;
+import com.example.diplom.entities.dto.MaterialDto;
 import com.example.diplom.entities.dto.to.Room2Dto;
+import com.example.diplom.services.mappers.MaterialMapper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -18,6 +24,7 @@ public class Room2Mapper {
     private final ModelMapper modelMapper;
     private final Group2Mapper group2Mapper;
     private final Subject2Mapper subject2Mapper;
+    private final MaterialMapper materialMapper;
 
     @PostConstruct
     public void setupMapper(){
@@ -26,6 +33,7 @@ public class Room2Mapper {
                 .addMappings(m -> m.skip(Room2Dto::setGroups))
                 .addMappings(m -> m.skip(Room2Dto::setSubjects))
                 .addMappings(m -> m.skip(Room2Dto::setTeacherName))
+                .addMappings(m -> m.skip(Room2Dto::setMaterials))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(Room2Dto.class, Room.class)
                 .addMappings(m -> m.skip(Room::setSubjects))
@@ -60,6 +68,16 @@ public class Room2Mapper {
 
         if (source.getSubjects() != null){
             destination.setSubjects(source.getSubjects().stream().map(subject2Mapper::toDto).collect(Collectors.toSet()));
+
+            Set<MaterialDto> materials = new HashSet<>();
+            source.getSubjects()
+                    .forEach(subject -> subject
+                            .getMaterials()
+                            .stream()
+                            .map(materialMapper::toDto)
+                            .forEach(materials::add));
+
+            destination.setMaterials(materials);
         }
 
         if (source.getTeacher() != null){

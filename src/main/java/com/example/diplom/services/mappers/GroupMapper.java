@@ -32,8 +32,6 @@ public class GroupMapper {
     private final RoomService roomService;
 
 
-
-
     @PostConstruct
     public void setupMapper(){
         modelMapper.createTypeMap(Group.class, GroupDto.class)
@@ -46,9 +44,9 @@ public class GroupMapper {
         modelMapper.createTypeMap(GroupDto.class, Group.class)
                 .addMappings(m -> m.skip(Group::setRooms))
                 .addMappings(m -> m.skip(Group::setStudents))
-                .addMappings(m -> m.skip(Group::setSubjects))
+//                .addMappings(m -> m.skip(Group::setSubjects))
 //                .addMappings(m -> m.skip(Group::setTeachers))
-                .addMappings(m -> m.skip(Group::setTasks))
+//                .addMappings(m -> m.skip(Group::setTasks))
                 .setPostConverter(toEntityConverter());
     }
 
@@ -77,7 +75,6 @@ public class GroupMapper {
             destination.setRooms(source.getRooms().stream().map(room2Mapper::toDto).collect(Collectors.toSet()));
         }
 
-
         if (source.getTasks() != null){
             destination.setTasks(source.getTasks().stream().map(task2Mapper::toDto).collect(Collectors.toSet()));
         }
@@ -101,13 +98,13 @@ public class GroupMapper {
             source.getRooms().forEach(room2Dto -> destination.addRooms(roomService.findById(room2Dto.getId())));
         }
 
-        if (source.getSubjects() != null){
-            source.getSubjects().forEach(subject2Dto -> destination.addSubjects(subjectService.findById(subject2Dto.getId())));
-        }
+//        if (source.getSubjects() != null){
+//            source.getSubjects().forEach(subject2Dto -> destination.addSubjects(subjectService.findById(subject2Dto.getId())));
+//        }
 
-        if (source.getTasks() != null){
-            source.getTasks().forEach(task2Dto -> destination.addTasks(taskService.findById(task2Dto.getId())));
-        }
+//        if (source.getTasks() != null){
+//            source.getTasks().forEach(task2Dto -> destination.addTasks(taskService.findById(task2Dto.getId())));
+//        }
 
     }
 

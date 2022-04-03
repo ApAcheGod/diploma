@@ -35,9 +35,9 @@ public class Group {
     @ToString.Exclude
     private Set<Student> students = new HashSet<>();
 
-    @ManyToMany(mappedBy = "groups")
-    @ToString.Exclude
-    private Set<Subject> subjects = new HashSet<>();
+//    @ManyToMany(mappedBy = "groups")
+//    @ToString.Exclude
+//    private Set<Subject> subjects = new HashSet<>();
 
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
     @ToString.Exclude
@@ -52,9 +52,27 @@ public class Group {
     @ToString.Exclude
     private Set<Room> rooms = new HashSet<>();
 
-    @ManyToMany(mappedBy = "groups")
-    @ToString.Exclude
-    private Set<Task> tasks = new HashSet<>();
+//    @ManyToMany(mappedBy = "groups")
+//    @ToString.Exclude
+//    private Set<Task> tasks = new HashSet<>();
+
+    public Set<Subject> getSubjects(){
+        Set<Subject> subjects = new HashSet<>();
+        rooms.forEach(room -> subjects.addAll(room.getSubjects()));
+        return subjects;
+    }
+
+    public Set<Task> getTasks(){
+        Set<Task> tasks = new HashSet<>();
+        rooms.forEach(room -> room.getSubjects().forEach(subject -> tasks.addAll(subject.getTasks())));
+        return tasks;
+    }
+
+    public Set<Material> getMaterials(){
+        Set<Material> materials = new HashSet<>();
+        rooms.forEach(room -> room.getSubjects().forEach(subject -> materials.addAll(subject.getMaterials())));
+        return materials;
+    }
 
     public void addStudents(Student student){
         students.add(student);
@@ -65,14 +83,14 @@ public class Group {
         students.forEach(this::addStudents);
     }
 
-    public void addSubjects(Subject subject){
-        subjects.add(subject);
-        subject.getGroups().add(this);
-    }
-
-    public void addSubjects(Set<Subject> subjects){
-        subjects.forEach(this::addSubjects);
-    }
+//    public void addSubjects(Subject subject){
+//        subjects.add(subject);
+//        subject.getGroups().add(this);
+//    }
+//
+//    public void addSubjects(Set<Subject> subjects){
+//        subjects.forEach(this::addSubjects);
+//    }
 
     public void addTeachers(Teacher teacher){
         teachers.add(teacher);
@@ -98,13 +116,13 @@ public class Group {
 //        this.
 //    }
 
-    public void addTasks(Task task){
-        tasks.add(task);
-        task.getGroups().add(this);
-    }
-    public void addTasks(Set<Task> tasks){
-        tasks.forEach(this::addTasks);
-    }
+//    public void addTasks(Task task){
+//        tasks.add(task);
+//        task.getGroups().add(this);
+//    }
+//    public void addTasks(Set<Task> tasks){
+//        tasks.forEach(this::addTasks);
+//    }
 
 //    @Override
 //    public boolean equals(Object o) {

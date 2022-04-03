@@ -81,9 +81,9 @@ public class SubjectMapper {
             destination.addTeacher(teacherService.findById(source.getTeacherId()));
         }
 
-        if (source.getGroups() != null){
-            source.getGroups().forEach(group2Dto ->  destination.setGroups(groupService.findById(group2Dto.getId())));
-        }
+//        if (source.getGroups() != null){
+//            source.getGroups().forEach(group2Dto ->  destination.setGroups(groupService.findById(group2Dto.getId())));
+//        }
 
         if (source.getMaterials() != null){
             source.getMaterials().forEach(materialDto ->  destination.addMaterials(materialService.findById(materialDto.getId())));

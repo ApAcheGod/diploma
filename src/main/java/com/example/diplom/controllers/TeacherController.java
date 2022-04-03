@@ -95,7 +95,7 @@ public class TeacherController {
     public String subjectInfo(Model model, Principal principal, @PathVariable("UUID") UUID uuid){
         Subject subject = subjectService.findById(uuid);
         model.addAttribute("subject", subject);
-        model.addAttribute("groups", subject.getGroups());
+//        model.addAttribute("groups", subject.getGroups());
         model.addAttribute("materials", subject.getMaterials());
         model.addAttribute("tasks", subject.getTasks());
 //        model.addAttribute("student", subject.getStudent()); // TODO Предмет у студента надо ли

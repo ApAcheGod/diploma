@@ -35,7 +35,7 @@ public class StudentMapper {
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(StudentDto.class, Student.class)
                 .addMappings(m -> m.skip(Student::setGroup))
-                .addMappings(m -> m.skip(Student::setTasks))
+//                .addMappings(m -> m.skip(Student::setTasks))
                 .addMappings(m -> m.skip(Student::setSolutions))
                 .addMappings(m -> m.skip(Student::setLogin))
                 .setPostConverter(toEntityConverter());
@@ -83,9 +83,9 @@ public class StudentMapper {
             source.getSolutions().forEach(solutionDto -> destination.addSolution(solutionService.findById(solutionDto.getId())));
         }
 
-        if (source.getTasks() != null){
-            source.getTasks().forEach(task2Dto -> destination.setTasks(taskService.findById(task2Dto.getId())));
-        }
+//        if (source.getTasks() != null){
+//            source.getTasks().forEach(task2Dto -> destination.setTasks(taskService.findById(task2Dto.getId())));
+//        }
     }
 
     public Student toEntity(StudentDto studentDto){

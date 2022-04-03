@@ -1,5 +1,6 @@
 package com.example.diplom.entities.dto.to;
 
+import com.example.diplom.entities.dto.MaterialDto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -30,5 +31,7 @@ public class Room2Dto {
     private Set<Group2Dto> groups = new HashSet<>();
 
     private Set<Subject2Dto> subjects = new HashSet<>();
+
+    private Set<MaterialDto> materials = new HashSet<>();
 
 }
