@@ -92,7 +92,7 @@ async function deleteTeacher(teacher){
     />
   </transition-group>
 
-  <q-card class="my-card add-card flex justify-center items-center h-48">
+  <q-card class="my-card add-card flex justify-center items-center h-48" style="max-width: 30%; min-width: 300px;">
     <q-btn 
       fab 
       icon="add" 
