@@ -84,7 +84,7 @@ public class StudentMapper {
         }
 
         if (source.getTasks() != null){
-            source.getTasks().forEach(task2Dto -> destination.addTasks(taskService.findById(task2Dto.getId())));
+            source.getTasks().forEach(task2Dto -> destination.setTasks(taskService.findById(task2Dto.getId())));
         }
     }
 

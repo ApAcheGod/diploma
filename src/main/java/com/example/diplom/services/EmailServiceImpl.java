@@ -11,15 +11,19 @@ import org.springframework.stereotype.Service;
 //@ConditionalOnProperty
 public class EmailServiceImpl implements EmailService{
 
+    private final String TEMPLATE = """
+            Логин %s
+            Пароль %s
+            """;
     private final JavaMailSender javaMailSender;
 
     @Override
-    public void sendEmail(String to, String message) {
+    public void sendEmail(String to, String login, String password) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom("diplomaProject@yandex.ru");
         simpleMailMessage.setTo("nik.alpatov@mail.ru");
         simpleMailMessage.setSubject("Данные для входа");
-        simpleMailMessage.setText("Привет это твои данные для входа");
+        simpleMailMessage.setText(String.format(TEMPLATE, login, password));
         javaMailSender.send(simpleMailMessage);
     }
 }

@@ -110,7 +110,7 @@ public class MainController {
     public String addStudent(@ModelAttribute("student") Student student){
         student.setRoles(List.of(roleRepository.findRoleByRoleName("ROLE_STUDENT")));
         loginService.createLoginForUser(student);
-        student.setPassword(passwordService.createPassword());
+        student.setPassword(passwordService.createPassword().get(1));
         studentService.save(student);
         return "redirect:/main/allGroups";
     }
@@ -130,7 +130,7 @@ public class MainController {
     public String addTeacher(@ModelAttribute("teacher") Teacher teacher){
         teacher.setRoles(List.of(roleRepository.findRoleByRoleName("ROLE_TEACHER")));
         loginService.createLoginForUser(teacher);
-        teacher.setPassword(passwordService.createPassword());
+        teacher.setPassword(passwordService.createPassword().get(1));
         teacherService.save(teacher);
         return "redirect:/main/allTeachers";
     }

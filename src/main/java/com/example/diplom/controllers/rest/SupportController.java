@@ -13,8 +13,8 @@ public class SupportController {
 
     private final EmailService emailService;
 
-    @GetMapping("/sendEmail")
-    public void sendEmail(){
-        emailService.sendEmail("123", "message");
-    }
+//    @GetMapping("/sendEmail")
+//    public void sendEmail(){
+//        emailService.sendEmail("123", "message");
+//    }
 }

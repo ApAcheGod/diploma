@@ -5,6 +5,7 @@ import com.example.diplom.entities.dto.StudentDto;
 import com.example.diplom.repositories.RoleRepository;
 import com.example.diplom.services.CreateLoginService;
 import com.example.diplom.services.CreatePasswordService;
+import com.example.diplom.services.EmailService;
 import com.example.diplom.services.StudentService;
 import com.example.diplom.services.mappers.StudentMapper;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class StudentRest {
     private final RoleRepository roleRepository;
     private final CreateLoginService loginService;
     private final StudentMapper studentMapper;
+    private final EmailService emailService;
 
     @GetMapping("/students")
     public List<StudentDto> allStudents(){
@@ -41,9 +43,15 @@ public class StudentRest {
     public ResponseEntity<StudentDto> create(@RequestBody StudentDto studentDto) {
         Student student = studentMapper.toEntity(studentDto);
         loginService.createLoginForUser(student);
-        student.setPassword(passwordService.createPassword());
+        List<String> passwords = passwordService.createPassword();
+        student.setPassword(passwords.get(1));
         student.setRoles(List.of(roleRepository.findRoleByRoleName("ROLE_STUDENT")));
-        studentService.save(student);
+        try{
+            studentService.save(student);
+            emailService.sendEmail("nil.alpatov@mail.ru", student.getLogin(), passwords.get(0));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return new ResponseEntity<>(studentMapper.toDto(student),  HttpStatus.CREATED);
     }
 

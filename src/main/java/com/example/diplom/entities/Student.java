@@ -48,7 +48,12 @@ public class Student extends User{
     @ToString.Exclude
     private Set<Solution> solutions = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @JoinTable(
+            name = "students_tasks",
+            joinColumns = {@JoinColumn(name = "students_id")},
+            inverseJoinColumns = {@JoinColumn(name = "tasks_id")}
+    )
     @ToString.Exclude
     private Set<Task> tasks = new HashSet<>();
 
@@ -84,13 +89,21 @@ public class Student extends User{
         solutions.forEach(this::addSolution);
     }
 
-    public void addTasks(Task task){
+    public void setTasks(Task task){
         tasks.add(task);
-        task.getStudents().add(this);
     }
 
-    public void addTasks(Set<Task> tasks){
-        tasks.forEach(this::addTasks);
-    }
+//    public void setTasks(Set<Task> tasks){
+//        tasks.forEach(this::setTasks);
+//    }
+
+//    public void addTasks(Task task){
+//        tasks.add(task);
+//        task.getStudents().add(this);
+//    }
+//
+//    public void addTasks(Set<Task> tasks){
+//        tasks.forEach(this::addTasks);
+//    }
 
 }
