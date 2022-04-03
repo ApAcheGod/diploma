@@ -32,6 +32,17 @@ let promptIsOpen = ref(false);
 
       <div class="text-subtitle2">
 
+        <div v-if="props.teacher.materials?.length > 0">
+          <div class="mt-1 font-semibold">
+            Материалы:
+          </div>
+
+          <q-chip size="s" v-for="(material, id) in props.teacher.materials.slice(0, 2)">        
+            {{material.name}} 
+          </q-chip>
+
+        </div>
+
         <div v-if="props.teacher.subjects?.length > 0">
           <div class="mt-1 font-semibold">
             Предметы:

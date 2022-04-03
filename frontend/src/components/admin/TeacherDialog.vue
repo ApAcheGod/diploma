@@ -13,6 +13,10 @@ const props = defineProps({
     default: 'Изменить',
     type: String
   },
+  formTitle: {
+    default: 'Редактировать',
+    type: String
+  },
   subjects: Array, 
   rooms: Array,
   materials: Array, 
@@ -22,9 +26,15 @@ const props = defineProps({
 let newTeacher = ref({});
 
 onMounted(() => {
+  clearForm();
+});
+
+function clearForm() {
   if (props.teacher)
     newTeacher.value = JSON.parse(JSON.stringify(props.teacher));
-});
+  else
+    newTeacher.value = {};
+}
 
 const newTeacherFormatted = computed(() => {
   let newTeacherFormatted = JSON.parse(JSON.stringify(newTeacher.value));
@@ -41,9 +51,9 @@ const newTeacherFormatted = computed(() => {
 
 <template>
   <q-dialog v-model="props.prompt" persistent transition-show="none" transition-hide="none">
-    <q-card style="min-width: 45%" @keyup.esc="emits('prompt-close')" @keyup.enter="emits('update-click', newTeacherFormatted)">
+    <q-card style="min-width: 40%" @keyup.esc="emits('prompt-close'); clearForm();" @keyup.enter="emits('update-click', newTeacherFormatted)">
       <q-card-section>
-        <div class="text-h5">Редактирование</div>
+        <div class="text-h5">{{props.formTitle}}</div>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
@@ -171,7 +181,7 @@ const newTeacherFormatted = computed(() => {
       </q-card-section>
 
       <q-card-actions align="right" class="text-primary">
-        <q-btn flat label="Отмена"  @click="emits('prompt-close')"/>
+        <q-btn flat label="Отмена"  @click="emits('prompt-close'); clearForm();"/>
         <q-btn flat :label="updateButtonLabel" @click="emits('update-click', newTeacherFormatted)" />
       </q-card-actions>
     </q-card>

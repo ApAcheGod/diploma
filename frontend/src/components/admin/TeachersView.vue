@@ -51,30 +51,30 @@ async function updateTeacher(newTeacher){
   let updateResult = await store.methods.updateTeacherFetch(newTeacher);
   if(updateResult){
     teachers.value = await store.methods.getTeachersFetch();
-    triggerPositive('Информация о студенте успешно обновлена!');
+    triggerPositive('Информация о преподавателе успешно обновлена!');
   }
   else
-    triggerNegative('Не удалось обновить информацию о студенте');
+    triggerNegative('Не удалось обновить информацию о преподавателе');
 }
 
 async function addNewTeacher(newteacher){
   const createResult = await store.methods.createTeacherFetch(newteacher);
   if (createResult) {
     teachers.value = await store.methods.getTeachersFetch();
-    triggerPositive('Успешно добавлен новый студент!');
+    triggerPositive('Успешно добавлен новый преподаватель!');
   }
   else
-    triggerNegative('Не удалось добавить студента');
+    triggerNegative('Не удалось добавить преподавателя');
 }
 
 async function deleteTeacher(teacher){
   const deleteResult = await store.methods.deleteTeacherFetch(teacher);
   if(deleteResult){
     teachers.value = await store.methods.getTeachersFetch();
-    triggerPositive('Информация о студенте успешно удалена!')
+    triggerPositive('Информация о преподавателе успешно удалена!')
   }
   else
-    triggerNegative('Не удалось удалить информацию о студенте')
+    triggerNegative('Не удалось удалить информацию о преподавателе')
 }
 
 </script>
@@ -92,7 +92,7 @@ async function deleteTeacher(teacher){
     />
   </transition-group>
 
-  <q-card class="my-card add-card flex justify-center items-center h-48">
+  <q-card class="my-card add-card flex justify-center items-center h-48" style="max-width: 30%; min-width: 300px;">
     <q-btn 
       fab 
       icon="add" 
@@ -101,6 +101,7 @@ async function deleteTeacher(teacher){
   </q-card>
 
   <teacher-dialog
+    formTitle="Добавить нового преподавателя"
     updateButtonLabel="Добавить"
     :subjects="subjects"
     :tasks="tasks"
