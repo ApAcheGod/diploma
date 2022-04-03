@@ -58,7 +58,7 @@ const toggleLeftDrawer = () => {
       </q-list>
     </q-drawer>
     
-    <q-page-container class="row q-gutter-md m-7"> 
+    <q-page-container class="row q-gutter-md m-6"> 
       <router-view />
     </q-page-container>
   
