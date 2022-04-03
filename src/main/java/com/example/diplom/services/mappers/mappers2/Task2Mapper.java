@@ -54,13 +54,13 @@ public class Task2Mapper {
         if (source.getSubject() != null){
             destination.setSubjectName(source.getSubject().getName());
             destination.setSubjectId(source.getSubject().getId());
-            destination.setTeacherName(source.getTeacher().getTeacherName());
+            destination.setSubjectName(source.getSubject().getName());
         }
 
         if (source.getTeacher() != null){
             destination.setTeacherName(source.getTeacher().getTeacherName());
             destination.setTeacherId(source.getTeacher().getId());
-            destination.setSubjectName(source.getSubject().getName());
+            destination.setTeacherName(source.getTeacher().getTeacherName());
         }
     }
 
