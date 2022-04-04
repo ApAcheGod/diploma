@@ -29,6 +29,8 @@ public class StudentDto {
 
     private String patronymic;
 
+    private String name;
+
     private String login;
 
     private String email;

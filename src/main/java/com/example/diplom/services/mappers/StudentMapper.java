@@ -32,6 +32,7 @@ public class StudentMapper {
                 .addMappings(m -> m.skip(StudentDto::setGroupId))
                 .addMappings(m -> m.skip(StudentDto::setSolutions))
                 .addMappings(m -> m.skip(StudentDto::setTasks))
+                .addMappings(m -> m.skip(StudentDto::setName))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(StudentDto.class, Student.class)
                 .addMappings(m -> m.skip(Student::setGroup))
@@ -60,6 +61,8 @@ public class StudentMapper {
     }
 
     private void mapSpecificFields(Student source, StudentDto destination) {
+
+        destination.setName(source.getName());
 
         if (source.getGroup() != null){
             destination.setGroupId(source.getGroup().getId());
