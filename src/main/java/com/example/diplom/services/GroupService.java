@@ -35,6 +35,9 @@ public class GroupService{
     }
 
     public void deleteById(UUID uuid) {
+        Group group = groupRepository.getById(uuid);
+        group.deleteLinks();
+        groupRepository.save(group);
         groupRepository.deleteById(uuid);
     }
 }

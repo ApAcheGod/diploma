@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -40,14 +41,17 @@ public class Teacher extends User{
 
     @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
     @ToString.Exclude
+    @BatchSize(size = 20)
     private Set<Subject> subjects = new HashSet<>();
 
     @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
     @ToString.Exclude
+    @BatchSize(size = 20)
     private Set<Room> rooms = new HashSet<>();
 
     @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
     @ToString.Exclude
+    @BatchSize(size = 20)
     private Set<Material> materials = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
@@ -57,10 +61,12 @@ public class Teacher extends User{
             inverseJoinColumns = {@JoinColumn(name = "groups_id")}
     )
     @ToString.Exclude
+    @BatchSize(size = 20)
     private Set<Group> groups = new HashSet<>();
 
     @OneToMany(mappedBy = "teacher" ,fetch = FetchType.LAZY)
     @ToString.Exclude
+    @BatchSize(size = 20)
     private Set<Task> tasks = new HashSet<>();
 
     @JsonIgnore

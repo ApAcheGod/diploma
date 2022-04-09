@@ -47,6 +47,9 @@ public class TaskRest {
 
     @DeleteMapping(value = "task/{id}")
     public void delete(@PathVariable("id") UUID id) {
+        Task task = taskService.findById(id);
+        task.deleteLinks();
+        taskService.save(task);
         taskService.deleteById(id);
     }
 }

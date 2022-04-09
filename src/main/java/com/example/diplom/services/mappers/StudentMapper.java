@@ -65,14 +65,20 @@ public class StudentMapper {
         destination.setName(source.getName());
 
         if (source.getGroup() != null){
+//            System.out.println(source.getGroup());
+//            System.out.println(source.getGroup().getSubjects());
+//            System.out.println(source.getGroup().getTasks());
+//            System.out.println(source.getGroup().getMaterials());
             destination.setGroupId(source.getGroup().getId());
         }
 
         if (source.getSolutions() != null){
+//            System.out.println(source.getSolutions());
             destination.setSolutions(source.getSolutions().stream().map(solutionMapper::toDto).collect(Collectors.toSet()));
         }
 
-        if (source.getTasks() != null){
+        if (source.getTasks() != null && source.getGroup() != null){
+//            System.out.println(source.getTasks());
             destination.setTasks(source.getTasks().stream().map(task2Mapper::toDto).collect(Collectors.toSet()));
         }
     }

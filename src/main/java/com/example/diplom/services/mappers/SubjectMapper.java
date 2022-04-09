@@ -1,15 +1,21 @@
 package com.example.diplom.services.mappers;
 
+import com.example.diplom.entities.Material;
 import com.example.diplom.entities.Subject;
+import com.example.diplom.entities.dto.MaterialDto;
 import com.example.diplom.entities.dto.SubjectDto;
+import com.example.diplom.entities.dto.to.Task2Dto;
 import com.example.diplom.services.*;
+import com.example.diplom.services.mappers.mappers2.Task2Mapper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -19,9 +25,11 @@ public class SubjectMapper {
 
     private final RoomService roomService;
     private final TeacherService teacherService;
-    private final GroupService groupService;
+//    private final GroupService groupService;
     private final MaterialService materialService;
     private final TaskService taskService;
+    private final MaterialMapper materialMapper;
+    private final Task2Mapper task2Mapper;
 
     @PostConstruct
     public void setupMapper(){
@@ -33,6 +41,8 @@ public class SubjectMapper {
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(SubjectDto.class, Subject.class)
                 .addMappings(m -> m.skip(Subject::setRoom))
+                .addMappings(m -> m.skip(Subject::setMaterials))
+                .addMappings(m -> m.skip(Subject::setTasks))
                 .addMappings(m -> m.skip(Subject::setTeacher))
                 .setPostConverter(toEntityConverter());
     }
@@ -58,11 +68,20 @@ public class SubjectMapper {
     private void mapSpecificFields(Subject source, SubjectDto destination) {
 
         if (source.getRoom() != null){
+            destination.setRoomId(source.getRoom().getId());
             destination.setRoomName(source.getRoom().getName());
         }
 
-        if (source.getRoom() != null){
-            destination.setRoomId(source.getRoom().getId());
+        if (source.getMaterials() != null){
+            Set<MaterialDto> materialDtoSet = new HashSet<>();
+            source.getMaterials().forEach(material -> materialDtoSet.add(materialMapper.toDto(material)));
+            destination.setMaterials(materialDtoSet);
+        }
+
+        if (source.getTasks() != null){
+            Set<Task2Dto> task2DtoSet = new HashSet<>();
+            source.getTasks().forEach(task -> task2DtoSet.add(task2Mapper.toDto(task)));
+            destination.setTasks(task2DtoSet);
         }
 
         if (source.getTeacher() != null){
@@ -80,10 +99,6 @@ public class SubjectMapper {
         if (source.getTeacherId() != null){
             destination.addTeacher(teacherService.findById(source.getTeacherId()));
         }
-
-//        if (source.getGroups() != null){
-//            source.getGroups().forEach(group2Dto ->  destination.setGroups(groupService.findById(group2Dto.getId())));
-//        }
 
         if (source.getMaterials() != null){
             source.getMaterials().forEach(materialDto ->  destination.addMaterials(materialService.findById(materialDto.getId())));

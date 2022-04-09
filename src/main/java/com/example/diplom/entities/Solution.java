@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.BatchSize;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -35,19 +36,15 @@ public class Solution {
 
     private String text;
 
-//    private int count_of_attempts; // количество сдачь  // TODO перенести в новую сущность оценки решения
-
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
+    @BatchSize(size = 20)
     private Student student;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @ToString.Exclude
+    @BatchSize(size = 20)
     private Task task;
-
-//    @OneToOne
-//    @OnDelete(action = OnDeleteAction.CASCADE)
-//    private Examination examination;
 
     @Override
     public boolean equals(Object o) {

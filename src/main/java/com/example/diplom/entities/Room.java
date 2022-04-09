@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -33,14 +34,17 @@ public class Room {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     @ToString.Exclude
+    @BatchSize(size = 20)
     private Teacher teacher;
 
     @ManyToMany(mappedBy = "rooms")
     @ToString.Exclude
+    @BatchSize(size = 20)
     private Set<Group> groups = new HashSet<>();
 
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     @ToString.Exclude
+    @BatchSize(size = 20)
     private Set<Subject> subjects = new HashSet<>();
 
     @Override
@@ -70,12 +74,4 @@ public class Room {
         subjects.forEach(this::addSubjects);
     }
 
-//    public void addGroups(Group group){
-//        groups.add(group);
-//        group.getRooms().add(this);
-//    }
-//
-//    public void addGroups(Set<Group> groups){
-//        groups.forEach(this::addGroups);
-//    }
 }

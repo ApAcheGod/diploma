@@ -44,17 +44,17 @@ public class TaskDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") // work
     private LocalDateTime last_date_of_delivery;
 
-    private int min_rating;
-
-    private int max_rating;
-
-    private Boolean isTemporal;
-
-    private Boolean isMandatory; // обязательное задание
-
-    private TaskType taskType;
-
-    private int count_of_attempts; // количество сдачь
+//    private int min_rating;
+//
+//    private int max_rating;
+//
+//    private Boolean isTemporal;
+//
+//    private Boolean isMandatory; // обязательное задание
+//
+//    private TaskType taskType;
+//
+//    private int count_of_attempts; // количество сдачь
 
     private String text;
 

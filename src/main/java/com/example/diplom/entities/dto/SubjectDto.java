@@ -36,8 +36,8 @@ public class SubjectDto {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<Task2Dto> tasks = new HashSet<>();
 
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Set<Group2Dto> groups = new HashSet<>();
+//    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+//    private Set<Group2Dto> groups = new HashSet<>();
 
     private UUID roomId;
 
