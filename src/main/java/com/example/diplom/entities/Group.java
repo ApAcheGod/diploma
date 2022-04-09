@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -33,14 +34,12 @@ public class Group {
 
     @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
     @ToString.Exclude
+    @BatchSize(size = 20)
     private Set<Student> students = new HashSet<>();
-
-//    @ManyToMany(mappedBy = "groups")
-//    @ToString.Exclude
-//    private Set<Subject> subjects = new HashSet<>();
 
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
     @ToString.Exclude
+    @BatchSize(size = 20)
     private Set<Teacher> teachers = new HashSet<>();
 
     @ManyToMany(cascade = { CascadeType.MERGE } )
@@ -50,11 +49,27 @@ public class Group {
             inverseJoinColumns = {@JoinColumn(name = "rooms_id")}
     )
     @ToString.Exclude
+    @BatchSize(size = 20)
     private Set<Room> rooms = new HashSet<>();
 
-//    @ManyToMany(mappedBy = "groups")
-//    @ToString.Exclude
-//    private Set<Task> tasks = new HashSet<>();
+    public void deleteLinks(){
+        deleteRooms();
+        deleteTeachers();
+        deleteStudents();
+    }
+
+    private void deleteRooms(){
+        this.rooms.forEach(room -> room.getGroups().remove(this));
+    }
+
+    private void deleteTeachers(){
+        this.teachers.forEach(teacher -> teacher.getGroups().remove(this));
+    }
+
+    private void deleteStudents(){
+        this.students.forEach(student -> student.setGroup(null));
+    }
+
 
     public Set<Subject> getSubjects(){
         Set<Subject> subjects = new HashSet<>();
@@ -83,15 +98,6 @@ public class Group {
         students.forEach(this::addStudents);
     }
 
-//    public void addSubjects(Subject subject){
-//        subjects.add(subject);
-//        subject.getGroups().add(this);
-//    }
-//
-//    public void addSubjects(Set<Subject> subjects){
-//        subjects.forEach(this::addSubjects);
-//    }
-
     public void addTeachers(Teacher teacher){
         teachers.add(teacher);
         teacher.getGroups().add(this);
@@ -109,34 +115,4 @@ public class Group {
         rooms.forEach(this::addRooms);
     }
 
-//    public void setRooms(Room room){
-//        this.rooms.add(room);
-//    }
-//    public void setRooms(Set<Room> rooms){
-//        this.
-//    }
-
-//    public void addTasks(Task task){
-//        tasks.add(task);
-//        task.getGroups().add(this);
-//    }
-//    public void addTasks(Set<Task> tasks){
-//        tasks.forEach(this::addTasks);
-//    }
-
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//
-//        Group group = (Group) o;
-//
-//        if (id != null ? !id.equals(group.id) : group.id != null) return false;
-//        return name != null ? name.equals(group.name) : group.name == null;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return id != null ? id.hashCode() : 0;
-//    }
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -33,9 +34,9 @@ public class Examination {
     private LocalDateTime dateOfValuation;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @BatchSize(size = 20)
     private Solution solution;
-
-//    private int mark;
 
     @Enumerated(EnumType.STRING)
     private ExaminationStatus examinationStatus;
