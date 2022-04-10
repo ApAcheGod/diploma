@@ -1,6 +1,5 @@
 package com.example.diplom.entities.dto;
 
-import com.example.diplom.entities.dto.to.Group2Dto;
 import com.example.diplom.entities.dto.to.Task2Dto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;

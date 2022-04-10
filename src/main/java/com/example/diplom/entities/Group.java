@@ -42,6 +42,11 @@ public class Group {
     @BatchSize(size = 20)
     private Set<Teacher> teachers = new HashSet<>();
 
+    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @BatchSize(size = 20)
+    private Set<Subject> subjects = new HashSet<>();
+
     @ManyToMany(cascade = { CascadeType.MERGE } )
     @JoinTable(
             name = "groups_rooms",
@@ -56,6 +61,7 @@ public class Group {
         deleteRooms();
         deleteTeachers();
         deleteStudents();
+        deleteSubjects();
     }
 
     private void deleteRooms(){
@@ -70,22 +76,19 @@ public class Group {
         this.students.forEach(student -> student.setGroup(null));
     }
 
-
-    public Set<Subject> getSubjects(){
-        Set<Subject> subjects = new HashSet<>();
-        rooms.forEach(room -> subjects.addAll(room.getSubjects()));
-        return subjects;
+    private void deleteSubjects(){
+        this.subjects.forEach(subject -> subject.getGroups().remove(this));
     }
 
     public Set<Task> getTasks(){
         Set<Task> tasks = new HashSet<>();
-        rooms.forEach(room -> room.getSubjects().forEach(subject -> tasks.addAll(subject.getTasks())));
+        subjects.forEach(subject -> tasks.addAll((subject.getTasks())));
         return tasks;
     }
 
     public Set<Material> getMaterials(){
         Set<Material> materials = new HashSet<>();
-        rooms.forEach(room -> room.getSubjects().forEach(subject -> materials.addAll(subject.getMaterials())));
+        subjects.forEach(subject -> materials.addAll((subject.getMaterials())));
         return materials;
     }
 

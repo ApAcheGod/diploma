@@ -1,8 +1,6 @@
 package com.example.diplom.services.mappers.mappers2;
 
-import com.example.diplom.entities.Material;
 import com.example.diplom.entities.Room;
-import com.example.diplom.entities.Subject;
 import com.example.diplom.entities.dto.MaterialDto;
 import com.example.diplom.entities.dto.to.Room2Dto;
 import com.example.diplom.services.mappers.MaterialMapper;

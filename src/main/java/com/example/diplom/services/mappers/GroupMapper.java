@@ -1,6 +1,7 @@
 package com.example.diplom.services.mappers;
 
 import com.example.diplom.entities.Group;
+import com.example.diplom.entities.Subject;
 import com.example.diplom.entities.dto.GroupDto;
 import com.example.diplom.services.*;
 import com.example.diplom.services.mappers.mappers2.*;
@@ -10,7 +11,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -44,7 +47,7 @@ public class GroupMapper {
         modelMapper.createTypeMap(GroupDto.class, Group.class)
                 .addMappings(m -> m.skip(Group::setRooms))
                 .addMappings(m -> m.skip(Group::setStudents))
-//                .addMappings(m -> m.skip(Group::setSubjects))
+                .addMappings(m -> m.skip(Group::setSubjects))
 //                .addMappings(m -> m.skip(Group::setTeachers))
 //                .addMappings(m -> m.skip(Group::setTasks))
                 .setPostConverter(toEntityConverter());
@@ -98,13 +101,11 @@ public class GroupMapper {
             source.getRooms().forEach(room2Dto -> destination.addRooms(roomService.findById(room2Dto.getId())));
         }
 
-//        if (source.getSubjects() != null){
-//            source.getSubjects().forEach(subject2Dto -> destination.addSubjects(subjectService.findById(subject2Dto.getId())));
-//        }
-
-//        if (source.getTasks() != null){
-//            source.getTasks().forEach(task2Dto -> destination.addTasks(taskService.findById(task2Dto.getId())));
-//        }
+        if (source.getSubjects() != null){
+            Set<Subject> subjects = new HashSet<>();
+            source.getSubjects().forEach(subject2Dto -> subjects.add(subjectService.findById(subject2Dto.getId())));
+            destination.setSubjects(subjects);
+        }
 
     }
 

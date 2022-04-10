@@ -47,9 +47,20 @@ public class Subject {
     @BatchSize(size = 20)
     private Set<Task> tasks = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @JoinTable(
+            name = "subjects_groups",
+            joinColumns = {@JoinColumn(name = "subjects_id")},
+            inverseJoinColumns = {@JoinColumn(name = "groups_id")}
+    )
+    @ToString.Exclude
+    @BatchSize(size = 20)
+    private Set<Group> groups = new HashSet<>();
+
     public void deleteLinks(){
         deleteMaterials();
         deleteTasks();
+        deleteGroups();
     }
 
     private void deleteMaterials(){
@@ -59,6 +70,11 @@ public class Subject {
     private void deleteTasks(){
         this.tasks.forEach(task -> task.setSubject(null));
     }
+
+    private void deleteGroups(){
+        this.getGroups().forEach(group -> group.getSubjects().remove(this));
+    }
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude

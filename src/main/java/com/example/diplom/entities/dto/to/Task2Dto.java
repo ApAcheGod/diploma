@@ -1,6 +1,5 @@
 package com.example.diplom.entities.dto.to;
 
-import com.example.diplom.entities.TaskType;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
