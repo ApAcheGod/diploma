@@ -19,8 +19,6 @@ const props = defineProps({
   tasks: Array,
 });
 
-
-
 let newGroup = ref({});
 
 const studentsOptions = computed(() => {
@@ -30,17 +28,30 @@ const studentsOptions = computed(() => {
   });
 });
 
+const availableSubjects = computed(() => {
+  
+  if (!newGroup.value.rooms || !props.rooms) return [];
+  
+  let currentRoomsData = [];
 
-// const subjectsOptions = computed(() => {
-  // let ss = [{"id":"891c56ad-7229-427f-bb87-fd60657540e1", "name": "Сетевые технологии телекоммуникации и сети"}];
-  //
-  // for (let room in newGroup.rooms){
-  //   for (let subjects in room){
-  //     ss.push(subjects?.reduce((a, b) => [...a, ...b], []));
-  //   }}
-  // return ss;
-  // return newGroup.rooms;
-// });
+  newGroup.value.rooms.forEach(room => {
+
+      let findedRoomData = props.rooms.find(roomData => {
+        if (typeof room === 'object')
+          return roomData.id === room.id;
+        return roomData.id === room;
+      });
+      if (findedRoomData && findedRoomData.subjects) 
+        currentRoomsData.push(findedRoomData);
+    });
+  
+  if (currentRoomsData.length === 0) return [];
+
+  let availableSubjects = [];
+  currentRoomsData.forEach(room => availableSubjects = availableSubjects.concat(room.subjects));
+
+  return availableSubjects;
+});
 
 onMounted(() => {
   if (props.group)
@@ -120,10 +131,6 @@ const newGroupFormatted = computed(() => {
                 <q-item-label v-html="opt.name" />
               </q-item-section>
               <q-item-section side>
-<!--                <span>{{newGroup.rooms?.map(r => r.subjects).flat(Infinity)}}</span>-->
-<!--                <span>{{newGroup.rooms?.map(r => r?.subjects).flat(1)}}</span>-->
-<!--                <span>{{newGroup.rooms?.map(r => r?.subjects).flat(Infinity)}}</span> &lt;!&ndash; просто вывел список предметов в выбранных комнатах &ndash;&gt;-->
-<!--                <span>{{newGroup.rooms?.map(r => r?.subjects).reduce((subjectId, subjectName) => [...subjectId, ...subjectName], [])}}</span>-->
                 <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
               </q-item-section>
             </q-item>
@@ -131,7 +138,7 @@ const newGroupFormatted = computed(() => {
         </q-select>
       </q-card-section>
 
-      <q-card-section class="q-pt-none">
+      <q-card-section class="q-pt-none" v-if="newGroup.rooms && newGroup.rooms.length > 0">
         <q-select
           filled
           emit-value
@@ -142,7 +149,7 @@ const newGroupFormatted = computed(() => {
           option-value="id"
           option-label="name"
           label="Предметы"
-          :options="newGroup.rooms?.map(r => r.subjects).flat(Infinity)"
+          :options="availableSubjects"
           v-model="newGroup.subjects"
         >
           <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
