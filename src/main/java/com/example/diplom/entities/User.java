@@ -20,6 +20,7 @@ import java.util.UUID;
 @ToString
 @Inheritance(strategy = InheritanceType.JOINED)
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+@BatchSize(size = 20)
 public class User {
 
     @Id

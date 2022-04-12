@@ -10,6 +10,7 @@ const props = defineProps({
       type: Boolean,
     },
     tasks: Array,
+    rooms: Array,
     materials: Array,
     teachers: Array,
 });
@@ -26,6 +27,9 @@ const initials = computed(() => {
     <q-card-section class="bg-secondary text-white">
       <div class="text-h6">   
         {{props.subject.name}}
+      </div>
+      <div class="text-subtitle2">
+        {{props.subject.roomName}}
       </div>
       <div class="text-subtitle2">
         {{props.subject.teacherName}}
@@ -56,6 +60,7 @@ const initials = computed(() => {
     <subject-dialog
     :prompt="promptIsOpen"
     :subject="props.subject"
+    :rooms="props.rooms"
     :materials="props.materials"
     :tasks="props.tasks"
     :teachers="props.teachers"

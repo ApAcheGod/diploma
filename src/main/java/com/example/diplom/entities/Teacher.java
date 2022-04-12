@@ -23,6 +23,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+@BatchSize(size = 20)
 public class Teacher extends User{
 
     private UUID id;

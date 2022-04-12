@@ -12,6 +12,7 @@ let materials = ref();
 let teachers = ref();
 let subjects = ref();
 let tasks = ref();
+let rooms = ref();
 
 const store = inject('store');
 
@@ -23,12 +24,14 @@ onMounted(async () => {
     store.methods.getTeachersFetch(),
     store.methods.getTasksFetch(),
     store.methods.getMaterialsFetch(),
+    store.methods.getRoomsFetch(),
     ])
   .then((results) => {
     subjects.value = results[0].value;
     teachers.value = results[1].value;
     tasks.value = results[2].value;
     materials.value = results[3].value;
+    rooms.value = results[4].value;
   });
 });
 
@@ -87,6 +90,7 @@ async function deleteSubject(subject){
       :materials="materials"
       :teachers="teachers"
       :tasks="tasks"
+      :rooms="rooms"
       @delete-click="deleteSubject"
       @update-click="updateSubject"
     />
@@ -106,6 +110,7 @@ async function deleteSubject(subject){
     :materials="materials"
     :teachers="teachers"
     :tasks="tasks"
+    :rooms="rooms"
     @update-click="addNewSubject"
     @prompt-close="subjectPromptIsOpen = false"
   />

@@ -22,6 +22,7 @@ import java.util.UUID;
 @Builder
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+@BatchSize(size = 20)
 public class Material {
 
     @Id

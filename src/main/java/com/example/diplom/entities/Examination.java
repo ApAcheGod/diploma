@@ -24,6 +24,7 @@ import java.util.UUID;
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 @EntityListeners(AuditingEntityListener.class)
+@BatchSize(size = 20)
 public class Examination {
 
     @Id

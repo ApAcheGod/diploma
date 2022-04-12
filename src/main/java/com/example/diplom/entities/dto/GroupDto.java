@@ -42,4 +42,27 @@ public class GroupDto {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<Task2Dto> tasks = new HashSet<>();
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GroupDto groupDto = (GroupDto) o;
+
+        if (id != null ? !id.equals(groupDto.id) : groupDto.id != null) return false;
+        if (name != null ? !name.equals(groupDto.name) : groupDto.name != null) return false;
+        if (students != null ? !students.equals(groupDto.students) : groupDto.students != null) return false;
+        if (rooms != null ? !rooms.equals(groupDto.rooms) : groupDto.rooms != null) return false;
+        return tasks != null ? tasks.equals(groupDto.tasks) : groupDto.tasks == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (students != null ? students.hashCode() : 0);
+        result = 31 * result + (rooms != null ? rooms.hashCode() : 0);
+        result = 31 * result + (tasks != null ? tasks.hashCode() : 0);
+        return result;
+    }
 }

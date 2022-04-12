@@ -20,7 +20,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Builder
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
-@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Group.class)
+@BatchSize(size = 20)
 public class Group {
 
     @Id

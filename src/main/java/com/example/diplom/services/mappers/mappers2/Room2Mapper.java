@@ -28,7 +28,7 @@ public class Room2Mapper {
     public void setupMapper(){
         modelMapper.createTypeMap(Room.class, Room2Dto.class)
                 .addMappings(m -> m.skip(Room2Dto::setTeacherId))
-                .addMappings(m -> m.skip(Room2Dto::setGroups))
+//                .addMappings(m -> m.skip(Room2Dto::setGroups))
                 .addMappings(m -> m.skip(Room2Dto::setSubjects))
                 .addMappings(m -> m.skip(Room2Dto::setTeacherName))
                 .addMappings(m -> m.skip(Room2Dto::setMaterials))
@@ -60,9 +60,9 @@ public class Room2Mapper {
 
     private void mapSpecificFields(Room source, Room2Dto destination) {
 
-        if (source.getGroups() != null){
-            destination.setGroups(source.getGroups().stream().map(group2Mapper::toDto).collect(Collectors.toSet()));
-        }
+//        if (source.getGroups() != null){
+//            destination.setGroups(source.getGroups().stream().map(group2Mapper::toDto).collect(Collectors.toSet()));
+//        }
 
         if (source.getSubjects() != null){
             destination.setSubjects(source.getSubjects().stream().map(subject2Mapper::toDto).collect(Collectors.toSet()));

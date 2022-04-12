@@ -24,6 +24,7 @@ import java.util.UUID;
 @ToString
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+@BatchSize(size = 20)
 public class Student extends User{
 
     private UUID id;

@@ -1,6 +1,6 @@
 <script setup>
- 
-import { onMounted, ref, watch, inject, computed } from "vue";
+
+import {computed, inject, onMounted, ref} from "vue";
 
 const store = inject('store');
 
@@ -13,11 +13,13 @@ const props = defineProps({
     default: 'Изменить',
     type: String
   },
-  students: Array, 
+  students: Array,
   subjects: Array,
-  rooms: Array, 
+  rooms: Array,
   tasks: Array,
 });
+
+
 
 let newGroup = ref({});
 
@@ -27,6 +29,18 @@ const studentsOptions = computed(() => {
     return s;
   });
 });
+
+
+// const subjectsOptions = computed(() => {
+  // let ss = [{"id":"891c56ad-7229-427f-bb87-fd60657540e1", "name": "Сетевые технологии телекоммуникации и сети"}];
+  //
+  // for (let room in newGroup.rooms){
+  //   for (let subjects in room){
+  //     ss.push(subjects?.reduce((a, b) => [...a, ...b], []));
+  //   }}
+  // return ss;
+  // return newGroup.rooms;
+// });
 
 onMounted(() => {
   if (props.group)
@@ -43,6 +57,8 @@ const newGroupFormatted = computed(() => {
 
   return newGroupFormatted;
 });
+
+
 
 </script>
 
@@ -86,17 +102,17 @@ const newGroupFormatted = computed(() => {
 
       <q-card-section class="q-pt-none">
         <q-select
-          filled
-          emit-value
-          map-options
-          multiple
-          use-chips
-          stack-label
-          option-value="id"
-          option-label="name"
-          label="Предметы"
-          :options="props.subjects"
-          v-model="newGroup.subjects"
+            filled
+            emit-value
+            map-options
+            multiple
+            use-chips
+            stack-label
+            option-value="id"
+            option-label="name"
+            label="Комнаты"
+            :options="props.rooms"
+            v-model="newGroup.rooms"
         >
           <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
             <q-item v-bind="itemProps">
@@ -104,6 +120,10 @@ const newGroupFormatted = computed(() => {
                 <q-item-label v-html="opt.name" />
               </q-item-section>
               <q-item-section side>
+<!--                <span>{{newGroup.rooms?.map(r => r.subjects).flat(Infinity)}}</span>-->
+<!--                <span>{{newGroup.rooms?.map(r => r?.subjects).flat(1)}}</span>-->
+<!--                <span>{{newGroup.rooms?.map(r => r?.subjects).flat(Infinity)}}</span> &lt;!&ndash; просто вывел список предметов в выбранных комнатах &ndash;&gt;-->
+<!--                <span>{{newGroup.rooms?.map(r => r?.subjects).reduce((subjectId, subjectName) => [...subjectId, ...subjectName], [])}}</span>-->
                 <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
               </q-item-section>
             </q-item>
@@ -121,9 +141,9 @@ const newGroupFormatted = computed(() => {
           stack-label
           option-value="id"
           option-label="name"
-          label="Комнаты"
-          :options="props.rooms"
-          v-model="newGroup.rooms"
+          label="Предметы"
+          :options="newGroup.rooms?.map(r => r.subjects).flat(Infinity)"
+          v-model="newGroup.subjects"
         >
           <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
             <q-item v-bind="itemProps">

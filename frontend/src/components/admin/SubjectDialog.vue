@@ -13,6 +13,7 @@ const props = defineProps({
     default: 'Изменить',
     type: String
   },
+  rooms: Array,
   tasks: Array,
   materials: Array,
   teachers: Array,
@@ -32,12 +33,19 @@ const teacherOptions = computed(() => {
   });
 });
 
+const roomOptions = computed(() => {
+  return props.rooms?.map(r => {
+    r.roomId = r.id;
+    return r;
+  });
+});
+
 const newSubjectFormatted = computed(() => {
   let newSubjectFormatted = JSON.parse(JSON.stringify(newSubject.value));
 
   newSubjectFormatted.materials = store.methods.idArrToObjs(newSubjectFormatted.materials);
   newSubjectFormatted.tasks = store.methods.idArrToObjs(newSubjectFormatted.tasks);
-
+  newSubjectFormatted.rooms = store.methods.idArrToObjs(newSubjectFormatted.rooms);
   return newSubjectFormatted;
 });
 
@@ -65,6 +73,19 @@ const newSubjectFormatted = computed(() => {
           label="Преподаватель"
           :options="teacherOptions"
           v-model="newSubject.teacherId"
+        />
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        <q-select
+            filled
+            emit-value
+            map-options
+            option-value="roomId"
+            option-label="name"
+            label="Комнаты"
+            :options="roomOptions"
+            v-model="newSubject.roomId"
         />
       </q-card-section>
 
