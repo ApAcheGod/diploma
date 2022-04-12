@@ -29,13 +29,9 @@ const studentsOptions = computed(() => {
 });
 
 const availableSubjects = computed(() => {
-  
   if (!newGroup.value.rooms || !props.rooms) return [];
-  
   let currentRoomsData = [];
-
   newGroup.value.rooms.forEach(room => {
-
       let findedRoomData = props.rooms.find(roomData => {
         if (typeof room === 'object')
           return roomData.id === room.id;
@@ -44,12 +40,9 @@ const availableSubjects = computed(() => {
       if (findedRoomData && findedRoomData.subjects) 
         currentRoomsData.push(findedRoomData);
     });
-  
   if (currentRoomsData.length === 0) return [];
-
   let availableSubjects = [];
   currentRoomsData.forEach(room => availableSubjects = availableSubjects.concat(room.subjects));
-
   return availableSubjects;
 });
 
