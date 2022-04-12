@@ -37,6 +37,7 @@ async function updateStudent(newStudent){
     first_name: newStudent.first_name,
     last_name: newStudent.last_name,
     patronymic: newStudent.patronymic,
+    email: newStudent.email
   });
   if(updateResult){
     students.value = await store.methods.getStudentsFetch();
