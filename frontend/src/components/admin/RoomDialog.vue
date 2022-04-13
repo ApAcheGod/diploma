@@ -1,6 +1,6 @@
 <script setup>
- 
-import { onMounted, ref, watch, inject, computed } from "vue";
+
+import {computed, inject, onMounted, ref} from "vue";
 
 const store = inject('store');
 

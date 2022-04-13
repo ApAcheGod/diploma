@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import {computed, ref} from 'vue';
 import SubjectDialog from './SubjectDialog.vue';
 
 const emits = defineEmits(['update-click', 'delete-click']);
@@ -13,6 +13,7 @@ const props = defineProps({
     rooms: Array,
     materials: Array,
     teachers: Array,
+    groups: Array,
 });
 
 let promptIsOpen = ref(false);
@@ -40,6 +41,9 @@ const initials = computed(() => {
       <div class="text-subtitle2" v-for="task in props.subject.tasks">        
         {{task.name}} 
       </div>
+      <div class="text-subtitle2" v-for="group in props.subject.groups">
+        {{group.name}}
+      </div>
     </q-card-section>
     <q-separator />
     <q-card-actions align="right">
@@ -64,6 +68,7 @@ const initials = computed(() => {
     :materials="props.materials"
     :tasks="props.tasks"
     :teachers="props.teachers"
+    :groups="props.groups"
     @prompt-close="promptIsOpen = false"
     @update-click="(newSubject) => emits('update-click', newSubject)"
     />

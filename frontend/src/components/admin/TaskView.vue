@@ -1,6 +1,6 @@
 <script setup>
-import { onMounted, ref, inject } from 'vue';
-import { useQuasar } from 'quasar';
+import {inject, onMounted, ref} from 'vue';
+import {useQuasar} from 'quasar';
 import TaskCard from './TaskCard.vue';
 import TaskDialog from './TaskDialog.vue';
 

@@ -1,6 +1,6 @@
 <script setup>
-import { onMounted, ref, inject } from 'vue';
-import { useQuasar } from 'quasar'
+import {inject, onMounted, ref} from 'vue';
+import {useQuasar} from 'quasar'
 
 import SubjectCard from './SubjectCard.vue';
 import SubjectDialog from './SubjectDialog.vue';
@@ -13,6 +13,7 @@ let teachers = ref();
 let subjects = ref();
 let tasks = ref();
 let rooms = ref();
+let groups = ref();
 
 const store = inject('store');
 
@@ -25,6 +26,7 @@ onMounted(async () => {
     store.methods.getTasksFetch(),
     store.methods.getMaterialsFetch(),
     store.methods.getRoomsFetch(),
+      store.methods.getGroupsFetch(),
     ])
   .then((results) => {
     subjects.value = results[0].value;
@@ -32,6 +34,7 @@ onMounted(async () => {
     tasks.value = results[2].value;
     materials.value = results[3].value;
     rooms.value = results[4].value;
+    groups.value = results[5].value;
   });
 });
 
@@ -91,6 +94,7 @@ async function deleteSubject(subject){
       :teachers="teachers"
       :tasks="tasks"
       :rooms="rooms"
+      :groups="groups"
       @delete-click="deleteSubject"
       @update-click="updateSubject"
     />
@@ -111,6 +115,7 @@ async function deleteSubject(subject){
     :teachers="teachers"
     :tasks="tasks"
     :rooms="rooms"
+    :groups="groups"
     @update-click="addNewSubject"
     @prompt-close="subjectPromptIsOpen = false"
   />

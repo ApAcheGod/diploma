@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import {computed, ref} from 'vue';
 import StudentDialog from './StudentDialog.vue';
 
 const emits = defineEmits(['update-click', 'delete-click']);

@@ -1,8 +1,6 @@
 <script setup>
-import { onMounted, ref, inject } from 'vue';
-import { useQuasar } from 'quasar'
-import teacherCard from './teacherCard.vue';
-import teacherDialog from './teacherDialog.vue';
+import {inject, onMounted, ref} from 'vue';
+import {useQuasar} from 'quasar'
 
 let $q = useQuasar();
 

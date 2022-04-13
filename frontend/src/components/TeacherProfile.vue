@@ -1,5 +1,5 @@
 <script setup>
-import { inject, onMounted } from 'vue';
+import {inject, onMounted} from 'vue';
 
 const { state } = inject('state');
 

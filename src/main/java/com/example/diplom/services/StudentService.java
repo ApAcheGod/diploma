@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -34,5 +35,9 @@ public class StudentService {
 
     public Student findByLogin(String login) {
         return studentRepository.findStudentByLogin(login);
+    }
+
+    public Set<Student> getAllWithoutGroup(){
+        return studentRepository.findAllByGroupIsNull();
     }
 }

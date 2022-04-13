@@ -3,11 +3,10 @@ package com.example.diplom.services.mappers;
 import com.example.diplom.entities.Subject;
 import com.example.diplom.entities.dto.MaterialDto;
 import com.example.diplom.entities.dto.SubjectDto;
+import com.example.diplom.entities.dto.to.Group2Dto;
 import com.example.diplom.entities.dto.to.Task2Dto;
-import com.example.diplom.services.MaterialService;
-import com.example.diplom.services.RoomService;
-import com.example.diplom.services.TaskService;
-import com.example.diplom.services.TeacherService;
+import com.example.diplom.services.*;
+import com.example.diplom.services.mappers.mappers2.Group2Mapper;
 import com.example.diplom.services.mappers.mappers2.Task2Mapper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
@@ -27,11 +26,12 @@ public class SubjectMapper {
 
     private final RoomService roomService;
     private final TeacherService teacherService;
-//    private final GroupService groupService;
+    private final GroupService groupService;
     private final MaterialService materialService;
     private final TaskService taskService;
     private final MaterialMapper materialMapper;
     private final Task2Mapper task2Mapper;
+    private final Group2Mapper group2Mapper;
 
     @PostConstruct
     public void setupMapper(){
@@ -39,12 +39,14 @@ public class SubjectMapper {
                 .addMappings(m -> m.skip(SubjectDto::setRoomId))
                 .addMappings(m -> m.skip(SubjectDto::setTeacherId))
                 .addMappings(m -> m.skip(SubjectDto::setTeacherName))
+                .addMappings(m -> m.skip(SubjectDto::setGroups))
                 .addMappings(m -> m.skip(SubjectDto::setRoomName))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(SubjectDto.class, Subject.class)
                 .addMappings(m -> m.skip(Subject::setRoom))
                 .addMappings(m -> m.skip(Subject::setMaterials))
                 .addMappings(m -> m.skip(Subject::setTasks))
+                .addMappings(m -> m.skip(Subject::setGroups))
                 .addMappings(m -> m.skip(Subject::setTeacher))
                 .setPostConverter(toEntityConverter());
     }
@@ -80,6 +82,12 @@ public class SubjectMapper {
             destination.setMaterials(materialDtoSet);
         }
 
+        if (source.getGroups() != null){
+            Set<Group2Dto> group2Dtos = new HashSet<>();
+            source.getGroups().forEach(group -> group2Dtos.add(group2Mapper.toDto(group)));
+            destination.setGroups(group2Dtos);
+        }
+
         if (source.getTasks() != null){
             Set<Task2Dto> task2DtoSet = new HashSet<>();
             source.getTasks().forEach(task -> task2DtoSet.add(task2Mapper.toDto(task)));
@@ -108,6 +116,10 @@ public class SubjectMapper {
 
         if (source.getTasks() != null){
             source.getTasks().forEach(task2Dto ->  destination.addTasks(taskService.findById(task2Dto.getId())));
+        }
+
+        if (source.getGroups() != null){
+            source.getGroups().forEach(group2Dto -> destination.addGroups(groupService.findById(group2Dto.getId())));
         }
 
     }

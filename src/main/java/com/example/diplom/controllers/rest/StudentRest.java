@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -32,6 +33,11 @@ public class StudentRest {
     @GetMapping("/students")
     public List<StudentDto> allStudents(){
         return studentService.findAll().stream().map(studentMapper::toDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/studentsWithoutGroup")
+    public Set<StudentDto> studentsWithoutGroup(){
+        return studentService.getAllWithoutGroup().stream().map(studentMapper::toDto).collect(Collectors.toSet());
     }
 
     @GetMapping("/student/{id}")

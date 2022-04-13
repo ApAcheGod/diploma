@@ -28,7 +28,6 @@ public class Subject {
     @GeneratedValue
     private UUID id;
 
-//    @NotNull(message = "Название предмета не может быть пустым")
     @Column(name = "subject_name")
     private String name;
 
@@ -48,7 +47,7 @@ public class Subject {
     @BatchSize(size = 20)
     private Set<Task> tasks = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "subjects_groups",
             joinColumns = {@JoinColumn(name = "subjects_id")},
@@ -108,5 +107,28 @@ public class Subject {
     public void addRoom(Room room){
         this.room = room;
         room.getSubjects().add(this);
+    }
+
+    public void addGroups(Group group) {
+        this.groups.add(group);
+        group.getSubjects().add(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Subject subject = (Subject) o;
+
+        if (id != null ? !id.equals(subject.id) : subject.id != null) return false;
+        return name != null ? name.equals(subject.name) : subject.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
     }
 }

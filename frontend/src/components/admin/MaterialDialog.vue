@@ -1,6 +1,6 @@
 <script setup>
- 
-import { onMounted, ref, watch, computed } from "vue";
+
+import {computed, onMounted, ref} from "vue";
 
 const emits = defineEmits(['update-click', 'prompt-close']);
 
@@ -41,6 +41,21 @@ const teacherOptions = computed(() => {
   });
 });
 
+// const availableSubjects = computed(() => {
+//   if (!newMaterial.value.teacherId || !props.teachers) return [];
+//   let currentTeacherData = [];
+//   props.teachers.forEach(teacher => {
+//     if (teacher.id === newMaterial.value.teacherId){
+//       currentTeacherData.push(teacher.subjects);
+//     }
+//   });
+//   currentTeacherData.map(s => {
+//     s.subjectId = s.id;
+//     s.subjectName = s.name;
+//     return s;
+//   });
+// });
+
 const subjectOptions = computed(() => {
   return props.subjects?.map(s => {
     s.subjectId = s.id;
@@ -48,7 +63,6 @@ const subjectOptions = computed(() => {
     return s;
   });
 });
-
 </script>
 
 <template>
@@ -69,25 +83,25 @@ const subjectOptions = computed(() => {
 
       <q-card-section class="q-pt-none">
         <q-select
-          filled
-          v-model="newMaterial.subjectId"
-          :options="subjectOptions"
-          option-value="subjectId"
-          option-label="subjectName"
-          label="Предмет"
-          emit-value
-          map-options
+            filled
+            v-model="newMaterial.teacherId"
+            :options="teacherOptions"
+            option-value="teacherId"
+            option-label="teacherName"
+            label="Преподаватель"
+            emit-value
+            map-options
         />
       </q-card-section>
 
       <q-card-section class="q-pt-none">
         <q-select
           filled
-          v-model="newMaterial.teacherId"
-          :options="teacherOptions"
-          option-value="teacherId"
-          option-label="teacherName"
-          label="Преподаватель"
+          v-model="newMaterial.subjectId"
+          :options="subjectOptions"
+          option-value="subjectId"
+          option-label="subjectName"
+          label="Предмет"
           emit-value
           map-options
         />

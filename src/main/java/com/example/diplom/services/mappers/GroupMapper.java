@@ -42,14 +42,12 @@ public class GroupMapper {
                 .addMappings(m -> m.skip(GroupDto::setRooms))
                 .addMappings(m -> m.skip(GroupDto::setSubjects))
                 .addMappings(m -> m.skip(GroupDto::setTasks))
-//                .addMappings(m -> m.skip(GroupDto::setTeachers))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(GroupDto.class, Group.class)
                 .addMappings(m -> m.skip(Group::setRooms))
                 .addMappings(m -> m.skip(Group::setStudents))
-                .addMappings(m -> m.skip(Group::setSubjects))
-//                .addMappings(m -> m.skip(Group::setTeachers))
-//                .addMappings(m -> m.skip(Group::setTasks))
+                .addMappings(m -> m.skip(Group::addSubjects))
+//                .addMappings(m -> m.skip(Group::setSubjects))
                 .setPostConverter(toEntityConverter());
     }
 
@@ -104,6 +102,8 @@ public class GroupMapper {
         if (source.getSubjects() != null){
             Set<Subject> subjects = new HashSet<>();
             source.getSubjects().forEach(subject2Dto -> subjects.add(subjectService.findById(subject2Dto.getId())));
+
+//            destination.addSubjects(subjects);
             destination.setSubjects(subjects);
         }
 

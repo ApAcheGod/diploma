@@ -1,6 +1,6 @@
 <script setup>
- 
-import { onMounted, ref, watch, computed, inject } from "vue";
+
+import {computed, inject, onMounted, ref} from "vue";
 
 const store = inject('store');
 
@@ -17,6 +17,7 @@ const props = defineProps({
   tasks: Array,
   materials: Array,
   teachers: Array,
+  groups: Array,
 });
 
 let newSubject = ref({});
@@ -46,6 +47,7 @@ const newSubjectFormatted = computed(() => {
   newSubjectFormatted.materials = store.methods.idArrToObjs(newSubjectFormatted.materials);
   newSubjectFormatted.tasks = store.methods.idArrToObjs(newSubjectFormatted.tasks);
   newSubjectFormatted.rooms = store.methods.idArrToObjs(newSubjectFormatted.rooms);
+  newSubjectFormatted.groups = store.methods.idArrToObjs(newSubjectFormatted.groups);
   return newSubjectFormatted;
 });
 
@@ -140,6 +142,33 @@ const newSubjectFormatted = computed(() => {
             </q-item-section>
           </q-item>
         </template>
+        </q-select>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        <q-select
+            filled
+            emit-value
+            map-options
+            multiple
+            use-chips
+            stack-label
+            option-value="id"
+            option-label="name"
+            label="Группы"
+            :options="props.groups"
+            v-model="newSubject.groups"
+        >
+          <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
+            <q-item v-bind="itemProps">
+              <q-item-section>
+                <q-item-label v-html="opt.name" />
+              </q-item-section>
+              <q-item-section side>
+                <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
+              </q-item-section>
+            </q-item>
+          </template>
         </q-select>
       </q-card-section>
 

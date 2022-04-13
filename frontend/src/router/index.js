@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 
 import Admin from '../views/Admin.vue'
 import AdminStudents from '../components/admin/StudentsView.vue'

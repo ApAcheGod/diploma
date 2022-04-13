@@ -1,5 +1,5 @@
 <script setup>
-import { inject, ref } from 'vue';
+import {inject, ref} from 'vue';
 import RoomDashboard from './RoomDashboard.vue';
 
 const { state } = inject('state');

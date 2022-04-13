@@ -31,11 +31,6 @@ public class ExaminationRest {
         return new ResponseEntity<>(examinationMapper.toDto(examinationService.findById(uuid)), HttpStatus.OK);
     }
 
-//    {
-//        "solutionId": "1361d0c9-07fc-4ae4-90fa-3c4b322722e4"
-//        "examinationStatus": "Зачтено",
-//        "mark": 5,
-//    }
     @PostMapping("/examination")
     public ResponseEntity<ExaminationDto> create(@RequestBody ExaminationDto examinationDto) {
         Examination examination = examinationMapper.toEntity(examinationDto);

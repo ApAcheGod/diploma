@@ -1,16 +1,17 @@
 <script setup>
-import { onMounted, ref, inject } from 'vue';
-import { useQuasar } from 'quasar'
+import {inject, onMounted, ref} from 'vue';
+import {useQuasar} from 'quasar'
 import GroupCard from './GroupCard.vue';
 import GroupDialog from './GroupDialog.vue';
 
 let $q = useQuasar();
 
 let groups = ref();
-let subjects = ref();
+// let subjects = ref();
 let tasks = ref();
 let students = ref();
 let rooms = ref();
+let studentsWithoutGroup = ref();
 
 const store = inject('store');
 
@@ -19,17 +20,19 @@ let groupPromptIsOpen = ref(false);
 onMounted(async () => { 
   Promise.allSettled([
     store.methods.getGroupsFetch(),
-    store.methods.getSubjectsFetch(),
-    store.methods.getTasksFetch(),
+    // store.methods.getSubjectsFetch(),
+    // store.methods.getTasksFetch(),
     store.methods.getStudentsFetch(),
     store.methods.getRoomsFetch(),
+    store.methods.getStudentsWithoutGroupFetch(),
     ])
   .then((results) => {
     groups.value = results[0].value;
-    subjects.value = results[1].value;
-    tasks.value = results[2].value;
-    students.value = results[3].value;
-    rooms.value = results[4].value;
+    // subjects.value = results[1].value;
+    // tasks.value = results[2].value;
+    students.value = results[1].value;
+    rooms.value = results[2].value;
+    studentsWithoutGroup.value = results[3].value;
   });
 });
 
@@ -83,10 +86,9 @@ async function deleteGroup(group){
     <group-card v-for="group in groups"
       v-bind:key="group?.id"
       :group="group"
-      :subjects="subjects"
-      :tasks="tasks"
       :students="students"
       :rooms="rooms"
+      :studentsWithoutGroup="studentsWithoutGroup"
       @delete-click="deleteGroup"
       @update-click="updateGroup"
     />
@@ -102,9 +104,8 @@ async function deleteGroup(group){
 
   <group-dialog
     updateButtonLabel="Добавить"
-    :subjects="subjects"
-    :tasks="tasks"
     :students="students"
+    :studentsWithoutGroup="studentsWithoutGroup"
     :rooms="rooms"
     :prompt="groupPromptIsOpen"
     @update-click="addNewGroup"

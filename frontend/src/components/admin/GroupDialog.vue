@@ -14,37 +14,41 @@ const props = defineProps({
     type: String
   },
   students: Array,
-  subjects: Array,
+  // subjects: Array,
   rooms: Array,
-  tasks: Array,
+  studentsWithoutGroup: Array,
+  // tasks: Array,
 });
+
 
 let newGroup = ref({});
 
 const studentsOptions = computed(() => {
-  return props.students?.map(s => {
+  if (!props.group.students) return props?.studentsWithoutGroup;
+  let availableStudents = props?.group?.students.concat(props?.studentsWithoutGroup);
+  return availableStudents?.map(s => {
     s.name = `${s.last_name} ${s.first_name} ${s.patronymic}`;
     return s;
   });
 });
 
-const availableSubjects = computed(() => {
-  if (!newGroup.value.rooms || !props.rooms) return [];
-  let currentRoomsData = [];
-  newGroup.value.rooms.forEach(room => {
-      let findedRoomData = props.rooms.find(roomData => {
-        if (typeof room === 'object')
-          return roomData.id === room.id;
-        return roomData.id === room;
-      });
-      if (findedRoomData && findedRoomData.subjects) 
-        currentRoomsData.push(findedRoomData);
-    });
-  if (currentRoomsData.length === 0) return [];
-  let availableSubjects = [];
-  currentRoomsData.forEach(room => availableSubjects = availableSubjects.concat(room.subjects));
-  return availableSubjects;
-});
+// const availableSubjects = computed(() => {
+//   if (!newGroup.value.rooms || !props.rooms) return [];
+//   let currentRoomsData = [];
+//   newGroup.value.rooms.forEach(room => {
+//       let findedRoomData = props.rooms.find(roomData => {
+//         if (typeof room === 'object')
+//           return roomData.id === room.id;
+//         return roomData.id === room;
+//       });
+//       if (findedRoomData && findedRoomData.subjects)
+//         currentRoomsData.push(findedRoomData);
+//     });
+//   if (currentRoomsData.length === 0) return [];
+//   let availableSubjects = [];
+//   currentRoomsData.forEach(room => availableSubjects = availableSubjects.concat(room.subjects));
+//   return availableSubjects;
+// });
 
 onMounted(() => {
   if (props.group)
@@ -55,9 +59,9 @@ const newGroupFormatted = computed(() => {
   let newGroupFormatted = JSON.parse(JSON.stringify(newGroup.value));
 
   newGroupFormatted.students = store.methods.idArrToObjs(newGroupFormatted.students);
-  newGroupFormatted.tasks = store.methods.idArrToObjs(newGroupFormatted.tasks);
+  // newGroupFormatted.tasks = store.methods.idArrToObjs(newGroupFormatted.tasks);
   newGroupFormatted.rooms = store.methods.idArrToObjs(newGroupFormatted.rooms);
-  newGroupFormatted.subjects = store.methods.idArrToObjs(newGroupFormatted.subjects);
+  // newGroupFormatted.subjects = store.methods.idArrToObjs(newGroupFormatted.subjects);
 
   return newGroupFormatted;
 });
@@ -131,59 +135,59 @@ const newGroupFormatted = computed(() => {
         </q-select>
       </q-card-section>
 
-      <q-card-section class="q-pt-none" v-if="newGroup.rooms && newGroup.rooms.length > 0">
-        <q-select
-          filled
-          emit-value
-          map-options
-          multiple
-          use-chips
-          stack-label
-          option-value="id"
-          option-label="name"
-          label="Предметы"
-          :options="availableSubjects"
-          v-model="newGroup.subjects"
-        >
-          <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
-            <q-item v-bind="itemProps">
-              <q-item-section>
-                <q-item-label v-html="opt.name" />
-              </q-item-section>
-              <q-item-section side>
-                <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
-              </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
-      </q-card-section>
+<!--      <q-card-section class="q-pt-none" v-if="newGroup.rooms && newGroup.rooms.length > 0">-->
+<!--        <q-select-->
+<!--          filled-->
+<!--          emit-value-->
+<!--          map-options-->
+<!--          multiple-->
+<!--          use-chips-->
+<!--          stack-label-->
+<!--          option-value="id"-->
+<!--          option-label="name"-->
+<!--          label="Предметы"-->
+<!--          :options="availableSubjects"-->
+<!--          v-model="newGroup.subjects"-->
+<!--        >-->
+<!--          <template v-slot:option="{ itemProps, opt, selected, toggleOption }">-->
+<!--            <q-item v-bind="itemProps">-->
+<!--              <q-item-section>-->
+<!--                <q-item-label v-html="opt.name" />-->
+<!--              </q-item-section>-->
+<!--              <q-item-section side>-->
+<!--                <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />-->
+<!--              </q-item-section>-->
+<!--            </q-item>-->
+<!--          </template>-->
+<!--        </q-select>-->
+<!--      </q-card-section>-->
 
-      <q-card-section class="q-pt-none">
-        <q-select
-          filled
-          emit-value
-          map-options
-          multiple
-          use-chips
-          stack-label
-          option-value="id"
-          option-label="name"
-          label="Задания"
-          :options="props.tasks"
-          v-model="newGroup.tasks"
-        >
-          <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
-            <q-item v-bind="itemProps">
-              <q-item-section>
-                <q-item-label v-html="opt.name" />
-              </q-item-section>
-              <q-item-section side>
-                <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
-              </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
-      </q-card-section>
+<!--      <q-card-section class="q-pt-none">-->
+<!--        <q-select-->
+<!--          filled-->
+<!--          emit-value-->
+<!--          map-options-->
+<!--          multiple-->
+<!--          use-chips-->
+<!--          stack-label-->
+<!--          option-value="id"-->
+<!--          option-label="name"-->
+<!--          label="Задания"-->
+<!--          :options="props.tasks"-->
+<!--          v-model="newGroup.tasks"-->
+<!--        >-->
+<!--          <template v-slot:option="{ itemProps, opt, selected, toggleOption }">-->
+<!--            <q-item v-bind="itemProps">-->
+<!--              <q-item-section>-->
+<!--                <q-item-label v-html="opt.name" />-->
+<!--              </q-item-section>-->
+<!--              <q-item-section side>-->
+<!--                <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />-->
+<!--              </q-item-section>-->
+<!--            </q-item>-->
+<!--          </template>-->
+<!--        </q-select>-->
+<!--      </q-card-section>-->
 
       <q-card-actions align="right" class="text-primary">
         <q-btn flat label="Отмена"  @click="emits('prompt-close')"/>

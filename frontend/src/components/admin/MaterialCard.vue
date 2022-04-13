@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import {computed, ref} from 'vue';
 import MaterialDialog from './MaterialDialog.vue';
 
 const emits = defineEmits(['update-click', 'delete-click']);

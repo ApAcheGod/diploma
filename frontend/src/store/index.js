@@ -1,6 +1,4 @@
-import { reactive } from 'vue';
-import { useQuasar } from 'quasar'
-import teacherData from '../data/Teacher.json'
+import {reactive} from 'vue';
 
 const state = reactive(
   {
@@ -37,6 +35,16 @@ const methods = {
       .then(res => res.json())
       .then(json => json)
       .catch(error => console.error(error));
+  },
+
+  getStudentsWithoutGroupFetch(){
+    const header = {
+      method: 'GET',
+    };
+    return fetch('http://localhost:8080/api/studentsWithoutGroup', header)
+        .then(res => res.json())
+        .then(json => json)
+        .catch(error => console.error(error));
   },
 
   createStudentFetch(student){

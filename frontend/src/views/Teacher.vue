@@ -1,5 +1,5 @@
 <script setup>
-import { ref, inject, onMounted } from 'vue';
+import {inject, onMounted, ref} from 'vue';
 
 //const teacher = ref(teacherData);
 const { state } = inject('state');

@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, inject } from 'vue';
+import {inject, ref} from 'vue';
 
 const store = inject('store');
 

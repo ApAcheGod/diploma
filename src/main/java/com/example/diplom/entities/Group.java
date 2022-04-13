@@ -28,12 +28,11 @@ public class Group {
     @GeneratedValue
     private UUID id;
 
-//    @NotNull(message = "Название группы не может быть пустым")
     @Column(name = "group_name")
 //    @NaturalId(mutable = true)
     private String name;
 
-    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @ToString.Exclude
     @BatchSize(size = 20)
     private Set<Student> students = new HashSet<>();
@@ -68,15 +67,12 @@ public class Group {
     private void deleteRooms(){
         this.rooms.forEach(room -> room.getGroups().remove(this));
     }
-
     private void deleteTeachers(){
         this.teachers.forEach(teacher -> teacher.getGroups().remove(this));
     }
-
     private void deleteStudents(){
         this.students.forEach(student -> student.setGroup(null));
     }
-
     private void deleteSubjects(){
         this.subjects.forEach(subject -> subject.getGroups().remove(this));
     }
@@ -86,7 +82,6 @@ public class Group {
         subjects.forEach(subject -> tasks.addAll((subject.getTasks())));
         return tasks;
     }
-
     public Set<Material> getMaterials(){
         Set<Material> materials = new HashSet<>();
         subjects.forEach(subject -> materials.addAll((subject.getMaterials())));
@@ -97,7 +92,6 @@ public class Group {
         students.add(student);
         student.setGroup(this);
     }
-
     public void addStudents(Set<Student> students){
         students.forEach(this::addStudents);
     }
@@ -106,7 +100,6 @@ public class Group {
         teachers.add(teacher);
         teacher.getGroups().add(this);
     }
-
     public void addTeachers(Set<Teacher> teachers){
         teachers.forEach(this::addTeachers);
     }
@@ -119,4 +112,26 @@ public class Group {
         rooms.forEach(this::addRooms);
     }
 
+    public void addSubjects(Set<Subject> subjects){
+        subjects.forEach(subject -> subject.getGroups().add(this));
+        this.subjects.addAll(subjects);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Group group = (Group) o;
+
+        if (id != null ? !id.equals(group.id) : group.id != null) return false;
+        return name != null ? name.equals(group.name) : group.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
 }

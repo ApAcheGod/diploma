@@ -41,12 +41,18 @@ public class GroupRest {
     @PutMapping("/group")
     public ResponseEntity<GroupDto> update(@RequestBody GroupDto groupDto) {
         Group group = groupMapper.toEntity(groupDto);
+        group.deleteLinks();
+        groupService.save(group);
+        group = groupMapper.toEntity(groupDto);
         groupService.save(group);
         return new ResponseEntity<>(groupMapper.toDto(group), HttpStatus.OK);
     }
 
     @DeleteMapping("group/{id}")
     public void delete(@PathVariable("id") UUID id) {
+        Group group = groupService.findById(id);
+        group.deleteLinks();
+        groupService.save(group);
         groupService.deleteById(id);
     }
 }
