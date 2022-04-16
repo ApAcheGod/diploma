@@ -28,7 +28,7 @@ public class LoginController {
     private final UserServiceImpl userService;
     private final AuthenticationManager authenticationManager;
 
-    @GetMapping("/loginRest")
+    @GetMapping("/api/login")
     @ResponseBody
     public ResponseEntity login(@RequestBody LoginDto loginDto){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -37,27 +37,21 @@ public class LoginController {
         return new ResponseEntity<>(authentication.getPrincipal(), HttpStatus.OK);
     }
 
-    @GetMapping("/loginCheck")
+    @GetMapping("/api/loginCheck")
     @ResponseBody
     public ResponseEntity getInfo(){
         return new ResponseEntity(SecurityContextHolder.getContext().getAuthentication().getPrincipal() ,HttpStatus.OK);
     }
 
-    @GetMapping("/logoutCheck")
+    @GetMapping("/api/logout")
     @ResponseBody
     public ResponseEntity logoutUser(){
         SecurityContextHolder.clearContext();
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/resetPassword")
-    public String changePassword(Principal principal, Model model){
-        model.addAttribute("login", principal.getName());
-        return "resetPasswordPage";
-    }
 
-
-    @PostMapping("/resetPassword")
+    @PostMapping("/api/resetPassword")
     @ResponseBody
     public ResponseEntity changePassword(HttpServletRequest request, Principal principal){
         String password = request.getParameter("password");
@@ -66,13 +60,6 @@ public class LoginController {
         userService.save(user);
         return new ResponseEntity(user, HttpStatus.OK);
     }
-
-//    @PostMapping("/login")
-//    public String loginUser(@RequestParam(name = "error", required = false) String error,
-//                            @RequestParam(name = "logout", required = false) String logout,
-//                            Model model) {
-//        return "redirect:main";
-//    }
 
 
 }

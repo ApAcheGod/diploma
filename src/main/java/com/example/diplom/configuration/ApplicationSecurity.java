@@ -37,6 +37,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
+                .loginProcessingUrl("/login")
 //                    .loginPage("/login.html")
 //                    .loginProcessingUrl("/login")
                     .successHandler(myAuthenticationSuccessHandler())
