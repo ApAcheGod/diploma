@@ -14,19 +14,24 @@ const props = defineProps({
 let promptIsOpen = ref(false);
 
 const formattedDate = computed(() => {
-  if (props.task.last_date_of_delivery) {
-    let dateOfDelivery = new Date(...props.task.last_date_of_delivery);
-    return dateOfDelivery.toLocaleDateString('en-GB');
+  if (props.task.date_of_creation) {
+      let dateOfDelivery = new Date(props.task.date_of_creation[0], props.task.date_of_creation[1]-1, props.task.date_of_creation[2]);
+    return dateOfDelivery.toLocaleDateString('ru');
   }
-  return "Нет срока сдачи";
+  return "";
 });
 
 </script>
 <template>
   <q-card class="my-card">
     <q-card-section class="bg-secondary text-white">
-      <div class="text-h6">   
+      <div class="text-h6" style="display: flex; justify-content: space-between">
+        <div>
         {{props.task.name}}
+        </div>
+        <div>
+          {{formattedDate}}
+        </div>
       </div>
 
       <div class="text-subtitle2">   
@@ -35,26 +40,6 @@ const formattedDate = computed(() => {
 
       <div class="text-subtitle2">   
         {{props.task.teacherName}}
-      </div>
-
-      <div class="text-subtitle2">   
-        {{formattedDate}}
-      </div>
-
-      <div class="text-subtitle2">   
-        {{props.task.min_rating}} - {{props.task.max_rating}}
-      </div>
-
-      <div class="text-subtitle2">   
-        {{props.task.min_isTemporal}}
-      </div>
-
-      <div class="text-subtitle2">   
-        {{props.task.min_isMandatory}}
-      </div>
-
-      <div class="text-subtitle2">   
-        {{props.task.count_of_attemps}}
       </div>
 
       <div class="text-subtitle2">   
