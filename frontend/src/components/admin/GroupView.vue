@@ -7,7 +7,6 @@ import GroupDialog from './GroupDialog.vue';
 let $q = useQuasar();
 
 let groups = ref();
-// let subjects = ref();
 let tasks = ref();
 let students = ref();
 let rooms = ref();
@@ -20,16 +19,12 @@ let groupPromptIsOpen = ref(false);
 onMounted(async () => { 
   Promise.allSettled([
     store.methods.getGroupsFetch(),
-    // store.methods.getSubjectsFetch(),
-    // store.methods.getTasksFetch(),
     store.methods.getStudentsFetch(),
     store.methods.getRoomsFetch(),
     store.methods.getStudentsWithoutGroupFetch(),
     ])
   .then((results) => {
     groups.value = results[0].value;
-    // subjects.value = results[1].value;
-    // tasks.value = results[2].value;
     students.value = results[1].value;
     rooms.value = results[2].value;
     studentsWithoutGroup.value = results[3].value;
@@ -51,8 +46,10 @@ function triggerNegative(msg) {
 }
 
 async function updateGroup(newGroup){
-  let updateResult = await store.methods.updateGroupFetch(newGroup);
-  if(updateResult){
+  const updateResult = await store.methods.updateGroupFetch(newGroup);
+  studentsWithoutGroup = await store.methods.getStudentsWithoutGroupFetch();
+
+  if (updateResult) {
     groups.value = await store.methods.getGroupsFetch();
     triggerPositive('Информация о группе успешно обновлена!');
   }
@@ -62,6 +59,8 @@ async function updateGroup(newGroup){
 
 async function addNewGroup(newgroup){
   const createResult = await store.methods.createGroupFetch(newgroup);
+  studentsWithoutGroup = await store.methods.getStudentsWithoutGroupFetch();
+
   if (createResult) {
     groups.value = await store.methods.getGroupsFetch();
     triggerPositive('Успешно добавлена новая группа!');
@@ -72,6 +71,8 @@ async function addNewGroup(newgroup){
 
 async function deleteGroup(group){
   const deleteResult = await store.methods.deleteGroupFetch(group);
+  studentsWithoutGroup = await store.methods.getStudentsWithoutGroupFetch();
+
   if(deleteResult){
     groups.value = await store.methods.getGroupsFetch();
     triggerPositive('Информация о группе успешно удалена!')

@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from 'vue';
+import {ref, computed} from 'vue';
 import TaskDialog from './TaskDialog.vue';
 
 const emits = defineEmits(['update-click', 'delete-click']);
@@ -12,6 +12,14 @@ const props = defineProps({
 });
 
 let promptIsOpen = ref(false);
+
+const formattedDate = computed(() => {
+  if (props.task.last_date_of_delivery) {
+    let dateOfDelivery = new Date(...props.task.last_date_of_delivery);
+    return dateOfDelivery.toLocaleDateString('en-GB');
+  }
+  return "Нет срока сдачи";
+});
 
 </script>
 <template>
@@ -30,7 +38,7 @@ let promptIsOpen = ref(false);
       </div>
 
       <div class="text-subtitle2">   
-        {{props.task.last_date_of_delivery}}
+        {{formattedDate}}
       </div>
 
       <div class="text-subtitle2">   
