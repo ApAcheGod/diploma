@@ -50,9 +50,6 @@ public class GroupRest {
 
     @DeleteMapping("group/{id}")
     public void delete(@PathVariable("id") UUID id) {
-        Group group = groupService.findById(id);
-        group.deleteLinks();
-        groupService.save(group);
         groupService.deleteById(id);
     }
 }

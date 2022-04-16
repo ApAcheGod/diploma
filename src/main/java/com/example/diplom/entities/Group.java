@@ -42,7 +42,7 @@ public class Group {
     @BatchSize(size = 20)
     private Set<Teacher> teachers = new HashSet<>();
 
-    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY , cascade = {CascadeType.ALL})
     @ToString.Exclude
     @BatchSize(size = 20)
     private Set<Subject> subjects = new HashSet<>();
