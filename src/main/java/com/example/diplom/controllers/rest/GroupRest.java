@@ -40,12 +40,12 @@ public class GroupRest {
 
     @PutMapping("/group")
     public ResponseEntity<GroupDto> update(@RequestBody GroupDto groupDto) {
-        Group group = groupMapper.toEntity(groupDto);
-        group.deleteLinks();
-        groupService.save(group);
-        group = groupMapper.toEntity(groupDto);
-        groupService.save(group);
-        return new ResponseEntity<>(groupMapper.toDto(group), HttpStatus.OK);
+        Group group1 = groupService.findById(groupDto.getId());
+        group1.deleteLinks();
+        groupService.save(group1);
+        Group group2 = groupMapper.toEntity(groupDto);
+        groupService.save(group2);
+        return new ResponseEntity<>(groupMapper.toDto(group2), HttpStatus.OK);
     }
 
     @DeleteMapping("group/{id}")

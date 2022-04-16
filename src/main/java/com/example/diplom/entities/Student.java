@@ -39,7 +39,7 @@ public class Student extends User{
 
     private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE } )
     @JoinColumn(name = "group_id", referencedColumnName = "id")
     @ToString.Exclude
     @BatchSize(size = 20)

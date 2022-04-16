@@ -32,7 +32,7 @@ public class Group {
 //    @NaturalId(mutable = true)
     private String name;
 
-    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = { CascadeType.MERGE } )
     @ToString.Exclude
     @BatchSize(size = 20)
     private Set<Student> students = new HashSet<>();
