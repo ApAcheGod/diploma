@@ -37,7 +37,7 @@ public class LoginController {
         return new ResponseEntity<>(authentication.getPrincipal(), HttpStatus.OK);
     }
 
-    @GetMapping("/api/loginCheck")
+    @GetMapping("/api/check")
     @ResponseBody
     public ResponseEntity getInfo(){
         return new ResponseEntity(SecurityContextHolder.getContext().getAuthentication().getPrincipal() ,HttpStatus.OK);
