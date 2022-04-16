@@ -1,6 +1,5 @@
 <script setup>
 import {inject, ref} from 'vue';
-import RoomDashboard from './RoomDashboard.vue';
 
 const { state } = inject('state');
 
@@ -30,9 +29,7 @@ let tab = ref();
   <q-tab-panels v-model="tab" animated>
     
     <q-tab-panel v-for="room in state.teacher?.rooms" :name="room.name">
-      <room-dashboard
-        :Room="room"
-      />
+
     </q-tab-panel>
   
   </q-tab-panels>

@@ -21,7 +21,8 @@ const props = defineProps({
 let newGroup = ref({});
 
 const studentsOptions = computed(() => {
-  if (!props.studentsWithoutGroup || props.group.students.lenght === 0) return props.group.students;
+  if (!props.group.students) return props.studentsWithoutGroup;
+  if (props.studentsWithoutGroup.length == 0) return props.group.students;
   
   let availableStudents = props.group.students.concat(props.studentsWithoutGroup);
 

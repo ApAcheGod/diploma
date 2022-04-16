@@ -1,23 +1,28 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router';
+import {inject} from 'vue';
 
-import Admin from '../views/Admin.vue'
-import AdminStudents from '../components/admin/StudentsView.vue'
-import AdminMaterials from '../components/admin/MaterialsView.vue'
-import AdminTeachers from '../components/admin/TeachersView.vue'
-import AdminSubjects from '../components/admin/SubjectsView.vue'
-import AdminGroups from '../components/admin/GroupView.vue'
-import AdminTasks from '../components/admin/TaskView.vue'
-import AdminRooms from '../components/admin/RoomView.vue'
+import LoginView from '../views/LoginView.vue';
 
-import Teacher from '../views/Teacher.vue'
-import TeacherProfile from '../components/TeacherProfile.vue'
-import TeacherRooms from '../components/TeacherRooms.vue'
+import AdminView from '../views/AdminView.vue';
+import AdminStudents from '../components/admin/StudentsView.vue';
+import AdminMaterials from '../components/admin/MaterialsView.vue';
+import AdminTeachers from '../components/admin/TeachersView.vue';
+import AdminSubjects from '../components/admin/SubjectsView.vue';
+import AdminGroups from '../components/admin/GroupView.vue';
+import AdminTasks from '../components/admin/TaskView.vue';
+import AdminRooms from '../components/admin/RoomView.vue';
+
+import TeacherView from '../views/TeacherView.vue';
+import TeacherProfile from '../components/teacher/TeacherProfile.vue';
+import TeacherRooms from '../components/teacher/TeacherRooms.vue';
+
+import ROLES from '../models/userRoles.js';
 
 const routes = [
   {
     path: '/teacher',
-    name: 'Teacher',
-    component: Teacher,
+    name: 'TeacherView',
+    component: TeacherView,
     children: [
       {
         path: 'profile',
@@ -33,8 +38,11 @@ const routes = [
   },
   {
     path: '/admin',
-    name: 'Admin',
-    component: Admin,
+    beforeEnter(to, from, next) {
+
+    },
+    name: 'AdminView',
+    component: AdminView,
     children: [
       {
         path: 'students',
@@ -81,10 +89,30 @@ const routes = [
       }
     },
   },
-  
+  {
+    path: '/login',
+    name: 'Login',
+    component: LoginView
+  },
 ]
+
 const router = createRouter({
   history: createWebHistory(),
   routes,
-})
+});
+
+router.beforeEach(async (to, from, next) => {
+  const store = inject('store');
+  console.log(store);
+  let isAuthenticated = !!store.user;
+
+  if (!isAuthenticated && to.path !== '/login') {
+    next('/login');
+  }
+  else if (isAuthenticated) {
+    next('/');
+  }
+  else next();
+});
+
 export default router

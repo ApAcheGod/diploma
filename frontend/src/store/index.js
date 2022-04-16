@@ -2,8 +2,39 @@ import {reactive} from 'vue';
 
 const state = reactive(
   {
-    teacher : {},
-    admin: {},
+    user: {
+      data: null,
+
+      login: async function(credentials){
+        const header = {
+          method: 'GET',
+          headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          'Accept': 'application/json'
+          },
+          body: JSON.stringify(credentials),
+        };
+        return fetch(`${this.URL}/api/login`, header)
+          .then(res => res.json())
+          .catch(error => {
+            console.error(error);
+            return error;
+          })
+          .then(json => {
+            this.data = json;
+            return true;
+          });
+      },
+
+      logout: async function(){
+        const header = {
+          method: 'GET',
+        };
+        return fetch(`${this.URL}/api/logout`, header)
+          .then(res => res.ok)
+          .catch(error => console.error(error));
+      },
+    }
   });
 
 const methods = {

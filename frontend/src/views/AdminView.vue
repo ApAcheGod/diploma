@@ -30,31 +30,24 @@ const toggleLeftDrawer = () => {
         <q-item class="mt-8 pl-8 text-sm flex items-center tracking-wider font-sans font-medium backdrop-blur-xl"  clickable v-ripple :to="{ name: 'AdminStudents' }">
           Студенты
         </q-item>
-
         <q-item class="pl-8 text-sm flex items-center tracking-wider font-sans font-medium backdrop-blur-xl" clickable v-ripple :to="{ name: 'AdminMaterials' }">
           Материалы
         </q-item>
-
         <q-item class="pl-8 text-sm flex items-center tracking-wider font-sans font-medium backdrop-blur-xl" clickable v-ripple :to="{ name: 'AdminSubjects' }">
           Предметы
         </q-item>
-
         <q-item class="pl-8 text-sm flex items-center tracking-wider font-sans font-medium backdrop-blur-xl" clickable v-ripple :to="{ name: 'AdminTeachers' }">
           Преподаватели
         </q-item>
-
         <q-item class="pl-8 text-sm flex items-center tracking-wider font-sans font-medium backdrop-blur-xl" clickable v-ripple :to="{ name: 'AdminTasks' }">
           Задания
         </q-item>
-
         <q-item class="pl-8 text-sm flex items-center tracking-wider font-sans font-medium backdrop-blur-xl" clickable v-ripple :to="{ name: 'AdminGroups' }">
           Группы
         </q-item>
-
         <q-item class="pl-8 text-sm flex items-center tracking-wider font-sans font-medium backdrop-blur-xl" clickable v-ripple :to="{ name: 'AdminRooms' }">
           Комнаты
         </q-item>
-
       </q-list>
     </q-drawer>
     
