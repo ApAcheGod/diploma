@@ -21,12 +21,10 @@ const props = defineProps({
 let newGroup = ref({});
 
 const studentsOptions = computed(() => {
-  if (!props.studentsWithoutGroup && props.group.students.lenght === 0) return [];
-
-  if (!props.group.students && props.group.students.lenght === 0) return props.studentsWithoutGroup;
+  if (!props.studentsWithoutGroup || props.group.students.lenght === 0) return props.group.students;
   
   let availableStudents = props.group.students.concat(props.studentsWithoutGroup);
-  
+
   return availableStudents.map(s => {
     s.name = `${s.last_name} ${s.first_name} ${s.patronymic}`;
     return s;

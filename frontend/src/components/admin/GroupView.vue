@@ -47,7 +47,7 @@ function triggerNegative(msg) {
 
 async function updateGroup(newGroup){
   const updateResult = await store.methods.updateGroupFetch(newGroup);
-  studentsWithoutGroup = await store.methods.getStudentsWithoutGroupFetch();
+  studentsWithoutGroup.value = await store.methods.getStudentsWithoutGroupFetch();
 
   if (updateResult) {
     groups.value = await store.methods.getGroupsFetch();
@@ -59,7 +59,7 @@ async function updateGroup(newGroup){
 
 async function addNewGroup(newgroup){
   const createResult = await store.methods.createGroupFetch(newgroup);
-  studentsWithoutGroup = await store.methods.getStudentsWithoutGroupFetch();
+  studentsWithoutGroup.value = await store.methods.getStudentsWithoutGroupFetch();
 
   if (createResult) {
     groups.value = await store.methods.getGroupsFetch();
@@ -71,7 +71,7 @@ async function addNewGroup(newgroup){
 
 async function deleteGroup(group){
   const deleteResult = await store.methods.deleteGroupFetch(group);
-  studentsWithoutGroup = await store.methods.getStudentsWithoutGroupFetch();
+  studentsWithoutGroup.value = await store.methods.getStudentsWithoutGroupFetch();
 
   if(deleteResult){
     groups.value = await store.methods.getGroupsFetch();
