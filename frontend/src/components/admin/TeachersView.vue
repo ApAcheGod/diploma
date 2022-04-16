@@ -2,8 +2,8 @@
 import {inject, onMounted, ref} from 'vue';
 import {useQuasar} from 'quasar'
 
-import TeacherDialog from './TeacherDialog.vue';
 import TeacherCard from './TeacherCard.vue';
+import TeacherDialog from './TeacherDialog.vue';
 
 let $q = useQuasar();
 

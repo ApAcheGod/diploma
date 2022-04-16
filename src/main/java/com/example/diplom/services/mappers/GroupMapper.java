@@ -3,6 +3,7 @@ package com.example.diplom.services.mappers;
 import com.example.diplom.entities.Group;
 import com.example.diplom.entities.Subject;
 import com.example.diplom.entities.dto.GroupDto;
+import com.example.diplom.entities.dto.to.Student2Dto;
 import com.example.diplom.services.*;
 import com.example.diplom.services.mappers.mappers2.*;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,7 @@ public class GroupMapper {
                 .addMappings(m -> m.skip(GroupDto::setRooms))
                 .addMappings(m -> m.skip(GroupDto::setSubjects))
                 .addMappings(m -> m.skip(GroupDto::setTasks))
+                .addMappings(m -> m.skip(GroupDto::setCountOfStudents))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(GroupDto.class, Group.class)
                 .addMappings(m -> m.skip(Group::setRooms))
@@ -85,7 +87,9 @@ public class GroupMapper {
         }
 
         if (source.getStudents() != null){
-            destination.setStudents(source.getStudents().stream().map(student2Mapper::toDto).collect(Collectors.toSet()));
+            Set<Student2Dto> student2Dtos = source.getStudents().stream().map(student2Mapper::toDto).collect(Collectors.toSet());
+            destination.setStudents(student2Dtos);
+            destination.setCountOfStudents(student2Dtos.size());
         }
     }
 

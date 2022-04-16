@@ -42,6 +42,8 @@ public class GroupDto {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<Task2Dto> tasks = new HashSet<>();
 
+    private Integer countOfStudents;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
