@@ -5,12 +5,9 @@ import GroupDialog from './GroupDialog.vue';
 const emits = defineEmits(['update-click', 'delete-click']);
 const props = defineProps({
   group: Object,
-
   students: Array, 
-  // subjects: Array,
   studentsWithoutGroup: Array,
   rooms: Array, 
-  // tasks: Array,
 });
 
 let promptIsOpen = ref(false);

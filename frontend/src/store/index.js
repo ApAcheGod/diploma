@@ -8,7 +8,9 @@ const state = reactive(
 
 const methods = {
 
-  // Helpers
+  URL : 'http://localhost:8080',
+
+  // HELPERS
 
   idArrToObjs(array){
     if (array) {
@@ -23,15 +25,52 @@ const methods = {
     return [];
   },
 
-  // Fetchs
+  // FETCHS
 
-  //  Students
+  //  AUTHORIZATION/AUTENTIFICATION/LOGOUT
+
+  userLogin(credentials) {
+    const header = {
+      method: 'GET',
+      headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      'Accept': 'application/json'
+      },
+      body: JSON.stringify(credentials),
+    };
+    return fetch(`${this.URL}/api/login`, header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
+  
+  userCheck() {
+    const header = {
+      method: 'GET',
+    };
+    return fetch(`${this.URL}/api/check`, header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
+
+  userLogout() {
+    const header = {
+      method: 'GET',
+    };
+    return fetch(`${this.URL}/api/logout`, header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
+
+  
+  //  END AUTHORIZATION/AUTENTIFICATION/LOGOUT
+
+  //  STUDENTS
 
   getStudentsFetch(){
     const header = {
       method: 'GET',
     };
-    return fetch('http://localhost:8080/api/students', header)
+    return fetch(`${this.URL}/api/students`, header)
       .then(res => res.json())
       .then(json => json)
       .catch(error => console.error(error));
@@ -41,7 +80,7 @@ const methods = {
     const header = {
       method: 'GET',
     };
-    return fetch('http://localhost:8080/api/studentsWithoutGroup', header)
+    return fetch(`${this.URL}/api/studentsWithoutGroup`, header)
         .then(res => res.json())
         .then(json => json)
         .catch(error => console.error(error));
@@ -63,7 +102,7 @@ const methods = {
         }
       ),
     };
-    return fetch('http://localhost:8080/api/student', header)
+    return fetch(`${this.URL}/api/student`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
@@ -77,7 +116,7 @@ const methods = {
       },
       body: JSON.stringify(student),
     };
-    return fetch(`http://localhost:8080/api/student`, header)
+    return fetch(`${this.URL}/api/student`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
@@ -86,18 +125,20 @@ const methods = {
     const header = {
       method: 'DELETE',
     };
-    return fetch(`http://localhost:8080/api/student/${student.id}`, header)
+    return fetch(`${this.URL}/api/student/${student.id}`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
 
-  //  Materials
+  //  END STUDENTS
+
+  //  MATERIALS
 
   getMaterialsFetch(){
     const header = {
       method: 'GET',
     };
-    return fetch('http://localhost:8080/api/materials', header)
+    return fetch(`${this.URL}/api/materials`, header)
       .then(res => res.json())
       .then(json => json)
       .catch(error => console.error(error));
@@ -112,7 +153,7 @@ const methods = {
       },
       body: JSON.stringify(material),
     };
-    return fetch('http://localhost:8080/api/material', header)
+    return fetch(`${this.URL}/api/material`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
@@ -126,7 +167,7 @@ const methods = {
       },
       body: JSON.stringify(material),
     };
-    return fetch(`http://localhost:8080/api/material`, header)
+    return fetch(`${this.URL}/api/material`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
@@ -135,18 +176,20 @@ const methods = {
     const header = {
       method: 'DELETE',
     };
-    return fetch(`http://localhost:8080/api/material/${material.id}`, header)
+    return fetch(`${this.URL}/api/material/${material.id}`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
 
-  //  Subjects
+  //  END MATERIALS
+
+  //  SUBJECTS
 
   getSubjectsFetch(){
     const header = {
       method: 'GET',
     };
-    return fetch('http://localhost:8080/api/subjects', header)
+    return fetch(`${this.URL}/api/subjects`, header)
       .then(res => res.json())
       .then(json => json)
       .catch(error => console.error(error));
@@ -161,7 +204,7 @@ const methods = {
       },
       body: JSON.stringify(subject),
     };
-    return fetch('http://localhost:8080/api/subject', header)
+    return fetch(`${this.URL}/api/subject`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
@@ -175,7 +218,7 @@ const methods = {
       },
       body: JSON.stringify(subject),
     };
-    return fetch(`http://localhost:8080/api/subject`, header)
+    return fetch(`${this.URL}/api/subject`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
@@ -184,18 +227,20 @@ const methods = {
     const header = {
       method: 'DELETE',
     };
-    return fetch(`http://localhost:8080/api/subject/${subject.id}`, header)
+    return fetch(`${this.URL}/api/subject/${subject.id}`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
 
-  //  Teachers
+  // END SUBJECTS
+
+  //  TEACHERS
 
   getTeachersFetch(){
     const header = {
       method: 'GET',
     };
-    return fetch('http://localhost:8080/api/teachers', header)
+    return fetch(`${this.URL}/api/teachers`, header)
       .then(res => res.json())
       .then(json => json)
       .catch(error => console.error(error));
@@ -210,7 +255,7 @@ const methods = {
       },
       body: JSON.stringify(teacher),
     };
-    return fetch('http://localhost:8080/api/teacher', header)
+    return fetch(`${this.URL}/api/teacher`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
@@ -224,7 +269,7 @@ const methods = {
       },
       body: JSON.stringify(teacher),
     };
-    return fetch(`http://localhost:8080/api/teacher`, header)
+    return fetch(`${this.URL}/api/teacher`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
@@ -233,18 +278,20 @@ const methods = {
     const header = {
       method: 'DELETE',
     };
-    return fetch(`http://localhost:8080/api/teacher/${teacher.id}`, header)
+    return fetch(`${this.URL}/api/teacher/${teacher.id}`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
 
-  //  Tasks
+  // END TEACHERS
+
+  //  TASKS
 
   getTasksFetch(){
     const header = {
       method: 'GET',
     };
-    return fetch('http://localhost:8080/api/tasks', header)
+    return fetch(`${this.URL}/api/tasks`, header)
       .then(res => res.json())
       .then(json => json)
       .catch(error => console.error(error));
@@ -259,7 +306,7 @@ const methods = {
       },
       body: JSON.stringify(task),
     };
-    return fetch('http://localhost:8080/api/task', header)
+    return fetch(`${this.URL}/api/task`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
@@ -273,7 +320,7 @@ const methods = {
       },
       body: JSON.stringify(task),
     };
-    return fetch(`http://localhost:8080/api/task`, header)
+    return fetch(`${this.URL}/api/task`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
@@ -282,159 +329,167 @@ const methods = {
     const header = {
       method: 'DELETE',
     };
-    return fetch(`http://localhost:8080/api/task/${task.id}`, header)
+    return fetch(`${this.URL}/api/task/${task.id}`, header)
       .then(res => res.ok)
       .catch(error => console.error(error));
   },
 
-    //  Rooms
+  //  END TASKS
 
-    getRoomsFetch(){
-      const header = {
-        method: 'GET',
-      };
-      return fetch('http://localhost:8080/api/rooms', header)
-        .then(res => res.json())
-        .then(json => json)
-        .catch(error => console.error(error));
-    },
-  
-    createRoomFetch(room){
-      const header = {
-        method: 'POST',
-        headers: {
+  //  ROOMS
+
+  getRoomsFetch(){
+    const header = {
+      method: 'GET',
+    };
+    return fetch(`${this.URL}/api/rooms`, header)
+      .then(res => res.json())
+      .then(json => json)
+      .catch(error => console.error(error));
+  },
+
+  createRoomFetch(room){
+    const header = {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      'Accept': 'application/json'
+      },
+      body: JSON.stringify(room),
+    };
+    return fetch(`${this.URL}/api/room`, header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
+
+  updateRoomFetch(room){
+    const header = {
+      method: 'PUT',
+      headers: {
         'Content-Type': 'application/json;charset=utf-8',
         'Accept': 'application/json'
-        },
-        body: JSON.stringify(room),
-      };
-      return fetch('http://localhost:8080/api/room', header)
-        .then(res => res.ok)
-        .catch(error => console.error(error));
-    },
-  
-    updateRoomFetch(room){
-      const header = {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(room),
-      };
-      return fetch(`http://localhost:8080/api/room`, header)
-        .then(res => res.ok)
-        .catch(error => console.error(error));
-    },
-  
-    deleteRoomFetch(room){
-      const header = {
-        method: 'DELETE',
-      };
-      return fetch(`http://localhost:8080/api/room/${room.id}`, header)
-        .then(res => res.ok)
-        .catch(error => console.error(error));
-    },
+      },
+      body: JSON.stringify(room),
+    };
+    return fetch(`${this.URL}/api/room`, header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
 
-    //  Groups
+  deleteRoomFetch(room){
+    const header = {
+      method: 'DELETE',
+    };
+    return fetch(`${this.URL}/api/room/${room.id}`, header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
 
-    getGroupsFetch(){
-      const header = {
-        method: 'GET',
-      };
-      return fetch('http://localhost:8080/api/groups', header)
-        .then(res => res.json())
-        .then(json => json)
-        .catch(error => console.error(error));
-    },
-  
-    createGroupFetch(group){
-      const header = {
-        method: 'POST',
-        headers: {
+  // END ROOMS
+
+  //  GROUPS
+
+  getGroupsFetch(){
+    const header = {
+      method: 'GET',
+    };
+    return fetch(`${this.URL}/api/groups`, header)
+      .then(res => res.json())
+      .then(json => json)
+      .catch(error => console.error(error));
+  },
+
+  createGroupFetch(group){
+    const header = {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      'Accept': 'application/json'
+      },
+      body: JSON.stringify(group),
+    };
+    return fetch(`${this.URL}/api/group`, header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
+
+  updateGroupFetch(group){
+    const header = {
+      method: 'PUT',
+      headers: {
         'Content-Type': 'application/json;charset=utf-8',
         'Accept': 'application/json'
-        },
-        body: JSON.stringify(group),
-      };
-      return fetch('http://localhost:8080/api/group', header)
-        .then(res => res.ok)
-        .catch(error => console.error(error));
-    },
-  
-    updateGroupFetch(group){
-      const header = {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(group),
-      };
-      return fetch(`http://localhost:8080/api/group`, header)
-        .then(res => res.ok)
-        .catch(error => console.error(error));
-    },
-  
-    deleteGroupFetch(group){
-      const header = {
-        method: 'DELETE',
-      };
-      return fetch(`http://localhost:8080/api/group/${group.id}`, header)
-        .then(res => res.ok)
-        .catch(error => console.error(error));
-    },
+      },
+      body: JSON.stringify(group),
+    };
+    return fetch(`${this.URL}/api/group`, header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
 
-    //  Solutions
+  deleteGroupFetch(group){
+    const header = {
+      method: 'DELETE',
+    };
+    return fetch(`${this.URL}/api/group/${group.id}`, header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
 
-    getSolutionsFetch(){
-      const header = {
-        method: 'GET',
-      };
-      return fetch('http://localhost:8080/api/solutions', header)
-        .then(res => res.json())
-        .then(json => json)
-        .catch(error => console.error(error));
-    },
-  
-    createSolutionFetch(solution){
-      const header = {
-        method: 'POST',
-        headers: {
+  // END GROUPS
+
+  //  SOLUTIONS
+
+  getSolutionsFetch(){
+    const header = {
+      method: 'GET',
+    };
+    return fetch(`${this.URL}/api/solutions`, header)
+      .then(res => res.json())
+      .then(json => json)
+      .catch(error => console.error(error));
+  },
+
+  createSolutionFetch(solution){
+    const header = {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      'Accept': 'application/json'
+      },
+      body: JSON.stringify(solution),
+    };
+    return fetch(`${this.URL}/api/solution`, header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
+
+  updateSolutionFetch(solution){
+    const header = {
+      method: 'PUT',
+      headers: {
         'Content-Type': 'application/json;charset=utf-8',
         'Accept': 'application/json'
-        },
-        body: JSON.stringify(solution),
-      };
-      return fetch('http://localhost:8080/api/solution', header)
-        .then(res => res.ok)
-        .catch(error => console.error(error));
-    },
-  
-    updateSolutionFetch(solution){
-      const header = {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(solution),
-      };
-      return fetch(`http://localhost:8080/api/solution`, header)
-        .then(res => res.ok)
-        .catch(error => console.error(error));
-    },
-  
-    deleteSolutionFetch(solution){
-      const header = {
-        method: 'DELETE',
-      };
-      return fetch(`http://localhost:8080/api/group/${solution.id}`, header)
-        .then(res => res.ok)
-        .catch(error => console.error(error));
-    },
+      },
+      body: JSON.stringify(solution),
+    };
+    return fetch(`${this.URL}/api/solution`, header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
+
+  deleteSolutionFetch(solution){
+    const header = {
+      method: 'DELETE',
+    };
+    return fetch(`${this.URL}/api/group/${solution.id}`, header)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
+  },
+
+  //  END SOLUTIONS
+
 };
-
 
 export default{
   state, 
