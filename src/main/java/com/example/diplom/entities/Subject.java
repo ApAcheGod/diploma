@@ -47,7 +47,7 @@ public class Subject {
     @BatchSize(size = 20)
     private Set<Task> tasks = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinTable(
             name = "subjects_groups",
             joinColumns = {@JoinColumn(name = "subjects_id")},
@@ -130,5 +130,10 @@ public class Subject {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
+    }
+
+    public void removeGroup(Group group) {
+        this.groups.remove(group);
+        group.getSubjects().remove(this);
     }
 }

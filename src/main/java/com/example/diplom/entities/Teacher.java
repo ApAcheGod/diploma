@@ -55,7 +55,7 @@ public class Teacher extends User{
     @BatchSize(size = 20)
     private Set<Material> materials = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "teachers_groups",
             joinColumns = {@JoinColumn(name = "teachers_id")},
