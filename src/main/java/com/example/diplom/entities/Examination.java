@@ -34,7 +34,7 @@ public class Examination {
     @CreatedDate
     private LocalDateTime dateOfValuation;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @ToString.Exclude
     @BatchSize(size = 20)
     private Solution solution;

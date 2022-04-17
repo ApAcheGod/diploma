@@ -1,6 +1,7 @@
 package com.example.diplom.entities.dto;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
@@ -29,5 +30,8 @@ public class SolutionDto {
     private UUID taskId;
 
     private String taskName;
+
+    @JsonIgnore
+    private ExaminationDto examination;
 
 }

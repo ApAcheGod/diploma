@@ -33,4 +33,8 @@ public class Task2Dto {
     private LocalDateTime last_date_of_delivery;
 
     private String text;
+
+    private Boolean haveSolution = false;
+
+    private Boolean haveExamination = false;
 }

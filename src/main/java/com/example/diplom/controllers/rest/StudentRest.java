@@ -32,6 +32,20 @@ public class StudentRest {
 
     @GetMapping("/students")
     public List<StudentDto> allStudents(){
+//        Task2Dto task2Dto = new Task2Dto();
+//        task2Dto.setHaveSolution(false);
+//        task2Dto.setHaveExamination(false);
+//        System.out.println(
+//                studentService
+//                        .findAll()
+//                        .stream()
+//                        .map(studentMapper::toDto)
+//                        .toList()
+//                        .stream()
+//                        .map(StudentDto::getSolutions)
+//                        .map(SolutionDto::setTaskId)
+//                        .collect(Collectors.toSet())
+//        );
         return studentService.findAll().stream().map(studentMapper::toDto).collect(Collectors.toList());
     }
 

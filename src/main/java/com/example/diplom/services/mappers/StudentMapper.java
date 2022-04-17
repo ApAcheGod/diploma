@@ -102,6 +102,28 @@ public class StudentMapper {
     }
 
     public StudentDto toDto(Student student){
-        return Objects.isNull(student) ? null : modelMapper.map(student, StudentDto.class);
+        StudentDto studentDto = null;
+        if (!Objects.isNull(student)){
+            studentDto = modelMapper.map(student, StudentDto.class);
+            for (var task: studentDto.getTasks()){
+                for (var solution: studentDto.getSolutions()){
+                    if (task.getId().equals(solution.getTaskId())){
+                        task.setHaveSolution(true);
+                        break;
+                    }
+                    task.setHaveSolution(false);
+                }
+                for (var solution: studentDto.getSolutions()){
+                    if (solution.getExamination() != null){
+                        if (solution.getExamination().getTaskId().equals(task.getId())){
+                            task.setHaveExamination(true);
+                            break;
+                        }
+                    }
+                    task.setHaveExamination(false);
+                }
+            }
+        }
+        return studentDto;
     }
 }

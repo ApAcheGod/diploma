@@ -37,6 +37,11 @@ public class Solution {
 
     private String text;
 
+    @OneToOne(mappedBy = "solution", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @BatchSize(size = 20)
+    @ToString.Exclude
+    private Examination examination;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
     @BatchSize(size = 20)
