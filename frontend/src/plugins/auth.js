@@ -1,24 +1,49 @@
 export default {
-    async install(Vue, options) {
-      Vue.prototype.$isAuthenticated = false;
-      Vue.prototype.$userRole = '';
-      
-      Vue.prototype.$getUserAuthenticate = async function () {
-        try {
-          let response = await axios.get('/api/getUserAuthenticated', {
-            headers: {
-              'RequestVerificationToken': 'RequestVerificationToken',
-              'X-Requested-With': 'XMLHttpRequest'
-            }
-          });
-          const userData = response.data;
-          this.$isAuthenticated = userData.isAuthenticated;
-          this.$userRole = userData.roles;
-        }
-        catch (error) {
-          console.error(error);
-          this.$isAuthenticated = false;
-        }
-      }
-    }
-  }
+  $isAuthenticated: false,
+  $userRole: '',
+  $getUserAuthenticate: async function () {
+    const header = {
+      method: 'GET',
+    };
+    await fetch(`${this.URL}/api/check`, header)
+      .then(res => res.json()
+        .then(json => {
+          this.$isAuthenticated = true;
+          this.$userRole = typeof json === 'string' || myVar instanceof String ? json : json.authorities[0].authority;
+        }))
+      .catch(error => {
+        console.error(error);
+        this.$isAuthenticated = false;
+      });
+  },
+  $userLogin: async function (credentials) {
+    const header = {
+      method: 'GET',
+      headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      'Accept': 'application/json'
+      },
+      body: JSON.stringify(credentials),
+    };
+    return fetch(`${this.URL}/api/login`, header)
+      .then(res => res.json()
+      .then(json => {
+        this.$isAuthenticated = true;
+        this.$userRole = typeof json === 'string' || myVar instanceof String ? json : json.authorities[0].authority;
+      }))
+    .catch(error => {
+      console.error(error);
+      this.$isAuthenticated = false;
+    });
+  },
+  $userLogout: async function() {
+    const header = {
+      method: 'GET',
+    };
+    return fetch(`${this.URL}/api/logout`, header)
+      .then((res) => {
+        this.$isAuthenticated = false;
+      })
+      .catch(error => console.error(error));
+  },
+};

@@ -1,5 +1,4 @@
 import {createRouter, createWebHistory} from 'vue-router';
-import {inject} from 'vue';
 
 import LoginView from '../views/LoginView.vue';
 
@@ -102,9 +101,8 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const store = inject('store');
-  console.log(store);
-  let isAuthenticated = !!store.user;
+  console.log(this);
+  let isAuthenticated = this.auth.$isAuthenticated;
 
   if (!isAuthenticated && to.path !== '/login') {
     next('/login');
