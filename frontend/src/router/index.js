@@ -101,16 +101,58 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  console.log(this);
-  let isAuthenticated = this.auth.$isAuthenticated;
+  let isAuthenticated = false;
+  let userRole = '';
 
-  if (!isAuthenticated && to.path !== '/login') {
-    next('/login');
-  }
-  else if (isAuthenticated) {
-    next('/');
-  }
-  else next();
+
+
+  let userLogin = async function (){
+    let myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Cookie", "JSESSIONID=4E1DAD045FB65D39B0D290352F821A2A");
+
+    let raw = JSON.stringify({
+      "login": "BGruStudent",
+      "password": "nxup1Z9rAw"
+    });
+
+    let requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    await fetch("http://localhost:8080/api/login", requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+  } 
+
+
+  let getUserRole = async function () {
+    const header = {
+      method: 'GET',
+    };
+    await fetch(`http://localhost:8080/api/check`, header)
+      .then(res => res.json()
+        .then(json => {
+          isAuthenticated = true;
+          userRole = json.authorities[0].authority;
+        }))
+        .catch(err => console.log(err))
+      .catch(error => {
+        console.error(error);
+        isAuthenticated = false;
+      });
+  };
+  await userLogin().then(await getUserRole());
+  
+  console.log(isAuthenticated);
+  console.log(userRole);
+  //let isAuthenticated = this.auth.$isAuthenticated;
+
+ next();
 });
 
 export default router
