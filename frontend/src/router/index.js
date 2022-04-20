@@ -106,10 +106,9 @@ router.beforeEach(async (to, from, next) => {
 
 
 
-  let userLogin = async function (){
+  function userLogin(){
     let myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Cookie", "JSESSIONID=4E1DAD045FB65D39B0D290352F821A2A");
 
     let raw = JSON.stringify({
       "login": "BGruStudent",
@@ -120,37 +119,36 @@ router.beforeEach(async (to, from, next) => {
       method: 'POST',
       headers: myHeaders,
       body: raw,
-      redirect: 'follow'
     };
 
-    await fetch("http://localhost:8080/api/login", requestOptions)
-    .then(response => response.text())
-    .then(result => console.log(result))
+    return fetch("http://localhost:8080/api/login", requestOptions)
+    .then(response => { response.text(); console.log(response.headers); console.log(response.headers.get('Set-Cookie'));})
+    .then(result => result)
     .catch(error => console.log('error', error));
   } 
 
 
-  let getUserRole = async function () {
+  let getUserRole = function () {
     const header = {
       method: 'GET',
     };
-    await fetch(`http://localhost:8080/api/check`, header)
-      .then(res => res.json()
-        .then(json => {
-          isAuthenticated = true;
-          userRole = json.authorities[0].authority;
-        }))
-        .catch(err => console.log(err))
+    return fetch(`http://localhost:8080/api/check`, header)
+      .then(res => res.json())
+      .then(json => {
+        userRole = json.authorities[0].authority;
+        isAuthenticated = true;
+      })
       .catch(error => {
-        console.error(error);
         isAuthenticated = false;
       });
   };
-  await userLogin().then(await getUserRole());
-  
-  console.log(isAuthenticated);
-  console.log(userRole);
-  //let isAuthenticated = this.auth.$isAuthenticated;
+
+  userLogin().then(() =>
+    getUserRole()
+  )
+  .then(() =>
+    console.log(isAuthenticated)
+  )
 
  next();
 });
