@@ -5,6 +5,7 @@ import com.example.diplom.entities.dto.LoginDto;
 import com.example.diplom.services.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,7 +28,7 @@ public class LoginController {
     private final UserServiceImpl userService;
     private final AuthenticationManager authenticationManager;
 
-    @PostMapping("/api/login")
+    @PostMapping(value = "/api/login", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity login(@RequestBody LoginDto loginDto){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -36,13 +37,13 @@ public class LoginController {
         return new ResponseEntity<>(authentication.getPrincipal(), HttpStatus.OK);
     }
 
-    @GetMapping("/api/check")
+    @GetMapping(value = "/api/check", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity getInfo(){
         return new ResponseEntity(SecurityContextHolder.getContext().getAuthentication().getPrincipal() ,HttpStatus.OK);
     }
 
-    @GetMapping("/api/logout")
+    @GetMapping(value = "/api/logout", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity logoutUser(){
         SecurityContextHolder.clearContext();

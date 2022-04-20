@@ -104,8 +104,6 @@ router.beforeEach(async (to, from, next) => {
   let isAuthenticated = false;
   let userRole = '';
 
-
-
   function userLogin(){
     let myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -125,14 +123,21 @@ router.beforeEach(async (to, from, next) => {
     .then(response => { response.text(); console.log(response.headers); console.log(response.headers.get('Set-Cookie'));})
     .then(result => result)
     .catch(error => console.log('error', error));
-  } 
+  }
 
+  let raw = JSON.stringify({
+    "login": "BGruStudent",
+    "password": "nxup1Z9rAw"
+  });
 
   let getUserRole = function () {
-    const header = {
+    const headers = {
       method: 'GET',
+      Authorization: 'Basic ' + btoa(`${raw.login}:${raw.password}`),
+      body: raw,
     };
-    return fetch(`http://localhost:8080/api/check`, header)
+
+    return fetch(`http://localhost:8080/api/check`, headers)
       .then(res => res.json())
       .then(json => {
         userRole = json.authorities[0].authority;
