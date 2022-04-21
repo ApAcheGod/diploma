@@ -2,11 +2,16 @@ package com.example.diplom.configuration;
 
 import com.example.diplom.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.security.SecurityConfig;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,9 +22,12 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,53 +45,68 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     private final UserService userService;
 
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-//                .cors()
-//                .configurationSource(corsConfigurationSource())
-//                .and()
-                .csrf()
-                .disable()
-                .authorizeRequests()
-                .antMatchers("/api/login").permitAll()
-                .antMatchers("/").authenticated()
-                .anyRequest().permitAll()
-                .and().httpBasic().authenticationEntryPoint(apiAwareLoginUrlAuthenticationEntryPoint())
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        ;
-    }
-
 //    @Override
-//    protected void configure(HttpSecurity http) throws Exception{
-//        http.cors()
-//                .configurationSource(corsConfigurationSource())
-//                .and()
-//                .csrf().disable()
-////                .cors().and()
-//                .authorizeRequests()
-////                .antMatchers("/api/**").authenticated()
-//                .antMatchers("/api/login").permitAll()
-//                .antMatchers("/api/check").permitAll()
-//                .antMatchers("/api/**").authenticated()
-//                .antMatchers("/main").hasAnyRole("ADMIN")
-//                .anyRequest().permitAll()
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+////                .cors()
+////                .configurationSource(corsConfigurationSource())
 ////                .and()
-////                .formLogin()
-////                .loginProcessingUrl("/login")
-////                    .loginPage("  /login.html")
-////                    .loginProcessingUrl("/login")
-////                    .successHandler(myAuthenticationSuccessHandler())
-////                    .permitAll()
-//                .and().httpBasic().authenticationEntryPoint(apiAwareLoginUrlAuthenticationEntryPoint())
-//                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//                .cors()
+//                .disable()
+////                .and()
+//                .csrf()
+//                .disable()
+//                .authorizeRequests()
+////                .antMatchers(HttpMethod.OPTIONS, "http://localhost:3000").permitAll()
+//
+//                .antMatchers("/api/login").permitAll()
+//                .antMatchers("/").authenticated()
+//                .anyRequest().permitAll()
+//                .and().httpBasic().authenticationEntryPoint(apiAwareLoginUrlAuthenticationEntryPoint()).realmName("Api Server")
+//                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//        ;
 //    }
 
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000"));
+        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PUT","OPTIONS","PATCH", "DELETE"));
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.setExposedHeaders(List.of("Authorization"));
+
+        http.anonymous().disable()
+//                .requestMatcher(new BasicRequestMatcher())
+                .authorizeRequests()
+                .and()
+                .httpBasic()
+                .authenticationEntryPoint(apiAwareLoginUrlAuthenticationEntryPoint())
+                .and()
+                .addFilterBefore(new BasicAuthenticationFilter(authenticationManagerBean()), BasicAuthenticationFilter.class)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).sessionFixation().migrateSession()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/**").permitAll().anyRequest()
+                .authenticated()
+                .and()
+                .csrf().disable()
+                .cors().configurationSource(request -> corsConfiguration);
+
+    }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth){
         auth.authenticationProvider(authenticationProvider());
     }
+
+//    private static class BasicRequestMatcher implements RequestMatcher {
+//        @Override
+//        public boolean matches(HttpServletRequest request) {
+//            String auth = request.getHeader("Authorization");
+//            return (auth != null && auth.startsWith("Basic"));
+//        }
+//    }
 
     @Bean
     public ApiBasicAuthenticationEntryPoint apiAwareLoginUrlAuthenticationEntryPoint() {
@@ -93,6 +116,11 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     }
 
     public static class ApiBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
+
+        @Override
+        public void afterPropertiesSet() {
+            super.afterPropertiesSet();
+        }
 
         @Override
         public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
@@ -130,49 +158,6 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
         return new MySimpleUrlAuthenticationSuccessHandler();
     }
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration source = new CorsConfiguration();
-        source.setAllowedOrigins(List.of("*"));
-        source.setAllowedMethods(List.of("HEAD", "GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS"));
-        source.setAllowCredentials(false);
-        source.addAllowedOrigin("*");
-        source.addAllowedHeader("*");
-        source.addAllowedMethod("*");
-        UrlBasedCorsConfigurationSource con = new UrlBasedCorsConfigurationSource();
-        con.registerCorsConfiguration("/**", source);
-        return con;
-    }
-
-
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-//        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONAL"));
-//        configuration.setAllowCredentials(true);
-//        configuration.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type"));
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
-
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        final CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(ImmutableList.of("*"));
-//        configuration.setAllowedMethods(ImmutableList
-//                .of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-//        configuration.setAllowCredentials(false);
-//        configuration.setAllowedHeaders(ImmutableList.of("*"));
-//        configuration.setExposedHeaders(ImmutableList
-//                .of("X-Auth-Token","Authorization","Access-Control-Allow-Origin","Access-Control-Allow-Credentials"));
-//        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
-
-
 //    @Bean
 //    public FilterRegistrationBean corsFilter() {
 //        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -183,7 +168,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 //        config.addAllowedMethod("*");
 //        source.registerCorsConfiguration("/**", config);
 //        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-//        bean.setOrder(0);
+//        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
 //        return bean;
 //    }
 }

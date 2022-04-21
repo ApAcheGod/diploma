@@ -106,7 +106,7 @@ router.beforeEach(async (to, from, next) => {
 
   function userLogin(){
     let myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Content-Type", "application/json");
 
     let raw = JSON.stringify({
       "login": "BGruStudent",
@@ -120,9 +120,9 @@ router.beforeEach(async (to, from, next) => {
     };
 
     return fetch("http://localhost:8080/api/login", requestOptions)
-    .then(response => { response.text(); console.log(response.headers); console.log(response.headers.get('Set-Cookie'));})
-    .then(result => result)
-    .catch(error => console.log('error', error));
+        .then(response => { response.text(); console.log(response.headers); console.log(response.headers.get('Set-Cookie'));})
+        .then(result => result)
+        .catch(error => console.log('error', error));
   }
 
   let raw = JSON.stringify({
@@ -131,31 +131,31 @@ router.beforeEach(async (to, from, next) => {
   });
 
   let getUserRole = function () {
-    const headers = {
-      method: 'GET',
-      Authorization: 'Basic ' + btoa(`${raw.login}:${raw.password}`),
-      body: raw,
-    };
 
-    return fetch(`http://localhost:8080/api/check`, headers)
-      .then(res => res.json())
-      .then(json => {
-        userRole = json.authorities[0].authority;
-        isAuthenticated = true;
-      })
-      .catch(error => {
-        isAuthenticated = false;
-      });
+    let myHeaders = new Headers();
+    myHeaders.set('Authorization', 'Basic ' + btoa(raw.login + ":" + raw.password));
+    // myHeaders.set("Access-Control-Allow-Origins", "http://localhost:3000");
+
+    console.log( btoa(`${raw.login}:${raw.password}`));
+    return fetch(`http://localhost:8080/api/check`, {method: 'GET', headers: myHeaders, credentials:'include'})
+        .then(res => res.json())
+        .then(json => {
+          userRole = json.authorities[0].authority;
+          isAuthenticated = true;
+        })
+        .catch(error => {
+          isAuthenticated = false;
+        });
   };
 
   userLogin().then(() =>
-    getUserRole()
+      getUserRole()
   )
-  .then(() =>
-    console.log(isAuthenticated)
-  )
+      .then(() =>
+          console.log(isAuthenticated)
+      )
 
- next();
+  next();
 });
 
 export default router
