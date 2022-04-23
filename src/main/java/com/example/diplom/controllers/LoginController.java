@@ -7,9 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -28,26 +25,16 @@ public class LoginController {
     private final UserServiceImpl userService;
     private final AuthenticationManager authenticationManager;
 
-    @PostMapping(value = "/api/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ResponseEntity login(@RequestBody LoginDto loginDto){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDto.login(), loginDto.password()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>(authentication.getPrincipal(), HttpStatus.OK);
-    }
-
     @GetMapping(value = "/api/check", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity getInfo(){
-        return new ResponseEntity(SecurityContextHolder.getContext().getAuthentication().getPrincipal() ,HttpStatus.OK);
+        return new ResponseEntity(SecurityContextHolder.getContext(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/api/logout", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ResponseEntity logoutUser(){
-        SecurityContextHolder.clearContext();
-        return new ResponseEntity<>(HttpStatus.OK);
+    @GetMapping("/resetPassword")
+    public String changePassword(Principal principal, Model model){
+        model.addAttribute("login", principal.getName());
+        return "resetPasswordPage";
     }
 
 
