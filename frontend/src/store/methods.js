@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+axios.defaults.withCredentials = true;
+
 export default {
 
   URL : 'http://localhost:8080',
@@ -58,11 +60,11 @@ export default {
       login: payload.login,
       password: payload.password,
     };
-    return axios.post(`${this.URL}/login`, data, { withCredentials: true });
+    return axios.post(`${this.URL}/login`, data);
   },
 
   userCheckAxios() {
-    return axios.get(`${this.URL}/api/check`, { withCredentials: true });
+    return axios.get(`${this.URL}/api/check`);
   },
 
   userLogout() {
