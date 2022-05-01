@@ -58,11 +58,11 @@ export default {
       login: payload.login,
       password: payload.password,
     };
-    return axios.post(`${this.URL}/login`, data);
+    return axios.post(`${this.URL}/login`, data, { withCredentials: true });
   },
 
   userCheckAxios() {
-    return axios.get(`${this.URL}/api/check`);
+    return axios.get(`${this.URL}/api/check`, { withCredentials: true });
   },
 
   userLogout() {
