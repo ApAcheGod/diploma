@@ -2,7 +2,7 @@
 
 import {computed, inject, onMounted, ref} from "vue";
 
-const store = inject('store');
+const methods = inject('methods');
 
 const emits = defineEmits(['update-click', 'prompt-close']);
 
@@ -40,8 +40,8 @@ onMounted(() => {
 const newGroupFormatted = computed(() => {
   let newGroupFormatted = JSON.parse(JSON.stringify(newGroup.value));
 
-  newGroupFormatted.students = store.methods.idArrToObjs(newGroupFormatted.students);
-  newGroupFormatted.rooms = store.methods.idArrToObjs(newGroupFormatted.rooms);
+  newGroupFormatted.students = methods.idArrToObjs(newGroupFormatted.students);
+  newGroupFormatted.rooms = methods.idArrToObjs(newGroupFormatted.rooms);
 
   return newGroupFormatted;
 });

@@ -12,16 +12,16 @@ let students = ref();
 let rooms = ref();
 let studentsWithoutGroup = ref();
 
-const store = inject('store');
+const methods = inject('methods');
 
 let groupPromptIsOpen = ref(false);
 
 onMounted(async () => { 
   Promise.allSettled([
-    store.methods.getGroupsFetch(),
-    store.methods.getStudentsFetch(),
-    store.methods.getRoomsFetch(),
-    store.methods.getStudentsWithoutGroupFetch(),
+    methods.getGroupsFetch(),
+    methods.getStudentsFetch(),
+    methods.getRoomsFetch(),
+    methods.getStudentsWithoutGroupFetch(),
     ])
   .then((results) => {
     groups.value = results[0].value;
@@ -46,11 +46,11 @@ function triggerNegative(msg) {
 }
 
 async function updateGroup(newGroup){
-  const updateResult = await store.methods.updateGroupFetch(newGroup);
-  studentsWithoutGroup.value = await store.methods.getStudentsWithoutGroupFetch();
+  const updateResult = await methods.updateGroupFetch(newGroup);
+  studentsWithoutGroup.value = await methods.getStudentsWithoutGroupFetch();
 
   if (updateResult) {
-    groups.value = await store.methods.getGroupsFetch();
+    groups.value = await methods.getGroupsFetch();
     triggerPositive('Информация о группе успешно обновлена!');
   }
   else
@@ -58,11 +58,11 @@ async function updateGroup(newGroup){
 }
 
 async function addNewGroup(newgroup){
-  const createResult = await store.methods.createGroupFetch(newgroup);
-  studentsWithoutGroup.value = await store.methods.getStudentsWithoutGroupFetch();
+  const createResult = await methods.createGroupFetch(newgroup);
+  studentsWithoutGroup.value = await methods.getStudentsWithoutGroupFetch();
 
   if (createResult) {
-    groups.value = await store.methods.getGroupsFetch();
+    groups.value = await methods.getGroupsFetch();
     triggerPositive('Успешно добавлена новая группа!');
   }
   else
@@ -70,11 +70,11 @@ async function addNewGroup(newgroup){
 }
 
 async function deleteGroup(group){
-  const deleteResult = await store.methods.deleteGroupFetch(group);
-  studentsWithoutGroup.value = await store.methods.getStudentsWithoutGroupFetch();
+  const deleteResult = await methods.deleteGroupFetch(group);
+  studentsWithoutGroup.value = await methods.getStudentsWithoutGroupFetch();
 
   if(deleteResult){
-    groups.value = await store.methods.getGroupsFetch();
+    groups.value = await methods.getGroupsFetch();
     triggerPositive('Информация о группе успешно удалена!')
   }
   else

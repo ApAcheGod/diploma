@@ -12,15 +12,15 @@ let materials = ref();
 let teachers = ref();
 let subjects = ref();
 
-const store = inject('store');
+const methods = inject('methods');
 
 let materialPromptIsOpen = ref(false);
 
 onMounted(async () => { 
   Promise.allSettled([
-    store.methods.getMaterialsFetch(),
-    store.methods.getTeachersFetch(),
-    store.methods.getSubjectsFetch(),
+    methods.getMaterialsFetch(),
+    methods.getTeachersFetch(),
+    methods.getSubjectsFetch(),
     ])
   .then((results) => {
     materials.value = results[0].value;
@@ -44,9 +44,9 @@ function triggerNegative(msg) {
 }
 
 async function updateMaterial(newMaterial){
-  let updateResult = await store.methods.updateMaterialFetch(newMaterial);
+  let updateResult = await methods.updateMaterialFetch(newMaterial);
   if(updateResult){
-    materials.value = await store.methods.getMaterialsFetch();
+    materials.value = await methods.getMaterialsFetch();
     triggerPositive('Информация о материале успешно обновлена!');
     materialPromptIsOpen.value = false;
   }
@@ -55,9 +55,9 @@ async function updateMaterial(newMaterial){
 }
 
 async function addNewMaterial(newMaterial){
-  const createResult = await store.methods.createMaterialFetch(newMaterial);
+  const createResult = await methods.createMaterialFetch(newMaterial);
   if (createResult) {
-    materials.value = await store.methods.getMaterialsFetch();
+    materials.value = await methods.getMaterialsFetch();
     triggerPositive('Успешно добавлен новый материал!');
     materialPromptIsOpen.value = false;
   }
@@ -66,9 +66,9 @@ async function addNewMaterial(newMaterial){
 }
 
 async function deleteMaterial(material){
-  const deleteResult = await store.methods.deleteMaterialFetch(material);
+  const deleteResult = await methods.deleteMaterialFetch(material);
   if(deleteResult){
-    materials.value = await store.methods.getMaterialsFetch();
+    materials.value = await methods.getMaterialsFetch();
     triggerPositive('Информация о материалу успешно удалена!')
   }
   else

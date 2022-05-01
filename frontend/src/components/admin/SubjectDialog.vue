@@ -2,7 +2,7 @@
 
 import {computed, inject, onMounted, ref} from "vue";
 
-const store = inject('store');
+const methods = inject('methods');
 
 const emits = defineEmits(['update-click', 'prompt-close']);
 
@@ -44,10 +44,10 @@ const roomOptions = computed(() => {
 const newSubjectFormatted = computed(() => {
   let newSubjectFormatted = JSON.parse(JSON.stringify(newSubject.value));
 
-  newSubjectFormatted.materials = store.methods.idArrToObjs(newSubjectFormatted.materials);
-  newSubjectFormatted.tasks = store.methods.idArrToObjs(newSubjectFormatted.tasks);
-  newSubjectFormatted.rooms = store.methods.idArrToObjs(newSubjectFormatted.rooms);
-  newSubjectFormatted.groups = store.methods.idArrToObjs(newSubjectFormatted.groups);
+  newSubjectFormatted.materials = methods.idArrToObjs(newSubjectFormatted.materials);
+  newSubjectFormatted.tasks = methods.idArrToObjs(newSubjectFormatted.tasks);
+  newSubjectFormatted.rooms = methods.idArrToObjs(newSubjectFormatted.rooms);
+  newSubjectFormatted.groups = methods.idArrToObjs(newSubjectFormatted.groups);
   return newSubjectFormatted;
 });
 

@@ -38,7 +38,7 @@ const routes = [
   {
     path: '/admin',
     beforeEnter(to, from, next) {
-
+      next();
     },
     name: 'AdminView',
     component: AdminView,
@@ -101,59 +101,59 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  let isAuthenticated = false;
-  let userRole = '';
+  // let isAuthenticated = false;
+  // let userRole = '';
 
-  function userLogin(){
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+  // function userLogin(){
+  //   let myHeaders = new Headers();
+  //   myHeaders.append("Content-Type", "application/json");
 
-    let raw = JSON.stringify({
-      "login": "BGruStudent",
-      "password": "nxup1Z9rAw"
-    });
+  //   let raw = JSON.stringify({
+  //     "login": "BGruStudent",
+  //     "password": "nxup1Z9rAw"
+  //   });
 
-    let requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-    };
+  //   let requestOptions = {
+  //     method: 'POST',
+  //     headers: myHeaders,
+  //     body: raw,
+  //   };
 
-    return fetch("http://localhost:8080/api/login", requestOptions)
-        .then(response => { response.text(); console.log(response.headers); console.log(response.headers.get('Set-Cookie'));})
-        .then(result => result)
-        .catch(error => console.log('error', error));
-  }
+  //   return fetch("http://localhost:8080/api/login", requestOptions)
+  //       .then(response => { response.text(); console.log(response.headers); console.log(response.headers.get('Set-Cookie'));})
+  //       .then(result => result)
+  //       .catch(error => console.log('error', error));
+  // }
 
-  let raw = JSON.stringify({
-    "login": "BGruStudent",
-    "password": "nxup1Z9rAw"
-  });
+  // let raw = JSON.stringify({
+  //   "login": "BGruStudent",
+  //   "password": "nxup1Z9rAw"
+  // });
 
-  let getUserRole = function () {
+  // let getUserRole = function () {
 
-    let myHeaders = new Headers();
-    myHeaders.set('Authorization', 'Basic ' + btoa(raw.login + ":" + raw.password));
-    // myHeaders.set("Access-Control-Allow-Origins", "http://localhost:3000");
+  //   let myHeaders = new Headers();
+  //   myHeaders.set('Authorization', 'Basic ' + btoa(raw.login + ":" + raw.password));
+  //   // myHeaders.set("Access-Control-Allow-Origins", "http://localhost:3000");
 
-    console.log( btoa(`${raw.login}:${raw.password}`));
-    return fetch(`http://localhost:8080/api/check`, {method: 'GET', headers: myHeaders, credentials:'include'})
-        .then(res => res.json())
-        .then(json => {
-          userRole = json.authorities[0].authority;
-          isAuthenticated = true;
-        })
-        .catch(error => {
-          isAuthenticated = false;
-        });
-  };
+  //   console.log( btoa(`${raw.login}:${raw.password}`));
+  //   return fetch(`http://localhost:8080/api/check`, {method: 'GET', headers: myHeaders, credentials:'include'})
+  //       .then(res => res.json())
+  //       .then(json => {
+  //         userRole = json.authorities[0].authority;
+  //         isAuthenticated = true;
+  //       })
+  //       .catch(error => {
+  //         isAuthenticated = false;
+  //       });
+  // };
 
-  userLogin().then(() =>
-      getUserRole()
-  )
-      .then(() =>
-          console.log(isAuthenticated)
-      )
+  // userLogin().then(() =>
+  //     getUserRole()
+  // )
+  //     .then(() =>
+  //         console.log(isAuthenticated)
+  //     )
 
   next();
 });

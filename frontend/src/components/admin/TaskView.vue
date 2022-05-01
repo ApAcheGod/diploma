@@ -12,17 +12,17 @@ let groups = ref();
 let teachers = ref ();
 let solutions = ref();
 
-const store = inject('store');
+const methods = inject('methods');
 
 let taskPromptIsOpen = ref(false);
 
 onMounted(async () => { 
   Promise.allSettled([
-    store.methods.getTasksFetch(),
-    store.methods.getSubjectsFetch(),
-    store.methods.getGroupsFetch(),
-    store.methods.getTeachersFetch(),
-    store.methods.getSolutionsFetch(),
+    methods.getTasksFetch(),
+    methods.getSubjectsFetch(),
+    methods.getGroupsFetch(),
+    methods.getTeachersFetch(),
+    methods.getSolutionsFetch(),
     ])
   .then((results) => {
     tasks.value = results[0].value;
@@ -48,9 +48,9 @@ function triggerNegative(msg) {
 }
 
 async function updateTask(newTask){
-  let updateResult = await store.methods.updateTaskFetch(newTask);
+  let updateResult = await methods.updateTaskFetch(newTask);
   if(updateResult){
-    tasks.value = await store.methods.getTasksFetch();
+    tasks.value = await methods.getTasksFetch();
     triggerPositive('Информация о задании успешно обновлена!');
   }
   else
@@ -58,9 +58,9 @@ async function updateTask(newTask){
 }
 
 async function addNewTask(newTask){
-  const createResult = await store.methods.createTaskFetch(newTask);
+  const createResult = await methods.createTaskFetch(newTask);
   if (createResult) {
-    tasks.value = await store.methods.getTasksFetch();
+    tasks.value = await methods.getTasksFetch();
     triggerPositive('Успешно добавлено новое задание!');
   }
   else
@@ -68,9 +68,9 @@ async function addNewTask(newTask){
 }
 
 async function deleteTask(task){
-  const deleteResult = await store.methods.deleteTaskFetch(task);
+  const deleteResult = await methods.deleteTaskFetch(task);
   if(deleteResult){
-    tasks.value = await store.methods.getTasksFetch();
+    tasks.value = await methods.getTasksFetch();
     triggerPositive('Информация о задании успешно удалена!')
   }
   else

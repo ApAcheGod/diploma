@@ -2,7 +2,7 @@
 
 import {computed, inject, onMounted, ref} from "vue";
 
-const store = inject('store');
+const methods = inject('methods');
 
 const emits = defineEmits(['update-click', 'prompt-close']);
 
@@ -29,8 +29,8 @@ onMounted(() => {
 const newTaskFormatted = computed(() => {
   let newTaskFormatted = JSON.parse(JSON.stringify(newTask.value));
 
-  newTaskFormatted.groups = store.methods.idArrToObjs(newTaskFormatted.groups);
-  newTaskFormatted.solutions = store.methods.idArrToObjs(newTaskFormatted.solutions);
+  newTaskFormatted.groups = methods.idArrToObjs(newTaskFormatted.groups);
+  newTaskFormatted.solutions = methods.idArrToObjs(newTaskFormatted.solutions);
 
   return newTaskFormatted;
 });

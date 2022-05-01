@@ -15,18 +15,18 @@ let tasks = ref();
 let rooms = ref();
 let groups = ref();
 
-const store = inject('store');
+const methods = inject('methods');
 
 let subjectPromptIsOpen = ref(false);
 
 onMounted(async () => { 
   Promise.allSettled([
-    store.methods.getSubjectsFetch(),
-    store.methods.getTeachersFetch(),
-    store.methods.getTasksFetch(),
-    store.methods.getMaterialsFetch(),
-    store.methods.getRoomsFetch(),
-      store.methods.getGroupsFetch(),
+    methods.getSubjectsFetch(),
+    methods.getTeachersFetch(),
+    methods.getTasksFetch(),
+    methods.getMaterialsFetch(),
+    methods.getRoomsFetch(),
+      methods.getGroupsFetch(),
     ])
   .then((results) => {
     subjects.value = results[0].value;
@@ -53,9 +53,9 @@ function triggerNegative(msg) {
 }
 
 async function updateSubject(newSubject){
-  let updateResult = await store.methods.updateSubjectFetch(newSubject);
+  let updateResult = await methods.updateSubjectFetch(newSubject);
   if(updateResult){
-    subjects.value = await store.methods.getSubjectsFetch();
+    subjects.value = await methods.getSubjectsFetch();
     triggerPositive('Информация о предмете успешно обновлена!');
     subjectPromptIsOpen.value = false;
   }
@@ -64,9 +64,9 @@ async function updateSubject(newSubject){
 }
 
 async function addNewSubject(newSubject){
-  const createResult = await store.methods.createSubjectFetch(newSubject);
+  const createResult = await methods.createSubjectFetch(newSubject);
   if (createResult) {
-    subjects.value = await store.methods.getSubjectsFetch();
+    subjects.value = await methods.getSubjectsFetch();
     triggerPositive('Успешно добавлен новый предмет!');
     subjectPromptIsOpen.value = false;
   }
@@ -75,9 +75,9 @@ async function addNewSubject(newSubject){
 }
 
 async function deleteSubject(subject){
-  const deleteResult = await store.methods.deleteSubjectFetch(subject);
+  const deleteResult = await methods.deleteSubjectFetch(subject);
   if(deleteResult){
-    subjects.value = await store.methods.getSubjectsFetch();
+    subjects.value = await methods.getSubjectsFetch();
     triggerPositive('Информация о предмете успешно удалена!')
   }
   else

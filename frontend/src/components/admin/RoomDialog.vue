@@ -2,7 +2,7 @@
 
 import {computed, inject, onMounted, ref} from "vue";
 
-const store = inject('store');
+const methods = inject('methods');
 
 const emits = defineEmits(['update-click', 'prompt-close']);
 

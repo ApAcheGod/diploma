@@ -1,6 +1,7 @@
 <script setup>
 import {inject, onMounted, ref} from 'vue';
 import {useQuasar} from 'quasar'
+import axios from 'axios';
 import StudentCard from './StudentCard.vue';
 import StudentDialog from './StudentDialog.vue';
 
@@ -8,13 +9,26 @@ let $q = useQuasar();
 
 let students = ref();
 
-const store = inject('store');
+const methods = inject('methods');
 
 let studentPromptIsOpen = ref(false);
 
-onMounted(async () => { 
-  students.value = (await Promise.allSettled([store.methods.getStudentsFetch()]))[0].value;
+onMounted(async () => {
+  students.value = (await Promise.allSettled([methods.getStudentsFetch()]))[0].value;
 
+  methods.userLoginAxios({
+    "login": "BGruStudent",
+    "password":"nxup1Z9rAw"
+  })
+  .then((loginResponse) => {
+    console.log(`data - ${JSON.stringify(loginResponse.data)}`);
+    console.log(`token - ${loginResponse.config.headers['X-XSRF-TOKEN']}`)
+  })
+  .then(() => methods.userCheckAxios())
+  .then((checkResponse) => {
+    console.log(`data - ${JSON.stringify(checkResponse.data)}`);
+    console.log(`token - ${checkResponse.config.headers['X-XSRF-TOKEN']}`)
+  })
 });
 
 function triggerPositive(msg) {
@@ -32,7 +46,7 @@ function triggerNegative(msg) {
 }
 
 async function updateStudent(newStudent){
-  let updateResult = await store.methods.updateStudentFetch({
+  let updateResult = await methods.updateStudentFetch({
     id: newStudent.id,
     first_name: newStudent.first_name,
     last_name: newStudent.last_name,
@@ -40,7 +54,7 @@ async function updateStudent(newStudent){
     email: newStudent.email
   });
   if(updateResult){
-    students.value = await store.methods.getStudentsFetch();
+    students.value = await methods.getStudentsFetch();
     triggerPositive('Информация о студенте успешно обновлена!');
     studentPromptIsOpen.value = false;
   }
@@ -49,9 +63,9 @@ async function updateStudent(newStudent){
 }
 
 async function addNewStudent(newStudent){
-  const createResult = await store.methods.createStudentFetch(newStudent);
+  const createResult = await methods.createStudentFetch(newStudent);
   if (createResult) {
-    students.value = await store.methods.getStudentsFetch();
+    students.value = await methods.getStudentsFetch();
     triggerPositive('Успешно добавлен новый студент!');
     studentPromptIsOpen.value = false;
   }
@@ -60,9 +74,9 @@ async function addNewStudent(newStudent){
 }
 
 async function deleteStudent(student){
-  const deleteResult = await store.methods.deleteStudentFetch(student);
+  const deleteResult = await methods.deleteStudentFetch(student);
   if(deleteResult){
-    students.value = await store.methods.getStudentsFetch();
+    students.value = await methods.getStudentsFetch();
     triggerPositive('Информация о студенте успешно удалена!')
   }
   else

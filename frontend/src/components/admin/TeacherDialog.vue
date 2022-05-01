@@ -2,7 +2,7 @@
 
 import {computed, inject, onMounted, ref} from "vue";
 
-const store = inject('store');
+const methods = inject('methods');
 
 const emits = defineEmits(['update-click', 'prompt-close']);
 
@@ -39,10 +39,10 @@ function clearForm() {
 const newTeacherFormatted = computed(() => {
   let newTeacherFormatted = JSON.parse(JSON.stringify(newTeacher.value));
 
-  newTeacherFormatted.materials = store.methods.idArrToObjs(newTeacherFormatted.materials);
-  newTeacherFormatted.tasks = store.methods.idArrToObjs(newTeacherFormatted.tasks);
-  newTeacherFormatted.rooms = store.methods.idArrToObjs(newTeacherFormatted.rooms);
-  newTeacherFormatted.subjects = store.methods.idArrToObjs(newTeacherFormatted.subjects);
+  newTeacherFormatted.materials = methods.idArrToObjs(newTeacherFormatted.materials);
+  newTeacherFormatted.tasks = methods.idArrToObjs(newTeacherFormatted.tasks);
+  newTeacherFormatted.rooms = methods.idArrToObjs(newTeacherFormatted.rooms);
+  newTeacherFormatted.subjects = methods.idArrToObjs(newTeacherFormatted.subjects);
 
   return newTeacherFormatted;
 });

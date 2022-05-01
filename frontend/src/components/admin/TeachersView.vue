@@ -13,17 +13,17 @@ let tasks = ref();
 let materials = ref();
 let rooms = ref();
 
-const store = inject('store');
+const methods = inject('methods');
 
 let teacherPromptIsOpen = ref(false);
 
 onMounted(async () => { 
   Promise.allSettled([
-    store.methods.getTeachersFetch(),
-    store.methods.getSubjectsFetch(),
-    store.methods.getTasksFetch(),
-    store.methods.getMaterialsFetch(),
-    store.methods.getRoomsFetch(),
+    methods.getTeachersFetch(),
+    methods.getSubjectsFetch(),
+    methods.getTasksFetch(),
+    methods.getMaterialsFetch(),
+    methods.getRoomsFetch(),
     ])
   .then((results) => {
     teachers.value = results[0].value;
@@ -49,9 +49,9 @@ function triggerNegative(msg) {
 }
 
 async function updateTeacher(newTeacher){
-  let updateResult = await store.methods.updateTeacherFetch(newTeacher);
+  let updateResult = await methods.updateTeacherFetch(newTeacher);
   if(updateResult){
-    teachers.value = await store.methods.getTeachersFetch();
+    teachers.value = await methods.getTeachersFetch();
     triggerPositive('Информация о преподавателе успешно обновлена!');
   }
   else
@@ -59,9 +59,9 @@ async function updateTeacher(newTeacher){
 }
 
 async function addNewTeacher(newteacher){
-  const createResult = await store.methods.createTeacherFetch(newteacher);
+  const createResult = await methods.createTeacherFetch(newteacher);
   if (createResult) {
-    teachers.value = await store.methods.getTeachersFetch();
+    teachers.value = await methods.getTeachersFetch();
     triggerPositive('Успешно добавлен новый преподаватель!');
   }
   else
@@ -69,9 +69,9 @@ async function addNewTeacher(newteacher){
 }
 
 async function deleteTeacher(teacher){
-  const deleteResult = await store.methods.deleteTeacherFetch(teacher);
+  const deleteResult = await methods.deleteTeacherFetch(teacher);
   if(deleteResult){
-    teachers.value = await store.methods.getTeachersFetch();
+    teachers.value = await methods.getTeachersFetch();
     triggerPositive('Информация о преподавателе успешно удалена!')
   }
   else

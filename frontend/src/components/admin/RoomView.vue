@@ -9,14 +9,14 @@ let $q = useQuasar();
 let rooms = ref();
 let teachers = ref ();
 
-const store = inject('store');
+const methods = inject('methods');
 
 let roomPromptIsOpen = ref(false);
 
 onMounted(async () => { 
   Promise.allSettled([
-    store.methods.getRoomsFetch(),
-    store.methods.getTeachersFetch(),
+    methods.getRoomsFetch(),
+    methods.getTeachersFetch(),
     ])
   .then((results) => {
     rooms.value = results[0].value;
@@ -39,9 +39,9 @@ function triggerNegative(msg) {
 }
 
 async function updateRoom(newRoom){
-  let updateResult = await store.methods.updateRoomFetch(newRoom);
+  let updateResult = await methods.updateRoomFetch(newRoom);
   if(updateResult){
-    rooms.value = await store.methods.getRoomsFetch();
+    rooms.value = await methods.getRoomsFetch();
     triggerPositive('Информация о комнате успешно обновлена!');
   }
   else
@@ -49,9 +49,9 @@ async function updateRoom(newRoom){
 }
 
 async function addNewRoom(newRoom){
-  const createResult = await store.methods.createRoomFetch(newRoom);
+  const createResult = await methods.createRoomFetch(newRoom);
   if (createResult) {
-    rooms.value = await store.methods.getRoomsFetch();
+    rooms.value = await methods.getRoomsFetch();
     triggerPositive('Успешно добавлена новая комната!');
   }
   else
@@ -59,9 +59,9 @@ async function addNewRoom(newRoom){
 }
 
 async function deleteRoom(room){
-  const deleteResult = await store.methods.deleteRoomFetch(room);
+  const deleteResult = await methods.deleteRoomFetch(room);
   if(deleteResult){
-    rooms.value = await store.methods.getRoomsFetch();
+    rooms.value = await methods.getRoomsFetch();
     triggerPositive('Информация о комнате успешно удалена!')
   }
   else

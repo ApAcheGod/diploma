@@ -1,9 +1,9 @@
 <script setup lang="ts">
 
 import {provide} from 'vue';
-import store from './store';
+import methods from './store/methods.js';
 
-provide('store', store);
+provide('methods', methods);
 
 </script>
 
