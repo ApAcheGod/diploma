@@ -5,7 +5,7 @@ export default {
     const header = {
       method: 'GET',
     };
-    await fetch(`${this.URL}/api/check`, header)
+    await fetch(`${URL}/api/check`, header)
       .then(res => res.json()
         .then(json => {
           this.$isAuthenticated = true;
@@ -25,7 +25,7 @@ export default {
       },
       body: JSON.stringify(credentials),
     };
-    return fetch(`${this.URL}/api/login`, header)
+    return fetch(`${URL}/api/login`, header)
       .then(res => res.json()
       .then(json => {
         this.$isAuthenticated = true;
@@ -40,7 +40,7 @@ export default {
     const header = {
       method: 'GET',
     };
-    return fetch(`${this.URL}/api/logout`, header)
+    return fetch(`${URL}/api/logout`, header)
       .then((res) => {
         this.$isAuthenticated = false;
       })

@@ -1,8 +1,6 @@
 <script setup>
 import {inject, ref} from 'vue';
 
-const store = inject('store');
-
 let leftDrawerOpen = ref(false)
 
 const toggleLeftDrawer = () => {

@@ -1,21 +1,22 @@
 import axios from 'axios';
 import router from '../router';
-import EventBus from '../event-bus';
+// import EventBus from '../event-bus';
+import URL from './consts';
 
 const actions = {
   userSignIn({ commit }, payload) {
     const data = {
-      username: payload.username,
+      login: payload.login,
       password: payload.password,
     };
     commit('setLoading', true);
-    axios.post('http://localhost:8091/login', data)
+    axios.post(`${URL}/login`, data)
       .then(() => {
         commit('setAuth', true);
         commit('setLoading', false);
         commit('setError', null);
-        EventBus.$emit('authenticated', 'User authenticated');
-        router.push('/home');
+        // EventBus.$emit('authenticated', 'User authenticated');
+        router.push('/admin/teachers');
       })
       .catch((error) => {
         commit('setError', error.message);
@@ -24,7 +25,7 @@ const actions = {
   },
   userSignOut({ commit }) {
     commit('clearAuth');
-    EventBus.$emit('authenticated', 'User not authenticated');
+    // EventBus.$emit('authenticated', 'User not authenticated');
     router.push('/signIn');
   },
 };

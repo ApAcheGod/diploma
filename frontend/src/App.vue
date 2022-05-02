@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {provide} from 'vue';
+import { provide } from 'vue';
 import methods from './store/methods.js';
 
 provide('methods', methods);

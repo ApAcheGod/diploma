@@ -22,6 +22,7 @@ const routes = [
     path: '/teacher',
     name: 'TeacherView',
     component: TeacherView,
+    meta: { userIsTeacher: true },
     children: [
       {
         path: 'profile',
@@ -42,6 +43,7 @@ const routes = [
     },
     name: 'AdminView',
     component: AdminView,
+    meta: { userIsAdmin: true },
     children: [
       {
         path: 'students',
@@ -81,18 +83,19 @@ const routes = [
     ],
   },
   {
-    path: '/',
-    beforeEnter(to, from, next) {
-      if (to.path === '/') {
-        next('/admin/students')
-      }
-    },
-  },
-  {
     path: '/login',
     name: 'Login',
-    component: LoginView
+    component: LoginView,
+    meta: { loginPage: true, nonRequiresAuth: true },
   },
+  // {
+  //   path: '/',
+  //   beforeEnter(to, from, next) {
+  //     if (to.path === '/') {
+  //       next('/admin/students')
+  //     }
+  //   },
+  // },
 ]
 
 const router = createRouter({
@@ -100,61 +103,16 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(async (to, from, next) => {
-  // let isAuthenticated = false;
-  // let userRole = '';
-
-  // function userLogin(){
-  //   let myHeaders = new Headers();
-  //   myHeaders.append("Content-Type", "application/json");
-
-  //   let raw = JSON.stringify({
-  //     "login": "BGruStudent",
-  //     "password": "nxup1Z9rAw"
-  //   });
-
-  //   let requestOptions = {
-  //     method: 'POST',
-  //     headers: myHeaders,
-  //     body: raw,
-  //   };
-
-  //   return fetch("http://localhost:8080/api/login", requestOptions)
-  //       .then(response => { response.text(); console.log(response.headers); console.log(response.headers.get('Set-Cookie'));})
-  //       .then(result => result)
-  //       .catch(error => console.log('error', error));
-  // }
-
-  // let raw = JSON.stringify({
-  //   "login": "BGruStudent",
-  //   "password": "nxup1Z9rAw"
-  // });
-
-  // let getUserRole = function () {
-
-  //   let myHeaders = new Headers();
-  //   myHeaders.set('Authorization', 'Basic ' + btoa(raw.login + ":" + raw.password));
-  //   // myHeaders.set("Access-Control-Allow-Origins", "http://localhost:3000");
-
-  //   console.log( btoa(`${raw.login}:${raw.password}`));
-  //   return fetch(`http://localhost:8080/api/check`, {method: 'GET', headers: myHeaders, credentials:'include'})
-  //       .then(res => res.json())
-  //       .then(json => {
-  //         userRole = json.authorities[0].authority;
-  //         isAuthenticated = true;
-  //       })
-  //       .catch(error => {
-  //         isAuthenticated = false;
-  //       });
-  // };
-
-  // userLogin().then(() =>
-  //     getUserRole()
-  // )
-  //     .then(() =>
-  //         console.log(isAuthenticated)
-  //     )
-
+router.beforeEach((to, from, next) => {
+  const requiresAuth = !to.matched.some((record) => record.meta.nonRequiresAuth);
+  const isLoginPage = to.matched.some((record) => record.meta.loginPage);
+  const isAuthenticated = localStorage.getItem('auth');
+  
+  if (requiresAuth && !isAuthenticated) {
+    next('/login');
+  } else if (isLoginPage && isAuthenticated) {
+    router.push('/admin/teachers');
+  }
   next();
 });
 
