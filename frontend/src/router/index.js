@@ -1,6 +1,14 @@
-import {createRouter, createWebHistory} from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
+import { useStore } from 'vuex'
 
-import LoginView from '../views/LoginView.vue';
+import NotFound from '../views/NotFound.vue';
+import SigninView from '../views/SigninView.vue';
+
+import StudentView from '../views/StudentView.vue';
+
+import TeacherView from '../views/TeacherView.vue';
+import TeacherProfile from '../components/teacher/TeacherProfile.vue';
+import TeacherRooms from '../components/teacher/TeacherRooms.vue';
 
 import AdminView from '../views/AdminView.vue';
 import AdminStudents from '../components/admin/StudentsView.vue';
@@ -11,18 +19,20 @@ import AdminGroups from '../components/admin/GroupView.vue';
 import AdminTasks from '../components/admin/TaskView.vue';
 import AdminRooms from '../components/admin/RoomView.vue';
 
-import TeacherView from '../views/TeacherView.vue';
-import TeacherProfile from '../components/teacher/TeacherProfile.vue';
-import TeacherRooms from '../components/teacher/TeacherRooms.vue';
-
-import ROLES from '../models/userRoles.js';
+import userRoles from '../models/userRoles.js';
 
 const routes = [
+  {
+    path: '/student',
+    name: 'StudentView',
+    component: StudentView,
+    meta: { requiredStudent: true },
+  },
   {
     path: '/teacher',
     name: 'TeacherView',
     component: TeacherView,
-    meta: { userIsTeacher: true },
+    meta: { requiredTeacher: true },
     children: [
       {
         path: 'profile',
@@ -38,12 +48,9 @@ const routes = [
   },
   {
     path: '/admin',
-    beforeEnter(to, from, next) {
-      next();
-    },
     name: 'AdminView',
     component: AdminView,
-    meta: { userIsAdmin: true },
+    meta: { requiredAdmin: true },
     children: [
       {
         path: 'students',
@@ -83,19 +90,17 @@ const routes = [
     ],
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: LoginView,
+    path: '/signin',
+    name: 'Signin',
+    component: SigninView,
     meta: { loginPage: true, nonRequiresAuth: true },
   },
-  // {
-  //   path: '/',
-  //   beforeEnter(to, from, next) {
-  //     if (to.path === '/') {
-  //       next('/admin/students')
-  //     }
-  //   },
-  // },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: NotFound,
+    meta: { nonRequiresAuth: true },
+  },
 ]
 
 const router = createRouter({
@@ -103,15 +108,41 @@ const router = createRouter({
   routes,
 });
 
+router.resolve({
+  name: 'not-found',
+  params: { pathMatch: ['not', 'found'] },
+}).href
+
 router.beforeEach((to, from, next) => {
+  const requiredStudent = to.matched.some((record) => record.meta.requiredStudent);
+  const requiredTeacher = to.matched.some((record) => record.meta.requiredTeacher);
+  const requiredAdmin = to.matched.some((record) => record.meta.requiredAdmin);
   const requiresAuth = !to.matched.some((record) => record.meta.nonRequiresAuth);
   const isLoginPage = to.matched.some((record) => record.meta.loginPage);
-  const isAuthenticated = localStorage.getItem('auth');
+
+  const isAuthenticated = localStorage.getItem('isAuthenticated');
+  const userRole = localStorage.getItem('userRole');
   
   if (requiresAuth && !isAuthenticated) {
-    next('/login');
-  } else if (isLoginPage && isAuthenticated) {
-    router.push('/admin/teachers');
+    next('/signin');
+  } 
+  else if (isLoginPage && isAuthenticated) {
+    if (userRole === userRoles.ROLE_ADMIN) {
+      router.push('/admin/teachers');
+    }
+    else if (userRole === userRoles.ROLE_TEACHER) {
+      router.push('/teacher');
+    }
+    router.push('/student');
+  } 
+  else if (requiredTeacher && userRole !== userRoles.ROLE_TEACHER) {
+    router.push('/404');
+  }
+  else if (requiredAdmin && userRole !== userRoles.ROLE_ADMIN) {
+    router.push('/404');
+  }
+  else if (requiredStudent && userRole !== userRoles.ROLE_STUDENT) {
+    router.push('/404');
   }
   next();
 });

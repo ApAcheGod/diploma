@@ -1,7 +1,5 @@
 <script setup>
-import {inject, ref} from 'vue';
-
-const { state } = inject('state');
+import { ref } from 'vue';
 
 // const props = defineProps({
 //   Rooms: Array,

@@ -1,9 +1,14 @@
+import userRoles from "../models/userRoles";
+
 const getters = {
-  appTitle(state) {
-    return state.appTitle;
+  // appTitle(state) {
+  //   return state.appTitle;
+  // },
+  getUserRole() {
+    return localStorage.getItem('userRole');
   },
-  isAuthenticated(state) {
-    return state.isAuthenticated === 'true';
+  isAuthenticated() {
+    return localStorage.getItem('isAuthenticated');
   },
   getUser(state) {
     return state.user;

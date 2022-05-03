@@ -1,8 +1,6 @@
 <script setup>
-import {inject, onMounted, ref} from 'vue';
+import { onMounted, ref } from 'vue';
 
-//const teacher = ref(teacherData);
-const { state } = inject('state');
 const leftDrawerOpen = ref(false);
 let tab = ref();
 

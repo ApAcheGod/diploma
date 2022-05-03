@@ -1,11 +1,5 @@
 <script setup>
-import {inject, onMounted} from 'vue';
-
-const { state } = inject('state');
-
-onMounted(() => {
-  console.log(state.teacher);
-});
+import { onMounted } from 'vue';
 
 // const props = defineProps({
 //     Teacher: Object,
@@ -13,7 +7,7 @@ onMounted(() => {
 
 </script>
 <template>
-  Профиль учителя {{state.teacher?.first_name}}
+
 </template>
 <style scoped>
 </style>

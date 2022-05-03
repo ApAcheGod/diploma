@@ -1,4 +1,6 @@
 import axios from 'axios';
+
+import userRoles from "../models/userRoles";
 import URL from './consts';
 
 axios.defaults.withCredentials = true;
@@ -6,6 +8,10 @@ axios.defaults.withCredentials = true;
 export default {
   // HELPERS
 
+  getUserRole(user) {
+    return user ? user.authentication.authorities[0].authority : userRoles.ROLE_ANONYMOUS;
+  },
+  
   idArrToObjs(array){
     if (array) {
       return array.map((m) => {

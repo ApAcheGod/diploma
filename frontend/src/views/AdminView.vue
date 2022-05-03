@@ -1,5 +1,5 @@
 <script setup>
-import {inject, ref} from 'vue';
+import { ref } from 'vue';
 
 let leftDrawerOpen = ref(false)
 

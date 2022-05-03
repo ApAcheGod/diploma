@@ -1,6 +1,5 @@
 const state = {
-  isAuthenticated: localStorage.getItem('auth'),
-  user: null,
+  user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
   error: null,
   loading: false,
 };

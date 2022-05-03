@@ -9,7 +9,7 @@ const state = useStore();
 <template>
   <q-input v-model="user.login" label="Login" />
   <q-input v-model="user.password" label="Password" />
-  <q-btn flat label="Login"  @click="state.dispatch('userSignIn', user)"/>
+  <q-btn flat label="Signin"  @click="state.dispatch('userSignIn', user)"/>
 </template>
 <style scoped>
 </style>
