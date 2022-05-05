@@ -93,13 +93,13 @@ const routes = [
     path: '/signin',
     name: 'Signin',
     component: SigninView,
-    meta: { loginPage: true, nonRequiresAuth: true },
+    meta: { loginPage: true },
   },
   {
     path: '/:pathMatch(.*)*',
-    name: 'not-found',
+    name: 'NotFound',
     component: NotFound,
-    meta: { nonRequiresAuth: true },
+    meta: { isNotFoundPage: true },
   },
 ]
 
@@ -109,42 +109,39 @@ const router = createRouter({
 });
 
 router.resolve({
-  name: 'not-found',
+  name: 'NotFound',
   params: { pathMatch: ['not', 'found'] },
 }).href
 
 router.beforeEach((to, from, next) => {
+  const requiresAuth = !to.matched.some((record) => record.meta.nonRequiresAuth);
+  const isNotFoundPage = to.matched.some((record) => record.meta.isNotFoundPage);
+  const isLoginPage = to.matched.some((record) => record.meta.loginPage);
+
   const requiredStudent = to.matched.some((record) => record.meta.requiredStudent);
   const requiredTeacher = to.matched.some((record) => record.meta.requiredTeacher);
   const requiredAdmin = to.matched.some((record) => record.meta.requiredAdmin);
-  const requiresAuth = !to.matched.some((record) => record.meta.nonRequiresAuth);
-  const isLoginPage = to.matched.some((record) => record.meta.loginPage);
 
   const isAuthenticated = localStorage.getItem('isAuthenticated');
   const userRole = localStorage.getItem('userRole');
-  
-  if (requiresAuth && !isAuthenticated) {
+
+  const requiredRole = Object.values(userRoles)[[requiredAdmin, requiredTeacher, requiredStudent, true].findIndex(requiredRole => requiredRole)];
+  const userHasRightRole = requiredRole === userRole || requiredRole === userRoles.ROLE_ANONYMOUS;
+
+  if (!isLoginPage && !isAuthenticated) {
     next('/signin');
   } 
-  else if (isLoginPage && isAuthenticated) {
-    if (userRole === userRoles.ROLE_ADMIN) {
+  else if (!userHasRightRole) {
+    if (userRole === userRoles.ROLE_ADMIN)
       router.push('/admin/teachers');
-    }
-    else if (userRole === userRoles.ROLE_TEACHER) {
+    else if (userRole === userRoles.ROLE_TEACHER)
       router.push('/teacher');
-    }
-    router.push('/student');
-  } 
-  else if (requiredTeacher && userRole !== userRoles.ROLE_TEACHER) {
-    router.push('/404');
+    else if (userRole === userRoles.ROLE_STUDENT)
+      router.push('/student');
   }
-  else if (requiredAdmin && userRole !== userRoles.ROLE_ADMIN) {
-    router.push('/404');
+  else {
+    next();
   }
-  else if (requiredStudent && userRole !== userRoles.ROLE_STUDENT) {
-    router.push('/404');
-  }
-  next();
 });
 
 export default router

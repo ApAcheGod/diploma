@@ -19,14 +19,19 @@ const actions = {
       .then((response) => { 
         commit(mutationsTypes.SET_USER, response.data);
         commit(mutationsTypes.SET_LOADING, false); 
+        
         const userRole = response.data ? response.data.authentication.authorities[0].authority : userRoles.ROLE_ANONYMOUS;
+
         if (userRole === userRoles.ROLE_ADMIN) {
           router.push('/admin/teachers');
         }
         else if (userRole === userRoles.ROLE_TEACHER) {
           router.push('/teacher');
         }
-        router.push('/student');
+        else if (userRole === userRoles.ROLE_STUDENT) {
+          router.push('/student');
+        }
+        
       })
       .catch((error) => {
         commit(mutationsTypes.SET_ERROR, error.message);
