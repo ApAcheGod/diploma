@@ -17,6 +17,7 @@ const actions = {
     axios.post(`${URL}/login`, data)
       .then(() => axios.get(`${URL}/api/check`))
       .then((response) => { 
+        commit(mutationsTypes.SET_USER_LOGIN, payload.login);
         commit(mutationsTypes.SET_USER, response.data);
         commit(mutationsTypes.SET_LOADING, false); 
         
@@ -40,8 +41,9 @@ const actions = {
   },
 
   userSignOut({ commit }) {
+    commit(mutationsTypes.CLEAR_USER_LOGIN);
     commit(mutationsTypes.CLEAR_USER);
-    router.push('/signin');
+    //router.push('/signin');
   },
 };
 

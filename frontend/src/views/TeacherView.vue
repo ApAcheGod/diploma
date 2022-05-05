@@ -1,15 +1,21 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, inject } from 'vue';
+import { useStore } from 'vuex';
 
+const store = useStore();
 const leftDrawerOpen = ref(false);
+const methods = inject('methods');
+let teacherLogin = ref('');
+let teacher = ref({})
 let tab = ref();
 
-const toggleLeftDrawer = ()=> {
+const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
 
 onMounted(() => {
-
+  teacherLogin.value = store.getters.getUserLogin;
+  teacher.value = methods.getTeacherByLoginFetch(teacherLogin.value);
 })
 </script>
 
@@ -21,7 +27,7 @@ onMounted(() => {
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-          {{state?.teacher?.login}}
+          {{teacherLogin}}
         </q-toolbar-title>
       </q-toolbar>
     </q-header>

@@ -17,6 +17,16 @@ const mutations = {
     localStorage.removeItem('userRole');
     localStorage.removeItem('isAuthenticated');
   },
+  setUserLogin(state, payload) {
+    state.userLogin = payload;
+
+    localStorage.setItem('userLogin', payload);
+  },
+  clearUserLogin(state) {
+    state.userLogin = null;
+
+    localStorage.removeItem('userLogin');
+  },
   setError(state, payload) {
     state.error = payload;
   },

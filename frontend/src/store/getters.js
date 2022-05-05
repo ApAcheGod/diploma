@@ -10,8 +10,11 @@ const getters = {
   isAuthenticated() {
     return localStorage.getItem('isAuthenticated');
   },
-  getUser(state) {
-    return state.user;
+  getUser() {
+    return JSON.parse(localStorage.getItem('user'));
+  },
+  getUserLogin() {
+    return localStorage.getItem('userLogin');
   },
   getError(state) {
     return state.error;

@@ -1,5 +1,5 @@
 <script setup>
-import {inject, onMounted, ref} from 'vue';
+import { inject, onMounted, ref } from 'vue';
 import {useQuasar} from 'quasar'
 import GroupCard from './GroupCard.vue';
 import GroupDialog from './GroupDialog.vue';

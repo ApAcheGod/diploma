@@ -265,6 +265,16 @@ export default {
       .catch(error => console.error(error));
   },
 
+  getTeacherByLoginFetch(login){
+    const header = {
+      method: 'GET',
+    };
+    return fetch(`${URL}/api/teacherByLogin/${login}`, header)
+      .then(res => res.json())
+      .then(json => json)
+      .catch(error => console.error(error));
+  },  
+
   createTeacherFetch(teacher){
     const header = {
       method: 'POST',
