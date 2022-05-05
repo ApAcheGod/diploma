@@ -131,7 +131,7 @@ router.beforeEach((to, from, next) => {
   if (!isLoginPage && !isAuthenticated) {
     next('/signin');
   } 
-  else if (!userHasRightRole) {
+  else if (!userHasRightRole || isNotFoundPage) {
     if (userRole === userRoles.ROLE_ADMIN)
       router.push('/admin/teachers');
     else if (userRole === userRoles.ROLE_TEACHER)
