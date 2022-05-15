@@ -22,6 +22,9 @@ const getters = {
   getLoading(state) {
     return state.loading;
   },
+  getTeacher(state) {
+    return state.teacher;
+  }
 };
 
 export default getters;

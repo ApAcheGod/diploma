@@ -5,4 +5,6 @@ export default {
     CLEAR_USER_LOGIN : 'clearUserLogin',
     SET_ERROR : 'setError',
     SET_LOADING : 'setLoading',
+    SET_TEACHER : 'setTeacher',
+    CLEAR_TEACHER : 'clearTeacher',
 }

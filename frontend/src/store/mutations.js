@@ -33,6 +33,12 @@ const mutations = {
   setLoading(state, payload) {
     state.loading = payload;
   },
+  setTeacher(state, payload) {
+    state.teacher = payload;
+  },
+  clearTeacher(state) {
+    state.teacher = null;
+  },
 };
 
 export default mutations;

@@ -80,7 +80,6 @@ export default {
       .catch(error => console.error(error));
   },
 
-  
   //  END AUTHORIZATION/AUTENTIFICATION/LOGOUT
 
   //  STUDENTS

@@ -11,5 +11,9 @@ provide('methods', methods);
   <router-view />
 </template>
 
-<style scoped>
+
+<style>
+.q-layout, .q-header, .q-footer, .q-page {
+  position: fixed;
+}
 </style>

@@ -9,14 +9,14 @@ let tab = ref();
 
 </script>
 <template>
-  <q-tabs
+  <!-- <q-tabs
     align="left"
     v-model="tab"
     inline-label
     class="bg-accent text-white shadow-2"
   >
     <q-tab 
-      v-for="room in state.teacher?.rooms" 
+      v-for="room in state?.teacher?.rooms" 
       :key="room?.id" 
       :name="room?.name"  
       :label="room?.name"
@@ -30,7 +30,7 @@ let tab = ref();
 
     </q-tab-panel>
   
-  </q-tab-panels>
+  </q-tab-panels> -->
 
 </template>
 <style scoped>

@@ -7,8 +7,8 @@ import SigninView from '../views/SigninView.vue';
 import StudentView from '../views/StudentView.vue';
 
 import TeacherView from '../views/TeacherView.vue';
-import TeacherProfile from '../components/teacher/TeacherProfile.vue';
-import TeacherRooms from '../components/teacher/TeacherRooms.vue';
+import TeacherMain from '../components/teacher/TeacherMain.vue';
+// import TeacherRooms from '../components/teacher/TeacherRooms.vue';
 
 import AdminView from '../views/AdminView.vue';
 import AdminStudents from '../components/admin/StudentsView.vue';
@@ -35,15 +35,15 @@ const routes = [
     meta: { requiredTeacher: true },
     children: [
       {
-        path: 'profile',
-        name: 'TeacherProfile',
-        component: TeacherProfile
+        path: 'main',
+        name: 'TeacherMain',
+        component: TeacherMain
       },
-      {
-        path: 'rooms',
-        name: 'TeacherRooms',
-        component: TeacherRooms
-      }
+      // {
+      //   path: 'rooms',
+      //   name: 'TeacherRooms',
+      //   component: TeacherRooms
+      // }
     ],
   },
   {
