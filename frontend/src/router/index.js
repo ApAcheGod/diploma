@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { useStore } from 'vuex'
 
 import NotFound from '../views/NotFound.vue';
 import SigninView from '../views/SigninView.vue';
@@ -45,6 +44,12 @@ const routes = [
       //   component: TeacherRooms
       // }
     ],
+    beforeEnter(to, from, next) {
+      if (to.path === '/teacher') {
+        next('/teacher/main')
+      }
+      else next();
+    },
   },
   {
     path: '/admin',
@@ -88,6 +93,12 @@ const routes = [
         component: AdminRooms
       },
     ],
+    beforeEnter(to, from, next) {
+      if (to.path === '/admin') {
+        next('/admin/teachers')
+      }
+      else next();
+    },
   },
   {
     path: '/signin',
@@ -133,7 +144,7 @@ router.beforeEach((to, from, next) => {
   } 
   else if (!userHasRightRole || isNotFoundPage) {
     if (userRole === userRoles.ROLE_ADMIN)
-      router.push('/admin/teachers');
+      router.push('/admin');
     else if (userRole === userRoles.ROLE_TEACHER)
       router.push('/teacher');
     else if (userRole === userRoles.ROLE_STUDENT)

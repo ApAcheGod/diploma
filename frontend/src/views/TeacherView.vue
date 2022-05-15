@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref, inject } from 'vue';
 import { useStore } from 'vuex';
+import actionsTypes from '../store/actionsTypes'
 import mutationsTypes from '../store/mutationsTypes';
 
 const store = useStore();
@@ -37,7 +38,7 @@ onMounted(() => {
       <nav class="menu-container__navigation">
         <router-link class="menu-container__link" :to="{ name: 'TeacherMain' }">Главная</router-link>
       </nav>
-     
+      <button class="button-leave" @click="store.dispatch(actionsTypes.USER_SIGNOUT, user)">Выход</button>
       <!-- drawer content -->
     </q-drawer>
 
@@ -54,11 +55,13 @@ onMounted(() => {
 
 <style>
 .menu-container {
+  display: flex;
+  flex-direction: column;
   padding: 16px;
   background: white;
 }
 .menu-container__navigation {
-
+  flex-grow: 1;
 }
 .menu-container__link {
   font-family: 'Montserrat';
@@ -93,5 +96,21 @@ onMounted(() => {
   color:#1d1d1d;
   font-size: 14px;
   font-weight: 400;
+}
+.button-leave {
+  align-self: center;
+  font-family: 'Montserrat';
+  color:#1d1d1d;
+  font-weight: 600;
+  padding: 12px 16px;
+  text-transform: uppercase;
+  background: #03DAC5;
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.14), 0px 1px 10px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 50px;
+  transition: .3s;
+}
+.button-leave:hover {
+  background: rgba(3, 151, 135, 0.8);
+  transition: .3s;
 }
 </style>

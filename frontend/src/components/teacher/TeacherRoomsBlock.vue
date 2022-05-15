@@ -1,37 +1,45 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import RoomCard from './RoomCard.vue';
 
-// const props = defineProps({
-//   Rooms: Array,
-// });
-
-let tab = ref();
+const props = defineProps({
+  rooms: Array,
+});
 
 </script>
 <template>
-  <!-- <q-tabs
-    align="left"
-    v-model="tab"
-    inline-label
-    class="bg-accent text-white shadow-2"
-  >
-    <q-tab 
-      v-for="room in state?.teacher?.rooms" 
-      :key="room?.id" 
-      :name="room?.name"  
-      :label="room?.name"
-      />
-  </q-tabs>
-  <q-separator />
-
-  <q-tab-panels v-model="tab" animated>
-    
-    <q-tab-panel v-for="room in state.teacher?.rooms" :name="room.name">
-
-    </q-tab-panel>
-  
-  </q-tab-panels> -->
-
+  <div class="rooms-block">
+    <room-card v-for="room in props.rooms" :room="room"/>
+    <div class="room-card-add">
+      <button class="room-card-add__button">
+        <img class="room-card-add__icon" src="../../img/add.svg"/>
+      </button>
+    </div>
+  </div>
 </template>
 <style scoped>
+.rooms-block {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+}
+.room-card-add {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.161));
+}
+.room-card-add__button {
+  border-radius: 50px;
+  padding: 21px;
+  background: #03DAC5;
+  transition: .3s;
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.14), 0px 1px 10px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+.room-card-add__button:hover {
+  background: rgba(3, 151, 135, 0.8);
+  transition: .3s;
+}
 </style>

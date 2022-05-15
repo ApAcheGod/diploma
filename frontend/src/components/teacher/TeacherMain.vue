@@ -1,17 +1,21 @@
 <script setup>
+import { computed } from '@vue/reactivity';
 import { onMounted } from 'vue';
+import { useStore } from 'vuex';
 import BaseCite from '../other/BaseCite.vue'
-import TeacherRoomsBlockVue from './TeacherRoomsBlock.vue';
+import TeacherRoomsBlock from './TeacherRoomsBlock.vue';
 
-// const props = defineProps({
-//     Teacher: Object,
-// });
+const store = useStore();
+const teacher = computed(() => {
+  console.log(store.getters.getTeacher);
+  return store.getters.getTeacher;
+});
 
 </script>
 <template>
   <div class="wrapper">
     <base-cite/>
-    <teacher-rooms-block-vue/>
+    <teacher-rooms-block :rooms="teacher?.rooms" />
   </div>
 </template>
 <style scoped>
