@@ -43,7 +43,7 @@ const actions = {
   userSignOut({ commit }) {
     commit(mutationsTypes.CLEAR_USER_LOGIN);
     commit(mutationsTypes.CLEAR_USER);
-    //router.push('/signin');
+    router.push('/signin');
   },
 };
 
