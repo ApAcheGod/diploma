@@ -13,8 +13,7 @@ const props = defineProps({
     default: 'Изменить',
     type: String
   },
-  subjects: Array, 
-  groups: Array,
+  subjects: Array,
   teachers: Array, 
   solutions: Array,
 });
@@ -91,33 +90,6 @@ const subjectOptions = computed(() => {
           emit-value
           map-options
         />
-      </q-card-section>
-
-      <q-card-section class="q-pt-none">
-        <q-select
-          filled
-          emit-value
-          map-options
-          multiple
-          use-chips
-          stack-label
-          option-value="id"
-          option-label="name"
-          label="Группы"
-          :options="props.groups"
-          v-model="newTask.groups"
-        >
-          <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
-            <q-item v-bind="itemProps">
-              <q-item-section>
-                <q-item-label v-html="opt.name" />
-              </q-item-section>
-              <q-item-section side>
-                <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
-              </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
       </q-card-section>
 
       <q-card-section class="q-pt-none">

@@ -59,6 +59,11 @@ public class StudentRest {
         return new ResponseEntity<>(studentMapper.toDto(studentService.findById(uuid)), HttpStatus.OK);
     }
 
+    @GetMapping("/studentByLogin/{login}")
+    public ResponseEntity<StudentDto> getStudentByLogin(@PathVariable("login") String login){
+        return new ResponseEntity<>(studentMapper.toDto(studentService.findByLogin(login)), HttpStatus.OK);
+    }
+
     @PostMapping(value = "/student")
     public ResponseEntity<StudentDto> create(@RequestBody StudentDto studentDto) {
         Student student = studentMapper.toEntity(studentDto);

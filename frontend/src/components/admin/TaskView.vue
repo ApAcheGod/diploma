@@ -20,16 +20,14 @@ onMounted(async () => {
   Promise.allSettled([
     methods.getTasksFetch(),
     methods.getSubjectsFetch(),
-    methods.getGroupsFetch(),
     methods.getTeachersFetch(),
     methods.getSolutionsFetch(),
     ])
   .then((results) => {
     tasks.value = results[0].value;
     subjects.value = results[1].value;
-    groups.value = results[2].value;
-    teachers.value = results[3].value;
-    solutions.value = results[4].value;
+    teachers.value = results[2].value;
+    solutions.value = results[3].value;
   });
 });
 
@@ -84,7 +82,6 @@ async function deleteTask(task){
       v-bind:key="task?.id"
       :task="task"
       :subjects="subjects"
-      :groups="groups"
       :teachers="teachers"
       :solutions="solutions"
       @delete-click="deleteTask"
@@ -103,7 +100,6 @@ async function deleteTask(task){
   <task-dialog
     updateButtonLabel="Добавить"
     :subjects="subjects"
-    :groups="groups"
     :teachers="teachers"
     :solutions="solutions"
     :prompt="taskPromptIsOpen"

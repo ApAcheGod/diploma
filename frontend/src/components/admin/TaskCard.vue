@@ -5,8 +5,7 @@ import TaskDialog from './TaskDialog.vue';
 const emits = defineEmits(['update-click', 'delete-click']);
 const props = defineProps({
   task: Object,
-  subjects: Array, 
-  groups: Array,
+  subjects: Array,
   teachers: Array, 
   solutions: Array,
 });
@@ -46,10 +45,6 @@ const formattedDate = computed(() => {
         {{props.task.text}}
       </div>
 
-        <div class="text-subtitle2" v-for="group in props.task.groups">        
-          {{group.name}} 
-        </div>
-
       <div class="mt-2">
         <div class="text-subtitle2" v-for="solution in props.task.solutions">        
           {{solution.text}} 
@@ -76,7 +71,6 @@ const formattedDate = computed(() => {
     </q-card-actions>
     <task-dialog
       :subjects="subjects"
-      :groups="groups"
       :teachers="teachers"
       :solutions="solutions"
       :prompt="promptIsOpen"

@@ -78,7 +78,7 @@ const subjectOptions = computed(() => {
       </q-card-section>
 
       <q-card-section class="q-pt-none">
-        <q-input dense v-model="newMaterial.text" autofocus label="Текст"/>
+        <q-input dense autogrow v-model="newMaterial.text" autofocus label="Текст"/>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
