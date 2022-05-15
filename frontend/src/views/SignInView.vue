@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
-import { useStore } from 'vuex'
+import { useStore } from 'vuex';
+import actionsTypes from  '../store/actionsTypes';
 
 let user = ref({});
 const state = useStore();
@@ -30,7 +31,7 @@ const showingPassword = ref(true);
         />
       </template>
     </q-input>  
-    <q-btn flat class="sign-in__button" label="Войти" @click="state.dispatch('userSignIn', user)"/>
+    <q-btn flat class="sign-in__button" label="Войти" @click="state.dispatch(actionsTypes.USER_SIGNIN, user)"/>
   </div>
 </div>
 </template>

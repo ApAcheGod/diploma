@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from 'vue';
+import { useStore } from 'vuex'
+import actionsTypes from  '../store/actionsTypes';
 
+const store = useStore();
 let leftDrawerOpen = ref(false)
 
 const toggleLeftDrawer = () => {
@@ -18,7 +21,7 @@ const toggleLeftDrawer = () => {
         <q-toolbar-title>
           Администратор
         </q-toolbar-title>
-        <router-link to="/teacher">Учитель</router-link>
+        <q-btn dense flat round label="Выйти" @click="store.dispatch(actionsTypes.USER_SIGNOUT, user)" />
       </q-toolbar>
     </q-header>
     
