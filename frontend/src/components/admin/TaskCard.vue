@@ -14,7 +14,7 @@ let promptIsOpen = ref(false);
 
 const formattedDate = computed(() => {
   if (props.task.date_of_creation) {
-      let dateOfDelivery = new Date(props.task.date_of_creation[0], props.task.date_of_creation[1]-1, props.task.date_of_creation[2]);
+      let dateOfDelivery = new Date(props.task.date_of_creation);
     return dateOfDelivery.toLocaleDateString('ru');
   }
   return "";
