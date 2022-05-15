@@ -45,6 +45,7 @@ public class MainController {
 //        return "welcomePage";
 //    }
 
+
     @PostMapping("/addGroup")
     @Secured("ROLE_ADMIN")
     public String addGroup(@ModelAttribute("group") Group group){

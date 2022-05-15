@@ -20,6 +20,7 @@ public class SolutionMapper {
 
     private final StudentService studentService;
     private final TaskService taskService;
+    private final ExaminationMapper examinationMapper;
 
     @PostConstruct
     public void setupMapper(){
@@ -28,6 +29,7 @@ public class SolutionMapper {
                 .addMappings(m -> m.skip(SolutionDto::setTaskId))
                 .addMappings(m -> m.skip(SolutionDto::setStudentName))
                 .addMappings(m -> m.skip(SolutionDto::setTaskName))
+                .addMappings(m -> m.skip(SolutionDto::setExamination))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(SolutionDto.class, Solution.class)
                 .addMappings(m -> m.skip(Solution::setStudent))
@@ -55,7 +57,9 @@ public class SolutionMapper {
 
     private void mapSpecificFields(Solution source, SolutionDto destination) {
 
-
+        if (source.getExamination() != null){
+            destination.setExamination(examinationMapper.toDto(source.getExamination()));
+        }
 
         if (source.getStudent() != null){
             destination.setStudentName(source.getStudent().getName());

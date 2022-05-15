@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @ToString
 @Inheritance(strategy = InheritanceType.JOINED)
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+@BatchSize(size = 20)
 public class User {
 
     @Id
@@ -41,14 +43,10 @@ public class User {
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @BatchSize(size = 20)
     private Collection<Role> roles;
 
     private String login;
-
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-//    @ToString.Exclude
-//    @JoinColumn(name = "user_id")
-//    private Set<Notification> notifications = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
@@ -61,7 +59,6 @@ public class User {
         if (first_name != null ? !first_name.equals(user.first_name) : user.first_name != null) return false;
         if (last_name != null ? !last_name.equals(user.last_name) : user.last_name != null) return false;
         if (patronymic != null ? !patronymic.equals(user.patronymic) : user.patronymic != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
         if (roles != null ? !roles.equals(user.roles) : user.roles != null) return false;
         return login != null ? login.equals(user.login) : user.login == null;
     }
@@ -72,7 +69,6 @@ public class User {
         result = 31 * result + (first_name != null ? first_name.hashCode() : 0);
         result = 31 * result + (last_name != null ? last_name.hashCode() : 0);
         result = 31 * result + (patronymic != null ? patronymic.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (roles != null ? roles.hashCode() : 0);
         result = 31 * result + (login != null ? login.hashCode() : 0);
         return result;

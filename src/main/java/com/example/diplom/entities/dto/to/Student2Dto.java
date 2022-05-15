@@ -2,6 +2,7 @@ package com.example.diplom.entities.dto.to;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
@@ -30,5 +31,10 @@ public class Student2Dto {
     private String email;
 
     private UUID groupId;
+
+    @JsonProperty("name")
+    public String getName(){
+        return first_name + " " + last_name + " " + " " + patronymic;
+    }
 
 }

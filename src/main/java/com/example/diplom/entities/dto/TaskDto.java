@@ -1,6 +1,5 @@
 package com.example.diplom.entities.dto;
 
-import com.example.diplom.entities.TaskType;
 import com.example.diplom.entities.dto.to.Group2Dto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -42,19 +41,19 @@ public class TaskDto {
     private String teacherName;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") // work
-    private LocalDateTime last_date_of_delivery;
+    private LocalDateTime date_of_creation;
 
-    private int min_rating;
-
-    private int max_rating;
-
-    private Boolean isTemporal;
-
-    private Boolean isMandatory; // обязательное задание
-
-    private TaskType taskType;
-
-    private int count_of_attempts; // количество сдачь
+//    private int min_rating;
+//
+//    private int max_rating;
+//
+//    private Boolean isTemporal;
+//
+//    private Boolean isMandatory; // обязательное задание
+//
+//    private TaskType taskType;
+//
+//    private int count_of_attempts; // количество сдачь
 
     private String text;
 

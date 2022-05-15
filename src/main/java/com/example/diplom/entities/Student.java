@@ -24,7 +24,7 @@ import java.util.UUID;
 @ToString
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
-@BatchSize(size = 100)
+@BatchSize(size = 20)
 public class Student extends User{
 
     private UUID id;
@@ -39,23 +39,16 @@ public class Student extends User{
 
     private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE } )
     @JoinColumn(name = "group_id", referencedColumnName = "id")
     @ToString.Exclude
+    @BatchSize(size = 20)
     private Group group;
 
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     @ToString.Exclude
+    @BatchSize(size = 20)
     private Set<Solution> solutions = new HashSet<>();
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    @JoinTable(
-            name = "students_tasks",
-            joinColumns = {@JoinColumn(name = "students_id")},
-            inverseJoinColumns = {@JoinColumn(name = "tasks_id")}
-    )
-    @ToString.Exclude
-    private Set<Task> tasks = new HashSet<>();
 
     @JsonIgnore
     public String getName(){
@@ -89,21 +82,15 @@ public class Student extends User{
         solutions.forEach(this::addSolution);
     }
 
-    public void setTasks(Task task){
-        tasks.add(task);
+    public Set<Task> getTasks(){
+        if (this.group != null){
+            return group.getTasks();
+        }else {
+            return null;
+        }
     }
 
-//    public void setTasks(Set<Task> tasks){
-//        tasks.forEach(this::setTasks);
-//    }
-
-//    public void addTasks(Task task){
-//        tasks.add(task);
-//        task.getStudents().add(this);
-//    }
-//
-//    public void addTasks(Set<Task> tasks){
-//        tasks.forEach(this::addTasks);
-//    }
-
+    public Set<Material> getMaterials(){
+        return group.getMaterials();
+    }
 }

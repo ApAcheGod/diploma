@@ -1,6 +1,5 @@
 package com.example.diplom.entities.dto.to;
 
-import com.example.diplom.entities.TaskType;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -33,17 +32,9 @@ public class Task2Dto {
 
     private LocalDateTime last_date_of_delivery;
 
-    private int min_rating;
-
-    private int max_rating;
-
-    private Boolean isTemporal;
-
-    private Boolean isMandatory; // обязательное задание
-
-    private TaskType taskType;
-
-    private int count_of_attempts; // количество сдачь
-
     private String text;
+
+    private Boolean haveSolution = false;
+
+    private Boolean haveExamination = false;
 }

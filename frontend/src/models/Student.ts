@@ -5,4 +5,8 @@ export default interface Student{
   patronymic: String,
   email: String | null,
   login: String,
+  roles: Array<Number>,
+  group: String | null,
+  solutions: Array<Object> | null,
+  task: Array<Object> | null
 }

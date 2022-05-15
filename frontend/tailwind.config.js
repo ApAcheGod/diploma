@@ -12,6 +12,9 @@ module.exports = {
         brandwhite: "#D8D4C9"
       }
     },
+    fontFamily: {
+      'montserrat': ['Montserrat'],
+    }
   },
   plugins: [],
 }

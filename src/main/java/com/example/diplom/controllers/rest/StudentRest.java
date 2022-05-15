@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -31,12 +32,36 @@ public class StudentRest {
 
     @GetMapping("/students")
     public List<StudentDto> allStudents(){
+//        Task2Dto task2Dto = new Task2Dto();
+//        task2Dto.setHaveSolution(false);
+//        task2Dto.setHaveExamination(false);
+//        System.out.println(
+//                studentService
+//                        .findAll()
+//                        .stream()
+//                        .map(studentMapper::toDto)
+//                        .toList()
+//                        .stream()
+//                        .map(StudentDto::getSolutions)
+//                        .map(SolutionDto::setTaskId)
+//                        .collect(Collectors.toSet())
+//        );
         return studentService.findAll().stream().map(studentMapper::toDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/studentsWithoutGroup")
+    public Set<StudentDto> studentsWithoutGroup(){
+        return studentService.getAllWithoutGroup().stream().map(studentMapper::toDto).collect(Collectors.toSet());
     }
 
     @GetMapping("/student/{id}")
     public ResponseEntity<StudentDto> oneStudent(@PathVariable("id")UUID uuid){
         return new ResponseEntity<>(studentMapper.toDto(studentService.findById(uuid)), HttpStatus.OK);
+    }
+
+    @GetMapping("/studentByLogin/{login}")
+    public ResponseEntity<StudentDto> getStudentByLogin(@PathVariable("login") String login){
+        return new ResponseEntity<>(studentMapper.toDto(studentService.findByLogin(login)), HttpStatus.OK);
     }
 
     @PostMapping(value = "/student")

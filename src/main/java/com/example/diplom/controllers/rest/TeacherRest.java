@@ -40,6 +40,11 @@ public class TeacherRest {
         return new ResponseEntity<>(teacherMapper.toDto(teacherService.findById(uuid)), HttpStatus.OK);
     }
 
+    @GetMapping("/teacherByLogin/{login}")
+    public ResponseEntity<TeacherDto> getTeacherByLogin(@PathVariable("login") String login){
+        return new ResponseEntity<>(teacherMapper.toDto(teacherService.findByLogin(login)), HttpStatus.OK);
+    }
+
     @PostMapping("/teacher")
     public ResponseEntity<TeacherDto> create(@RequestBody TeacherDto teacherDto) {
         Teacher teacher = teacherMapper.toEntity(teacherDto);

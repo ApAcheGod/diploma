@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -23,6 +24,7 @@ import java.util.UUID;
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 @EntityListeners(AuditingEntityListener.class)
+@BatchSize(size = 20)
 public class Examination {
 
     @Id
@@ -32,10 +34,10 @@ public class Examination {
     @CreatedDate
     private LocalDateTime dateOfValuation;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ToString.Exclude
+    @BatchSize(size = 20)
     private Solution solution;
-
-//    private int mark;
 
     @Enumerated(EnumType.STRING)
     private ExaminationStatus examinationStatus;

@@ -1,7 +1,9 @@
 package com.example.diplom.services.mappers;
 
 import com.example.diplom.entities.Group;
+import com.example.diplom.entities.Subject;
 import com.example.diplom.entities.dto.GroupDto;
+import com.example.diplom.entities.dto.to.Student2Dto;
 import com.example.diplom.services.*;
 import com.example.diplom.services.mappers.mappers2.*;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +12,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -32,8 +36,6 @@ public class GroupMapper {
     private final RoomService roomService;
 
 
-
-
     @PostConstruct
     public void setupMapper(){
         modelMapper.createTypeMap(Group.class, GroupDto.class)
@@ -41,14 +43,13 @@ public class GroupMapper {
                 .addMappings(m -> m.skip(GroupDto::setRooms))
                 .addMappings(m -> m.skip(GroupDto::setSubjects))
                 .addMappings(m -> m.skip(GroupDto::setTasks))
-//                .addMappings(m -> m.skip(GroupDto::setTeachers))
+                .addMappings(m -> m.skip(GroupDto::setCountOfStudents))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(GroupDto.class, Group.class)
                 .addMappings(m -> m.skip(Group::setRooms))
                 .addMappings(m -> m.skip(Group::setStudents))
-                .addMappings(m -> m.skip(Group::setSubjects))
-//                .addMappings(m -> m.skip(Group::setTeachers))
-                .addMappings(m -> m.skip(Group::setTasks))
+                .addMappings(m -> m.skip(Group::addSubjects))
+//                .addMappings(m -> m.skip(Group::setSubjects))
                 .setPostConverter(toEntityConverter());
     }
 
@@ -77,7 +78,6 @@ public class GroupMapper {
             destination.setRooms(source.getRooms().stream().map(room2Mapper::toDto).collect(Collectors.toSet()));
         }
 
-
         if (source.getTasks() != null){
             destination.setTasks(source.getTasks().stream().map(task2Mapper::toDto).collect(Collectors.toSet()));
         }
@@ -87,7 +87,9 @@ public class GroupMapper {
         }
 
         if (source.getStudents() != null){
-            destination.setStudents(source.getStudents().stream().map(student2Mapper::toDto).collect(Collectors.toSet()));
+            Set<Student2Dto> student2Dtos = source.getStudents().stream().map(student2Mapper::toDto).collect(Collectors.toSet());
+            destination.setStudents(student2Dtos);
+            destination.setCountOfStudents(student2Dtos.size());
         }
     }
 
@@ -102,11 +104,11 @@ public class GroupMapper {
         }
 
         if (source.getSubjects() != null){
-            source.getSubjects().forEach(subject2Dto -> destination.addSubjects(subjectService.findById(subject2Dto.getId())));
-        }
+            Set<Subject> subjects = new HashSet<>();
+            source.getSubjects().forEach(subject2Dto -> subjects.add(subjectService.findById(subject2Dto.getId())));
 
-        if (source.getTasks() != null){
-            source.getTasks().forEach(task2Dto -> destination.addTasks(taskService.findById(task2Dto.getId())));
+//            destination.addSubjects(subjects);
+            destination.setSubjects(subjects);
         }
 
     }

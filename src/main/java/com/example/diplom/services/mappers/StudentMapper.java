@@ -32,10 +32,11 @@ public class StudentMapper {
                 .addMappings(m -> m.skip(StudentDto::setGroupId))
                 .addMappings(m -> m.skip(StudentDto::setSolutions))
                 .addMappings(m -> m.skip(StudentDto::setTasks))
+                .addMappings(m -> m.skip(StudentDto::setName))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(StudentDto.class, Student.class)
                 .addMappings(m -> m.skip(Student::setGroup))
-                .addMappings(m -> m.skip(Student::setTasks))
+//                .addMappings(m -> m.skip(Student::setTasks))
                 .addMappings(m -> m.skip(Student::setSolutions))
                 .addMappings(m -> m.skip(Student::setLogin))
                 .setPostConverter(toEntityConverter());
@@ -61,15 +62,23 @@ public class StudentMapper {
 
     private void mapSpecificFields(Student source, StudentDto destination) {
 
+        destination.setName(source.getName());
+
         if (source.getGroup() != null){
+//            System.out.println(source.getGroup());
+//            System.out.println(source.getGroup().getSubjects());
+//            System.out.println(source.getGroup().getTasks());
+//            System.out.println(source.getGroup().getMaterials());
             destination.setGroupId(source.getGroup().getId());
         }
 
         if (source.getSolutions() != null){
+//            System.out.println(source.getSolutions());
             destination.setSolutions(source.getSolutions().stream().map(solutionMapper::toDto).collect(Collectors.toSet()));
         }
 
-        if (source.getTasks() != null){
+        if (source.getTasks() != null && source.getGroup() != null){
+//            System.out.println(source.getTasks());
             destination.setTasks(source.getTasks().stream().map(task2Mapper::toDto).collect(Collectors.toSet()));
         }
     }
@@ -83,9 +92,9 @@ public class StudentMapper {
             source.getSolutions().forEach(solutionDto -> destination.addSolution(solutionService.findById(solutionDto.getId())));
         }
 
-        if (source.getTasks() != null){
-            source.getTasks().forEach(task2Dto -> destination.setTasks(taskService.findById(task2Dto.getId())));
-        }
+//        if (source.getTasks() != null){
+//            source.getTasks().forEach(task2Dto -> destination.setTasks(taskService.findById(task2Dto.getId())));
+//        }
     }
 
     public Student toEntity(StudentDto studentDto){
@@ -93,6 +102,28 @@ public class StudentMapper {
     }
 
     public StudentDto toDto(Student student){
-        return Objects.isNull(student) ? null : modelMapper.map(student, StudentDto.class);
+        StudentDto studentDto = null;
+        if (!Objects.isNull(student)){
+            studentDto = modelMapper.map(student, StudentDto.class);
+            for (var task: studentDto.getTasks()){
+                for (var solution: studentDto.getSolutions()){
+                    if (task.getId().equals(solution.getTaskId())){
+                        task.setHaveSolution(true);
+                        break;
+                    }
+                    task.setHaveSolution(false);
+                }
+                for (var solution: studentDto.getSolutions()){
+                    if (solution.getExamination() != null){
+                        if (solution.getExamination().getTaskId().equals(task.getId())){
+                            task.setHaveExamination(true);
+                            break;
+                        }
+                    }
+                    task.setHaveExamination(false);
+                }
+            }
+        }
+        return studentDto;
     }
 }

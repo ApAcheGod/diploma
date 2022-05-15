@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import MainVue from './views/Main.vue';
+
+import { provide } from 'vue';
+import methods from './store/methods.js';
+
+provide('methods', methods);
 
 </script>
 
 <template>
-  <main-vue></main-vue>
+  <router-view />
 </template>
 
 <style scoped>
