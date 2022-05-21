@@ -1,20 +1,81 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { useQuasar } from 'quasar'
+import { useStore } from 'vuex';
+import actionsTypes from '../../store/actionsTypes';
 import RoomCard from './RoomCard.vue';
+
+const $q = useQuasar();
+const store = useStore();
+const newRoomName = ref('');
+const roomIsNotEditing = ref(true);
 
 const props = defineProps({
   rooms: Array,
 });
 
+const teacher = computed(() => {
+  return store.getters.getUserData;
+});
+
+function createRoom(room) {
+  store.dispatch(actionsTypes.CREATE_ROOM, room)
+  .then(() => {
+    $q.notify({type: 'positive', message: 'Комната успешно создана'})
+    newRoomName.value = '';
+  })
+  .catch(error => {
+    console.error(error);
+    $q.notify({type: 'negative', message: 'Ошибка при создании комнаты'})
+  })
+}
+function updateRoom(room) {
+  console.log(room);
+  store.dispatch(actionsTypes.UPDATE_ROOM, room)
+  .then(() => {
+    $q.notify({type: 'positive', message: 'Комната успешно обновлена'})
+    newRoomName.value = '';
+    roomIsNotEditing.value = true
+  })
+  .catch(error => {
+    console.error(error);
+    $q.notify({type: 'negative', message: 'Ошибка при обновлении комнаты'})
+  })
+}
+function deleteRoom(room) {
+  store.dispatch(actionsTypes.DELETE_ROOM, room)
+  .then(() => {
+    $q.notify({type: 'positive', message: 'Комната успешно удалена'})
+    newRoomName.value = '';
+    roomIsNotEditing.value = true
+  })
+  .catch(error => {
+    console.error(error);
+    $q.notify({type: 'negative', message: 'Ошибка при удалении комнаты'})
+  })
+}
+
 </script>
 <template>
   <div class="rooms-block">
-    <room-card v-for="room in props.rooms" :room="room"/>
-    <div class="room-card-add">
-      <button class="room-card-add__button">
-        <img class="room-card-add__icon" src="../../img/add.svg"/>
-      </button>
-    </div>
+    <transition-group name="list" >
+      <room-card 
+        v-for="room in props.rooms"
+        :key="room.id"
+        :room="room"
+        :allowEditing="roomIsNotEditing" 
+        v-on:edit="roomIsNotEditing = false"
+        v-on:delete="deleteRoom"
+        v-on:cancel="roomIsNotEditing = true"
+        v-on:save="updateRoom"
+      />
+      <div key="add-el" class="room-card-add">
+          <q-input v-model="newRoomName" label="Название комнаты"/>
+          <button class="room-card-add__button" v-on:click="createRoom({ name: newRoomName, teacherId:  teacher.id})">
+            <img class="room-card-add__icon" src="../../img/add.svg"/>
+          </button>
+      </div>
+    </transition-group>
   </div>
 </template>
 <style scoped>
@@ -27,9 +88,11 @@ const props = defineProps({
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 24px;
   align-items: center;
   background-color: white;
   filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.161));
+  min-height: 368px;
 }
 .room-card-add__button {
   border-radius: 50px;

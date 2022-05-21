@@ -1,12 +1,15 @@
 <script setup>
 import { onMounted, ref, inject } from 'vue';
+import { useQuasar } from 'quasar';
 import { useStore } from 'vuex';
 import actionsTypes from '../store/actionsTypes'
 import mutationsTypes from '../store/mutationsTypes';
+import methods from '../store/methods';
 
+const $q = useQuasar();
 const store = useStore();
 const leftDrawerOpen = ref(true);
-const methods = inject('methods');
+
 let teacherLogin = ref('');
 let teacher = ref({})
 
@@ -16,13 +19,45 @@ const toggleLeftDrawer = () => {
 
 onMounted(() => {
   teacherLogin.value = store.getters.getUserLogin;
-  methods.getTeacherByLoginFetch(teacherLogin.value)
-  .then(teacherData => {
-    console.log(teacherData);
-    teacher.value = teacherData;
-    store.commit(mutationsTypes.SET_TEACHER, teacherData);
+  store.dispatch(actionsTypes.DATA_INIT, teacherLogin.value)
+  .then(() => {
+    teacher.value = store.getters.getUserData;
+  })
+  .catch(error => {
+    console.error(error);
+    $q.notify({
+      type: 'negative',
+      message: 'Ошибка при получении информации'
+    });
   });
+
+
+  // const room = {name : 'Тест1', teacherId : teacher.value.id};
+  // let createdRoom = {};
+
+  // teacherLogin.value = store.getters.getUserLogin;
+  // store.dispatch(actionsTypes.DATA_INIT, teacherLogin.value)
+  // .then (() => {
+  //     teacher.value = store.getters.getUserData;
+  //     console.log(teacher.value);
+  //     console.log(store.getters.getTeacherStudentsGroups);
+  //     console.log(store.getters.getUserSubjects);
+  //     console.log(store.getters.getTeacherRooms);
+  //   }
+  // )
+  // .then(() => {
+  //   return store.dispatch(actionsTypes.CREATE_ROOM, room);
+  // })
+  // .then(() => {
+  //   createdRoom = store.getters.getTeacherRooms.filter(r => r.name === room.name && r.teacherId === room.teacherId)[0];
+  //   return store.dispatch(actionsTypes.DELETE_ROOM, createdRoom);
+
+  // }).then(() => {
+  //   return store.dispatch(actionsTypes.DELETE_ROOM, createdRoom)
+  // })
+  // .catch(() => console.log('Ошибка из колбека'));
 })
+
 </script>
 
 <template>
@@ -45,7 +80,7 @@ onMounted(() => {
     <q-page-container>
       <router-view />
       <q-page-sticky position="bottom-right" :offset="[20, 20]">
-        <q-btn fab color="amber" text-color="black" icon="keyboard_arrow_right" direction="left" @click="toggleLeftDrawer"/>
+        <q-btn fab class="bg-accent3" text-color="black" :icon="leftDrawerOpen ? 'keyboard_arrow_left' : 'keyboard_arrow_right'" @click="toggleLeftDrawer"/>
       </q-page-sticky>
     </q-page-container>
 

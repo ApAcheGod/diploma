@@ -33,15 +33,17 @@ export default {
     const header = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Accept': 'application/json'
+      'Content-Type': 'application/json;charset=utf-8',
+      'Accept': 'application/json'
       },
       body: JSON.stringify(credentials),
     };
     return fetch(`${URL}/login`, header)
       .then(res => {
+        console.log(res.headers);
         return res.ok;
       })
+      .catch(error => console.error(error));
   },
   
   userCheck() {
@@ -50,9 +52,11 @@ export default {
     };
     return fetch(`${URL}/api/check`, header)
       .then(res => {
+        console.log(res.headers);
         res.text();
       })
       .then(text => text)
+      .catch(error => console.error(error));
   },
 
   userLoginAxios(payload) {
@@ -72,12 +76,8 @@ export default {
       method: 'GET',
     };
     return fetch(`${URL}/api/logout`, header)
-      .then(res => {
-          if (res.ok)
-            return res.json();  
-          throw `${res.status} ${res.statusText}`;
-        })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   //  END AUTHORIZATION/AUTENTIFICATION/LOGOUT
@@ -89,12 +89,9 @@ export default {
       method: 'GET',
     };
     return fetch(`${URL}/api/students`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
+      .then(res => res.json())
       .then(json => json)
+      .catch(error => console.error(error));
   },
 
   getStudentsWithoutGroupFetch(){
@@ -102,12 +99,9 @@ export default {
       method: 'GET',
     };
     return fetch(`${URL}/api/studentsWithoutGroup`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+        .then(res => res.json())
+        .then(json => json)
+        .catch(error => console.error(error));
   },
 
   createStudentFetch(student){
@@ -127,12 +121,8 @@ export default {
       ),
     };
     return fetch(`${URL}/api/student`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   updateStudentFetch(student){
@@ -145,12 +135,8 @@ export default {
       body: JSON.stringify(student),
     };
     return fetch(`${URL}/api/student`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   deleteStudentFetch(student){
@@ -158,12 +144,8 @@ export default {
       method: 'DELETE',
     };
     return fetch(`${URL}/api/student/${student.id}`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   //  END STUDENTS
@@ -175,12 +157,9 @@ export default {
       method: 'GET',
     };
     return fetch(`${URL}/api/materials`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
+      .then(res => res.json())
       .then(json => json)
+      .catch(error => console.error(error));
   },
 
   createMaterialFetch(material){
@@ -193,12 +172,8 @@ export default {
       body: JSON.stringify(material),
     };
     return fetch(`${URL}/api/material`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   updateMaterialFetch(material){
@@ -211,12 +186,8 @@ export default {
       body: JSON.stringify(material),
     };
     return fetch(`${URL}/api/material`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   deleteMaterialFetch(material){
@@ -224,12 +195,8 @@ export default {
       method: 'DELETE',
     };
     return fetch(`${URL}/api/material/${material.id}`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   //  END MATERIALS
@@ -241,12 +208,9 @@ export default {
       method: 'GET',
     };
     return fetch(`${URL}/api/subjects`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
+      .then(res => res.json())
       .then(json => json)
+      .catch(error => console.error(error));
   },
 
   createSubjectFetch(subject){
@@ -259,12 +223,8 @@ export default {
       body: JSON.stringify(subject),
     };
     return fetch(`${URL}/api/subject`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   updateSubjectFetch(subject){
@@ -277,12 +237,8 @@ export default {
       body: JSON.stringify(subject),
     };
     return fetch(`${URL}/api/subject`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   deleteSubjectFetch(subject){
@@ -290,12 +246,8 @@ export default {
       method: 'DELETE',
     };
     return fetch(`${URL}/api/subject/${subject.id}`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   // END SUBJECTS
@@ -307,12 +259,9 @@ export default {
       method: 'GET',
     };
     return fetch(`${URL}/api/teachers`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
+      .then(res => res.json())
       .then(json => json)
+      .catch(error => console.error(error));
   },
 
   getTeacherByLoginFetch(login){
@@ -320,12 +269,9 @@ export default {
       method: 'GET',
     };
     return fetch(`${URL}/api/teacherByLogin/${login}`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
+      .then(res => res.json())
       .then(json => json)
+      .catch(error => console.error(error));
   },  
 
   createTeacherFetch(teacher){
@@ -338,12 +284,8 @@ export default {
       body: JSON.stringify(teacher),
     };
     return fetch(`${URL}/api/teacher`, header)
-    .then(res => {
-      if (res.ok)
-        return res.json();  
-      throw `${res.status} ${res.statusText}`;
-    })
-    .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   updateTeacherFetch(teacher){
@@ -356,12 +298,8 @@ export default {
       body: JSON.stringify(teacher),
     };
     return fetch(`${URL}/api/teacher`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   deleteTeacherFetch(teacher){
@@ -369,12 +307,8 @@ export default {
       method: 'DELETE',
     };
     return fetch(`${URL}/api/teacher/${teacher.id}`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   // END TEACHERS
@@ -386,12 +320,9 @@ export default {
       method: 'GET',
     };
     return fetch(`${URL}/api/tasks`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
+      .then(res => res.json())
       .then(json => json)
+      .catch(error => console.error(error));
   },
 
   createTaskFetch(task){
@@ -404,12 +335,8 @@ export default {
       body: JSON.stringify(task),
     };
     return fetch(`${URL}/api/task`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   updateTaskFetch(task){
@@ -422,13 +349,8 @@ export default {
       body: JSON.stringify(task),
     };
     return fetch(`${URL}/api/task`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   deleteTaskFetch(task){
@@ -436,13 +358,8 @@ export default {
       method: 'DELETE',
     };
     return fetch(`${URL}/api/task/${task.id}`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   //  END TASKS
@@ -454,13 +371,9 @@ export default {
       method: 'GET',
     };
     return fetch(`${URL}/api/rooms`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
+      .then(res => res.json())
       .then(json => json)
-
+      .catch(error => console.error(error));
   },
 
   createRoomFetch(room){
@@ -473,12 +386,9 @@ export default {
       body: JSON.stringify(room),
     };
     return fetch(`${URL}/api/room`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
+      .then(res => res.json())
       .then(json => json)
+      .catch(error => console.error(error));
   },
 
   updateRoomFetch(room){
@@ -491,12 +401,8 @@ export default {
       body: JSON.stringify(room),
     };
     return fetch(`${URL}/api/room`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   deleteRoomFetch(room){
@@ -504,12 +410,8 @@ export default {
       method: 'DELETE',
     };
     return fetch(`${URL}/api/room/${room.id}`, header)
-      .then(res => {
-        if (res.ok)
-          return res.ok;  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   // END ROOMS
@@ -521,12 +423,9 @@ export default {
       method: 'GET',
     };
     return fetch(`${URL}/api/groups`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
+      .then(res => res.json())
       .then(json => json)
+      .catch(error => console.error(error));
   },
 
   createGroupFetch(group){
@@ -539,12 +438,8 @@ export default {
       body: JSON.stringify(group),
     };
     return fetch(`${URL}/api/group`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   updateGroupFetch(group){
@@ -557,12 +452,8 @@ export default {
       body: JSON.stringify(group),
     };
     return fetch(`${URL}/api/group`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-    .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   deleteGroupFetch(group){
@@ -570,12 +461,8 @@ export default {
       method: 'DELETE',
     };
     return fetch(`${URL}/api/group/${group.id}`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-    .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   // END GROUPS
@@ -587,12 +474,9 @@ export default {
       method: 'GET',
     };
     return fetch(`${URL}/api/solutions`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
+      .then(res => res.json())
       .then(json => json)
+      .catch(error => console.error(error));
   },
 
   createSolutionFetch(solution){
@@ -605,12 +489,8 @@ export default {
       body: JSON.stringify(solution),
     };
     return fetch(`${URL}/api/solution`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   updateSolutionFetch(solution){
@@ -623,12 +503,8 @@ export default {
       body: JSON.stringify(solution),
     };
     return fetch(`${URL}/api/solution`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   deleteSolutionFetch(solution){
@@ -636,12 +512,8 @@ export default {
       method: 'DELETE',
     };
     return fetch(`${URL}/api/group/${solution.id}`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
+      .then(res => res.ok)
+      .catch(error => console.error(error));
   },
 
   //  END SOLUTIONS

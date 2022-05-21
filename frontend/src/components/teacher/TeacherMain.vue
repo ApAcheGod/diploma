@@ -2,13 +2,13 @@
 import { computed } from '@vue/reactivity';
 import { onMounted } from 'vue';
 import { useStore } from 'vuex';
+
 import BaseCite from '../other/BaseCite.vue'
 import TeacherRoomsBlock from './TeacherRoomsBlock.vue';
 
 const store = useStore();
 const teacher = computed(() => {
-  console.log(store.getters.getTeacher);
-  return store.getters.getTeacher;
+  return store.getters.getUserData;
 });
 
 </script>

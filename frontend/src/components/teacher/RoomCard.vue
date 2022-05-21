@@ -1,19 +1,61 @@
 <script setup>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue';
 
+const $q = useQuasar();
 const props = defineProps({
   room: Object,
+  allowEditing: Boolean,
 });
+const emit = defineEmits(['edit', 'delete', 'save', 'cancel']);
+const isEditing = ref(false);
+const newName = ref(props.room?.name);
+
+const updatedRoom = function() {
+  const newRoom = {...props.room, ...{name : newName.value}};
+  newRoom.name = newName.value;
+  return newRoom;
+}
 
 </script>
 <template>
   <div class="room-card">
-    <div class="room-card__title">{{props.room.name}}</div>
+    <div class="room-card__title">
+      <template v-if="!isEditing">
+        {{props.room.name}}
+      </template>
+      <template v-if="isEditing">
+        <q-input v-model="newName"/>
+      </template>
+    </div>
     <div class="room-card__body">
       <img src="../../img/university-default.png" class="room-card__image">
     </div>
     <div class="room-card__actions">
-      <button class="room-card__button room-card__button_edit">Редактировать</button>
-      <button class="room-card__button room-card__button_delete">Удалить</button>
+      <template v-if="props.allowEditing">
+        <button 
+          class="room-card__button room-card__button_edit"
+          @click="{emit('edit'); isEditing = true}">
+          Редактировать
+        </button>
+        <button 
+          class="room-card__button room-card__button_delete"
+          @click="emit('delete', room)">
+          Удалить
+        </button>
+      </template>
+      <template v-else-if="isEditing">
+        <button 
+          class="room-card__button room-card__button_edit"
+          @click="{emit('save', updatedRoom()); isEditing = false;}">
+          Сохранить
+        </button>
+        <button 
+          class="room-card__button room-card__button_delete"
+          @click="{emit('cancel'); isEditing = false;}">
+          Отменить
+        </button>
+      </template>
     </div>
   </div>
 </template>
@@ -26,21 +68,26 @@ const props = defineProps({
   filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.161));
   padding-bottom: 16px;
   padding-top: 16px;
+  min-height: 368px;
 }
 .room-card__title {
+  display: flex;
+  align-items: center;
   font-family: 'Montserrat';
   text-transform: uppercase;
   font-weight: 500;
-  font-size: 17px;
+  font-size: 19px;
   padding-left: 16px;
   padding-right: 16px;
   letter-spacing: 0.03rem;
+  min-height: 56px;
 }
 .room-card__actions {
   display: flex;
   gap: 16px;
   padding-left: 16px;
   padding-right: 16px;
+  min-height: 16px;
 }
 .room-card__body {
   padding-top: 8px;

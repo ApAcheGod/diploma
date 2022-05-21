@@ -2,8 +2,9 @@ import axios from 'axios';
 import router from '../router';
 
 import userRoles from '../models/userRoles';
-import mutationsTypes from '../store/mutationsTypes'
+import mutationsTypes from './mutationsTypes'
 import URL from './consts';
+import methods from './methods';
 
 const actions = {
   userSignIn({ commit }, payload) {
@@ -45,6 +46,56 @@ const actions = {
     commit(mutationsTypes.CLEAR_USER);
     router.push('/signin');
   },
+  
+  dataInit({ commit }, payload){
+    const teacherLogin = payload;
+    return Promise.all([
+      methods.getTeacherByLoginFetch(teacherLogin),
+      methods.getRoomsFetch(),
+      methods.getGroupsFetch(),
+      methods.getMaterialsFetch(),
+      methods.getSubjectsFetch(),
+    ])
+    .then((results) => {
+      const [ teacherData, rooms, studentGroups, materials, subjects] = results;
+      
+      commit(mutationsTypes.SET_USER_DATA, teacherData);
+      commit(mutationsTypes.SET_ROOMS_DATA, rooms);
+      commit(mutationsTypes.SET_STUDENT_GROUPS_DATA, studentGroups);
+      commit(mutationsTypes.SET_MATERIALS_DATA, materials);
+      commit(mutationsTypes.SET_SUBJECTS_DATA, subjects);
+    });
+  },
+
+  deleteRoom({ commit }, payload){
+    const room = payload;
+    return methods.deleteRoomFetch(room)
+    .then(isSuccess => {
+      if (isSuccess) {
+        commit(mutationsTypes.DELETE_ROOM, room);
+      }
+    });
+  },
+
+  createRoom({ commit }, payload){
+    const room = payload;
+    return methods.createRoomFetch(room)
+    .then(createdRoom => {
+      if (createdRoom) {
+        commit(mutationsTypes.CREATE_ROOM, createdRoom);
+      }
+    });
+  },
+
+  updateRoom({ commit }, payload){
+    const room = payload;
+    return methods.updateRoomFetch(room)
+    .then(updatedRoom => {
+      if (updatedRoom) {
+        commit(mutationsTypes.UPDATE_ROOM, updatedRoom);
+      }
+    });
+  }
 };
 
 export default actions;
