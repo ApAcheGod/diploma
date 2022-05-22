@@ -33,13 +33,14 @@ const getters = {
   },
 
   getTeacherStudentsGroups(state) {
-    const studentGroupsObject = state.studentGroups.map(group => { return {[group.id] : group} });
+    const studentGroupsObject = new Map();
+    state.studentGroups.forEach(group => studentGroupsObject.set(group.id, group));
     const groupsByRooms = state.userData.rooms?.map(room => {
       return { 
         roomName : room.name, 
         roomGroups : state.subjects.filter(subject => subject.roomId === room.id)
-          .map(subject => subject.groups
-            .map(group => studentGroupsObject[group.id])),
+          .map(subject => subject.groups.map(group => studentGroupsObject.get(group.id)))
+          .flat(3),
       }
     });
     return groupsByRooms;
