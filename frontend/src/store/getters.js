@@ -57,7 +57,13 @@ const getters = {
   },
 
   getUserMaterials(state) {
-
+    const userMaterialsByRooms = state.userData.rooms?.map(room => {
+      return {
+        roomName: room.name,
+        roomMaterials: state.subjects.filter(subject => subject.roomId === room.id)?.map(subject => subject.materials)[0],
+      }
+    });
+    return userMaterialsByRooms;
   },
 
 };

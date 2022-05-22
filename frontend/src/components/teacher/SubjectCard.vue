@@ -2,23 +2,23 @@
 import { onMounted } from 'vue';
 
 const props = defineProps({
-  group : Object,
+  subject : Object,
 });
 
 onMounted(() => {
-  console.log(props.group);
+  console.log(props.subject);
 });
 
 </script>
 <template>
-  <div class="group-card">
-    <div class="group-card__title">
-      {{props.group?.name}}
+  <div class="subject-card">
+    <div class="subject-card__title">
+      {{props.subject?.name}}
     </div>
   </div>
 </template>
 <style lang="scss" scoped>
-.group-card {
+.subject-card {
 
 }
 </style>

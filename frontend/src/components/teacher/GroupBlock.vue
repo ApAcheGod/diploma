@@ -11,13 +11,13 @@ onMounted(() => {
 
 </script>
 <template>
-<div class="room-block">
-  <div class="room-block__title">
-    <hr/>
-    {{props.room?.roomName}}
+  <div class="room-block">
+    <div class="room-block__title">
+      <hr/>
+      {{props.room?.roomName}}
+    </div>
+    <group-card v-for="group in props.room?.roomGroups" :group="group"/>
   </div>
-  <group-card v-for="group in props.room?.roomGroups" :group="group"/>
-</div>
 </template>
 <style lang="scss">
 .room-block {

@@ -73,6 +73,9 @@ onMounted(() => {
       <nav class="menu-container__navigation">
         <router-link class="menu-container__link" :to="{ name: 'TeacherMain' }">Главная</router-link>
         <router-link class="menu-container__link" :to="{ name: 'TeacherGroups' }">Группы студентов</router-link>
+        <router-link class="menu-container__link" :to="{ name: 'TeacherSubjects' }">Предметы</router-link>
+        <router-link class="menu-container__link" :to="{ name: 'TeacherMaterials' }">Материалы</router-link>
+        <router-link class="menu-container__link" :to="{ name: 'TeacherJournal' }">Журнал</router-link>
       </nav>
       <button class="button-leave" @click="store.dispatch(actionsTypes.USER_SIGNOUT, user)">Выход</button>
     </q-drawer>
