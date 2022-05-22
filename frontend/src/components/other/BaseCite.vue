@@ -57,6 +57,7 @@ function nextCite() {
 </template>
 <style scoped>
 .citation {
+  margin: 24px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

@@ -1,4 +1,5 @@
 <script setup>
+import methods from '../../store/methodsAdmin.js';
 import {ref, computed} from 'vue';
 import TaskDialog from './TaskDialog.vue';
 

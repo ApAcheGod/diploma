@@ -1,5 +1,6 @@
 <script setup>
-import {inject, onMounted, ref} from 'vue';
+import methods from '../../store/methodsAdmin.js';
+import {onMounted, ref} from 'vue';
 import {useQuasar} from 'quasar'
 import axios from 'axios';
 import StudentCard from './StudentCard.vue';
@@ -9,7 +10,7 @@ let $q = useQuasar();
 
 let students = ref();
 
-const methods = inject('methods');
+
 
 let studentPromptIsOpen = ref(false);
 

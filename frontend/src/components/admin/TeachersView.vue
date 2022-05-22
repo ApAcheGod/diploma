@@ -1,5 +1,6 @@
 <script setup>
-import {inject, onMounted, ref} from 'vue';
+import methods from '../../store/methodsAdmin.js';
+import {onMounted, ref} from 'vue';
 import {useQuasar} from 'quasar'
 
 import TeacherCard from './TeacherCard.vue';
@@ -13,7 +14,7 @@ let tasks = ref();
 let materials = ref();
 let rooms = ref();
 
-const methods = inject('methods');
+
 
 let teacherPromptIsOpen = ref(false);
 

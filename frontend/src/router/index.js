@@ -7,6 +7,7 @@ import StudentView from '../views/StudentView.vue';
 
 import TeacherView from '../views/TeacherView.vue';
 import TeacherMain from '../components/teacher/TeacherMain.vue';
+import TeacherGroups from '../components/teacher/TeacherGroups.vue'
 // import TeacherRooms from '../components/teacher/TeacherRooms.vue';
 
 import AdminView from '../views/AdminView.vue';
@@ -37,6 +38,11 @@ const routes = [
         path: 'main',
         name: 'TeacherMain',
         component: TeacherMain
+      },
+      {
+        path: 'groups',
+        name: 'TeacherGroups',
+        component: TeacherGroups
       },
       // {
       //   path: 'rooms',

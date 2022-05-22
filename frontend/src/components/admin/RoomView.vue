@@ -1,5 +1,6 @@
 <script setup>
-import {inject, onMounted, ref} from 'vue';
+import methods from '../../store/methodsAdmin.js';
+import {onMounted, ref} from 'vue';
 import {useQuasar} from 'quasar';
 import RoomCard from './RoomCard.vue';
 import RoomDialog from './RoomDialog.vue';
@@ -9,7 +10,7 @@ let $q = useQuasar();
 let rooms = ref();
 let teachers = ref ();
 
-const methods = inject('methods');
+
 
 let roomPromptIsOpen = ref(false);
 

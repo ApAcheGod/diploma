@@ -80,9 +80,11 @@ function deleteRoom(room) {
 </template>
 <style scoped>
 .rooms-block {
-  display: grid;
+  display: flex;
   gap: 16px;
-  grid-template-columns: repeat(3, 1fr);
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin: 24px;
 }
 .room-card-add {
   display: flex;
@@ -93,6 +95,8 @@ function deleteRoom(room) {
   background-color: white;
   filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.161));
   min-height: 368px;
+  min-width: 256px;
+
 }
 .room-card-add__button {
   border-radius: 50px;

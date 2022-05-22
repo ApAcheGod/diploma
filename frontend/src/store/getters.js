@@ -34,7 +34,7 @@ const getters = {
 
   getTeacherStudentsGroups(state) {
     const studentGroupsObject = state.studentGroups.map(group => { return {[group.id] : group} });
-    const groupsByRooms = state.userData.rooms.map(room => {
+    const groupsByRooms = state.userData.rooms?.map(room => {
       return { 
         roomName : room.name, 
         roomGroups : state.subjects.filter(subject => subject.roomId === room.id)

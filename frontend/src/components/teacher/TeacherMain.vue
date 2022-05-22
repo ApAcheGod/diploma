@@ -13,16 +13,8 @@ const teacher = computed(() => {
 
 </script>
 <template>
-  <div class="wrapper">
     <base-cite/>
     <teacher-rooms-block :rooms="teacher?.rooms" />
-  </div>
 </template>
-<style scoped>
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  margin: 32px;
-}
+<style>
 </style>

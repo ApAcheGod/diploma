@@ -68,7 +68,9 @@ const updatedRoom = function() {
   filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.161));
   padding-bottom: 16px;
   padding-top: 16px;
+  width: min-content;
   min-height: 368px;
+  min-width: 256px;
 }
 .room-card__title {
   display: flex;
