@@ -52,7 +52,7 @@ const groupsRuLocale = (groupsCount) => {
     <div class="subject-card__actions">
       <button 
           class="subject-card__button subject-card__button_edit">
-          Редактировать
+          Подробнее
         </button>
         <button 
           class="subject-card__button subject-card__button_delete">
