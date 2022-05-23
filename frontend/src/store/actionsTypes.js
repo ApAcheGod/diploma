@@ -7,4 +7,10 @@ export default {
     CREATE_ROOM : 'createRoom',
     DELETE_ROOM : 'deleteRoom',
     UPDATE_ROOM : 'updateRoom',
+
+    CREATE_MATERIAL : 'createMaterial',
+    DELETE_MATERIAL : 'deleteMaterial',
+    UPDATE_MATERIAL : 'updateMaterial',
+
+
 }

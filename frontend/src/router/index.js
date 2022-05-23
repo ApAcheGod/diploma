@@ -7,7 +7,11 @@ import StudentView from '../views/StudentView.vue';
 
 import TeacherView from '../views/TeacherView.vue';
 import TeacherMain from '../components/teacher/TeacherMain.vue';
-import TeacherGroups from '../components/teacher/TeacherGroups.vue'
+import TeacherGroups from '../components/teacher/TeacherGroups.vue';
+import TeacherSubjects from '../components/teacher/TeacherSubjects.vue';
+import TeacherMaterials from '../components/teacher/TeacherMaterials.vue';
+import TeacherJournal from '../components/teacher/TeacherJournal.vue';
+
 // import TeacherRooms from '../components/teacher/TeacherRooms.vue';
 
 import AdminView from '../views/AdminView.vue';
@@ -44,6 +48,21 @@ const routes = [
         name: 'TeacherGroups',
         component: TeacherGroups
       },
+      {
+        path: 'subjects',
+        name: 'TeacherSubjects',
+        component: TeacherSubjects
+      },
+      {
+        path: 'materials',
+        name: 'TeacherMaterials',
+        component: TeacherMaterials
+      },
+      {
+        path: 'journal',
+        name: 'TeacherJournal',
+        component: TeacherJournal
+      }
       // {
       //   path: 'rooms',
       //   name: 'TeacherRooms',

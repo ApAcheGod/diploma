@@ -1,6 +1,16 @@
 <script setup>
 import { onMounted } from 'vue';
 import MaterialCard from './MaterialCard.vue';
+import actionsTypes from "../../store/actionsTypes";
+import {useQuasar} from "quasar";
+import {useStore} from "vuex";
+import {ref} from "vue";
+
+const $q = useQuasar();
+const store = useStore();
+const newMaterialName = ref('');
+const materialIsNotEditing = ref(true);
+
 const props = defineProps({
   room : Object,
 });
@@ -20,7 +30,7 @@ onMounted(() => {
   </div>
 </template>
 <style lang="scss">
-.room-block {
+.mate-block {
 
   &__title {
 
