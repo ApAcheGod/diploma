@@ -13,8 +13,8 @@ const teacher = computed(() => {
 
 </script>
 <template>
-    <base-cite/>
-    <teacher-rooms-block :rooms="teacher?.rooms" />
+  <base-cite/>
+  <teacher-rooms-block :rooms="teacher?.rooms" />
 </template>
 <style>
 </style>

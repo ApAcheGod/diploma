@@ -10,7 +10,7 @@ const state = {
   materials: [],
   subjects: [],
 
-  
+  activeRoom: {},
 };
 
 export default state;

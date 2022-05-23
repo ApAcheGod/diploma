@@ -18,4 +18,6 @@ export default {
   CREATE_ROOM : 'createRoom',
   UPDATE_ROOM : 'updateRoom',
 
+  SET_ACTIVE_SUBJECT : 'setActiveSubject',
+  ROMOVE_ACTIVE_SUBJECT : 'removeActiveSubject',
 }

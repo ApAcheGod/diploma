@@ -67,6 +67,14 @@ const mutations = {
     const updatedRoomId = state.rooms.findIndex(r => room.id === r.id);
     state.rooms[updatedRoomId] = {...state.rooms[updatedRoomId], ...payload};
   },
+
+  setActiveSubject(state, payload) {
+    const subject = payload;
+    state.activeSubject = subject;
+  },
+  removeActiveSubject(state) {
+    state.activeSubject = {};
+  },
 };
 
 export default mutations;
