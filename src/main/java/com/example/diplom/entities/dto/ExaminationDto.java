@@ -19,8 +19,6 @@ public class ExaminationDto {
 
     private String examinationStatus;
 
-//    private int mark;
-
     private UUID teacherId;
 
     private String teacherLogin;
@@ -37,6 +35,8 @@ public class ExaminationDto {
 
     private String studentLogin;
 
+    private String studentName;
+
     private UUID taskId;
 
     private String taskName;
@@ -46,4 +46,8 @@ public class ExaminationDto {
     private LocalDateTime dateOfDelivery;
 
     private LocalDateTime dateOfValuation;
+
+    private String roomName;
+
+    private UUID roomId;
 }
