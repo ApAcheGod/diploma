@@ -58,7 +58,6 @@ const groupsRuLocale = (groupsCount) => {
       : ''}}
     </div>
     <div class="subject-card__actions">
-<!--      <template v-if="props.allowInfo">-->
       <button 
           class="subject-card__button subject-card__button_edit"
           @click="{emits('info'); isInfo = true}">
@@ -69,19 +68,6 @@ const groupsRuLocale = (groupsCount) => {
           @click="() => emits('delete', props.subject)">
           Удалить
         </button>
-<!--      </template>-->
-<!--      <template v-else-if="isInfo">-->
-<!--        <button-->
-<!--          class="subject-card__button subject-card__button_info"-->
-<!--          @click="{emits('save', updateSubject()); isInfo = false}">-->
-<!--          Сохранить-->
-<!--          </button>-->
-<!--        <button-->
-<!--          class="subject-card__button subject-card__button_delete"-->
-<!--          @click="{emits('cancel'); isInfo = false}">-->
-<!--          Отменить-->
-<!--        </button>-->
-<!--      </template>-->
     </div>
   </div>
 </template>

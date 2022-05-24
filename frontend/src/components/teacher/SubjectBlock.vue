@@ -52,37 +52,35 @@ function deleteSubject(subject) {
 
 </script>
 <template>
-  <template v-if="props?.room?.roomSubjects && props.room.roomSubjects.length > 0">
-    <div class="subject-block">
-      <div class="subject-block__title">
-        <hr/>
-        {{props.room.roomName}}
-      </div>
-      <div class="subject-block__subjects">
-        <transition-group name="list" >
-          <subject-card v-for="subject in props.room.roomSubjects"
-                        :subject="subject"
-                        v-on:info="roomIsNotInfo = false"
-                        v-on:delete="deleteSubject"
-                        v-on:cancel="roomIsNotInfo = true"
-                        v-on:save="updateRoom"
-          />
-          <div key="add-el" class="subject-card-add">
-            <div key="add-el" class="room-card-add">
-              <q-input v-model="newSubjectName" label="Название предмета"/>
-            </div>
-            <button class="subject-card-add__button"
-                    v-on:click="createSubject({
-                    name: newSubjectName,
-                    teacherId:  teacher.id,
-                    roomId: props.room.roomId})">
-              <img class="subject-card-add__icon" src="../../img/add.svg"/>
-            </button>
-          </div>
-        </transition-group>
-      </div>
+  <div class="subject-block">
+    <div class="subject-block__title">
+      <hr/>
+      {{props.room.roomName}}
     </div>
-  </template>
+    <div class="subject-block__subjects">
+      <transition-group name="list" >
+        <subject-card v-for="subject in props.room.roomSubjects"
+          :key="subject.id"
+          :subject="subject"
+          v-on:info="roomIsNotInfo = false"
+          v-on:delete="deleteSubject"
+          v-on:cancel="roomIsNotInfo = true"
+        />
+        <div key="add-el" class="subject-card-add">
+          <div key="add-el" class="room-card-add">
+            <q-input v-model="newSubjectName" label="Название предмета"/>
+          </div>
+          <button class="subject-card-add__button"
+            v-on:click="createSubject({
+            name: newSubjectName,
+            teacherId:  teacher.id,
+            roomId: props.room.roomId})">
+            <img class="subject-card-add__icon" src="../../img/add.svg"/>
+          </button>
+        </div>
+      </transition-group>
+    </div>
+  </div>
 </template>
 <style lang="scss">
 .subject-block {

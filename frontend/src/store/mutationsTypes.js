@@ -19,7 +19,8 @@ export default {
   UPDATE_ROOM : 'updateRoom',
 
   CREATE_SUBJECT : 'createSubject',
-  UPDATE_SUBJECT : 'updateRoomSubject',
+  DELETE_SUBJECT : 'deleteSubject',
+  // UPDATE_SUBJECT : 'updateSubject',
 
   SET_ACTIVE_SUBJECT : 'setActiveSubject',
   REMOVE_ACTIVE_SUBJECT : 'removeActiveSubject',
