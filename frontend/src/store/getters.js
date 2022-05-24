@@ -49,7 +49,8 @@ const getters = {
   getUserSubjects(state) {
     const userSubjectsByRooms = state.userData.rooms?.map(room => {
       return { 
-        roomName : room.name, 
+        roomName : room.name,
+        roomId : room.id,
         roomSubjects : state.subjects.filter(subject => subject.roomId === room.id),
       }
     });

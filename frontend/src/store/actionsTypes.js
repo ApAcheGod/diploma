@@ -12,5 +12,7 @@ export default {
     DELETE_MATERIAL : 'deleteMaterial',
     UPDATE_MATERIAL : 'updateMaterial',
 
-
+    CREATE_SUBJECT : 'createSubject',
+    DELETE_SUBJECT : 'deleteSubject',
+    UPDATE_SUBJECT : 'updateSubject',
 }

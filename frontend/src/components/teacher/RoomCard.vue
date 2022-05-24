@@ -7,7 +7,7 @@ const props = defineProps({
   room: Object,
   allowEditing: Boolean,
 });
-const emit = defineEmits(['edit', 'delete', 'save', 'cancel']);
+const emits = defineEmits(['edit', 'delete', 'save', 'cancel']);
 const isEditing = ref(false);
 const newName = ref(props.room?.name);
 
@@ -35,24 +35,24 @@ const updatedRoom = function() {
       <template v-if="props.allowEditing">
         <button 
           class="room-card__button room-card__button_edit"
-          @click="{emit('edit'); isEditing = true}">
+          @click="{emits('edit'); isEditing = true}">
           Редактировать
         </button>
         <button 
           class="room-card__button room-card__button_delete"
-          @click="emit('delete', room)">
+          @click="emits('delete', room)">
           Удалить
         </button>
       </template>
       <template v-else-if="isEditing">
         <button 
           class="room-card__button room-card__button_edit"
-          @click="{emit('save', updatedRoom()); isEditing = false;}">
+          @click="{emits('save', updatedRoom()); isEditing = false;}">
           Сохранить
         </button>
         <button 
           class="room-card__button room-card__button_delete"
-          @click="{emit('cancel'); isEditing = false;}">
+          @click="{emits('cancel'); isEditing = false;}">
           Отменить
         </button>
       </template>

@@ -95,7 +95,38 @@ const actions = {
         commit(mutationsTypes.UPDATE_ROOM, updatedRoom);
       }
     });
-  }
+  },
+
+  createSubject({ commit }, payload){
+    const subject = payload;
+    return methods.createSubjectFetch(subject)
+        .then(createdSubject => {
+          if (createdSubject) {
+            commit(mutationsTypes.CREATE_SUBJECT, createdSubject);
+          }
+        });
+  },
+
+  updateSubject({ commit }, payload){
+    const subject = payload;
+    return methods.updateSubjectFetch(subject)
+        .then(updatedSubject => {
+          if (updatedSubject) {
+            commit(mutationsTypes.UPDATE_SUBJECT, updatedSubject);
+          }
+        });
+  },
+
+
+  deleteSubject({ commit }, payload){
+    const subject = payload;
+    return methods.deleteSubjectFetch(subject)
+        .then(isSuccess => {
+          if (isSuccess) {
+            commit(mutationsTypes.DELETE_SUBJECT, subject);
+          }
+        });
+  },
 };
 
 export default actions;

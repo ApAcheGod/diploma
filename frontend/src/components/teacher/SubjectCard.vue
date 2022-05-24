@@ -1,13 +1,21 @@
-<script setup>
+<script setup xmlns="http://www.w3.org/1999/html">
 import { onMounted } from 'vue';
+import { ref } from 'vue';
 
 const props = defineProps({
   subject : Object,
+  // allowInfo: Boolean,
 });
 
-onMounted(() => {
-  console.log(props.subject);
-});
+const emits = defineEmits(['info', 'delete', 'save', 'cancel']);
+// const isInfo = ref(false);
+// const newName = ref(props.subject?.name);
+
+// const updateSubject = function (){
+//   const newSubject = {...props.subject, ...{name: newName.value}};
+//   newSubject.name = newName.value;
+//   return newSubject;
+// }
 
 const tasksRuLocale = (tasksCount) => {
   const tasksCountNums = tasksCount.toString();
@@ -50,14 +58,30 @@ const groupsRuLocale = (groupsCount) => {
       : ''}}
     </div>
     <div class="subject-card__actions">
+<!--      <template v-if="props.allowInfo">-->
       <button 
-          class="subject-card__button subject-card__button_edit">
+          class="subject-card__button subject-card__button_edit"
+          @click="{emits('info'); isInfo = true}">
           Подробнее
         </button>
-        <button 
-          class="subject-card__button subject-card__button_delete">
+        <button
+          class="subject-card__button subject-card__button_delete"
+          @click="() => emits('delete', props.subject)">
           Удалить
         </button>
+<!--      </template>-->
+<!--      <template v-else-if="isInfo">-->
+<!--        <button-->
+<!--          class="subject-card__button subject-card__button_info"-->
+<!--          @click="{emits('save', updateSubject()); isInfo = false}">-->
+<!--          Сохранить-->
+<!--          </button>-->
+<!--        <button-->
+<!--          class="subject-card__button subject-card__button_delete"-->
+<!--          @click="{emits('cancel'); isInfo = false}">-->
+<!--          Отменить-->
+<!--        </button>-->
+<!--      </template>-->
     </div>
   </div>
 </template>

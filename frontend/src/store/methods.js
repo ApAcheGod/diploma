@@ -292,10 +292,10 @@ export default {
     return fetch(`${URL}/api/subject/${subject.id}`, header)
       .then(res => {
         if (res.ok)
-          return res.json();  
+          return res.ok;
         throw `${res.status} ${res.statusText}`;
       })
-      .then(json => json)
+      // .then(json => json)
   },
 
   // END SUBJECTS

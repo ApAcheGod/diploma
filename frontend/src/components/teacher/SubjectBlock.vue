@@ -1,13 +1,54 @@
 <script setup>
 import { onMounted } from 'vue';
 import SubjectCard from "./SubjectCard.vue";
+import actionsTypes from "../../store/actionsTypes";
+import {ref} from "vue";
+import {useQuasar} from "quasar";
+import {useStore} from "vuex";
+import {computed} from "vue";
+
 const props = defineProps({
   room : Object,
 });
 
-onMounted(() => {
-  console.log(props.room);
+const teacher = computed(() => {
+  return store.getters.getUserData;
 });
+
+const $q = useQuasar();
+const store = useStore();
+const newSubjectName = ref('');
+const subjectIsNotEditing = ref(true);
+
+onMounted(() => {
+  console.log(" props "+ props);
+});
+
+function createSubject(subject){
+  store.dispatch(actionsTypes.CREATE_SUBJECT, subject)
+      .then(() => {
+        $q.notify({type: 'positive', message: 'Предмет успешно создан'})
+        newSubjectName.value = '';
+        subjectIsNotEditing.value = true
+      })
+      .catch(error => {
+        console.error(error);
+        $q.notify({type: 'negative', message: 'Ошибка при создании предмета'})
+      })
+}
+
+
+function deleteSubject(subject) {
+  store.dispatch(actionsTypes.DELETE_SUBJECT, subject)
+      .then(() => {
+        $q.notify({type: 'positive', message: 'Предмет успешно удален'})
+        subjectIsNotEditing.value = true
+      })
+      .catch(error => {
+        console.error(error);
+        $q.notify({type: 'negative', message: 'Ошибка при удалении предмета'})
+      })
+}
 
 </script>
 <template>
@@ -19,11 +60,21 @@ onMounted(() => {
       </div>
       <div class="subject-block__subjects">
         <transition-group name="list" >
-          <subject-card v-for="subject in props.room.roomSubjects" :subject="subject"/>
-          <div key="add-el" class="room-card-add">
+          <subject-card v-for="subject in props.room.roomSubjects"
+                        :subject="subject"
+                        v-on:info="roomIsNotInfo = false"
+                        v-on:delete="deleteSubject"
+                        v-on:cancel="roomIsNotInfo = true"
+                        v-on:save="updateRoom"
+          />
+          <div key="add-el" class="subject-card-add">
             <!-- <q-input v-model="newRoomName" label="Название комнаты"/> -->
-            <button class="room-card-add__button">
-              <img class="room-card-add__icon" src="../../img/add.svg"/>
+            <button class="subject-card-add__button"
+                    v-on:click="createSubject({
+                    name: newSubjectName,
+                    teacherId:  teacher.id,
+                    roomId: props.room.id})">
+              <img class="subject-card-add__icon" src="../../img/add.svg"/>
             </button>
           </div>
         </transition-group>
@@ -53,7 +104,7 @@ onMounted(() => {
     gap: 24px;
   }
 }
-.room-card-add {
+.subject-card-add {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -64,14 +115,14 @@ onMounted(() => {
   width: 304px;
   height: 344px;
 }
-.room-card-add__button {
+.subject-card-add__button {
   border-radius: 50px;
   padding: 21px;
   background: #03DAC5;
   transition: .3s;
   box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.14), 0px 1px 10px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
-.room-card-add__button:hover {
+.subject-card-add__button:hover {
   background: rgba(3, 151, 135, 0.8);
   transition: .3s;
 }
