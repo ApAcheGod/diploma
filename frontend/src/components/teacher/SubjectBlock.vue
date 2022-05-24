@@ -21,7 +21,7 @@ const newSubjectName = ref('');
 const subjectIsNotEditing = ref(true);
 
 onMounted(() => {
-  console.log(" props "+ props);
+  console.log(props.room.roomId)
 });
 
 function createSubject(subject){
@@ -68,12 +68,14 @@ function deleteSubject(subject) {
                         v-on:save="updateRoom"
           />
           <div key="add-el" class="subject-card-add">
-            <!-- <q-input v-model="newRoomName" label="Название комнаты"/> -->
+            <div key="add-el" class="room-card-add">
+              <q-input v-model="newSubjectName" label="Название предмета"/>
+            </div>
             <button class="subject-card-add__button"
                     v-on:click="createSubject({
                     name: newSubjectName,
                     teacherId:  teacher.id,
-                    roomId: props.room.id})">
+                    roomId: props.room.roomId})">
               <img class="subject-card-add__icon" src="../../img/add.svg"/>
             </button>
           </div>
