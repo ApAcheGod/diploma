@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "DIPLOMA_TEST", name = "examinations")
+@Table(schema = "diploma", name = "examinations")
 @Getter
 @Setter
 @ToString
