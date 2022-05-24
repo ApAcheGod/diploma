@@ -19,5 +19,5 @@ export default {
   UPDATE_ROOM : 'updateRoom',
 
   SET_ACTIVE_SUBJECT : 'setActiveSubject',
-  ROMOVE_ACTIVE_SUBJECT : 'removeActiveSubject',
+  REMOVE_ACTIVE_SUBJECT : 'removeActiveSubject',
 }

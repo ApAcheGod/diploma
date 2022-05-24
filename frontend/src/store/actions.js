@@ -123,7 +123,7 @@ const actions = {
     return methods.deleteSubjectFetch(subject)
         .then(isSuccess => {
           if (isSuccess) {
-            commit(mutationsTypes.DELETE_SUBJECT, subject);
+            commit(mutationsTypes. , subject);
           }
         });
   },
