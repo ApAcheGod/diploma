@@ -21,7 +21,6 @@ const newSubjectName = ref('');
 const subjectIsNotEditing = ref(true);
 
 onMounted(() => {
-  console.log(props.room.roomId)
 });
 
 function createSubject(subject){

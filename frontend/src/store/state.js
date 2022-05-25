@@ -9,6 +9,9 @@ const state = {
   studentGroups: [],
   materials: [],
   subjects: [],
+  solutions: [],
+  examinations: [],
+  tasks: [],
 
   activeRoom: {},
 };
