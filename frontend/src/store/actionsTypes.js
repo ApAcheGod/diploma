@@ -16,6 +16,14 @@ export default {
     DELETE_SUBJECT : 'deleteSubject',
     UPDATE_SUBJECT : 'updateSubject',
 
+    CREATE_SOLUTION : 'createSolution',
+    DELETE_SOLUTION : 'deleteSolution',
+    UPDATE_SOLUTION : 'updateSolution',
+
+    CREATE_EXAMINATION : 'createExamination',
+    DELETE_EXAMINATION : 'deleteExamination',
+    UPDATE_EXAMINATION : 'updateExamination',
+
     SET_ACTIVE_SUBJECT : 'setActiveSubject',
     DELETE_ACTIVE_SUBJECT : 'deleteActiveSubject',
 }

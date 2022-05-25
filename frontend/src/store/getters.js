@@ -61,17 +61,38 @@ const getters = {
     const userMaterialsByRooms = state.userData.rooms?.map(room => {
       return {
         roomName: room.name,
-        roomMaterials: state.subjects.filter(subject => subject.roomId === room.id)?.map(subject => subject.materials)[0],
+        roomMaterials: state.subjects.filter(subject => subject.roomId === room.id)?.map(subject => subject.materials).flat(3),
       }
     });
     return userMaterialsByRooms;
+  },
+
+  getUserSolutions(state){
+    const userSolutionsByRooms = state.userData.rooms?.map(room => {
+      return {
+        roomName : room.name,
+        roomId : room.id,
+        roomSolutions : state.tasks.map(task => task.solutions).flat(3),
+      }
+    });
+    return userSolutionsByRooms;
+  },
+
+  getUserExaminations(state){
+    const userExaminationsByRooms = state.userData.rooms?.map( room => {
+      return {
+        roomName : room.name,
+        roomId : room.id,
+        roomExaminations : state.examinations.flat(3),
+      }
+    });
+    return userExaminationsByRooms;
   },
 
   getActiveSubject(state) {
     const filteredSubjects = state.subjects.filter(s => s?.id === state.activeSubjectId);
     return filteredSubjects.length > 0 ? filteredSubjects[0] : null;
   },
-
 };
 
 export default getters;

@@ -9,6 +9,9 @@ const state = {
   studentGroups: [],
   materials: [],
   subjects: [],
+  solutions: [],
+  examinations: [],
+  tasks: [],
 
   activeSubjectId: localStorage.getItem('activeSubjectId') ? localStorage.getItem('activeSubjectId') : '',
 };

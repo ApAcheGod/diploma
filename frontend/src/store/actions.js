@@ -55,15 +55,21 @@ const actions = {
       methods.getGroupsFetch(),
       methods.getMaterialsFetch(),
       methods.getSubjectsFetch(),
+      methods.getTasksFetch(),
+      methods.getSolutionsFetch(),
+      methods.getExaminationsFetch(),
     ])
     .then((results) => {
-      const [ teacherData, rooms, studentGroups, materials, subjects] = results;
+      const [ teacherData, rooms, studentGroups, materials, subjects, tasks, solutions, examinations] = results;
       
       commit(mutationsTypes.SET_USER_DATA, teacherData);
       commit(mutationsTypes.SET_ROOMS_DATA, rooms);
       commit(mutationsTypes.SET_STUDENT_GROUPS_DATA, studentGroups);
       commit(mutationsTypes.SET_MATERIALS_DATA, materials);
       commit(mutationsTypes.SET_SUBJECTS_DATA, subjects);
+      commit(mutationsTypes.SET_TASKS_DATA, tasks);
+      commit(mutationsTypes.SET_SOLUTIONS_DATA, solutions);
+      commit(mutationsTypes.SET_EXAMINATIONS_DATA, examinations);
     });
   },
 
@@ -127,22 +133,83 @@ const actions = {
         });
   },
 
-  setActiveSubject({ commit }, payload) {
-    const subject = payload;
-    return new Promise((resolve, reject) => {
-      commit(mutationsTypes.SET_ACTIVE_SUBJECT, subject);
-      router.push('/teacher/subject/journal');
-      resolve(true);
-    });
-  },
+    createSolution({ commit }, payload){
+        const solution = payload;
+        return methods.createSolutionFetch(solution)
+            .then(createdSolution => {
+                if (createdSolution) {
+                    commit(mutationsTypes.CREATE_SOLUTION, createdSolution);
+                }
+            });
+    },
 
-  deleteActiveSubject({ commit }, payload) {
-    return new Promise((resolve, reject) => {
-      commit(mutationsTypes.DELETE_ACTIVE_SUBJECT);
-      router.push('/teacher/subjects');
-      resolve(true);
-    });
-  },
+    updateSolution({ commit }, payload){
+        const solution = payload;
+        return methods.updateSolutionFetch(solution)
+            .then(updatedSolution => {
+                if (updatedSolution) {
+                    commit(mutationsTypes.UPDATE_SOLUTION, updatedSolution);
+                }
+            });
+    },
+
+
+    deleteSolution({ commit }, payload){
+        const solution = payload;
+        return methods.deleteSolutionFetch(solution)
+            .then(isSuccess => {
+                if (isSuccess) {
+                    commit(mutationsTypes.DELETE_SOLUTION, solution);
+                }
+            });
+    },
+
+    createExamination({ commit }, payload){
+        const examination = payload;
+        return methods.createExaminationFetch(examination)
+            .then(createdExamination => {
+                if (createdExamination) {
+                    commit(mutationsTypes.CREATE_EXAMINATION, createdExamination);
+                }
+            });
+    },
+
+    updateExamination({ commit }, payload){
+        const examination = payload;
+        return methods.updateExaminationFetch(examination)
+            .then(updatedExamination => {
+                if (updatedExamination) {
+                    commit(mutationsTypes.UPDATE_EXAMINATION, updatedExamination);
+                }
+            });
+    },
+
+
+    deleteExamination({ commit }, payload){
+        const examination = payload;
+        return methods.deleteExaminationFetch(examination)
+            .then(isSuccess => {
+                if (isSuccess) {
+                    commit(mutationsTypes.DELETE_SOLUTION, examination);
+                }
+            });
+    },
+    setActiveSubject({ commit }, payload) {
+      const subject = payload;
+      return new Promise((resolve, reject) => {
+        commit(mutationsTypes.SET_ACTIVE_SUBJECT, subject);
+        router.push('/teacher/subject/journal');
+        resolve(true);
+      });
+    },
+  
+    deleteActiveSubject({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        commit(mutationsTypes.DELETE_ACTIVE_SUBJECT);
+        router.push('/teacher/subjects');
+        resolve(true);
+      });
+    },
 };
 
 export default actions;

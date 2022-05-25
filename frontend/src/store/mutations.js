@@ -49,6 +49,18 @@ const mutations = {
     state.subjects = payload;
   },
 
+  setSolutionsData(state, payload){
+    state.solutions = payload;
+  },
+
+  setTasksData(state, payload){
+    state.tasks = payload;
+  },
+
+  setExaminationsData(state, payload){
+    state.examinations = payload;
+  },
+
   deleteRoom(state, payload){
     const room = payload;
     state.userData.rooms?.splice(state.userData.rooms.findIndex(r => room.id === r.id), 1); // Teacher
@@ -77,6 +89,25 @@ const mutations = {
     state.subjects.splice(state.subjects.findIndex(s => subject.id === s.id), 1);
   },
 
+  createSolution(state, payload){
+    const solution = payload;
+    state.solutions.push(solution);
+  },
+
+  deleteSolution(state, payload){
+    const solution = payload;
+    state.solutions.splice(state.solutions.findIndex(s => solution.id === s.id), 1);
+  },
+
+  createExamination(state, payload){
+    const examination = payload;
+    state.examinations.push(examination);
+  },
+
+  deleteExamination(state, payload){
+    const examination = payload;
+    state.examinations.splice(state.examinations.findIndex(s => examination.id === s.id), 1);
+  },
   setActiveSubject(state, payload) {
     const subject = payload;
     state.activeSubjectId = subject.id;

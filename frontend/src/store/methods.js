@@ -635,7 +635,7 @@ export default {
     const header = {
       method: 'DELETE',
     };
-    return fetch(`${URL}/api/group/${solution.id}`, header)
+    return fetch(`${URL}/api/solution/${solution.id}`, header)
       .then(res => {
         if (res.ok)
           return res.json();  
@@ -645,5 +645,70 @@ export default {
   },
 
   //  END SOLUTIONS
+
+  // EXAMINATIONS
+
+  getExaminationsFetch(){
+    const header = {
+      method: 'GET',
+    };
+    return fetch(`${URL}/api/examinations`, header)
+        .then(res => {
+          if (res.ok)
+            return res.json();
+          throw `${res.status} ${res.statusText}`;
+        })
+        .then(json => json)
+  },
+
+
+  createExaminationFetch(examination){
+    const header = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(examination),
+    };
+    return fetch(`${URL}/api/examination`, header)
+        .then(res => {
+          if (res.ok)
+            return res.json();
+          throw `${res.status} ${res.statusText}`;
+        })
+        .then(json => json)
+  },
+
+  updateExaminationFetch(examination){
+    const header = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(examination),
+    };
+    return fetch(`${URL}/api/examination`, header)
+        .then(res => {
+          if (res.ok)
+            return res.json();
+          throw `${res.status} ${res.statusText}`;
+        })
+        .then(json => json)
+  },
+
+  deleteExaminationFetch(examination){
+    const header = {
+      method: 'DELETE',
+    };
+    return fetch(`${URL}/api/examination/${examination.id}`, header)
+        .then(res => {
+          if (res.ok)
+            return res.json();
+          throw `${res.status} ${res.statusText}`;
+        })
+        .then(json => json)
+  },
 
 };
