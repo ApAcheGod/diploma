@@ -164,7 +164,7 @@ public class TeacherController {
         Subject subject = subjectService.findById(subject_id);
         Room room = roomService.findById(room_id);
         task.addTeacher(teacher); // TODO где-то сделать присвоение группы комнате
-        task.setGroups(room.getGroups());
+//        task.setGroups(room.getGroups());
         task.addSubjects(subject);
         model.addAttribute("task", task);
         model.addAttribute("groups", room.getGroups());

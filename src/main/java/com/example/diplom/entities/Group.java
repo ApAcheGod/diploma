@@ -37,10 +37,10 @@ public class Group {
     @BatchSize(size = 20)
     private Set<Student> students = new HashSet<>();
 
-    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
-    @ToString.Exclude
-    @BatchSize(size = 20)
-    private Set<Teacher> teachers = new HashSet<>();
+//    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
+//    @ToString.Exclude
+//    @BatchSize(size = 20)
+//    private Set<Teacher> teachers = new HashSet<>();
 
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY , cascade = {CascadeType.ALL})
     @ToString.Exclude
@@ -59,7 +59,7 @@ public class Group {
 
     public void deleteLinks(){
         deleteRooms();
-        deleteTeachers();
+//        deleteTeachers();
         deleteStudents();
         deleteSubjects();
     }
@@ -67,9 +67,9 @@ public class Group {
     private void deleteRooms(){
         this.rooms.forEach(room -> room.getGroups().remove(this));
     }
-    private void deleteTeachers(){
-        this.teachers.forEach(teacher -> teacher.getGroups().remove(this));
-    }
+//    private void deleteTeachers(){
+//        this.teachers.forEach(teacher -> teacher.getGroups().remove(this));
+//    }
     private void deleteStudents(){
         this.students.forEach(student -> student.setGroup(null));
     }
@@ -96,13 +96,13 @@ public class Group {
         students.forEach(this::addStudents);
     }
 
-    public void addTeachers(Teacher teacher){
-        teachers.add(teacher);
-        teacher.getGroups().add(this);
-    }
-    public void addTeachers(Set<Teacher> teachers){
-        teachers.forEach(this::addTeachers);
-    }
+//    public void addTeachers(Teacher teacher){
+//        teachers.add(teacher);
+//        teacher.getGroups().add(this);
+//    }
+//    public void addTeachers(Set<Teacher> teachers){
+//        teachers.forEach(this::addTeachers);
+//    }
 
     public void addRooms(Room room){
         rooms.add(room);

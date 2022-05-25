@@ -24,6 +24,10 @@ export default {
     DELETE_EXAMINATION : 'deleteExamination',
     UPDATE_EXAMINATION : 'updateExamination',
 
+    CREATE_TASK : 'createTask',
+    DELETE_TASK : 'deleteTask',
+    UPDATE_TASK : 'updateTask',
+
     SET_ACTIVE_SUBJECT : 'setActiveSubject',
     DELETE_ACTIVE_SUBJECT : 'deleteActiveSubject',
 }

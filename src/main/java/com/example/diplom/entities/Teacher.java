@@ -55,15 +55,15 @@ public class Teacher extends User{
     @BatchSize(size = 20)
     private Set<Material> materials = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "teachers_groups",
-            joinColumns = {@JoinColumn(name = "teachers_id")},
-            inverseJoinColumns = {@JoinColumn(name = "groups_id")}
-    )
-    @ToString.Exclude
-    @BatchSize(size = 20)
-    private Set<Group> groups = new HashSet<>();
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(
+//            name = "teachers_groups",
+//            joinColumns = {@JoinColumn(name = "teachers_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "groups_id")}
+//    )
+//    @ToString.Exclude
+//    @BatchSize(size = 20)
+//    private Set<Group> groups = new HashSet<>();
 
     @OneToMany(mappedBy = "teacher" ,fetch = FetchType.LAZY)
     @ToString.Exclude
@@ -113,7 +113,7 @@ public class Teacher extends User{
 
     public void deleteLinks(){
         this.removeMaterials();
-        this.removeGroups();
+//        this.removeGroups();
         this.removeRooms();
         this.removeSubjects();
         this.removeTasks();
@@ -138,23 +138,23 @@ public class Teacher extends User{
         this.subjects = new HashSet<>();
     }
 
-    private void removeGroups(){
-        this.groups.forEach(group -> group.getTeachers().remove(this));
-        this.groups = new HashSet<>();
-    }
+//    private void removeGroups(){
+//        this.groups.forEach(group -> group.getTeachers().remove(this));
+//        this.groups = new HashSet<>();
+//    }
 
     public void addMaterials(Set<Material> materials){
         materials.forEach(this::addMaterials);
     }
 
-    public void addGroups(Group group){
-        this.groups.add(group);
-        group.getTeachers().add(this);
-    }
-
-    public void addGroups(Set<Group> groups){
-        groups.forEach(this::addGroups);
-    }
+//    public void addGroups(Group group){
+//        this.groups.add(group);
+//        group.getTeachers().add(this);
+//    }
+//
+//    public void addGroups(Set<Group> groups){
+//        groups.forEach(this::addGroups);
+//    }
 
     public void addTasks(Task task){
         this.tasks.add(task);

@@ -21,7 +21,7 @@ public class EmailServiceImpl implements EmailService{
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom("diplomaProject@yandex.ru");
         simpleMailMessage.setTo("nik.alpatov@mail.ru");
-        simpleMailMessage.setCc("mirvodartem@gmail.com");
+//        simpleMailMessage.setCc("mirvodartem@gmail.com");
         simpleMailMessage.setSubject("Данные для входа");
         simpleMailMessage.setText(String.format(TEMPLATE, login, password));
         javaMailSender.send(simpleMailMessage);

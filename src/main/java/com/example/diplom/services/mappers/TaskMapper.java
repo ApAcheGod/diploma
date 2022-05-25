@@ -36,13 +36,13 @@ public class TaskMapper {
                 .addMappings(m -> m.skip(TaskDto::setSubjectName))
                 .addMappings(m -> m.skip(TaskDto::setTeacherId))
                 .addMappings(m -> m.skip(TaskDto::setTeacherName))
-                .addMappings(m -> m.skip(TaskDto::setGroups))
+//                .addMappings(m -> m.skip(TaskDto::setGroups))
                 .addMappings(m -> m.skip(TaskDto::setSolutions))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(TaskDto.class, Task.class)
                 .addMappings(m -> m.skip(Task::setSubject))
                 .addMappings(m -> m.skip(Task::setTeacher))
-                .addMappings(m -> m.skip(Task::setGroups))
+//                .addMappings(m -> m.skip(Task::setGroups))
                 .addMappings(m -> m.skip(Task::setSolutions))
                 .setPostConverter(toEntityConverter());
     }
@@ -81,9 +81,9 @@ public class TaskMapper {
             destination.setSolutions(source.getSolutions().stream().map(solutionMapper::toDto).collect(Collectors.toSet()));
         }
 
-        if (source.getGroups() != null){
-            destination.setGroups(source.getGroups().stream().map(groupMapper::toDto).collect(Collectors.toSet()));
-        }
+//        if (source.getGroups() != null){
+//            destination.setGroups(source.getGroups().stream().map(groupMapper::toDto).collect(Collectors.toSet()));
+//        }
     }
 
     private void mapSpecificFields(TaskDto source, Task destination) {
@@ -96,9 +96,9 @@ public class TaskMapper {
             destination.addTeacher(teacherService.findById(source.getTeacherId()));
         }
 
-        if (source.getGroups() != null){
-            source.getGroups().forEach(group2Dto -> destination.addGroups(groupService.findById(group2Dto.getId())));
-        }
+//        if (source.getGroups() != null){
+//            source.getGroups().forEach(group2Dto -> destination.addGroups(groupService.findById(group2Dto.getId())));
+//        }
 
         if (source.getSolutions() != null){
             source.getSolutions().forEach(solutionDto -> destination.addSolutions(solutionService.findById(solutionDto.getId())));
