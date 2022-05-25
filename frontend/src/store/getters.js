@@ -91,7 +91,7 @@ const getters = {
 
   getActiveSubject(state) {
     const filteredSubjects = state.subjects.filter(s => s?.id === state.activeSubjectId);
-    return filteredSubjects.length > 0 ? filteredSubjects[0] : null;
+    return filteredSubjects.length > 0 ? JSON.parse(JSON.stringify(filteredSubjects[0])) : null;
   },
 };
 
