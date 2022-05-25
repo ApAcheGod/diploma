@@ -10,6 +10,7 @@ export default {
   SET_LOADING : 'setLoading',
 
   SET_ROOMS_DATA : 'setRoomsData',
+  SET_STUDENTS_DATA : 'setStudentsData',
   SET_STUDENT_GROUPS_DATA : 'setStudentGroupsData',
   SET_MATERIALS_DATA : 'setMaterialsData',
   SET_SUBJECTS_DATA : 'setSubjectsData',

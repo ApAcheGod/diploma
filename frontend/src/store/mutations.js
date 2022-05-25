@@ -42,6 +42,9 @@ const mutations = {
   setStudentGroupsData(state, payload) {
     state.studentGroups = payload;
   },
+  setStudentsData(state, payload){
+    state.students = payload;
+  },
   setMaterialsData(state, payload) {
     state.materials = payload;
   },

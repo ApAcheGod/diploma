@@ -6,6 +6,7 @@ const state = {
   loading: false,
 
   rooms: [],
+  students: [],
   studentGroups: [],
   materials: [],
   subjects: [],

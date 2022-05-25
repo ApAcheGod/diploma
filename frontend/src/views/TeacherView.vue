@@ -13,7 +13,7 @@ const leftDrawerOpen = ref(true);
 let teacherLogin = ref('');
 let teacher = ref({})
 
-let activeSubject = computed(() => store.getters.getActiveSubject);
+let activeSubject = computed(() => {console.log(store.getters.getActiveSubject); return store.getters.getActiveSubject});
 
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value

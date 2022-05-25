@@ -32,6 +32,19 @@ const getters = {
     return state.userData.rooms;
   },
 
+  getAllGroups(state) {
+    return state.studentGroups;
+  },
+  getAllStudents(state) {
+    return state.students;
+  },
+  getAllExminations(state) {
+    return state.examinations;
+  },
+  getAllSubjects(state) {
+    return state.subjects;
+  },
+  
   getTeacherStudentsGroups(state) {
     const studentGroupsObject = new Map();
     state.studentGroups.forEach(group => studentGroupsObject.set(group.id, group));
@@ -87,6 +100,31 @@ const getters = {
       }
     });
     return userExaminationsByRooms;
+  },
+
+  getFormattedJournal(state){
+  //   const groupsMapByGroupId = new Map();
+  //   this.getAllGroups(state)
+  //   .forEach(g => groupsMapByGroupId.set(g.id, g));
+
+  //   const studentsMapByStudentId = new Map();
+  //   this.getAllStudents(state)
+  //   .forEach(s => studentsMapByStudentId.set(s.id, s));
+
+  //   const examinationsMapByTaskId = new Map();
+  //   this.getAllExminations(state)
+  //   .forEach(e => examinationsMapByTaskId.has(e.id) ? examinationsMapByTaskId.get(e.id).push(e) : examinationsMapByTaskId.set(e.id, [e]))
+
+  //   const allSubjects = this.getAllSubjects(state);
+  //   const subjectsMapBySubjectId = new Map();
+  //   allSubjects.forEach(s => subjectsMapBySubjectId.set(s.id, s));
+  //   allSubjects.forEach(subject => )
+
+  //   const subjectsByRooms = this.getUserSubjects(state)
+  //   .forEach(r => r.subjects
+  //     .forEach(s => s.groups.forEach));
+
+
   },
 
   getActiveSubject(state) {
