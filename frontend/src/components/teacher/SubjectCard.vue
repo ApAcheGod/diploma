@@ -28,6 +28,11 @@ const groupsRuLocale = (groupsCount) => {
   return 'группы';
 }
 
+const formatNamableArray = (array) => {
+  if (array && array.length === 0) return '';
+  return array.length >= 5 ? `${props.subject.tasks.slice(0, 4).map(t => t.name).join(', ')} ...` : array.map(t => t.name).join(', ');
+}
+
 </script>
 <template>
   <div class="subject-card">
@@ -38,17 +43,13 @@ const groupsRuLocale = (groupsCount) => {
       {{props.subject?.tasks?.length 
       ? `${props.subject.tasks.length} - ${tasksRuLocale(props.subject.tasks.length)}:` 
       : 'Нет заданий'}} <br>
-      {{props.subject?.tasks
-      ? `${props.subject.tasks.slice(0, 4).map(t => t.name).join()}` 
-      : ''}}
+      {{formatNamableArray(props.subject?.tasks)}}
     </div>
     <div class="subject-card__count">
       {{props.subject?.groups?.length 
       ? `${props.subject.groups.length} - ${groupsRuLocale(props.subject.groups.length)}:` 
       : 'Нет групп'}} <br>
-      {{props.subject?.groups 
-      ? `${props.subject.groups.slice(0, 4).map(g => g.name).join()}` 
-      : ''}}
+      {{formatNamableArray(props.subject.groups)}}
     </div>
     <div class="subject-card__actions">
       <button 
