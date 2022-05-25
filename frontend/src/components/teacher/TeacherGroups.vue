@@ -4,7 +4,7 @@ import { useStore } from 'vuex';
 import GroupBlock from './GroupBlock.vue';
 
 const store = useStore();
-const groupsByRooms = computed(() => { const groups = store.getters.getTeacherStudentsGroups; console.log(groups); return groups;});
+const groupsByRooms = computed(() => store.getters.getTeacherStudentsGroups);
 
 </script>
 <template>

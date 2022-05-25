@@ -15,10 +15,6 @@ const props = defineProps({
   room : Object,
 });
 
-onMounted(() => {
-  console.log(props.room);
-});
-
 </script>
 <template>
   <div class="material-block">

@@ -5,10 +5,6 @@ const props = defineProps({
   group : Object,
 });
 
-onMounted(() => {
-  console.log(props.group);
-});
-
 </script>
 <template>
   <div class="group-card">

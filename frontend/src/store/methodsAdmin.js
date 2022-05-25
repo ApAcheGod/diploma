@@ -40,7 +40,6 @@ export default {
     };
     return fetch(`${URL}/login`, header)
       .then(res => {
-        console.log(res.headers);
         return res.ok;
       })
       .catch(error => console.error(error));
@@ -52,7 +51,6 @@ export default {
     };
     return fetch(`${URL}/api/check`, header)
       .then(res => {
-        console.log(res.headers);
         res.text();
       })
       .then(text => text)

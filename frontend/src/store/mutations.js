@@ -68,14 +68,6 @@ const mutations = {
     state.rooms[updatedRoomId] = {...state.rooms[updatedRoomId], ...payload};
   },
 
-  setActiveSubject(state, payload) {
-    const subject = payload;
-    state.activeSubject = subject;
-  },
-  removeActiveSubject(state) {
-    state.activeSubject = {};
-  },
-
   createSubject(state, payload) {
     const subject = payload;
     state.subjects.push(subject);
@@ -83,6 +75,21 @@ const mutations = {
   deleteSubject(state, payload) {
     const subject = payload;
     state.subjects.splice(state.subjects.findIndex(s => subject.id === s.id), 1);
+  },
+
+  setActiveSubject(state, payload) {
+    const subject = payload;
+    state.activeSubjectId = subject.id;
+    localStorage.setItem('activeSubjectId', subject.id);
+    localStorage.setItem('hasActiveSubject', true);
+  },
+  deleteActiveSubject(state) {
+    state.activeSubjectId = '';
+    localStorage.removeItem('activeSubjectId');
+    localStorage.removeItem('hasActiveSubject');
+  },
+  updateSubject(state, payload) {
+
   },
 };
 

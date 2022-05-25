@@ -67,6 +67,11 @@ const getters = {
     return userMaterialsByRooms;
   },
 
+  getActiveSubject(state) {
+    const filteredSubjects = state.subjects.filter(s => s?.id === state.activeSubjectId);
+    return filteredSubjects.length > 0 ? filteredSubjects[0] : null;
+  },
+
 };
 
 export default getters;

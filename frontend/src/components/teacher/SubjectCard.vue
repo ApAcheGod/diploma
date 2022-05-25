@@ -1,21 +1,14 @@
-<script setup xmlns="http://www.w3.org/1999/html">
-import { onMounted } from 'vue';
-import { ref } from 'vue';
+<script setup>
+import { onMounted, ref } from 'vue';
+import {useStore} from "vuex";
+import actionsTypes from "../../store/actionsTypes";
 
 const props = defineProps({
   subject : Object,
-  // allowInfo: Boolean,
 });
 
-const emits = defineEmits(['info', 'delete', 'save', 'cancel']);
-// const isInfo = ref(false);
-// const newName = ref(props.subject?.name);
-
-// const updateSubject = function (){
-//   const newSubject = {...props.subject, ...{name: newName.value}};
-//   newSubject.name = newName.value;
-//   return newSubject;
-// }
+const store = useStore();
+const emits = defineEmits(['delete', 'save', 'cancel']);
 
 const tasksRuLocale = (tasksCount) => {
   const tasksCountNums = tasksCount.toString();
@@ -60,7 +53,7 @@ const groupsRuLocale = (groupsCount) => {
     <div class="subject-card__actions">
       <button 
           class="subject-card__button subject-card__button_edit"
-          @click="{emits('info'); isInfo = true}">
+          @click="store.dispatch(actionsTypes.SET_ACTIVE_SUBJECT, props.subject)">
           Подробнее
         </button>
         <button

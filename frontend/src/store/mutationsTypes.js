@@ -20,8 +20,8 @@ export default {
 
   CREATE_SUBJECT : 'createSubject',
   DELETE_SUBJECT : 'deleteSubject',
-  // UPDATE_SUBJECT : 'updateSubject',
 
   SET_ACTIVE_SUBJECT : 'setActiveSubject',
-  REMOVE_ACTIVE_SUBJECT : 'removeActiveSubject',
+  DELETE_ACTIVE_SUBJECT : 'deleteActiveSubject',
+  UPDATE_SUBJECT : 'updateSubject',
 }

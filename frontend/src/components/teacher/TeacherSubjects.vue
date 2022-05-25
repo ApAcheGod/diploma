@@ -4,7 +4,7 @@ import { useStore } from 'vuex';
 import SubjectBlock from './SubjectBlock.vue';
 
 const store = useStore();
-const subjectByRooms = computed(() => { const subjects = store.getters.getUserSubjects; console.log(subjects); return subjects;});
+const subjectByRooms = computed(() => store.getters.getUserSubjects);
 
 </script>
 <template>

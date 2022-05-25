@@ -117,7 +117,6 @@ const actions = {
         });
   },
 
-
   deleteSubject({ commit }, payload){
     const subject = payload;
     return methods.deleteSubjectFetch(subject)
@@ -126,6 +125,23 @@ const actions = {
             commit(mutationsTypes.DELETE_SUBJECT, subject);
           }
         });
+  },
+
+  setActiveSubject({ commit }, payload) {
+    const subject = payload;
+    return new Promise((resolve, reject) => {
+      commit(mutationsTypes.SET_ACTIVE_SUBJECT, subject);
+      router.push('/teacher/subject/journal');
+      resolve(true);
+    });
+  },
+
+  deleteActiveSubject({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      commit(mutationsTypes.DELETE_ACTIVE_SUBJECT);
+      router.push('/teacher/subjects');
+      resolve(true);
+    });
   },
 };
 

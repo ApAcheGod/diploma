@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, inject } from 'vue';
+import { onMounted, ref, inject, computed } from 'vue';
 import { useQuasar } from 'quasar';
 import { useStore } from 'vuex';
 import actionsTypes from '../store/actionsTypes'
@@ -12,6 +12,8 @@ const leftDrawerOpen = ref(true);
 
 let teacherLogin = ref('');
 let teacher = ref({})
+
+let activeSubject = computed(() => store.getters.getActiveSubject);
 
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
@@ -30,39 +32,35 @@ onMounted(() => {
       message: 'Ошибка при получении информации'
     });
   });
-
-
-  // const room = {name : 'Тест1', teacherId : teacher.value.id};
-  // let createdRoom = {};
-
-  // teacherLogin.value = store.getters.getUserLogin;
-  // store.dispatch(actionsTypes.DATA_INIT, teacherLogin.value)
-  // .then (() => {
-  //     teacher.value = store.getters.getUserData;
-  //     console.log(teacher.value);
-  //     console.log(store.getters.getTeacherStudentsGroups);
-  //     console.log(store.getters.getUserSubjects);
-  //     console.log(store.getters.getTeacherRooms);
-  //   }
-  // )
-  // .then(() => {
-  //   return store.dispatch(actionsTypes.CREATE_ROOM, room);
-  // })
-  // .then(() => {
-  //   createdRoom = store.getters.getTeacherRooms.filter(r => r.name === room.name && r.teacherId === room.teacherId)[0];
-  //   return store.dispatch(actionsTypes.DELETE_ROOM, createdRoom);
-
-  // }).then(() => {
-  //   return store.dispatch(actionsTypes.DELETE_ROOM, createdRoom)
-  // })
-  // .catch(() => console.log('Ошибка из колбека'));
 })
 
 </script>
 
 <template>
   <q-layout view="lHh lpR lFf">
-    <q-drawer class="menu-container" v-model="leftDrawerOpen" side="left" elevated>
+
+    <q-drawer v-if="activeSubject" class="menu-container" v-model="leftDrawerOpen" side="left" elevated>
+      <div class="teacher-profile">
+        <img class="teacher-profile__image" src="../img/subject-default.jpg"/>
+        <div class="teacher-profile__subject-name">
+          {{activeSubject.name}}
+        </div>
+         <div class="teacher-profile__rank">
+           {{teacher.teacherName}}
+         </div>
+        <div class="teacher-profile__rank">старший преподаватель</div>
+      </div>
+      <nav class="menu-container__navigation">
+        <router-link class="menu-container__link" :to="{ name: 'SubjectTasks' }">Задания</router-link>
+        <router-link class="menu-container__link" :to="{ name: 'SubjectMaterials' }">Материалы</router-link>
+        <router-link class="menu-container__link" :to="{ name: 'SubjectGroups' }">Группы</router-link>
+        <router-link class="menu-container__link" :to="{ name: 'SubjectHomeWorks' }">Проверка работ</router-link>
+        <router-link class="menu-container__link" :to="{ name: 'SubjectJournal' }">Журнал</router-link>
+      </nav>
+      <button class="button-leave" @click="store.dispatch(actionsTypes.DELETE_ACTIVE_SUBJECT)">Назад</button>
+    </q-drawer>
+
+    <q-drawer v-else class="menu-container" v-model="leftDrawerOpen" side="left" elevated>
       <div class="teacher-profile">
         <img class="teacher-profile__image" src="../img/teacher.jpg"/>
         <div class="teacher-profile__name">
@@ -72,13 +70,12 @@ onMounted(() => {
       </div>
       <nav class="menu-container__navigation">
         <router-link class="menu-container__link" :to="{ name: 'TeacherMain' }">Главная</router-link>
-        <!-- <router-link class="menu-container__link" :to="{ name: 'TeacherGroups' }">Группы студентов</router-link> -->
         <router-link class="menu-container__link" :to="{ name: 'TeacherSubjects' }">Предметы</router-link>
-        <!-- <router-link class="menu-container__link" :to="{ name: 'TeacherMaterials' }">Материалы</router-link> -->
         <router-link class="menu-container__link" :to="{ name: 'TeacherJournal' }">Журнал</router-link>
       </nav>
       <button class="button-leave" @click="store.dispatch(actionsTypes.USER_SIGNOUT, user)">Выход</button>
     </q-drawer>
+
 
     <q-page-container>
       <div class="wrapper">
@@ -147,6 +144,12 @@ onMounted(() => {
     font-weight: 500;
   }
 
+  &__subject-name {
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+
   &__rank {
     align-self: left;
     font-size: 14px;
@@ -171,5 +174,4 @@ onMounted(() => {
     transition: .3s;
   }
 }
-
 </style>

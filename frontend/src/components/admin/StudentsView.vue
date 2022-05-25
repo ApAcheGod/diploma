@@ -16,20 +16,6 @@ let studentPromptIsOpen = ref(false);
 
 onMounted(async () => {
   students.value = (await Promise.allSettled([methods.getStudentsFetch()]))[0].value;
-
-  methods.userLoginAxios({
-    "login": "BGruStudent",
-    "password":"nxup1Z9rAw"
-  })
-  .then((loginResponse) => {
-    console.log(`data - ${JSON.stringify(loginResponse.data)}`);
-    console.log(`token - ${loginResponse.config.headers['X-XSRF-TOKEN']}`)
-  })
-  .then(() => methods.userCheckAxios())
-  .then((checkResponse) => {
-    console.log(`data - ${JSON.stringify(checkResponse.data)}`);
-    console.log(`token - ${checkResponse.config.headers['X-XSRF-TOKEN']}`)
-  })
 });
 
 function triggerPositive(msg) {

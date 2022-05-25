@@ -20,7 +20,6 @@ const cite = ref({
 //   getCitationFetch()
 //     .then(result => {
 //       if (result) {
-//         console.log(result);
 //         cite.value = result;
 //         hasError = false;
 //       }

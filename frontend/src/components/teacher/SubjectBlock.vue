@@ -20,10 +20,6 @@ const store = useStore();
 const newSubjectName = ref('');
 const subjectIsNotEditing = ref(true);
 
-onMounted(() => {
-  console.log(props.room.roomId)
-});
-
 function createSubject(subject){
   store.dispatch(actionsTypes.CREATE_SUBJECT, subject)
       .then(() => {

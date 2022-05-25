@@ -19,44 +19,39 @@ const props = defineProps({
 
 function createMaterial(material) {
   store.dispatch(actionsTypes.CREATE_MATERIAL, material)
-      .then(() => {
-        $q.notify({type: 'positive', message: 'Материал успешно создана'})
-        newMaterialName.value = '';
-      })
-      .catch(error => {
-        console.error(error);
-        $q.notify({type: 'negative', message: 'Ошибка при создании материала'})
-      })
+    .then(() => {
+      $q.notify({type: 'positive', message: 'Материал успешно создана'})
+      newMaterialName.value = '';
+    })
+    .catch(error => {
+      console.error(error);
+      $q.notify({type: 'negative', message: 'Ошибка при создании материала'})
+    })
 }
 function updateMaterial(material) {
-  console.log(material);
   store.dispatch(actionsTypes.UPDATE_MATERIAL, material)
-      .then(() => {
-        $q.notify({type: 'positive', message: 'Материал успешно обновлен'})
-        newMaterialName.value = '';
-        materialIsNotEditing.value = true
-      })
-      .catch(error => {
-        console.error(error);
-        $q.notify({type: 'negative', message: 'Ошибка при обновлении материала'})
-      })
+    .then(() => {
+      $q.notify({type: 'positive', message: 'Материал успешно обновлен'})
+      newMaterialName.value = '';
+      materialIsNotEditing.value = true
+    })
+    .catch(error => {
+      console.error(error);
+      $q.notify({type: 'negative', message: 'Ошибка при обновлении материала'})
+    })
 }
 function deleteMaterial(material) {
   store.dispatch(actionsTypes.DELETE_MATERIAL, material)
-      .then(() => {
-        $q.notify({type: 'positive', message: 'Материал успешно удалена'})
-        newMaterialName.value = '';
-        materialIsNotEditing.value = true
-      })
-      .catch(error => {
-        console.error(error);
-        $q.notify({type: 'negative', message: 'Ошибка при удалении материала'})
-      })
+    .then(() => {
+      $q.notify({type: 'positive', message: 'Материал успешно удалена'})
+      newMaterialName.value = '';
+      materialIsNotEditing.value = true
+    })
+    .catch(error => {
+      console.error(error);
+      $q.notify({type: 'negative', message: 'Ошибка при удалении материала'})
+    })
 }
-
-onMounted(() => {
-  console.log(props.material);
-});
 
 </script>
 <template>

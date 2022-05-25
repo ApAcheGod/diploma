@@ -10,7 +10,7 @@ const state = {
   materials: [],
   subjects: [],
 
-  activeRoom: {},
+  activeSubjectId: localStorage.getItem('activeSubjectId') ? localStorage.getItem('activeSubjectId') : '',
 };
 
 export default state;

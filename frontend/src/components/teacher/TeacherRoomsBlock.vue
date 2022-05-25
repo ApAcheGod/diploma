@@ -30,7 +30,6 @@ function createRoom(room) {
   })
 }
 function updateRoom(room) {
-  console.log(room);
   store.dispatch(actionsTypes.UPDATE_ROOM, room)
   .then(() => {
     $q.notify({type: 'positive', message: 'Комната успешно обновлена'})

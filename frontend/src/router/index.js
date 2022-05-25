@@ -7,12 +7,16 @@ import StudentView from '../views/StudentView.vue';
 
 import TeacherView from '../views/TeacherView.vue';
 import TeacherMain from '../components/teacher/TeacherMain.vue';
-import TeacherGroups from '../components/teacher/TeacherGroups.vue';
+// import TeacherGroups from '../components/teacher/TeacherGroups.vue';
 import TeacherSubjects from '../components/teacher/TeacherSubjects.vue';
-import TeacherMaterials from '../components/teacher/TeacherMaterials.vue';
+// import TeacherMaterials from '../components/teacher/TeacherMaterials.vue';
 import TeacherJournal from '../components/teacher/TeacherJournal.vue';
 
-// import TeacherRooms from '../components/teacher/TeacherRooms.vue';
+import SubjectGroups from '../components/teacher/SubjectGroups.vue';
+import SubjectHomeWorks from '../components/teacher/SubjectHomeWorks.vue';
+import SubjectJournal from '../components/teacher/SubjectJournal.vue';
+import SubjectMaterials from '../components/teacher/SubjectMaterials.vue';
+import SubjectTasks from '../components/teacher/SubjectTasks.vue';
 
 import AdminView from '../views/AdminView.vue';
 import AdminStudents from '../components/admin/StudentsView.vue';
@@ -44,34 +48,57 @@ const routes = [
         component: TeacherMain
       },
       {
-        path: 'groups',
-        name: 'TeacherGroups',
-        component: TeacherGroups
-      },
-      {
         path: 'subjects',
         name: 'TeacherSubjects',
         component: TeacherSubjects
       },
       {
-        path: 'materials',
-        name: 'TeacherMaterials',
-        component: TeacherMaterials
-      },
-      {
         path: 'journal',
         name: 'TeacherJournal',
         component: TeacherJournal
-      }
-      // {
-      //   path: 'rooms',
-      //   name: 'TeacherRooms',
-      //   component: TeacherRooms
-      // }
+      },
+      {
+        path: 'subject/tasks',
+        name: 'SubjectTasks',
+        component: SubjectTasks,
+        meta: { requiredActiveSubject: true },
+      },
+      {
+        path: 'subject/materials',
+        name: 'SubjectMaterials',
+        component: SubjectMaterials,
+        meta: { requiredActiveSubject: true },
+      },
+      {
+        path: 'subject/groups',
+        name: 'SubjectGroups',
+        component: SubjectGroups,
+        meta: { requiredActiveSubject: true },
+      },
+      {
+        path: 'subject/homeworks',
+        name: 'SubjectHomeWorks',
+        component: SubjectHomeWorks,
+        meta: { requiredActiveSubject: true },
+      },
+      {
+        path: 'subject/journal',
+        name: 'SubjectJournal',
+        component: SubjectJournal,
+        meta: { requiredActiveSubject: true },
+      },
     ],
     beforeEnter(to, from, next) {
-      if (to.path === '/teacher') {
-        next('/teacher/main')
+      const requiredActiveSubject = to.matched.some((record) => record.meta.requiredActiveSubject);
+      const hasActiveSubject = localStorage.getItem('hasActiveSubject');
+      const didntHasActiveSubject = requiredActiveSubject && !hasActiveSubject;
+      const notRequiredActiveSubject = !requiredActiveSubject && hasActiveSubject;
+      
+      if (to.path === '/teacher' || didntHasActiveSubject) {
+        next('/teacher/main');
+      }
+      if (notRequiredActiveSubject) {
+        next('/teacher/subject/journal');
       }
       else next();
     },
