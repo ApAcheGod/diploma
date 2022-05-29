@@ -5,9 +5,9 @@ const props = defineProps({
   room : Object,
 });
 
-onMounted(() => {
-  console.log(props.room);
-});
+// onMounted(() => {
+//   console.log(props.room);
+// });
 
 </script>
 <template>

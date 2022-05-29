@@ -103,28 +103,68 @@ const getters = {
   },
 
   getFormattedJournal(state){
-  //   const groupsMapByGroupId = new Map();
-  //   this.getAllGroups(state)
-  //   .forEach(g => groupsMapByGroupId.set(g.id, g));
+    const studentsMapByStudentId = new Map();
+    state.students.forEach(student => studentsMapByStudentId.set(student.id, student));
 
-  //   const studentsMapByStudentId = new Map();
-  //   this.getAllStudents(state)
-  //   .forEach(s => studentsMapByStudentId.set(s.id, s));
+    const groupsMapByGroupId = new Map();
+    state.studentGroups.forEach(group => groupsMapByGroupId.set(group.id, group));
 
-  //   const examinationsMapByTaskId = new Map();
-  //   this.getAllExminations(state)
-  //   .forEach(e => examinationsMapByTaskId.has(e.id) ? examinationsMapByTaskId.get(e.id).push(e) : examinationsMapByTaskId.set(e.id, [e]))
+    const examsByStudentIdTaskId = new Map();
+    state.students.forEach(student => {
+      const examinationsMap = new Map();
+      state.examinations.filter(e => e.studentId === student.id)
+      .forEach(e => examinationsMap.has(e.taskId) ? examinationsMap.get(e.taskId).push(e) : examinationsMap.set(e.taskId, [e]));
+      examsByStudentIdTaskId.set(student.id, examinationsMap);
+    });
 
-  //   const allSubjects = this.getAllSubjects(state);
-  //   const subjectsMapBySubjectId = new Map();
-  //   allSubjects.forEach(s => subjectsMapBySubjectId.set(s.id, s));
-  //   allSubjects.forEach(subject => )
+    const solutionsByStudentIdTaskId = new Map();
+    state.students.forEach(student => {
+      const solutionsMap = new Map();
+      state.solutions.filter(e => e.studentId === student.id)
+      .forEach(s => solutionsMap.has(s.taskId) ? solutionsMap.get(s.taskId).push(s) : solutionsMap.set(s.taskId, [s]));
+      solutionsByStudentIdTaskId.set(student.id, solutionsMap);
+    });
 
-  //   const subjectsByRooms = this.getUserSubjects(state)
-  //   .forEach(r => r.subjects
-  //     .forEach(s => s.groups.forEach));
+    const roomSubjectsHeadByTasks = state.userData.rooms?.map(room => {
+      return { 
+        roomName : room.name,
+        roomId : room.id,
+        roomSubjects : state.subjects.filter(subject => subject.roomId === room.id)
+        .map(subject => {
+          return {
+            name : subject.name,
+            tasks: subject.tasks,
+            groups: subject.groups.map(group => { 
+              const fullGroupData = groupsMapByGroupId.get(group.id); 
+              fullGroupData.students = fullGroupData.students.map(student => studentsMapByStudentId.get(student.id));
+              return fullGroupData;
+            }),
+            tasksTableHead : [{
+              name: 'name',
+              required: true,
+              label: 'Имя студента',
+              align: 'left',
+              field: row => row.name,
+              format: val => `${val}`,
+              sortable: true }, ...subject.tasks.map(task => {
+                return {
+                  name: task.id, 
+                  align: 'center', 
+                  label: task.name, 
+                  field: task.id, 
+                  sortable: false, 
+                }
+            })],
+          }
+        }),
+      }
+    });
 
-
+    return {
+      'examsByStudentIdTaskId' : examsByStudentIdTaskId, 
+      'solutionsByStudentIdTaskId' : solutionsByStudentIdTaskId, 
+      'roomSubjectsHeadByTasks' : roomSubjectsHeadByTasks
+    };
   },
 
   getActiveSubject(state) {

@@ -13,7 +13,7 @@ const leftDrawerOpen = ref(true);
 let teacherLogin = ref('');
 let teacher = ref({})
 
-let activeSubject = computed(() => {console.log(store.getters.getActiveSubject); return store.getters.getActiveSubject});
+let activeSubject = computed(() => store.getters.getActiveSubject);
 
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
@@ -24,6 +24,7 @@ onMounted(() => {
   store.dispatch(actionsTypes.DATA_INIT, teacherLogin.value)
   .then(() => {
     teacher.value = store.getters.getUserData;
+    console.log(store.getters.getFormattedJournal);
   })
   .catch(error => {
     console.error(error);
