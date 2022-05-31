@@ -134,7 +134,7 @@ const getters = {
           return {
             name : subject.name,
             tasks: subject.tasks,
-            groups: subject.groups.map(group => { 
+            groups: !subject.groups ? [] : subject.groups.map(group => { 
               const fullGroupData = groupsMapByGroupId.get(group.id); 
               fullGroupData.students = fullGroupData.students.map(student => studentsMapByStudentId.get(student.id));
               return fullGroupData;
@@ -146,7 +146,8 @@ const getters = {
               align: 'left',
               field: row => row.name,
               format: val => `${val}`,
-              sortable: true }, ...subject.tasks.map(task => {
+              sortable: true }, 
+              ...subject.tasks.map(task => {
                 return {
                   name: task.id, 
                   align: 'center', 
@@ -154,7 +155,8 @@ const getters = {
                   field: task.id, 
                   sortable: false, 
                 }
-            })],
+              })
+            ],
           }
         }),
       }

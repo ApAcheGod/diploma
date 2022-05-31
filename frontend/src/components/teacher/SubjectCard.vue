@@ -29,7 +29,7 @@ const groupsRuLocale = (groupsCount) => {
 }
 
 const formatNamableArray = (array) => {
-  if (array && array.length === 0) return '';
+  if (!array || array.length === 0) return '';
   return array.length >= 5 ? `${props.subject.tasks.slice(0, 4).map(t => t.name).join(', ')} ...` : array.map(t => t.name).join(', ');
 }
 
