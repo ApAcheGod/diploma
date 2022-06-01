@@ -40,6 +40,9 @@ public class ExaminationMapper {
                 .addMappings(m -> m.skip(ExaminationDto::setSubjectName))
                 .addMappings(m -> m.skip(ExaminationDto::setDateOfDelivery))
                 .addMappings(m -> m.skip(ExaminationDto::setDateOfValuation))
+                .addMappings(m -> m.skip(ExaminationDto::setStudentName))
+                .addMappings(m -> m.skip(ExaminationDto::setRoomId))
+                .addMappings(m -> m.skip(ExaminationDto::setRoomName))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(ExaminationDto.class, Examination.class)
                 .addMappings(m -> m.skip(Examination::setExaminationStatus))
@@ -92,6 +95,9 @@ public class ExaminationMapper {
             destination.setSubjectId(source.getSolution().getTask().getSubject().getId());
             destination.setSubjectName(source.getSolution().getTask().getSubject().getName());
             destination.setDateOfDelivery(source.getSolution().getDateOfDelivery());
+            destination.setStudentName(source.getSolution().getStudent().getName());
+            destination.setRoomId(source.getSolution().getTask().getSubject().getRoom().getId());
+            destination.setRoomName(source.getSolution().getTask().getSubject().getRoom().getName());
         }
     }
 

@@ -28,7 +28,6 @@ public class Room2Mapper {
     public void setupMapper(){
         modelMapper.createTypeMap(Room.class, Room2Dto.class)
                 .addMappings(m -> m.skip(Room2Dto::setTeacherId))
-//                .addMappings(m -> m.skip(Room2Dto::setGroups))
                 .addMappings(m -> m.skip(Room2Dto::setSubjects))
                 .addMappings(m -> m.skip(Room2Dto::setTeacherName))
                 .addMappings(m -> m.skip(Room2Dto::setMaterials))
@@ -60,10 +59,6 @@ public class Room2Mapper {
 
     private void mapSpecificFields(Room source, Room2Dto destination) {
 
-//        if (source.getGroups() != null){
-//            destination.setGroups(source.getGroups().stream().map(group2Mapper::toDto).collect(Collectors.toSet()));
-//        }
-
         if (source.getSubjects() != null){
             destination.setSubjects(source.getSubjects().stream().map(subject2Mapper::toDto).collect(Collectors.toSet()));
 
@@ -84,25 +79,9 @@ public class Room2Mapper {
             destination.setTeacherName(source.getTeacher().getTeacherName());
         }
 
-//        if (source.getGroups() != null){
-//            destination.setGroups(source.getGroups().stream().map(groupMapper::toDto).collect(Collectors.toSet()));
-//        }
     }
 
-    private void mapSpecificFields(Room2Dto source, Room destination) {
-
-//        if (source.getSubjectId() != null){
-//            destination.addSubjects(subjectService.findById(source.getSubjectId()));
-//        }
-//
-//        if (source.getTeacherId() != null){
-//            destination.addTeacher(teacherService.findById(source.getTeacherId()));
-//        }
-
-//        if (source.getGroups() != null){
-//            source.getGroups().forEach(g -> destination.addGroups(groupService.findById(g.getId())));
-//        }
-    }
+    private void mapSpecificFields(Room2Dto source, Room destination) {}
 
     public Room toEntity(Room2Dto room2Dto){
         return Objects.isNull(room2Dto) ? null : modelMapper.map(room2Dto, Room.class);

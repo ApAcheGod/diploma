@@ -4,7 +4,6 @@ import com.example.diplom.entities.Student;
 import com.example.diplom.entities.dto.StudentDto;
 import com.example.diplom.services.GroupService;
 import com.example.diplom.services.SolutionService;
-import com.example.diplom.services.TaskService;
 import com.example.diplom.services.mappers.mappers2.Task2Mapper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
@@ -24,7 +23,6 @@ public class StudentMapper {
     private final SolutionMapper solutionMapper;
     private final SolutionService solutionService;
     private final Task2Mapper task2Mapper;
-    private final TaskService taskService;
 
     @PostConstruct
     public void setupMapper(){
@@ -36,7 +34,6 @@ public class StudentMapper {
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(StudentDto.class, Student.class)
                 .addMappings(m -> m.skip(Student::setGroup))
-//                .addMappings(m -> m.skip(Student::setTasks))
                 .addMappings(m -> m.skip(Student::setSolutions))
                 .addMappings(m -> m.skip(Student::setLogin))
                 .setPostConverter(toEntityConverter());
@@ -65,20 +62,14 @@ public class StudentMapper {
         destination.setName(source.getName());
 
         if (source.getGroup() != null){
-//            System.out.println(source.getGroup());
-//            System.out.println(source.getGroup().getSubjects());
-//            System.out.println(source.getGroup().getTasks());
-//            System.out.println(source.getGroup().getMaterials());
             destination.setGroupId(source.getGroup().getId());
         }
 
         if (source.getSolutions() != null){
-//            System.out.println(source.getSolutions());
             destination.setSolutions(source.getSolutions().stream().map(solutionMapper::toDto).collect(Collectors.toSet()));
         }
 
         if (source.getTasks() != null && source.getGroup() != null){
-//            System.out.println(source.getTasks());
             destination.setTasks(source.getTasks().stream().map(task2Mapper::toDto).collect(Collectors.toSet()));
         }
     }
@@ -91,10 +82,6 @@ public class StudentMapper {
         if (source.getSolutions() != null){
             source.getSolutions().forEach(solutionDto -> destination.addSolution(solutionService.findById(solutionDto.getId())));
         }
-
-//        if (source.getTasks() != null){
-//            source.getTasks().forEach(task2Dto -> destination.setTasks(taskService.findById(task2Dto.getId())));
-//        }
     }
 
     public Student toEntity(StudentDto studentDto){

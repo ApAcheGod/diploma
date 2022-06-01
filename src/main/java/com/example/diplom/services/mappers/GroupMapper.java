@@ -4,8 +4,13 @@ import com.example.diplom.entities.Group;
 import com.example.diplom.entities.Subject;
 import com.example.diplom.entities.dto.GroupDto;
 import com.example.diplom.entities.dto.to.Student2Dto;
-import com.example.diplom.services.*;
-import com.example.diplom.services.mappers.mappers2.*;
+import com.example.diplom.services.RoomService;
+import com.example.diplom.services.StudentService;
+import com.example.diplom.services.SubjectService;
+import com.example.diplom.services.mappers.mappers2.Room2Mapper;
+import com.example.diplom.services.mappers.mappers2.Student2Mapper;
+import com.example.diplom.services.mappers.mappers2.Subject2Mapper;
+import com.example.diplom.services.mappers.mappers2.Task2Mapper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -23,16 +28,12 @@ public class GroupMapper {
 
     private final ModelMapper modelMapper;
     private final Student2Mapper student2Mapper;
-//    private final Room2Mapper room2Mapper;
     private final Subject2Mapper subject2Mapper;
     private final Task2Mapper task2Mapper;
-    private final Teacher2Mapper teacher2Mapper;
 
     private final StudentService studentService;
     private final SubjectService subjectService;
-    private final TaskService taskService;
     private final Room2Mapper room2Mapper;
-    private final TeacherService teacherService;
     private final RoomService roomService;
 
 
@@ -49,7 +50,6 @@ public class GroupMapper {
                 .addMappings(m -> m.skip(Group::setRooms))
                 .addMappings(m -> m.skip(Group::setStudents))
                 .addMappings(m -> m.skip(Group::addSubjects))
-//                .addMappings(m -> m.skip(Group::setSubjects))
                 .setPostConverter(toEntityConverter());
     }
 
@@ -107,7 +107,6 @@ public class GroupMapper {
             Set<Subject> subjects = new HashSet<>();
             source.getSubjects().forEach(subject2Dto -> subjects.add(subjectService.findById(subject2Dto.getId())));
 
-//            destination.addSubjects(subjects);
             destination.setSubjects(subjects);
         }
 

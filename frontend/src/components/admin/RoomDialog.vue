@@ -1,8 +1,9 @@
 <script setup>
+import methods from '../../store/methodsAdmin.js';
 
-import {computed, inject, onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 
-const methods = inject('methods');
+
 
 const emits = defineEmits(['update-click', 'prompt-close']);
 

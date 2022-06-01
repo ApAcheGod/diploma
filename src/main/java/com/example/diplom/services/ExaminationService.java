@@ -4,9 +4,6 @@ package com.example.diplom.services;
 import com.example.diplom.entities.Examination;
 import com.example.diplom.repositories.ExaminationRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,11 +25,6 @@ public class ExaminationService {
 
     public List<Examination> findAll(){
         return examinationRepository.findAll();
-    }
-
-    public Page<Examination> getExaminationsWithPagingAndFiltering(Specification<Examination> examinationSpecification,
-                                                                   Pageable pageable){
-        return examinationRepository.findAll(examinationSpecification, pageable);
     }
 
     public Examination findById(UUID id) {

@@ -1,5 +1,6 @@
 <script setup>
-import { inject, onMounted, ref } from 'vue';
+import methods from '../../store/methodsAdmin.js';
+import { onMounted, ref } from 'vue';
 import {useQuasar} from 'quasar'
 import GroupCard from './GroupCard.vue';
 import GroupDialog from './GroupDialog.vue';
@@ -12,7 +13,7 @@ let students = ref();
 let rooms = ref();
 let studentsWithoutGroup = ref();
 
-const methods = inject('methods');
+
 
 let groupPromptIsOpen = ref(false);
 

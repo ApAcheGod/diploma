@@ -1,4 +1,5 @@
 <script setup>
+import methods from '../../store/methodsAdmin.js';
 
 import {onMounted, ref} from "vue";
 

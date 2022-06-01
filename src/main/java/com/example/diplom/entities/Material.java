@@ -29,7 +29,6 @@ public class Material {
     @GeneratedValue
     private UUID id;
 
-//    @NotNull(message = "Название материала не может быть пустым")
     @Column(name = "material_name")
     private String name;
 
@@ -59,9 +58,6 @@ public class Material {
     public void addSubject(Subject subject){
         this.subject = subject;
         subject.getMaterials().add(this);
-    }
-    public void addSubject(Set<Subject> subjects){
-        subjects.forEach(this::addSubject);
     }
 
     @Override

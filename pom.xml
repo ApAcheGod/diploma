@@ -189,6 +189,12 @@
                     <schemas>
                         <schema>diploma</schema>
                     </schemas>
+<!--                    <url>jdbc:postgresql://localhost:5432/postgres?currentSchema=DIPLOMA_TEST</url>-->
+<!--                    <user>postgres</user>-->
+<!--                    <password>toor</password>-->
+<!--                    <schemas>-->
+<!--                        <schema>DIPLOMA_TEST</schema>-->
+<!--                    </schemas>-->
                 </configuration>
             </plugin>
             <plugin>

@@ -37,7 +37,7 @@ const showingPassword = ref(true);
 </template>
 <style>
 .sign-in__block {
-  margin-top: 20%;
+  margin-top: 50px;
   display: grid;
   place-content: center center;
 }

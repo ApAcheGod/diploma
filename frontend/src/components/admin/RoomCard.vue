@@ -1,4 +1,5 @@
 <script setup>
+import methods from '../../store/methodsAdmin.js';
 import {ref} from 'vue';
 import RoomDialog from './RoomDialog.vue';
 

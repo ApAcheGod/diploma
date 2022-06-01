@@ -66,13 +66,4 @@ public class Room {
         teacher.getRooms().add(this);
     }
 
-    public void addSubjects(Subject subject){
-        this.subjects.add(subject);
-        subject.setRoom(this);
-    }
-
-    public void addSubjects(Set<Subject> subjects){
-        subjects.forEach(this::addSubjects);
-    }
-
 }

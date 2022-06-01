@@ -11,8 +11,8 @@ public class CreateLoginService {
 
     private final UserServiceImpl userServiceImpl;
 
-    String CYRILLIC_TO_LATIN = "Russian-Latin/BGN";
-    Transliterator toLatinTrans = Transliterator.getInstance(CYRILLIC_TO_LATIN);
+    final String CYRILLIC_TO_LATIN = "Russian-Latin/BGN";
+    final Transliterator toLatinTrans = Transliterator.getInstance(CYRILLIC_TO_LATIN);
 
     public void createLoginForUser(User user){
 

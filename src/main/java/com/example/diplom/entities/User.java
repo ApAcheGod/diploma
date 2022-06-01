@@ -8,10 +8,11 @@ import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "users", schema = "diploma")
+@Table(schema = "diploma", name = "users")
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
@@ -36,7 +37,6 @@ public class User {
     @JsonIgnore
     private String password;
 
-//    @Email
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -55,12 +55,12 @@ public class User {
 
         User user = (User) o;
 
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
-        if (first_name != null ? !first_name.equals(user.first_name) : user.first_name != null) return false;
-        if (last_name != null ? !last_name.equals(user.last_name) : user.last_name != null) return false;
-        if (patronymic != null ? !patronymic.equals(user.patronymic) : user.patronymic != null) return false;
-        if (roles != null ? !roles.equals(user.roles) : user.roles != null) return false;
-        return login != null ? login.equals(user.login) : user.login == null;
+        if (!Objects.equals(id, user.id)) return false;
+        if (!Objects.equals(first_name, user.first_name)) return false;
+        if (!Objects.equals(last_name, user.last_name)) return false;
+        if (!Objects.equals(patronymic, user.patronymic)) return false;
+        if (!Objects.equals(roles, user.roles)) return false;
+        return Objects.equals(login, user.login);
     }
 
     @Override

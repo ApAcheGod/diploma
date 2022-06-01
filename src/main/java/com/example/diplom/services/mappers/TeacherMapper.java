@@ -2,8 +2,10 @@ package com.example.diplom.services.mappers;
 
 import com.example.diplom.entities.Teacher;
 import com.example.diplom.entities.dto.TeacherDto;
-import com.example.diplom.services.*;
-import com.example.diplom.services.mappers.mappers2.Group2Mapper;
+import com.example.diplom.services.MaterialService;
+import com.example.diplom.services.RoomService;
+import com.example.diplom.services.SubjectService;
+import com.example.diplom.services.TaskService;
 import com.example.diplom.services.mappers.mappers2.Room2Mapper;
 import com.example.diplom.services.mappers.mappers2.Subject2Mapper;
 import com.example.diplom.services.mappers.mappers2.Task2Mapper;
@@ -21,10 +23,8 @@ import java.util.stream.Collectors;
 public class TeacherMapper {
 
     private final ModelMapper modelMapper;
-    private final TeacherService teacherService;
     private final Room2Mapper room2Mapper;
     private final Subject2Mapper subject2Mapper;
-    private final Group2Mapper group2Mapper;
     private final Task2Mapper task2Mapper;
     private final RoomService roomService;
     private final SubjectService subjectService;
@@ -37,7 +37,6 @@ public class TeacherMapper {
         modelMapper.createTypeMap(Teacher.class, TeacherDto.class)
                 .addMappings(m -> m.skip(TeacherDto::setRooms))
                 .addMappings(m -> m.skip(TeacherDto::setSubjects))
-//                .addMappings(m -> m.skip(TeacherDto::setGroups))
                 .addMappings(m -> m.skip(TeacherDto::setTeacherName))
                 .addMappings(m -> m.skip(TeacherDto::setTasks))
                 .setPostConverter(toDtoConverter());
@@ -45,7 +44,6 @@ public class TeacherMapper {
                 .addMappings(m -> m.skip(Teacher::setRooms))
                 .addMappings(m -> m.skip(Teacher::setSubjects))
                 .addMappings(m -> m.skip(Teacher::setLogin))
-//                .addMappings(m -> m.skip(Teacher::setGroups))
                 .addMappings(m -> m.skip(Teacher::setTasks))
                 .setPostConverter(toEntityConverter());
     }

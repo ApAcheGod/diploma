@@ -1,4 +1,5 @@
 <script setup>
+import methods from '../../store/methodsAdmin.js';
 import {computed, ref} from 'vue';
 import MaterialDialog from './MaterialDialog.vue';
 

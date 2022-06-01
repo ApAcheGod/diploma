@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { useStore } from 'vuex'
 
 import NotFound from '../views/NotFound.vue';
 import SigninView from '../views/SigninView.vue';
@@ -7,8 +6,15 @@ import SigninView from '../views/SigninView.vue';
 import StudentView from '../views/StudentView.vue';
 
 import TeacherView from '../views/TeacherView.vue';
-import TeacherProfile from '../components/teacher/TeacherProfile.vue';
-import TeacherRooms from '../components/teacher/TeacherRooms.vue';
+import TeacherMain from '../components/teacher/TeacherMain.vue';
+import TeacherSubjects from '../components/teacher/TeacherSubjects.vue';
+import TeacherJournal from '../components/teacher/TeacherJournal.vue';
+
+import SubjectGroups from '../components/teacher/SubjectGroups.vue';
+import SubjectHomeWorks from '../components/teacher/SubjectHomeWorks.vue';
+import SubjectJournal from '../components/teacher/SubjectJournal.vue';
+import SubjectMaterials from '../components/teacher/SubjectMaterials.vue';
+import SubjectTasks from '../components/teacher/SubjectTasks.vue';
 
 import AdminView from '../views/AdminView.vue';
 import AdminStudents from '../components/admin/StudentsView.vue';
@@ -35,16 +41,65 @@ const routes = [
     meta: { requiredTeacher: true },
     children: [
       {
-        path: 'profile',
-        name: 'TeacherProfile',
-        component: TeacherProfile
+        path: 'main',
+        name: 'TeacherMain',
+        component: TeacherMain
       },
       {
-        path: 'rooms',
-        name: 'TeacherRooms',
-        component: TeacherRooms
-      }
+        path: 'subjects',
+        name: 'TeacherSubjects',
+        component: TeacherSubjects
+      },
+      {
+        path: 'journal',
+        name: 'TeacherJournal',
+        component: TeacherJournal
+      },
+      {
+        path: 'subject/tasks',
+        name: 'SubjectTasks',
+        component: SubjectTasks,
+        meta: { requiredActiveSubject: true },
+      },
+      {
+        path: 'subject/materials',
+        name: 'SubjectMaterials',
+        component: SubjectMaterials,
+        meta: { requiredActiveSubject: true },
+      },
+      {
+        path: 'subject/groups',
+        name: 'SubjectGroups',
+        component: SubjectGroups,
+        meta: { requiredActiveSubject: true },
+      },
+      {
+        path: 'subject/homeworks',
+        name: 'SubjectHomeWorks',
+        component: SubjectHomeWorks,
+        meta: { requiredActiveSubject: true },
+      },
+      {
+        path: 'subject/journal',
+        name: 'SubjectJournal',
+        component: SubjectJournal,
+        meta: { requiredActiveSubject: true },
+      },
     ],
+    beforeEnter(to, from, next) {
+      const requiredActiveSubject = to.matched.some((record) => record.meta.requiredActiveSubject);
+      const hasActiveSubject = localStorage.getItem('hasActiveSubject');
+      const didntHasActiveSubject = requiredActiveSubject && !hasActiveSubject;
+      const notRequiredActiveSubject = !requiredActiveSubject && hasActiveSubject;
+      
+      if (to.path === '/teacher' || didntHasActiveSubject) {
+        next('/teacher/main');
+      }
+      if (notRequiredActiveSubject) {
+        next('/teacher/subject/journal');
+      }
+      else next();
+    },
   },
   {
     path: '/admin',
@@ -88,6 +143,12 @@ const routes = [
         component: AdminRooms
       },
     ],
+    beforeEnter(to, from, next) {
+      if (to.path === '/admin') {
+        next('/admin/teachers')
+      }
+      else next();
+    },
   },
   {
     path: '/signin',
@@ -133,7 +194,7 @@ router.beforeEach((to, from, next) => {
   } 
   else if (!userHasRightRole || isNotFoundPage) {
     if (userRole === userRoles.ROLE_ADMIN)
-      router.push('/admin/teachers');
+      router.push('/admin');
     else if (userRole === userRoles.ROLE_TEACHER)
       router.push('/teacher');
     else if (userRole === userRoles.ROLE_STUDENT)

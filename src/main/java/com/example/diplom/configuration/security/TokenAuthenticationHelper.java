@@ -7,7 +7,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
@@ -19,8 +18,9 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 class TokenAuthenticationHelper {
-    private static final long EXPIRATION_TIME = 1000 * 60 * 30; // 30 minutes
-    private static final String SECRET = "ThisIsASecret";
+
+    private static final long EXPIRATION_TIME = 1000 * 60 * 30;
+    private static final String SECRET = "dd61fa2d22c3d4b2666cc008152c3ae1367bb9450c6c24cc1184758f2e65ae52";
     private static final String COOKIE_BEARER = "COOKIE-BEARER";
 
     private TokenAuthenticationHelper() {

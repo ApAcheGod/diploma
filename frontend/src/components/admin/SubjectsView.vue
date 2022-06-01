@@ -1,5 +1,6 @@
 <script setup>
-import {inject, onMounted, ref} from 'vue';
+import methods from '../../store/methodsAdmin.js';
+import {onMounted, ref} from 'vue';
 import {useQuasar} from 'quasar'
 
 import SubjectCard from './SubjectCard.vue';
@@ -15,7 +16,7 @@ let tasks = ref();
 let rooms = ref();
 let groups = ref();
 
-const methods = inject('methods');
+
 
 let subjectPromptIsOpen = ref(false);
 

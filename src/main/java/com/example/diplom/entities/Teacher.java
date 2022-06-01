@@ -8,7 +8,10 @@ import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.BatchSize;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -28,10 +31,8 @@ public class Teacher extends User{
 
     private UUID id;
 
-//    @NotNull(message = "Имя преподавателя не может быть пустым")
     private String first_name;
 
-//    @NotNull(message = "Фамилия преподавателя не может быть пустым")
     private String last_name;
 
     private String patronymic;
@@ -54,16 +55,6 @@ public class Teacher extends User{
     @ToString.Exclude
     @BatchSize(size = 20)
     private Set<Material> materials = new HashSet<>();
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "teachers_groups",
-            joinColumns = {@JoinColumn(name = "teachers_id")},
-            inverseJoinColumns = {@JoinColumn(name = "groups_id")}
-    )
-    @ToString.Exclude
-    @BatchSize(size = 20)
-    private Set<Group> groups = new HashSet<>();
 
     @OneToMany(mappedBy = "teacher" ,fetch = FetchType.LAZY)
     @ToString.Exclude
@@ -93,17 +84,9 @@ public class Teacher extends User{
         subject.setTeacher(this);
     }
 
-    public void addSubjects(Set<Subject> subjects){
-        subjects.forEach(this::addSubjects);
-    }
-
     public void addRooms(Room room){
         this.rooms.add(room);
         room.setTeacher(this);
-    }
-
-    public void addRooms(Set<Room> rooms){
-        rooms.forEach(this::addRooms);
     }
 
     public void addMaterials(Material material){
@@ -113,7 +96,6 @@ public class Teacher extends User{
 
     public void deleteLinks(){
         this.removeMaterials();
-        this.removeGroups();
         this.removeRooms();
         this.removeSubjects();
         this.removeTasks();
@@ -138,30 +120,9 @@ public class Teacher extends User{
         this.subjects = new HashSet<>();
     }
 
-    private void removeGroups(){
-        this.groups.forEach(group -> group.getTeachers().remove(this));
-        this.groups = new HashSet<>();
-    }
-
-    public void addMaterials(Set<Material> materials){
-        materials.forEach(this::addMaterials);
-    }
-
-    public void addGroups(Group group){
-        this.groups.add(group);
-        group.getTeachers().add(this);
-    }
-
-    public void addGroups(Set<Group> groups){
-        groups.forEach(this::addGroups);
-    }
-
     public void addTasks(Task task){
         this.tasks.add(task);
         task.setTeacher(this);
     }
 
-    public void addTasks(Set<Task> tasks){
-        tasks.forEach(this::addTasks);
-    }
 }

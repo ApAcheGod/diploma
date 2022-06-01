@@ -8,6 +8,7 @@ import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -29,18 +30,12 @@ public class Group {
     private UUID id;
 
     @Column(name = "group_name")
-//    @NaturalId(mutable = true)
     private String name;
 
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = { CascadeType.MERGE } )
     @ToString.Exclude
     @BatchSize(size = 20)
     private Set<Student> students = new HashSet<>();
-
-    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
-    @ToString.Exclude
-    @BatchSize(size = 20)
-    private Set<Teacher> teachers = new HashSet<>();
 
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY , cascade = {CascadeType.ALL})
     @ToString.Exclude
@@ -59,16 +54,12 @@ public class Group {
 
     public void deleteLinks(){
         deleteRooms();
-        deleteTeachers();
         deleteStudents();
         deleteSubjects();
     }
 
     private void deleteRooms(){
         this.rooms.forEach(room -> room.getGroups().remove(this));
-    }
-    private void deleteTeachers(){
-        this.teachers.forEach(teacher -> teacher.getGroups().remove(this));
     }
     private void deleteStudents(){
         this.students.forEach(student -> student.setGroup(null));
@@ -92,24 +83,10 @@ public class Group {
         students.add(student);
         student.setGroup(this);
     }
-    public void addStudents(Set<Student> students){
-        students.forEach(this::addStudents);
-    }
-
-    public void addTeachers(Teacher teacher){
-        teachers.add(teacher);
-        teacher.getGroups().add(this);
-    }
-    public void addTeachers(Set<Teacher> teachers){
-        teachers.forEach(this::addTeachers);
-    }
 
     public void addRooms(Room room){
         rooms.add(room);
         room.getGroups().add(this);
-    }
-    public void addRooms(Set<Room> rooms){
-        rooms.forEach(this::addRooms);
     }
 
     public void addSubjects(Set<Subject> subjects){
@@ -124,8 +101,8 @@ public class Group {
 
         Group group = (Group) o;
 
-        if (id != null ? !id.equals(group.id) : group.id != null) return false;
-        return name != null ? name.equals(group.name) : group.name == null;
+        if (!Objects.equals(id, group.id)) return false;
+        return Objects.equals(name, group.name);
     }
 
     @Override

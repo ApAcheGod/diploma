@@ -1,5 +1,6 @@
 <script setup>
-import {inject, onMounted, ref} from 'vue';
+import methods from '../../store/methodsAdmin.js';
+import {onMounted, ref} from 'vue';
 import {useQuasar} from 'quasar';
 import TaskCard from './TaskCard.vue';
 import TaskDialog from './TaskDialog.vue';
@@ -12,7 +13,7 @@ let groups = ref();
 let teachers = ref ();
 let solutions = ref();
 
-const methods = inject('methods');
+
 
 let taskPromptIsOpen = ref(false);
 

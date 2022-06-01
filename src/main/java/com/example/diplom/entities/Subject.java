@@ -8,6 +8,7 @@ import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -91,18 +92,12 @@ public class Subject {
         material.setSubject(this);
     }
 
-    public void addMaterials(Set<Material> materials){
-        materials.forEach(this::addMaterials);
-    }
 
     public void addTasks(Task task){
         tasks.add(task);
         task.setSubject(this);
     }
 
-    public void addTasks(Set<Task> tasks){
-        tasks.forEach(this::addTasks);
-    }
 
     public void addRoom(Room room){
         this.room = room;
@@ -121,8 +116,8 @@ public class Subject {
 
         Subject subject = (Subject) o;
 
-        if (id != null ? !id.equals(subject.id) : subject.id != null) return false;
-        return name != null ? name.equals(subject.name) : subject.name == null;
+        if (!Objects.equals(id, subject.id)) return false;
+        return Objects.equals(name, subject.name);
     }
 
     @Override
@@ -132,8 +127,4 @@ public class Subject {
         return result;
     }
 
-    public void removeGroup(Group group) {
-        this.groups.remove(group);
-        group.getSubjects().remove(this);
-    }
 }
