@@ -7,9 +7,7 @@ import StudentView from '../views/StudentView.vue';
 
 import TeacherView from '../views/TeacherView.vue';
 import TeacherMain from '../components/teacher/TeacherMain.vue';
-// import TeacherGroups from '../components/teacher/TeacherGroups.vue';
 import TeacherSubjects from '../components/teacher/TeacherSubjects.vue';
-// import TeacherMaterials from '../components/teacher/TeacherMaterials.vue';
 import TeacherJournal from '../components/teacher/TeacherJournal.vue';
 
 import SubjectGroups from '../components/teacher/SubjectGroups.vue';

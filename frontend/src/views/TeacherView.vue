@@ -24,7 +24,6 @@ onMounted(() => {
   store.dispatch(actionsTypes.DATA_INIT, teacherLogin.value)
   .then(() => {
     teacher.value = store.getters.getUserData;
-    console.log(store.getters.getFormattedJournal);
   })
   .catch(error => {
     console.error(error);

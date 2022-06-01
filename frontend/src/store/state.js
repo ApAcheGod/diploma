@@ -14,6 +14,11 @@ const state = {
   examinations: [],
   tasks: [],
 
+  studentsMapByStudentId: null,
+  groupsMapByGroupId: null,
+  examsByStudentIdTaskId: null,
+  solutionsByStudentIdTaskId: null,
+
   activeSubjectId: localStorage.getItem('activeSubjectId') ? localStorage.getItem('activeSubjectId') : '',
 };
 

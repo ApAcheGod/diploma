@@ -2,18 +2,13 @@
 import { computed } from '@vue/reactivity';
 import { useStore } from 'vuex';
 import {onMounted} from "vue";
-import JournalBlock from './JournalBlock.vue';
 import workStatuses from '../../models/workStatuses';
 
 
 const store = useStore();
-const _formattedJournalData = computed(() => {
+const formattedJournalData = computed(() => {
   return store.getters.getFormattedJournal;
 });
-
-const tableHeads = computed(() => {
-  return _formattedJournalData.value.roomSubjectsHeadByTasks;
-})
 
 const getBadgeColor = (workStatus) => {
   switch (workStatus) {
@@ -33,7 +28,7 @@ const getBadgeColor = (workStatus) => {
 </script>
 <template>
 
-<div class="journal-room-block" v-for="head in tableHeads">
+<div class="journal-room-block" v-for="head in formattedJournalData">
     <div class="journal-room-block__title">
       <hr/>
       {{head.roomName}}

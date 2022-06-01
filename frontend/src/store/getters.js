@@ -103,30 +103,45 @@ const getters = {
     return userExaminationsByRooms;
   },
 
-  getFormattedJournal(state){ 
-    // TODO : Проверить
-    // TODO : Распараллелить
+  getStudentsMapByStudentId(state){
     const studentsMapByStudentId = new Map();
     state.students.forEach(student => studentsMapByStudentId.set(student.id, student));
-
+    return studentsMapByStudentId;
+  },
+  
+  getGroupsMapByGroupId(state){
     const groupsMapByGroupId = new Map();
     state.studentGroups.forEach(group => groupsMapByGroupId.set(group.id, group));
+    return groupsMapByGroupId;
+  },
 
+  getExamsByStudentIdTaskId(state){
     const examsByStudentIdTaskId = new Map();
     state.students.forEach(student => {
       const examinationsMap = new Map();
       state.examinations.filter(e => e.studentId === student.id)
-      .forEach(e => examinationsMap.has(e.taskId) ? examinationsMap.get(e.taskId).push(e) : examinationsMap.set(e.taskId, [e]));
+        .forEach(e => examinationsMap.has(e.taskId) ? examinationsMap.get(e.taskId).push(e) : examinationsMap.set(e.taskId, [e]));
       examsByStudentIdTaskId.set(student.id, examinationsMap);
     });
+    return examsByStudentIdTaskId;
+  },
 
+  getSolutionsByStudentIdTaskId(state){
     const solutionsByStudentIdTaskId = new Map();
     state.students.forEach(student => {
       const solutionsMap = new Map();
       state.solutions.filter(e => e.studentId === student.id)
-      .forEach(s => solutionsMap.has(s.taskId) ? solutionsMap.get(s.taskId).push(s) : solutionsMap.set(s.taskId, [s]));
+        .forEach(s => solutionsMap.has(s.taskId) ? solutionsMap.get(s.taskId).push(s) : solutionsMap.set(s.taskId, [s]));
       solutionsByStudentIdTaskId.set(student.id, solutionsMap);
     });
+    return solutionsByStudentIdTaskId;
+  },
+
+  getFormattedJournal(state, getters){ 
+    const solutionsByStudentIdTaskId = getters.getSolutionsByStudentIdTaskId;
+    const examsByStudentIdTaskId = getters.getExamsByStudentIdTaskId;
+    const groupsMapByGroupId = getters.getGroupsMapByGroupId;
+    const studentsMapByStudentId = getters.getStudentsMapByStudentId;
 
     const setGroupResults = (group, subject) => {
       const getMark = (studentId, taskId) => {
@@ -160,9 +175,9 @@ const getters = {
             name : subject.name,
             tasks: subject.tasks,
             groups: !subject.groups ? [] : subject.groups.map(group => { 
-              const fullGroupData = groupsMapByGroupId.get(group.id); 
-              setGroupResults(fullGroupData, subject);
+              let fullGroupData = groupsMapByGroupId.get(group.id);
               fullGroupData.students = fullGroupData.students.map(student => studentsMapByStudentId.get(student.id));
+              setGroupResults(fullGroupData, subject);
               return fullGroupData;
             }),
             tasksTableHead : [{
@@ -187,17 +202,19 @@ const getters = {
         }),
       }
     });
-
-    return {
-      'examsByStudentIdTaskId' : examsByStudentIdTaskId, 
-      'solutionsByStudentIdTaskId' : solutionsByStudentIdTaskId, 
-      'roomSubjectsHeadByTasks' : roomSubjectsHeadByTasks
-    };
+    console.log(roomSubjectsHeadByTasks);
+    return roomSubjectsHeadByTasks;
   },
 
-  getActiveSubject(state) {
+  getActiveSubject(state, getters) {
     const filteredSubjects = state.subjects.filter(s => s?.id === state.activeSubjectId);
-    return filteredSubjects.length > 0 ? JSON.parse(JSON.stringify(filteredSubjects[0])) : null;
+    if (filteredSubjects.length > 0) {
+      const filteredSubject = filteredSubjects[0];
+      const groupsMapByGroupId = getters.getGroupsMapByGroupId;
+      filteredSubject.groups = filteredSubject.groups.map(group => groupsMapByGroupId.get(group.id));
+      return filteredSubject;
+    }
+    return null;
   },
 };
 
