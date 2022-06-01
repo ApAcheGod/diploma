@@ -5,10 +5,12 @@ import {onMounted} from "vue";
 import JournalBlock from './JournalBlock.vue';
 import workStatuses from '../../models/workStatuses';
 
+
 const store = useStore();
 const _formattedJournalData = computed(() => {
   return store.getters.getFormattedJournal;
 });
+
 const tableHeads = computed(() => {
   return _formattedJournalData.value.roomSubjectsHeadByTasks;
 })
