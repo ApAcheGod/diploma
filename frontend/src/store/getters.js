@@ -1,4 +1,5 @@
 import userRoles from "../models/userRoles";
+import workStatuses from "../models/workStatuses";
 
 const getters = {
   // appTitle(state) {
@@ -102,7 +103,9 @@ const getters = {
     return userExaminationsByRooms;
   },
 
-  getFormattedJournal(state){
+  getFormattedJournal(state){ 
+    // TODO : Проверить
+    // TODO : Распараллелить
     const studentsMapByStudentId = new Map();
     state.students.forEach(student => studentsMapByStudentId.set(student.id, student));
 
@@ -125,17 +128,40 @@ const getters = {
       solutionsByStudentIdTaskId.set(student.id, solutionsMap);
     });
 
+    const setGroupResults = (group, subject) => {
+      const getMark = (studentId, taskId) => {
+        const examinationResult = examsByStudentIdTaskId.get(studentId).get(taskId);
+        const solutionResult = solutionsByStudentIdTaskId.get(studentId).get(taskId);
+        const examination = examinationResult ? examinationResult[0] : examinationResult;
+        const solution = solutionResult ? solutionResult[0] : solutionResult;
+        if (examination)
+          return examination.examinationStatus;
+        if (solution)
+          return workStatuses.COMPLETED;
+        return workStatuses.NOT_COMPLETED;
+      };
+
+      group.students?.forEach(student => {
+        subject.tasks.forEach(task => {
+          student[task.id] = getMark(student.id, task.id); 
+        })
+      });
+      return group;
+    };
+
     const roomSubjectsHeadByTasks = state.userData.rooms?.map(room => {
       return { 
         roomName : room.name,
         roomId : room.id,
         roomSubjects : state.subjects.filter(subject => subject.roomId === room.id)
         .map(subject => {
+          subject.tasks.sort((taskA, taskB) => taskA.name.localeCompare(taskB.name)); // Сортировка по названиям заданий.
           return {
             name : subject.name,
             tasks: subject.tasks,
             groups: !subject.groups ? [] : subject.groups.map(group => { 
               const fullGroupData = groupsMapByGroupId.get(group.id); 
+              setGroupResults(fullGroupData, subject);
               fullGroupData.students = fullGroupData.students.map(student => studentsMapByStudentId.get(student.id));
               return fullGroupData;
             }),
