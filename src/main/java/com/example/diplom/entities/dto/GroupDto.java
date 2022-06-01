@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -33,9 +34,6 @@ public class GroupDto {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<Subject2Dto> subjects = new HashSet<>();
 
-//    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-//    private Set<Teacher2Dto> teachers = new HashSet<>();
-
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<Room2Dto> rooms = new HashSet<>();
 
@@ -51,11 +49,11 @@ public class GroupDto {
 
         GroupDto groupDto = (GroupDto) o;
 
-        if (id != null ? !id.equals(groupDto.id) : groupDto.id != null) return false;
-        if (name != null ? !name.equals(groupDto.name) : groupDto.name != null) return false;
-        if (students != null ? !students.equals(groupDto.students) : groupDto.students != null) return false;
-        if (rooms != null ? !rooms.equals(groupDto.rooms) : groupDto.rooms != null) return false;
-        return tasks != null ? tasks.equals(groupDto.tasks) : groupDto.tasks == null;
+        if (!Objects.equals(id, groupDto.id)) return false;
+        if (!Objects.equals(name, groupDto.name)) return false;
+        if (!Objects.equals(students, groupDto.students)) return false;
+        if (!Objects.equals(rooms, groupDto.rooms)) return false;
+        return Objects.equals(tasks, groupDto.tasks);
     }
 
     @Override

@@ -78,9 +78,6 @@ public class Student extends User{
         solution.setStudent(this);
     }
 
-    public void addSolution(Set<Solution> solutions){
-        solutions.forEach(this::addSolution);
-    }
 
     public Set<Task> getTasks(){
         if (this.group != null){

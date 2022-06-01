@@ -67,20 +67,7 @@ public class Task2Mapper {
 
     }
 
-    private void mapSpecificFields(Task2Dto source, Task destination) {
-
-//        if (source.getSubjectId() != null){
-//            destination.addSubjects(subjectService.findById(source.getSubjectId()));
-//        }
-//
-//        if (source.getTeacherId() != null){
-//            destination.addTeacher(teacherService.findById(source.getTeacherId()));
-//        }
-
-//        if (source.getGroups() != null){
-//            source.getGroups().forEach(g -> destination.addGroups(groupService.findById(g.getId())));
-//        }
-    }
+    private void mapSpecificFields(Task2Dto source, Task destination) { }
 
 
     public Task toEntity(Task2Dto task2Dto){

@@ -2,11 +2,9 @@ package com.example.diplom.services.mappers;
 
 import com.example.diplom.entities.Task;
 import com.example.diplom.entities.dto.TaskDto;
-import com.example.diplom.services.GroupService;
 import com.example.diplom.services.SolutionService;
 import com.example.diplom.services.SubjectService;
 import com.example.diplom.services.TeacherService;
-import com.example.diplom.services.mappers.mappers2.Group2Mapper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -26,8 +24,6 @@ public class TaskMapper {
     private final TeacherService teacherService;
     private final SolutionMapper solutionMapper;
     private final SolutionService solutionService;
-    private final Group2Mapper groupMapper;
-    private final GroupService groupService;
 
     @PostConstruct
     public void setupMapper(){
@@ -36,13 +32,11 @@ public class TaskMapper {
                 .addMappings(m -> m.skip(TaskDto::setSubjectName))
                 .addMappings(m -> m.skip(TaskDto::setTeacherId))
                 .addMappings(m -> m.skip(TaskDto::setTeacherName))
-//                .addMappings(m -> m.skip(TaskDto::setGroups))
                 .addMappings(m -> m.skip(TaskDto::setSolutions))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(TaskDto.class, Task.class)
                 .addMappings(m -> m.skip(Task::setSubject))
                 .addMappings(m -> m.skip(Task::setTeacher))
-//                .addMappings(m -> m.skip(Task::setGroups))
                 .addMappings(m -> m.skip(Task::setSolutions))
                 .setPostConverter(toEntityConverter());
     }
@@ -81,9 +75,6 @@ public class TaskMapper {
             destination.setSolutions(source.getSolutions().stream().map(solutionMapper::toDto).collect(Collectors.toSet()));
         }
 
-//        if (source.getGroups() != null){
-//            destination.setGroups(source.getGroups().stream().map(groupMapper::toDto).collect(Collectors.toSet()));
-//        }
     }
 
     private void mapSpecificFields(TaskDto source, Task destination) {
@@ -95,10 +86,6 @@ public class TaskMapper {
         if (source.getTeacherId() != null){
             destination.addTeacher(teacherService.findById(source.getTeacherId()));
         }
-
-//        if (source.getGroups() != null){
-//            source.getGroups().forEach(group2Dto -> destination.addGroups(groupService.findById(group2Dto.getId())));
-//        }
 
         if (source.getSolutions() != null){
             source.getSolutions().forEach(solutionDto -> destination.addSolutions(solutionService.findById(solutionDto.getId())));

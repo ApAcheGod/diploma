@@ -46,9 +46,6 @@ public class TeacherDto {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<MaterialDto> materials = new HashSet<>();
 
-//    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-//    private Set<Group2Dto> groups = new HashSet<>();
-
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<Task2Dto> tasks = new HashSet<>();
 

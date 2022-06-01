@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -30,8 +31,6 @@ public class Room2Dto {
 
     private String teacherName;
 
-//    private Set<Group2Dto> groups = new HashSet<>();
-
     private Set<Subject2Dto> subjects = new HashSet<>();
 
     private Set<MaterialDto> materials = new HashSet<>();
@@ -43,12 +42,12 @@ public class Room2Dto {
 
         Room2Dto room2Dto = (Room2Dto) o;
 
-        if (id != null ? !id.equals(room2Dto.id) : room2Dto.id != null) return false;
-        if (name != null ? !name.equals(room2Dto.name) : room2Dto.name != null) return false;
-        if (teacherId != null ? !teacherId.equals(room2Dto.teacherId) : room2Dto.teacherId != null) return false;
-        if (teacherName != null ? !teacherName.equals(room2Dto.teacherName) : room2Dto.teacherName != null)
+        if (!Objects.equals(id, room2Dto.id)) return false;
+        if (!Objects.equals(name, room2Dto.name)) return false;
+        if (!Objects.equals(teacherId, room2Dto.teacherId)) return false;
+        if (!Objects.equals(teacherName, room2Dto.teacherName))
             return false;
-        return materials != null ? materials.equals(room2Dto.materials) : room2Dto.materials == null;
+        return Objects.equals(materials, room2Dto.materials);
     }
 
     @Override

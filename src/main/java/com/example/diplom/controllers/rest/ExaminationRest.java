@@ -41,9 +41,6 @@ public class ExaminationRest {
     @PutMapping("/examination")
     public ResponseEntity<ExaminationDto> update(@RequestBody ExaminationDto examinationDto) {
         Examination examination = examinationMapper.toEntity(examinationDto);
-//        Examination examination = examinationService.findById(examinationDto.getExaminationId());
-//        examination.setMark(examinationDto.getMark());
-//        examination.setExaminationStatus(ExaminationStatus.getNameByTitle(examinationDto.getExaminationStatus()));
         examinationService.save(examination);
         return new ResponseEntity<>(examinationMapper.toDto(examination), HttpStatus.OK);
     }

@@ -40,6 +40,7 @@ public class Examination {
     private Solution solution;
 
     @Enumerated(EnumType.STRING)
+    @BatchSize(size = 20)
     private ExaminationStatus examinationStatus;
 
 }

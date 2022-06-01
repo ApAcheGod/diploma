@@ -26,9 +26,6 @@ public class TaskDto {
 
     private String name;
 
-//    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-//    private Set<Student2Dto> students = new HashSet<>();
-
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<Group2Dto> groups = new HashSet<>();
 
@@ -40,20 +37,8 @@ public class TaskDto {
 
     private String teacherName;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") // work
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime date_of_creation;
-
-//    private int min_rating;
-//
-//    private int max_rating;
-//
-//    private Boolean isTemporal;
-//
-//    private Boolean isMandatory; // обязательное задание
-//
-//    private TaskType taskType;
-//
-//    private int count_of_attempts; // количество сдачь
 
     private String text;
 

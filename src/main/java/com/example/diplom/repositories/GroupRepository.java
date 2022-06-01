@@ -15,6 +15,6 @@ public interface GroupRepository extends JpaRepository<Group, UUID> {
     @Transactional
     @Modifying
     @Query("delete from Group g where g.id = ?1")
-    public void deleteById(UUID uuid);
+    void deleteById(UUID uuid);
 }
 

@@ -29,9 +29,6 @@ public class RoomDto {
 
     private String teacherName;
 
-//    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-//    private Set<Group2Dto> groups = new HashSet<>();
-
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<Subject2Dto> subjects = new HashSet<>();
 }

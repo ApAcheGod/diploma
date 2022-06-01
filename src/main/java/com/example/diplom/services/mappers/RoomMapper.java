@@ -29,12 +29,10 @@ public class RoomMapper {
         modelMapper.createTypeMap(Room.class, RoomDto.class)
                 .addMappings(m -> m.skip(RoomDto::setTeacherId))
                 .addMappings(m -> m.skip(RoomDto::setTeacherName))
-//                .addMappings(m -> m.skip(RoomDto::setGroups))
                 .addMappings(m -> m.skip(RoomDto::setSubjects))
                 .setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(RoomDto.class, Room.class)
                 .addMappings(m -> m.skip(Room::setTeacher))
-//                .addMappings(m -> m.skip(Room::setGroups))
                 .addMappings(m -> m.skip(Room::setSubjects))
                 .setPostConverter(toEntityConverter());
     }

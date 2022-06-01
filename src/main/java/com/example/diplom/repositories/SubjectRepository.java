@@ -15,5 +15,5 @@ public interface SubjectRepository extends JpaRepository<Subject, UUID> {
     @Transactional
     @Modifying
     @Query("delete from Subject g where g.id = ?1")
-    public void deleteById(UUID uuid);
+    void deleteById(UUID uuid);
 }

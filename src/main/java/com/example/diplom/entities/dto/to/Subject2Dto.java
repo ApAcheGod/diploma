@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -25,10 +26,6 @@ public class Subject2Dto {
 
     private String teacherName;
 
-//    private UUID roomId;
-//
-//    private String roomName;
-
 
     @Override
     public boolean equals(Object o) {
@@ -37,10 +34,10 @@ public class Subject2Dto {
 
         Subject2Dto that = (Subject2Dto) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (teacherId != null ? !teacherId.equals(that.teacherId) : that.teacherId != null) return false;
-        return teacherName != null ? teacherName.equals(that.teacherName) : that.teacherName == null;
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(name, that.name)) return false;
+        if (!Objects.equals(teacherId, that.teacherId)) return false;
+        return Objects.equals(teacherName, that.teacherName);
     }
 
     @Override

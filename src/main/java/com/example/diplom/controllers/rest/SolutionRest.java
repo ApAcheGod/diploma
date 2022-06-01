@@ -3,7 +3,6 @@ package com.example.diplom.controllers.rest;
 import com.example.diplom.entities.Solution;
 import com.example.diplom.entities.dto.SolutionDto;
 import com.example.diplom.services.SolutionService;
-import com.example.diplom.services.TaskService;
 import com.example.diplom.services.mappers.SolutionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,7 +20,6 @@ public class SolutionRest {
 
     private final SolutionService solutionService;
     private final SolutionMapper solutionMapper;
-    private final TaskService taskService;
 
     @GetMapping("/solutions")
     public List<SolutionDto> allSolutions(){
@@ -33,11 +31,6 @@ public class SolutionRest {
         return new ResponseEntity<>( solutionMapper.toDto(solutionService.findById(uuid)), HttpStatus.OK);
     }
 
-//    {
-//        "text": "текст",
-//            "studentId": "d737b1d4-b923-4573-8f1e-da35ffed49a0",
-//            "taskId": "bade7bd8-f95e-440e-a0a5-07a0fa9a9987"
-//    }
     @PostMapping("/solution")
     public ResponseEntity<SolutionDto> create(@RequestBody SolutionDto solutionDto) {
         Solution solution = solutionMapper.toEntity(solutionDto);
