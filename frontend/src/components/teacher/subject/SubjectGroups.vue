@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from '@vue/reactivity';
 import { useStore } from 'vuex';
-import GroupCard from './GroupCard.vue';
+import GroupCard from '../GroupCard.vue';
 
 const store = useStore();
 const groupsByActiveSubject = computed(() => store.getters.getActiveSubject?.groups);

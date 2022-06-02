@@ -10,11 +10,11 @@ import TeacherMain from '../components/teacher/TeacherMain.vue';
 import TeacherSubjects from '../components/teacher/TeacherSubjects.vue';
 import TeacherJournal from '../components/teacher/TeacherJournal.vue';
 
-import SubjectGroups from '../components/teacher/SubjectGroups.vue';
-import SubjectHomeWorks from '../components/teacher/SubjectHomeWorks.vue';
-import SubjectJournal from '../components/teacher/SubjectJournal.vue';
-import SubjectMaterials from '../components/teacher/SubjectMaterials.vue';
-import SubjectTasks from '../components/teacher/SubjectTasks.vue';
+import SubjectGroups from '../components/teacher/subject/SubjectGroups.vue';
+import SubjectHomeWorks from '../components/teacher/subject/SubjectHomeWorks.vue';
+import SubjectJournal from '../components/teacher/subject/SubjectJournal.vue';
+import SubjectMaterials from '../components/teacher/subject/SubjectMaterials.vue';
+import SubjectTasks from '../components/teacher/subject/SubjectTasks.vue';
 
 import AdminView from '../views/AdminView.vue';
 import AdminStudents from '../components/admin/StudentsView.vue';
