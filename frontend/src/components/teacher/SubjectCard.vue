@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import {useStore} from "vuex";
+import { useStore } from "vuex";
 import actionsTypes from "../../store/actionsTypes";
 
 const props = defineProps({

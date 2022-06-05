@@ -165,7 +165,6 @@ const actions = {
         });
     },
 
-
     deleteSolution({ commit }, payload){
       const solution = payload;
       return methods.deleteSolutionFetch(solution)
@@ -226,9 +225,8 @@ const actions = {
     const task = payload;
     return methods.createTaskFetch(task)
         .then(createdTask => {
-          if (createdTask) {
-            commit(mutationsTypes.CREATE_TASK, createdTask);
-          }
+          commit(mutationsTypes.CREATE_TASK, createdTask);
+          return createdTask;
         });
   },
 

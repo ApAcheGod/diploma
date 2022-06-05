@@ -11,7 +11,9 @@ import TaskDialog from '../../admin/TaskDialog.vue';
 import actionsTypes from "../../../store/actionsTypes";
 import methods from "../../../store/methodsAdmin";
 import ActionsTypes from "../../../store/actionsTypes";
+import { useQuasar } from "quasar";
 
+const $q = useQuasar();
 const store = useStore();
 const activeSubject = computed(() => 
   store.getters.getActiveSubject
@@ -20,20 +22,11 @@ const activeSubject = computed(() =>
 let taskPromptIsOpen = ref(false);
 
 const newTask = ref({
-  name : "",
-  text: "",
-  subjectId : activeSubject.value?.id,
-  teacherID : activeSubject.value?.teacherId,
+  name : '',
+  text: '',
+  subjectId : '',
+  teacherId : '',
 });
-
-// const newTaskFormatted = computed(() => {
-//   let newTaskFormatted = JSON.parse(JSON.stringify(newTask.value));
-//
-//   newTaskFormatted.groups = methods.idArrToObjs(newTaskFormatted.groups);
-//   newTaskFormatted.solutions = methods.idArrToObjs(newTaskFormatted.solutions);
-//
-//   return newTaskFormatted;
-// });
 
 function triggerPositive(msg) {
   $q.notify({
@@ -49,7 +42,16 @@ function triggerNegative(msg) {
   })
 }
 
-async function updateTask(newTask){
+function clearActiveSubject(){
+  newTask.value = {
+    name : '',
+    text: '',
+    subjectId : '',
+    teacherId : '',
+  };
+}
+
+function updateTask(newTask){
   console.log("update task")
   // let updateResult = await methods.updateTaskFetch(newTask);
   // if(updateResult){
@@ -61,22 +63,16 @@ async function updateTask(newTask){
   //   triggerNegative('Не удалось обновить информацию о задании');
 }
 
-async function addNewTask(newTask){
-  console.log("add task")
-  console.log(newTask);
+function addNewTask(newTask){
+  newTask.subjectId = activeSubject.value.id;
+  newTask.teacherId = activeSubject.value.teacherId;
   store.dispatch(actionsTypes.CREATE_TASK, newTask)
       .then(() => triggerPositive('Успешно добавлено новое задание!'))
       .catch(() => triggerNegative('Не удалось добавить задание'));
-  // const createResult = await methods.createTaskFetch(newTask);
-  // if (createResult) {
-  //   tasks.value = await methods.getTasksFetch();
-  //   triggerPositive('Успешно добавлено новое задание!');
-  // }
-  // else
-  //   triggerNegative('Не удалось добавить задание');
+
 }
 
-async function deleteTask(task){
+function deleteTask(task){
   console.log("delete task")
   // const deleteResult = await methods.deleteTaskFetch(task);
   // if(deleteResult){
@@ -90,62 +86,49 @@ async function deleteTask(task){
 </script>
 <template>
   <base-card-wrapper>
-      <!-- <template #title>
-      <hr/>
-      {{room?.roomName}}
-    </template> -->
+
     <template #items>
       <base-card v-for="task in activeSubject?.tasks" :key="task.id">
         <template #title>
           {{task.name}}
         </template>
         <template #body>
-          <!-- {{group.students.length}} -->
+          {{task.text}}
         </template>
         <template #actions>
-          <button class="base-card__button base-card__button_edit" @click="() => updateTask(task)">Изменить</button>
-          <button class="base-card__button base-card__button_delete" @click="() => deleteTask(task)">Удалить</button>
+          <button class="base-card__button base-card__button_edit" @click="() => { newTask = task; taskPromptIsOpen = true;}">Изменить</button>
+          <button class="base-card__button base-card__button_delete" @click="deleteTask(task)">Удалить</button>
         </template>
       </base-card>
+      
       <base-add-new key="add-new">
         <template #body>
           <button class="base-card_add__button" @click="taskPromptIsOpen = true">
             <img class="room-card-add__icon" src="../../../img/add.svg"/>
           </button>
-<!--          <task-dialog-->
-<!--              updateButtonLabel="Добавить"-->
-<!--              :subjects="subjects"-->
-<!--              :teachers="teachers"-->
-<!--              :solutions="solutions"-->
-<!--              :prompt="taskPromptIsOpen"-->
-<!--              @update-click="addNewTask"-->
-<!--              @prompt-close="taskPromptIsOpen = false"-->
-<!--          />-->
-
-          <q-dialog v-model="taskPromptIsOpen" persistent>
-            <q-card style="min-width: 350px" @keyup.esc="taskPromptIsOpen=false" @keyup.enter="updateTask(newTask)">
-              <q-card-section>
-                <div class="text-h5">Редактирование</div>
-              </q-card-section>
-
-              <q-card-section class="q-pt-none">
-                <q-input dense v-model="newTask.name" autofocus label="Название"/>
-              </q-card-section>
-
-              <q-card-section class="q-pt-none">
-                <q-input dense autogrow v-model="newTask.text" autofocus label="Текст задания"/>
-              </q-card-section>
-
-              <q-card-actions align="right" class="text-primary">
-                <q-btn flat label="Отмена"  @click="emits('prompt-close')"/>
-                <q-btn flat label="хузй" @click="addNewTask(newTask)" />
-              </q-card-actions>
-            </q-card>
-          </q-dialog>
-
-
         </template>
       </base-add-new>
+      
+      <q-dialog v-model="taskPromptIsOpen" persistent>
+        <q-card style="min-width: 350px" @keyup.esc="taskPromptIsOpen=false" @keyup.enter="updateTask(newTask)">
+          <q-card-section>
+            <div class="text-h5">Редактирование</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            <q-input dense v-model="newTask.name" autofocus label="Название"/>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            <q-input dense autogrow v-model="newTask.text" autofocus label="Текст задания"/>
+          </q-card-section>
+
+          <q-card-actions align="right" class="text-primary">
+            <q-btn flat label="Отмена"  @click="() => {taskPromptIsOpen=false; clearActiveSubject();}"/>
+            <q-btn flat label="Добавить" @click="addNewTask(newTask)" />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </template>
   </base-card-wrapper>
 </template>

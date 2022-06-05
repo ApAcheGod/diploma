@@ -103,7 +103,10 @@ const mutations = {
   createTask(state, payload) {
     const task = payload;
     state.tasks.push(task);
+    state.subjects.filter(s => s.id === task.subjectId)?.tasks?.push(task);
+    state.activeSubjectData.tasks.push(task);
   },
+
   deleteTask(state, payload) {
     const task = payload;
     state.tasks.splice(state.tasks.findIndex(s => task.id === s.id), 1);
