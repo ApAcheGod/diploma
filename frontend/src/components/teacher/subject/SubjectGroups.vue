@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from '@vue/reactivity';
 import { useStore } from 'vuex';
-import GroupCard from '../GroupCard.vue';
+// import GroupCard from '../GroupCard.vue';
 
 const store = useStore();
 const groupsByActiveSubject = computed(() => store.getters.getActiveSubject?.groups);
@@ -9,7 +9,7 @@ const groupsByActiveSubject = computed(() => store.getters.getActiveSubject?.gro
 </script>
 <template>
   <div class="room-groups">
-    <group-card v-for="group in groupsByActiveSubject" :key="group.id" :group="group" />
+    <!-- <group-card v-for="group in groupsByActiveSubject" :key="group.id" :group="group" /> -->
   </div>
 </template>
 <style lang="scss" scoped>

@@ -79,6 +79,9 @@ function deleteSubject(subject) {
   </div>
 </template>
 <style lang="scss">
+
+</style>
+<style lang="scss" scoped>
 .subject-block {
   margin: 24px;
   &__title {
@@ -110,16 +113,16 @@ function deleteSubject(subject) {
   filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.161));
   width: 304px;
   height: 344px;
-}
-.subject-card-add__button {
-  border-radius: 50px;
-  padding: 21px;
-  background: #03DAC5;
-  transition: .3s;
-  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.14), 0px 1px 10px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.2);
-}
-.subject-card-add__button:hover {
-  background: rgba(3, 151, 135, 0.8);
-  transition: .3s;
+  &__button {
+    border-radius: 50px;
+    padding: 21px;
+    background: #03DAC5;
+    transition: .3s;
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.14), 0px 1px 10px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.2);
+    &__hover {
+      background: rgba(3, 151, 135, 0.8);
+      transition: .3s;
+    }
+  }
 }
 </style>

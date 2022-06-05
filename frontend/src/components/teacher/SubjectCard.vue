@@ -73,11 +73,8 @@ const formatNamableArray = (array) => {
   background: white;
   filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.161));
   padding: 16px;
-  // width: min-content;
-  // min-height: 368px;
-  // min-width: 256px;
-  width: 304px;
-  height: 344px;
+  min-width: 304px;
+  min-height: 344px;
 
   &__title {
     margin-bottom: 24px;

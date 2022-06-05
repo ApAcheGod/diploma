@@ -4,7 +4,11 @@ import {ref} from "vue";
 import { computed } from '@vue/reactivity';
 import { useStore } from 'vuex';
 import {useQuasar} from "quasar";
-import MaterialCard from '../MaterialCard.vue';
+
+import BaseCard from '../../base/BaseCard.vue';
+import BaseCardWrapper from '../../base/BaseCardWrapper.vue';
+import BaseAddNew from '../../base/BaseAddNew.vue';
+
 import actionsTypes from "../../../store/actionsTypes";
 
 const $q = useQuasar();
@@ -15,19 +19,30 @@ const materialIsNotEditing = ref(true);
 
 </script>
 <template>
-  <div class="material-block" v-for="room in materialsByRooms" :key="room.name" :room="room">
-    <div class="material-block__title">
+  <base-card-wrapper v-for="room in materialsByRooms" :key="room.name" :room="room">
+    <template #title>
       <hr/>
       {{room?.roomName}}
-    </div>
-      <material-card v-for="material in room?.roomMaterials" :material="material"/>
-  </div>
+    </template>
+    <template #items>
+      <base-card>
+        <template #title>
+
+        </template>
+        <template #body>
+          
+        </template>
+        <template #actions>
+          
+        </template>
+      </base-card>
+      <base-add-new>
+        <template #body>
+          
+        </template>
+      </base-add-new>
+    </template>
+  </base-card-wrapper>
 </template>
 <style lang="scss" scoped>
-.mate-block {
-
-  &__title {
-
-  }
-}
 </style>
