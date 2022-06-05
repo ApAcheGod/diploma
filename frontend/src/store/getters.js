@@ -207,14 +207,17 @@ const getters = {
   },
 
   getActiveSubject(state, getters) {
-    const filteredSubjects = state.subjects.filter(s => s?.id === state.activeSubjectId);
-    if (filteredSubjects.length > 0) {
-      const filteredSubject = filteredSubjects[0];
-      const groupsMapByGroupId = getters.getGroupsMapByGroupId;
-      filteredSubject.groups = filteredSubject.groups.map(group => groupsMapByGroupId.get(group.id));
-      return filteredSubject;
+    if (!state.activeSubjectData) {
+      const filteredSubjects = state.subjects.filter(s => s?.id === state.activeSubjectId);
+      if (filteredSubjects.length > 0) {
+        const filteredSubject = filteredSubjects[0];
+        const groupsMapByGroupId = getters.getGroupsMapByGroupId;
+        filteredSubject.groups = filteredSubject.groups.map(group => groupsMapByGroupId.get(group.id));
+        state.activeSubjectData = filteredSubject;
+      }
     }
-    return null;
+    
+    return state.activeSubjectData;
   },
 };
 

@@ -20,6 +20,7 @@ const state = {
   solutionsByStudentIdTaskId: null,
 
   activeSubjectId: localStorage.getItem('activeSubjectId') ? localStorage.getItem('activeSubjectId') : '',
+  activeSubjectData: null,
 };
 
 export default state;
