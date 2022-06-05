@@ -201,7 +201,7 @@ const actions = {
       return methods.deleteExaminationFetch(examination)
         .then(isSuccess => {
           if (isSuccess) {
-            commit(mutationsTypes.DELETE_SOLUTION, examination);
+            commit(mutationsTypes.DELETE_EXAMINATION, examination);
           }
         });
     },
@@ -221,6 +221,36 @@ const actions = {
         resolve(true);
       });
     },
+
+  createTask({ commit }, payload){
+    const task = payload;
+    return methods.createTaskFetch(task)
+        .then(createdTask => {
+          if (createdTask) {
+            commit(mutationsTypes.CREATE_TASK, createdTask);
+          }
+        });
+  },
+
+  updateTask({ commit }, payload){
+    const task = payload;
+    return methods.updateTaskFetch(task)
+        .then(updatedTask => {
+          if (updatedTask) {
+            commit(mutationsTypes.UPDATE_TASK, updatedTask);
+          }
+        });
+  },
+
+  deleteTask({ commit }, payload){
+    const task = payload;
+    return methods.deleteTaskFetch(task)
+        .then(isSuccess => {
+          if (isSuccess) {
+            commit(mutationsTypes.DELETE_TASK, task);
+          }
+        });
+  },
 };
 
 export default actions;

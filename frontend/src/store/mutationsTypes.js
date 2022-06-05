@@ -24,6 +24,11 @@ export default {
 
   CREATE_SUBJECT : 'createSubject',
   DELETE_SUBJECT : 'deleteSubject',
+  UPDATE_SUBJECT : 'updateSubject',
+
+  CREATE_TASK : 'createTask',
+  DELETE_TASK : 'deleteTask',
+  UPDATE_TASK : 'updateTask',
 
   CREATE_SOLUTION : 'createSolution',
   UPDATE_SOLUTION : 'updateSolution',
@@ -35,5 +40,4 @@ export default {
 
   SET_ACTIVE_SUBJECT : 'setActiveSubject',
   DELETE_ACTIVE_SUBJECT : 'deleteActiveSubject',
-  UPDATE_SUBJECT : 'updateSubject',
 }

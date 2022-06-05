@@ -77,10 +77,10 @@ const mutations = {
   updateRoom(state, payload){
     const room = payload;
     const updatedRoomIdTeacher = state.userData.rooms.findIndex(r => room.id === r.id); // Teacher
-    state.userData.rooms[updatedRoomIdTeacher] = {...state.userData.rooms[updatedRoomIdTeacher], ...payload}; // Teacher
+    state.userData.rooms[updatedRoomIdTeacher] = {...state.userData.rooms[updatedRoomIdTeacher], ...room}; // Teacher
     
     const updatedRoomId = state.rooms.findIndex(r => room.id === r.id);
-    state.rooms[updatedRoomId] = {...state.rooms[updatedRoomId], ...payload};
+    state.rooms[updatedRoomId] = {...state.rooms[updatedRoomId], ...room};
   },
 
   createSubject(state, payload) {
@@ -90,6 +90,30 @@ const mutations = {
   deleteSubject(state, payload) {
     const subject = payload;
     state.subjects.splice(state.subjects.findIndex(s => subject.id === s.id), 1);
+  },
+
+  updateSubject(state, payload) {
+    const subject = payload;
+    const updatedSubjectId = state.userData.findIndex(s => subject.id === s.id);
+
+    state.userData.subjects[updatedSubjectId] = {...state.userData.subjects[updatedSubjectId], ...subject};
+    state.activeSubjectData = null;
+  },
+
+  createTask(state, payload) {
+    const task = payload;
+    state.tasks.push(task);
+  },
+  deleteTask(state, payload) {
+    const task = payload;
+    state.tasks.splice(state.tasks.findIndex(s => task.id === s.id), 1);
+  },
+
+  updateTask(state, payload) {
+    const task = payload;
+    const updateTaskId = state.userData.tasks.findIndex(t => task.id === t.id);
+
+    state.userData.tasks[updateTaskId] = {...state.userData.tasks[updateTaskId], ...task};
   },
 
   createSolution(state, payload){
@@ -122,9 +146,7 @@ const mutations = {
     localStorage.removeItem('activeSubjectId');
     localStorage.removeItem('hasActiveSubject');
   },
-  updateSubject(state, payload) {
 
-  },
 };
 
 export default mutations;

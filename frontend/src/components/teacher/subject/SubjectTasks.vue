@@ -61,13 +61,16 @@ async function updateTask(newTask){
 }
 
 async function addNewTask(newTask){
-  const createResult = await methods.createTaskFetch(newTask);
-  if (createResult) {
-    tasks.value = await methods.getTasksFetch();
-    triggerPositive('Успешно добавлено новое задание!');
-  }
-  else
-    triggerNegative('Не удалось добавить задание');
+  console.log("add task")
+  console.log(activeSubject);
+  console.log(newTask);
+  // const createResult = await methods.createTaskFetch(newTask);
+  // if (createResult) {
+  //   tasks.value = await methods.getTasksFetch();
+  //   triggerPositive('Успешно добавлено новое задание!');
+  // }
+  // else
+  //   triggerNegative('Не удалось добавить задание');
 }
 
 async function deleteTask(task){
