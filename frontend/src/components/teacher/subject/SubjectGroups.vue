@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from "vue";
-import { useStore } from 'vuex';;
+import { useStore } from 'vuex';
 
 import BaseCard from '../../base/BaseCard.vue';
 import BaseCardWrapper from '../../base/BaseCardWrapper.vue';

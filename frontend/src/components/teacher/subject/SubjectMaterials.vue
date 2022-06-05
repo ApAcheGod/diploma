@@ -21,9 +21,9 @@ const activeSubject = computed(() =>
       {{room?.roomName}}
     </template> -->
     <template #items>
-      <base-card v-for="group in activeSubject?.groups" :key="group.id">
+      <base-card v-for="material in activeSubject?.materials" :key="material.id">
         <template #title>
-          {{group.name}}
+          {{material.name}}
         </template>
         <template #body>
           <!-- {{group.students.length}} -->
@@ -32,7 +32,7 @@ const activeSubject = computed(() =>
           <button class="base-card__button base-card__button_delete">Удалить</button>
         </template>
       </base-card>
-      <base-add-new>
+      <base-add-new key="add-new">
         <template #body>
           <button class="base-card_add__button">
             <img class="room-card-add__icon" src="../../../img/add.svg"/>
