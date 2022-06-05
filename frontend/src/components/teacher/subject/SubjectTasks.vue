@@ -10,6 +10,7 @@ import TaskDialog from '../../admin/TaskDialog.vue';
 
 import actionsTypes from "../../../store/actionsTypes";
 import methods from "../../../store/methodsAdmin";
+import ActionsTypes from "../../../store/actionsTypes";
 
 const store = useStore();
 const activeSubject = computed(() => 
@@ -21,8 +22,8 @@ let taskPromptIsOpen = ref(false);
 const newTask = ref({
   name : "",
   text: "",
-  subjectId : activeSubject.value.id,
-  teacherID : activeSubject.value.teacherId,
+  subjectId : activeSubject.value?.id,
+  teacherID : activeSubject.value?.teacherId,
 });
 
 // const newTaskFormatted = computed(() => {
@@ -62,8 +63,10 @@ async function updateTask(newTask){
 
 async function addNewTask(newTask){
   console.log("add task")
-  console.log(activeSubject);
   console.log(newTask);
+  store.dispatch(actionsTypes.CREATE_TASK, newTask)
+      .then(() => triggerPositive('Успешно добавлено новое задание!'))
+      .catch(() => triggerNegative('Не удалось добавить задание'));
   // const createResult = await methods.createTaskFetch(newTask);
   // if (createResult) {
   //   tasks.value = await methods.getTasksFetch();
