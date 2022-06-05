@@ -10,6 +10,6 @@ export default createStore({
   getters: getters,
   actions: actions,
   state: state,
-  strict: false,
-  plugins: [createLogger()],
+  strict: true,
+  plugins: process.env.NODE_ENV !== 'production' ? [createLogger()] : [],
 })
