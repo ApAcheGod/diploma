@@ -28,28 +28,47 @@
   min-height: 368px;
   min-width: 256px;
   font-family: 'Montserrat';
+  padding-left: 16px;
+  padding-right: 16px;
   &__title {
     display: flex;
     align-items: center;
     text-transform: uppercase;
     font-weight: 500;
     font-size: 19px;
-    padding-left: 16px;
-    padding-right: 16px;
     letter-spacing: 0.03rem;
     min-height: 56px;
   }
   &__actions {
     display: flex;
     gap: 16px;
-    padding-left: 16px;
-    padding-right: 16px;
     min-height: 16px;
   }
   &__body {
     padding-top: 8px;
     padding-bottom: 8px;
-    // background-color:gainsboro;
+    flex-grow: 1;
+  }
+  &__button {
+    font-family: 'Montserrat';
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    text-transform: uppercase;
+    color: #6200EE;
+    transition: .3s;
+    opacity: 1;
+    &:hover {
+      transition: .3s;
+      opacity: .8;
+    }
+    &_edit {
+      color: #2020CC;
+      text-decoration: underline;
+    }
+    &_delete {
+      color: crimson;
+    }
   }
 }
 </style>

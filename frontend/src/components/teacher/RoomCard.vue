@@ -59,7 +59,7 @@ const updatedRoom = function() {
     </div>
   </div>
 </template>
-<style scoped>
+<style lang="scss" scoped>
 .room-card {
   display: flex;
   flex-direction: column;
@@ -71,52 +71,52 @@ const updatedRoom = function() {
   width: min-content;
   min-height: 368px;
   min-width: 256px;
-}
-.room-card__title {
-  display: flex;
-  align-items: center;
-  font-family: 'Montserrat';
-  text-transform: uppercase;
-  font-weight: 500;
-  font-size: 19px;
-  padding-left: 16px;
-  padding-right: 16px;
-  letter-spacing: 0.03rem;
-  min-height: 56px;
-}
-.room-card__actions {
-  display: flex;
-  gap: 16px;
-  padding-left: 16px;
-  padding-right: 16px;
-  min-height: 16px;
-}
-.room-card__body {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  background-color:gainsboro;
-}
-.room-card__image {
-filter: invert(70%) sepia(1%) saturate(0%) hue-rotate(27deg) brightness(89%) contrast(83%);
-}
-.room-card__button {
-  font-family: 'Montserrat';
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 16px;
-  text-transform: uppercase;
-  color: #6200EE;
-  transition: .3s;
-  opacity: 1;
-}
-.room-card__button:hover {
-  transition: .3s;
-  opacity: .8;
-}
-.room-card__button_edit {
+  &__title {
+    display: flex;
+    align-items: center;
+    font-family: 'Montserrat';
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 19px;
+    padding-left: 16px;
+    padding-right: 16px;
+    letter-spacing: 0.03rem;
+    min-height: 56px;
+  }
+  &__actions {
+    display: flex;
+    gap: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    min-height: 16px;
+  }
+  &__body {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background-color:gainsboro;
+  }
+  &__image {
+    filter: invert(70%) sepia(1%) saturate(0%) hue-rotate(27deg) brightness(89%) contrast(83%); // gray to svg
+  }
+  &__button {
+    font-family: 'Montserrat';
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    text-transform: uppercase;
+    color: #6200EE;
+    transition: .3s;
+    opacity: 1;
+    &:hover {
+      transition: .3s;
+      opacity: .8;
+    }
+    &_edit {
 
-}
-.room-card__button_delete {
-  color: crimson;
+    }
+    &_delete {
+      color: crimson;
+    }
+  }
 }
 </style>

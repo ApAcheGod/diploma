@@ -75,16 +75,15 @@ const formatNamableArray = (array) => {
   padding: 16px;
   min-width: 304px;
   min-height: 344px;
-
+  font-family: 'Montserrat';
+  color: #1d1d1d;
   &__title {
     margin-bottom: 24px;
     display: flex;
     flex-direction: column;
     justify-content: left;
-    font-family: 'Montserrat';
     font-size: 17px;
     font-weight: 500;
-    color: #1d1d1d;
     height: 51px;
   }
   &__count {
@@ -92,8 +91,6 @@ const formatNamableArray = (array) => {
     display: flex;
     flex-direction: column;
     justify-content: left;
-    font-family: 'Montserrat';
-    color: #1d1d1d;
     height: 64px;
   }
   &__actions {
@@ -104,7 +101,6 @@ const formatNamableArray = (array) => {
     height: 16px;
   }
   &__button {
-    font-family: 'Montserrat';
     font-weight: 500;
     font-size: 14px;
     line-height: 16px;
@@ -112,12 +108,10 @@ const formatNamableArray = (array) => {
     color: #6200EE;
     transition: .3s;
     opacity: 1;
-
     &:hover {
       transition: .3s;
       opacity: .8;
     }
-
     &_edit {
       color: #2020CC;
       text-decoration: underline;
