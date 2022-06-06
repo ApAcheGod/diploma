@@ -6,9 +6,9 @@
       <slot name="title"></slot>
     </div>
     <div class="base-wrapper__items">
-      <transition-group name="list">
+      <!-- <transition-group name="list"> -->
         <slot name="items"></slot>
-      </transition-group>
+      <!-- </transition-group> -->
     </div>
   </div>
 </template>

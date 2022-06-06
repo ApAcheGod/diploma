@@ -137,6 +137,12 @@ const getters = {
     return solutionsByStudentIdTaskId;
   },
 
+  getSubjectBySubjectId(state){
+    const subjectBySubjectId = new Map();
+    state.subjects.forEach(subject => subjectBySubjectId.set(subject.id, subject));
+    return subjectBySubjectId;
+  },
+
   getFormattedJournal(state, getters){ 
     const solutionsByStudentIdTaskId = getters.getSolutionsByStudentIdTaskId;
     const examsByStudentIdTaskId = getters.getExamsByStudentIdTaskId;
@@ -202,22 +208,18 @@ const getters = {
         }),
       }
     });
-    console.log(roomSubjectsHeadByTasks);
     return roomSubjectsHeadByTasks;
   },
 
   getActiveSubject(state, getters) {
-    if (!state.activeSubjectData) {
-      const filteredSubjects = state.subjects.filter(s => s?.id === state.activeSubjectId);
-      if (filteredSubjects.length > 0) {
-        const filteredSubject = filteredSubjects[0];
-        const groupsMapByGroupId = getters.getGroupsMapByGroupId;
-        filteredSubject.groups = filteredSubject.groups.map(group => groupsMapByGroupId.get(group.id));
-        state.activeSubjectData = filteredSubject;
-      }
-    }
-    
-    return state.activeSubjectData;
+    const filteredSubjects = state.subjects.filter(s => s?.id === state.activeSubjectId);
+    if (filteredSubjects.length === 0)
+      return null;
+
+    const filteredSubject = JSON.parse(JSON.stringify(filteredSubjects[0]));
+    const groupsMapByGroupId = getters.getGroupsMapByGroupId;
+    filteredSubject.groups = filteredSubject.groups.map(group => groupsMapByGroupId.get(group.id));
+    return filteredSubject;
   },
 };
 
