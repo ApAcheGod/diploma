@@ -149,7 +149,11 @@ const mutations = {
     localStorage.removeItem('activeSubjectId');
     localStorage.removeItem('hasActiveSubject');
   },
-
+  updateSubject(state, payload) {
+    const updatedSubject = payload;
+    const prevSubjectId = state.subjects.findIndex(s => updatedSubject.id === s.id);
+    state.subjects[prevSubjectId] = updatedSubject;
+  }
 };
 
 export default mutations;

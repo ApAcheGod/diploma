@@ -1,4 +1,5 @@
 const state = {
+  activeSubjectId: localStorage.getItem('activeSubjectId') ? localStorage.getItem('activeSubjectId') : '',
   user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
   userData: {},
 
@@ -13,14 +14,6 @@ const state = {
   solutions: [],
   examinations: [],
   tasks: [],
-
-  studentsMapByStudentId: null,
-  groupsMapByGroupId: null,
-  examsByStudentIdTaskId: null,
-  solutionsByStudentIdTaskId: null,
-
-  activeSubjectId: localStorage.getItem('activeSubjectId') ? localStorage.getItem('activeSubjectId') : '',
-  activeSubjectData: null,
 };
 
 export default state;

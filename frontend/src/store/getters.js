@@ -221,6 +221,13 @@ const getters = {
     filteredSubject.groups = filteredSubject.groups.map(group => groupsMapByGroupId.get(group.id));
     return filteredSubject;
   },
+
+  getActiveSubjectEmpty(state, getters) {
+    const filteredSubjects = state.subjects.filter(s => s?.id === state.activeSubjectId);
+    if (filteredSubjects.length === 0)
+      return null;
+    return JSON.parse(JSON.stringify(filteredSubjects[0]));
+  }
 };
 
 export default getters;

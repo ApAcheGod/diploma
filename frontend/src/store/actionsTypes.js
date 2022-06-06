@@ -30,4 +30,6 @@ export default {
 
     SET_ACTIVE_SUBJECT : 'setActiveSubject',
     DELETE_ACTIVE_SUBJECT : 'deleteActiveSubject',
+
+    UPDATE_SUBJECT : 'updateSubject',
 }

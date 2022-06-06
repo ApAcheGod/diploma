@@ -249,6 +249,16 @@ const actions = {
           }
         });
   },
+
+  updateSubject({ commit }, payload){
+    const updatedSubject = payload;
+    return methods.updateSubjectFetch(updatedSubject)
+      .then(isSuccess => {
+        if (isSuccess) {
+          commit(mutationsTypes.UPDATE_SUBJECT, updatedSubject);
+        }
+      })
+  }
 };
 
 export default actions;
