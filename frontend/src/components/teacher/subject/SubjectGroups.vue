@@ -99,7 +99,7 @@ const removeGroup = (removedGroup) => {
           <button class="base-card__button base-card__button_delete" @click="removeGroup(group)">Удалить</button>
         </template>
       </base-card>
-      <base-add-new key="add-new">
+      <base-add-new key="add-new" v-if="filteredStudentGroups.length > 0">
         <template #body>
           <q-select
             v-model="newGroup" 
