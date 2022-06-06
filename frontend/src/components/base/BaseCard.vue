@@ -25,8 +25,8 @@
   padding-bottom: 16px;
   padding-top: 16px;
   width: min-content;
-  min-height: 368px;
-  min-width: 256px;
+  height: 368px;
+  width: 256px;
   font-family: 'Montserrat';
   padding-left: 16px;
   padding-right: 16px;
@@ -48,6 +48,9 @@
     padding-top: 8px;
     padding-bottom: 8px;
     flex-grow: 1;
+    // text-overflow: ellipsis;
+    // white-space: nowrap;
+    overflow: hidden;
   }
   &__button {
     font-family: 'Montserrat';
