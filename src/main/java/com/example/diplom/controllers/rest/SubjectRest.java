@@ -40,6 +40,10 @@ public class SubjectRest {
 
     @PutMapping(value = "/subject")
     public ResponseEntity<SubjectDto> update(@RequestBody SubjectDto subjectDto) {
+        Subject subject1 = subjectService.findById(subjectDto.getId());
+        subject1.deleteLinks();
+        subjectService.save(subject1);
+        System.out.println("saved");
         Subject subject = subjectMapper.toEntity(subjectDto);
         subjectService.save(subject);
         return new ResponseEntity<>(subjectMapper.toDto(subject), HttpStatus.OK);
