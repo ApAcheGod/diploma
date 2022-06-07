@@ -67,7 +67,7 @@
     }
     &_edit {
       color: #2020CC;
-      text-decoration: underline;
+      // text-decoration: underline;
     }
     &_delete {
       color: crimson;

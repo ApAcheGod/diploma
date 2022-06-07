@@ -30,14 +30,14 @@ const defaultNewGroupEmpty = {
 let newGroup = ref(defaultNewGroupEmpty);
 
 const studentsRuLocale = (studentsCount) => {
-  const groupsCountNums = studentsCount.toString();
   if (!studentsCount)
     return 'Нет студентов';
+  const groupsCountNums = studentsCount.toString();
   if (groupsCountNums[groupsCountNums.length - 1] == 1)
-    return studentsCount + ' студент';
+    return studentsCount + ' студент:';
   if (groupsCountNums[groupsCountNums.length - 1] == 2 || groupsCountNums[groupsCountNums.length - 1] == 3 || groupsCountNums[groupsCountNums.length - 1] == 4)
-    return studentsCount + ' студента';
-  return studentsCount + ' студентов';
+    return studentsCount + ' студента:';
+  return studentsCount + ' студентов:';
 }
 
 const addGroup = () => {
@@ -90,7 +90,7 @@ const removeGroup = (removedGroup) => {
           {{group.name}}
         </template>
         <template #body>
-          <b>{{`${studentsRuLocale(group.students.length)}:`}}</b>
+          <b>{{studentsRuLocale(group.students?.length)}}</b>
           <p v-for="student in group.students">
             {{student.name}}
           </p>

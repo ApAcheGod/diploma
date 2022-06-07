@@ -204,6 +204,7 @@ const actions = {
           }
         });
     },
+
     setActiveSubject({ commit }, payload) {
       const subject = payload;
       return new Promise((resolve, reject) => {
@@ -250,15 +251,35 @@ const actions = {
         });
   },
 
-  updateSubject({ commit }, payload){
-    const updatedSubject = payload;
-    return methods.updateSubjectFetch(updatedSubject)
-      .then(isSuccess => {
-        if (isSuccess) {
-          commit(mutationsTypes.UPDATE_SUBJECT, updatedSubject);
-        }
-      })
-  }
+  createMaterial({ commit }, payload){
+    const material = payload;
+    return methods.createMaterialFetch(material)
+        .then(createdSubject => {
+          if (createdSubject) {
+            commit(mutationsTypes.CREATE_SUBJECT, createdSubject);
+          }
+        });
+  },
+
+  updateMaterial({ commit }, payload){
+    const material = payload;
+    return methods.updateMaterialFetch(material)
+        .then(updatedSubject => {
+          if (updatedSubject) {
+            commit(mutationsTypes.UPDATE_SUBJECT, updatedSubject);
+          }
+        });
+  },
+
+  deleteMaterial({ commit }, payload){
+    const material = payload;
+    return methods.deleteMaterialFetch(material)
+        .then(isSuccess => {
+          if (isSuccess) {
+            commit(mutationsTypes.DELETE_SUBJECT, subject);
+          }
+        });
+  },
 };
 
 export default actions;
