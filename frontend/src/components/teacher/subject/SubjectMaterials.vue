@@ -46,7 +46,7 @@ const createOrUpdateMaterial = () => {
 }
 
 const deleteMaterial = (deletedMaterial) => {
-  store.dispatch(actionsTypes.UPDATE_MATERIAL, deletedMaterial)
+  store.dispatch(actionsTypes.DELETE_MATERIAL, deletedMaterial)
     .then(() => {
       q.notify({
         type: 'positive',
@@ -122,7 +122,7 @@ const deleteMaterial = (deletedMaterial) => {
 
           <q-card-actions align="right" class="text-primary">
             <q-btn flat label="Отмена"  @click="promptIsOpen=false; newMaterial={};"/>
-            <q-btn flat label="Добавить" @click="createOrUpdateMaterial()" />
+            <q-btn flat label="Добавить" @click="createOrUpdateMaterial(); promptIsOpen=false" />
           </q-card-actions>
         </q-card>
       </q-dialog>

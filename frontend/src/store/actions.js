@@ -256,7 +256,7 @@ const actions = {
     return methods.createMaterialFetch(material)
         .then(createdSubject => {
           if (createdSubject) {
-            commit(mutationsTypes.CREATE_SUBJECT, createdSubject);
+            commit(mutationsTypes.CREATE_MATERIAL, createdSubject);
           }
         });
   },
@@ -266,7 +266,7 @@ const actions = {
     return methods.updateMaterialFetch(material)
         .then(updatedSubject => {
           if (updatedSubject) {
-            commit(mutationsTypes.UPDATE_SUBJECT, updatedSubject);
+            commit(mutationsTypes.UPDATE_MATERIAL, updatedSubject);
           }
         });
   },
@@ -276,7 +276,7 @@ const actions = {
     return methods.deleteMaterialFetch(material)
         .then(isSuccess => {
           if (isSuccess) {
-            commit(mutationsTypes.DELETE_SUBJECT, subject);
+            commit(mutationsTypes.DELETE_MATERIAL, subject);
           }
         });
   },

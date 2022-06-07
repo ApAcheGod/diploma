@@ -226,7 +226,7 @@ export default {
     return fetch(`${URL}/api/material/${material.id}`, header)
       .then(res => {
         if (res.ok)
-          return res.json();  
+          return res.text();  
         throw `${res.status} ${res.statusText}`;
       })
       .then(json => json)

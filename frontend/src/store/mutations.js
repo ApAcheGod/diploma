@@ -106,6 +106,7 @@ const mutations = {
     const task = payload;
     const updateTaskId = state.userData.tasks.findIndex(t => task.id === t.id);
     state.userData.tasks[updateTaskId] = task;
+
   },
 
   createSolution(state, payload){
@@ -134,14 +135,26 @@ const mutations = {
 
   createMaterial(state, payload){
     const material = payload;
+    const linkedSubject = state.subjects.filter(subject => subject.id === material.subjectId);
+    linkedSubject.materials ? linkedSubject.materials.push(material) : linkedSubject.materials = [material];
+
+
+    state.subjects[state.subjects.findIndex(s => s.id === linkedSubject.id)] = linkedSubject;
     state.materials.push(material);
   },
   deleteMaterial(state, payload){
     const material = payload;
+    const linkedSubject = state.subjects.filter(subject => subject.id === material.subjectId);
+    linkedSubject.materials = linkedSubject.materials ? 
+      linkedSubject.materials.filter(m => m.id !== material.id) : [];
     state.materials.splice(state.materials.findIndex(m => material.id === m.id), 1);
   },
   updateMaterial(state, payload){
     const material = payload;
+    const linkedSubject = state.subjects.filter(subject => subject.id === material.subjectId);
+    
+    const updatedSubjectId = linkedSubject.materials.findIndex(m => m.id === material.id); 
+    linkedSubject.materials[updatedSubjectId] = material;
     const updateMaterialId = state.materials.findIndex(m => material.id === m.id);
     state.materials[updateMaterialId] = material;
   },
