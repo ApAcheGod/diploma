@@ -182,7 +182,7 @@ const getters = {
             tasks: subject.tasks,
             groups: !subject.groups ? [] : subject.groups.map(group => { 
               let fullGroupData = groupsMapByGroupId.get(group.id);
-              fullGroupData.students = fullGroupData.students.map(student => studentsMapByStudentId.get(student.id));
+              fullGroupData.students = fullGroupData.students?.map(student => studentsMapByStudentId.get(student.id)) ?? [];
               setGroupResults(fullGroupData, subject);
               return fullGroupData;
             }),

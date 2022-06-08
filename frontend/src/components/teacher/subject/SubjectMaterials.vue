@@ -12,7 +12,7 @@ import actionsTypes from "../../../store/actionsTypes";
 const titles = {
   NEW : 'Добавить',
   EDIT : 'Редактировать',
-}
+};
 const q = useQuasar();
 const store = useStore();
 const activeSubject = computed(() => store.getters.getActiveSubject);
