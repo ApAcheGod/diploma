@@ -1,68 +1,57 @@
 <script setup>
 import { computed } from '@vue/reactivity';
 import { useStore } from 'vuex';
-import {onMounted} from "vue";
-import workStatuses from '../../models/workStatuses';
-
+import methods from '../../store/methods';
 
 const store = useStore();
 const formattedJournalData = computed(() => {
   return store.getters.getFormattedJournal;
 });
 
-const getBadgeColor = (workStatus) => {
-  switch (workStatus) {
-    case workStatuses.NOT_COMPLETED:
-      return 'blue';
-      case workStatuses.COMPLETED:
-        return 'orange';
-      case workStatuses.CORRECTLY:
-        return 'green';
-      case workStatuses.INCORRECTLY:
-        return 'red';
-    default:
-      return 'black';
-  }
-}
-
 </script>
 <template>
-
-<div class="journal-room-block" v-for="head in formattedJournalData">
+  <div class="journal-room-block" v-for="room in formattedJournalData">
     <div class="journal-room-block__title">
       <hr/>
-      {{head.roomName}}
+      {{room.roomName}}
     </div>
-    <div class="journal-subject-block" v-for="subject in head.roomSubjects">
+    <div class="journal-subject-block" v-for="subject in room.roomSubjects">
       <div class="journal-subject-block__title">
         <hr/>
         {{subject.name}}
       </div>
-      <div class="journal-group-block" v-for="group in subject.groups">
-        <div class="journal-group-block__title">
-          <hr/>
-          {{group.name}}
+      <template v-if="subject.groups && subject.groups.length > 0">
+        <div class="journal-group-block" v-for="group in subject.groups">
+          <div class="journal-group-block__title">
+            <hr/>
+            {{group.name}}
+          </div>
+          <div class="journal-group-block__table">
+            <q-table
+              :rows="group.students"
+              :columns="subject.tasksTableHead"
+              row-key="name"
+              no-data-label="В группе нет студентов"
+            >
+              <template v-slot:body-cell="props">
+                <q-td :props="props">
+                  <q-badge outline :color="methods.getBadgeColor(props.value)" :label="props.value" />
+                </q-td>
+              </template>
+              <template v-slot:body-cell-name="props">
+                <q-td :props="props">
+                  {{props.value}}
+                </q-td> 
+              </template>
+            </q-table>
+          </div>
         </div>
-        <div class="journal-group-block__table">
-          <q-table
-            :rows="group.students"
-            :columns="subject.tasksTableHead"
-            row-key="name"
-            no-data-label="Нет данных"
-          >
-            <template v-slot:body-cell="props">
-              <q-td :props="props">
-                <q-badge outline :color="getBadgeColor(props.value)" :label="props.value" />
-              </q-td>
-            </template>
-            <template v-slot:body-cell-name="props">
-              <q-td :props="props">
-                {{props.value}}
-              </q-td> 
-            </template>
-          </q-table>
+      </template>
+      <template v-else>
+        <div class="journal-group-block journal-group-block__title">
+          Нет групп
         </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
@@ -88,8 +77,8 @@ hr {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  margin-bottom: 16px;
   &__title {
-
     font-family: 'Montserrat';
   }
 }

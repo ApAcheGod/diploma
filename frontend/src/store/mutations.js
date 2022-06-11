@@ -81,15 +81,22 @@ const mutations = {
   createSubject(state, payload) {
     const subject = payload;
     state.subjects.push(subject);
+
+    state.userData.subjects.push(subject); // Teacher
   },
   deleteSubject(state, payload) {
     const subject = payload;
     state.subjects.splice(state.subjects.findIndex(s => subject.id === s.id), 1);
+
+    state.userData.subjects.splice(state.subjects.findIndex(s => subject.id === s.id), 1); // Teacher
   },
   updateSubject(state, payload) {
     const updatedSubject = payload;
     const prevSubjectId = state.subjects.findIndex(s => updatedSubject.id === s.id);
     state.subjects[prevSubjectId] = updatedSubject;
+
+    const prevSubjectIdTeacher = state.userData.subjects.findIndex(s => updatedSubject.id === s.id); // Teacher
+    state.userData.subjects[prevSubjectIdTeacher] = updatedSubject; // Teacher
   },
 
   createTask(state, payload) {

@@ -1,46 +1,57 @@
 <script setup>
 import { computed, ref } from "vue";
-import { useStore } from 'vuex';;
-
-import BaseCard from '../../base/BaseCard.vue';
-import BaseCardWrapper from '../../base/BaseCardWrapper.vue';
-import BaseAddNew from '../../base/BaseAddNew.vue';
-
+import { useStore } from 'vuex';
+import methods from '../../../store/methods';
 import actionsTypes from "../../../store/actionsTypes";
 
 const store = useStore();
-const activeSubject = computed(() => 
-  store.getters.getActiveSubject
-);
+
+const subjectJournal = computed(() => {
+  const formatted = store.getters.getActiveSubjectJournal;
+  if (!formatted) store.dispatch(actionsTypes.DELETE_ACTIVE_SUBJECT);
+  return formatted;
+});
 
 </script>
 <template>
-  <base-card-wrapper>
-      <!-- <template #title>
-      <hr/>
-      {{room?.roomName}}
-    </template> -->
-    <template #items>
-      <base-card v-for="group in activeSubject?.groups" :key="group.id">
-        <template #title>
-          {{group.name}}
-        </template>
-        <template #body>
-          <!-- {{group.students.length}} -->
-        </template>
-        <template #actions>
-          <button class="base-card__button base-card__button_delete">Удалить</button>
-        </template>
-      </base-card>
-      <base-add-new key="add-new">
-        <template #body>
-          <button class="base-card_add__button">
-            <img class="room-card-add__icon" src="../../../img/add.svg"/>
-          </button>
-        </template>
-      </base-add-new>
-    </template>
-  </base-card-wrapper>
+    <div class="journal-room-block" v-if="subjectJournal">
+      <div class="journal-room-block__title">
+        <hr/>
+        {{subjectJournal.name}}
+      </div>
+      <template v-if="subjectJournal.groups && subjectJournal.groups.length > 0">
+        <div class="journal-group-block" v-for="group in subjectJournal.groups">
+          <div class="journal-group-block__title">
+            <hr/>
+            {{group.name}}
+          </div>
+          <div class="journal-group-block__table">
+            <q-table
+              :rows="group.students"
+              :columns="subjectJournal.tableHead"
+              row-key="name"
+              no-data-label="В группе нет студентов"
+            >
+              <template v-slot:body-cell="props">
+                <q-td :props="props">
+                  <q-badge outline :color="methods.getBadgeColor(props.value)" :label="props.value" />
+                </q-td>
+              </template>
+              <template v-slot:body-cell-name="props">
+                <q-td :props="props">
+                  {{props.value}}
+                </q-td> 
+              </template>
+            </q-table>
+          </div>
+        </div>
+      </template>
+      <template v-else>
+        <div class="journal-room-block journal-room-block__title">
+          Нет групп
+        </div>
+      </template>
+    </div>
 </template>
 <style lang="scss" scoped>
 </style>

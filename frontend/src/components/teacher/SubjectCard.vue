@@ -8,7 +8,7 @@ const props = defineProps({
 });
 
 const store = useStore();
-const emits = defineEmits(['delete', 'save', 'cancel']);
+const emits = defineEmits(['delete', 'save', 'cancel', 'info']);
 
 const tasksRuLocale = (tasksCount) => {
   const tasksCountNums = tasksCount.toString();
@@ -54,12 +54,12 @@ const formatNamableArray = (array) => {
     <div class="subject-card__actions">
       <button 
           class="subject-card__button subject-card__button_edit"
-          @click="store.dispatch(actionsTypes.SET_ACTIVE_SUBJECT, props.subject)">
+          @click="emits('info', props.subject)">
           Подробнее
         </button>
         <button
           class="subject-card__button subject-card__button_delete"
-          @click="() => emits('delete', props.subject)">
+          @click="emits('delete', props.subject)">
           Удалить
         </button>
     </div>
@@ -73,7 +73,7 @@ const formatNamableArray = (array) => {
   background: white;
   filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.161));
   padding: 16px;
-  min-width: 304px;
+  width: 304px;
   min-height: 344px;
   font-family: 'Montserrat';
   color: #1d1d1d;

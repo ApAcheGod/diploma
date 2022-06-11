@@ -24,7 +24,7 @@ const createOrUpdateMaterial = () => {
   const material = newMaterial.value;
   if (!material.name && !material.text) return;
   
-  if (!material.id) {
+  if (!material) {
     material.teacherId = activeSubject.value.teacherId;
     material.subjectId = activeSubject.value.id;
   }

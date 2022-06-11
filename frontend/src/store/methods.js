@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import workStatuses from '../models/workStatuses';
 import userRoles from "../models/userRoles";
 import URL from './consts';
 
@@ -62,6 +63,22 @@ const deleteFetch = (route, object) => {
 
 
 export default {
+
+  getBadgeColor: (workStatus) => {
+    switch (workStatus) {
+      case workStatuses.NOT_COMPLETED:
+        return 'blue';
+        case workStatuses.COMPLETED:
+          return 'orange';
+        case workStatuses.CORRECTLY:
+          return 'green';
+        case workStatuses.INCORRECTLY:
+          return 'red';
+      default:
+        return 'black';
+    }
+  },
+
   getUserRole: (user) => user ? user.authentication.authorities[0].authority : userRoles.ROLE_ANONYMOUS,
   
   idArrToObjs(array){

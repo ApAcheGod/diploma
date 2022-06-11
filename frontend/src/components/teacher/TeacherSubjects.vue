@@ -19,14 +19,12 @@ const teacher = computed(() => {
 const $q = useQuasar();
 const store = useStore();
 const newSubjectName = ref('');
-const subjectIsNotEditing = ref(true);
 
 function createSubject(subject){
   store.dispatch(actionsTypes.CREATE_SUBJECT, subject)
       .then(() => {
         $q.notify({type: 'positive', message: 'Предмет успешно создан'})
         newSubjectName.value = '';
-        subjectIsNotEditing.value = true
       })
       .catch(error => {
         console.error(error);
@@ -38,7 +36,6 @@ function deleteSubject(subject) {
   store.dispatch(actionsTypes.DELETE_SUBJECT, subject)
       .then(() => {
         $q.notify({type: 'positive', message: 'Предмет успешно удален'})
-        subjectIsNotEditing.value = true
       })
       .catch(error => {
         console.error(error);
@@ -58,7 +55,7 @@ function deleteSubject(subject) {
         <subject-card v-for="subject in room.roomSubjects"
           :key="subject.id"
           :subject="subject"
-          v-on:info="roomIsNotInfo = false"
+          v-on:info="(subject) => store.dispatch(actionsTypes.SET_ACTIVE_SUBJECT, subject)"
           v-on:delete="deleteSubject"
           v-on:cancel="roomIsNotInfo = true"
         />
@@ -70,7 +67,8 @@ function deleteSubject(subject) {
             v-on:click="createSubject({
             name: newSubjectName,
             teacherId:  teacher.id,
-            roomId: props.room.roomId})">
+            roomId: room.roomId,
+            })">
             <img class="subject-card-add__icon" src="../../img/add.svg"/>
           </button>
         </div>
