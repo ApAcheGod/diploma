@@ -9,38 +9,44 @@ import BaseAddNew from '../../base/BaseAddNew.vue';
 import actionsTypes from "../../../store/actionsTypes";
 
 const store = useStore();
-const activeSubject = computed(() => 
-  store.getters.getActiveSubject
-);
+const homeWorks = computed(() => {
+  const hw = store.getters.getHomeWorks;
+  if (!hw) store.dispatch(actionsTypes.DELETE_ACTIVE_SUBJECT);
+  return hw;
+});
 
 </script>
 <template>
-  <base-card-wrapper>
-      <!-- <template #title>
-      <hr/>
-      {{room?.roomName}}
-    </template> -->
-    <template #items>
-      <base-card v-for="group in activeSubject?.groups" :key="group.id">
-        <template #title>
-          {{group.name}}
-        </template>
-        <template #body>
-          <!-- {{group.students.length}} -->
-        </template>
-        <template #actions>
-          <button class="base-card__button base-card__button_delete">Удалить</button>
-        </template>
-      </base-card>
-      <base-add-new key="add-new">
-        <template #body>
-          <button class="base-card_add__button">
-            <img class="room-card-add__icon" src="../../../img/add.svg"/>
-          </button>
-        </template>
-      </base-add-new>
-    </template>
-  </base-card-wrapper>
+  <template v-if="homeWorks">
+    <base-card-wrapper v-for="task in homeWorks">
+      <template #title>
+        <hr/>
+        {{task.name}}
+      </template>
+      <template #items>
+        <base-card-wrapper v-for="group in task.uncheckdHomeWorks" :key="group.id">
+          <template #title>
+            <hr/>
+            {{group.groupName}}
+          </template>
+          <template #items>
+            <base-card v-for="solution in group.homeWorks" :key="solution.id">
+              <template #title>
+                {{solution.taskName}}
+              </template>
+              <template #body>
+                {{solution.text}}
+              </template>
+              <template #actions>
+                <!-- <button class="base-card__button base-card__button_delete">Удалить</button> -->
+              </template>
+            </base-card>
+          </template>
+        </base-card-wrapper>
+      </template>
+    </base-card-wrapper>
+  </template>
+    
 </template>
 <style lang="scss" scoped>
 </style>

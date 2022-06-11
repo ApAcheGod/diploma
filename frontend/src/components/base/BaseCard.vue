@@ -32,7 +32,8 @@
   padding-right: 16px;
   &__title {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    // justify-content: center;
     text-transform: uppercase;
     font-weight: 500;
     font-size: 19px;

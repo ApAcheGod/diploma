@@ -109,10 +109,34 @@ const getters = {
     return studentsMapByStudentId;
   },
   
+  getTasksMapByTaskId(state){
+    const tasksMapByTaskId = new Map();
+    state.tasks.forEach(task => tasksMapByTaskId.set(task.id, task));
+    return tasksMapByTaskId;
+  },
+
+  getMaterialsMapByMaterialId(state){
+    const materialsMapByMaterialId = new Map();
+    state.materials.forEach(material => materialsMapByMaterialId.set(material.id, material));
+    return materialsMapByMaterialId;
+  },
+
   getGroupsMapByGroupId(state){
     const groupsMapByGroupId = new Map();
     state.studentGroups.forEach(group => groupsMapByGroupId.set(group.id, group));
     return groupsMapByGroupId;
+  },
+
+  getExamsByTaskId(state){
+    const examsByTasksId = new Map();
+    state.examinations.forEach(exam => examsByTasksId.has(exam.taskId) ? examsByTasksId.get(exam.taskId).push(exam) : examsByTasksId.set(exam.taskId, [exam]));
+    return examsByTasksId;
+  },
+
+  getSolutionsByTaskId(state){
+    const solutionsByTasksId = new Map();
+    state.solutions.forEach(solution => solutionsByTasksId.has(solution.taskId) ? solutionsByTasksId.get(solution.taskId).push(solution) : solutionsByTasksId.set(solution.taskId, [solution]));
+    return solutionsByTasksId;
   },
 
   getExamsByStudentIdTaskId(state){
@@ -281,8 +305,14 @@ const getters = {
     filteredSubject.tasks = filteredSubject.tasks ?? [];
     filteredSubject.groups = filteredSubject.groups ?? [];
 
-    const groupsMapByGroupId = getters.getGroupsMapByGroupId;
-    filteredSubject.groups = filteredSubject.groups.map(group => groupsMapByGroupId.get(group.id) ?? group);
+    const groupsMap = getters.getGroupsMapByGroupId;
+    const tasksMap = getters.getTasksMapByTaskId;
+    const materialsMap = getters.getMaterialsMapByMaterialId;
+
+    filteredSubject.groups = filteredSubject.groups.map(group => groupsMap.get(group.id) ?? group);
+    filteredSubject.tasks = filteredSubject.tasks.map(task => tasksMap.get(task.id) ?? task);
+    filteredSubject.materials = filteredSubject.materials.map(material => materialsMap.get(material.id) ?? material);
+
     return filteredSubject;
   },
 
@@ -297,7 +327,30 @@ const getters = {
     filteredSubject.groups = filteredSubject.groups ?? [];
     
     return filteredSubject;
-  }
+  },
+
+  getHomeWorks(state, getters) {
+    const activeSubject = getters.getActiveSubject;
+    if (!activeSubject) return null;
+    const solutionsByStudentIdTaskId = getters.getSolutionsByStudentIdTaskId;
+    const examsByStudentIdTaskId = getters.getExamsByStudentIdTaskId;
+    const examsByTaskId = getters.getExamsByTaskId;
+    const tasks = JSON.parse(JSON.stringify(activeSubject.tasks));
+    console.log(tasks);
+    tasks.forEach(task => task.uncheckdHomeWorks = activeSubject.groups.map(group => {
+        return {
+          groupId: group.id,
+          groupName: group.name,
+          homeWorks: group.students.map(student => {
+            if (examsByStudentIdTaskId.get(student.id).get(task.id)) return;
+            return solutionsByStudentIdTaskId.get(student.id).get(task.id);
+          }).filter(hw => hw).flat(3),
+        }
+      })
+    )
+    console.log(tasks);
+    return tasks;
+  },
 };
 
 export default getters;
