@@ -15,10 +15,6 @@ const subjectJournal = computed(() => {
 </script>
 <template>
     <div class="journal-room-block" v-if="subjectJournal">
-      <div class="journal-room-block__title">
-        <hr/>
-        {{subjectJournal.name}}
-      </div>
       <template v-if="subjectJournal.groups && subjectJournal.groups.length > 0">
         <div class="journal-group-block" v-for="group in subjectJournal.groups">
           <div class="journal-group-block__title">
@@ -47,8 +43,8 @@ const subjectJournal = computed(() => {
         </div>
       </template>
       <template v-else>
-        <div class="journal-room-block journal-room-block__title">
-          Нет групп
+        <div class="journal-room-block journal-group-block__title">
+          Нет групп студентов, прикрепленных к предмету
         </div>
       </template>
     </div>
