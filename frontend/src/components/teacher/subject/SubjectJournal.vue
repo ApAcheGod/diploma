@@ -8,7 +8,7 @@ const store = useStore();
 
 const subjectJournal = computed(() => {
   const formatted = store.getters.getActiveSubjectJournal;
-  if (!formatted) store.dispatch(actionsTypes.DELETE_ACTIVE_SUBJECT);
+  // if (!formatted) store.dispatch(actionsTypes.DELETE_ACTIVE_SUBJECT);
   return formatted;
 });
 

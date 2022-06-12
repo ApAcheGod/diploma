@@ -134,7 +134,7 @@ const mutations = {
     state.examinations.splice(state.examinations.findIndex(s => examination.id === s.id), 1);
   },
   updateExamination(state, payload){
-    // TODO;
+    // TODO; (?)
   },
 
   createMaterial(state, payload){

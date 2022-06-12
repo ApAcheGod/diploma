@@ -40,6 +40,11 @@
     letter-spacing: 0.03rem;
     min-height: 56px;
   }
+  &__subtitle {
+    font-weight: 400;
+    font-size: 12px;
+    text-transform: none;
+  }
   &__actions {
     display: flex;
     gap: 16px;

@@ -334,10 +334,9 @@ const getters = {
     if (!activeSubject) return null;
     const solutionsByStudentIdTaskId = getters.getSolutionsByStudentIdTaskId;
     const examsByStudentIdTaskId = getters.getExamsByStudentIdTaskId;
-    const examsByTaskId = getters.getExamsByTaskId;
-    const tasks = JSON.parse(JSON.stringify(activeSubject.tasks));
-    console.log(tasks);
-    tasks.forEach(task => task.uncheckdHomeWorks = activeSubject.groups.map(group => {
+    let tasks = JSON.parse(JSON.stringify(activeSubject.tasks));
+    tasks.forEach(task => task.uncheckdHomeWorks = activeSubject.groups
+      .map(group => {
         return {
           groupId: group.id,
           groupName: group.name,
@@ -347,7 +346,10 @@ const getters = {
           }).filter(hw => hw).flat(3),
         }
       })
+      .filter(group => group.homeWorks.length > 0)
     )
+    tasks = tasks.filter(task => task.uncheckdHomeWorks.length > 0);
+    tasks.sort((taskA, taskB) => taskA.name.localeCompare(taskB.name));
     console.log(tasks);
     return tasks;
   },

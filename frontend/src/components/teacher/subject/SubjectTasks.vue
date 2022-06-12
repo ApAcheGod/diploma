@@ -100,7 +100,7 @@ function dateFormated(dateAtString){
       <base-card v-for="task in activeSubject?.tasks" :key="task.id">
         <template #title>
           {{task.name}}
-          <div class="date">{{dateFormated(task.date_of_creation)}}</div>
+          <div class="base-card__subtitle">{{dateFormated(task.date_of_creation)}}</div>
         </template>
         <template #body>
 
@@ -144,9 +144,4 @@ function dateFormated(dateAtString){
   </base-card-wrapper>
 </template>
 <style lang="scss" scoped>
-.date {
-  font-weight: 400;
-  font-size: 12px;
-  text-transform: none;
-}
 </style>
