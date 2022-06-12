@@ -64,6 +64,22 @@ const deleteFetch = (route, object) => {
 
 export default {
 
+  dateFormated: (dateAtString) => {
+    const parsedDate = Date.parse(dateAtString);
+    if (isNaN(parsedDate)) return;
+    const publicAtRuLocale = 'Добавлено';
+    const now = new Date();
+    const date = new Date(parsedDate);
+    const dayDiff = Math.abs(now.getDay() - date.getDay());
+    if (now.getMonth() !== date.getMonth() || now.getFullYear() !== date.getFullYear() || dayDiff > 2)
+      return `${publicAtRuLocale}: ${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+    if (dayDiff === 2) 
+      return `${publicAtRuLocale}: позавчера ${date.toLocaleTimeString()}`;
+    if (dayDiff === 1) 
+      return `${publicAtRuLocale}: вчера ${date.toLocaleTimeString()}`;
+    return `${publicAtRuLocale}: сегодня ${date.toLocaleTimeString()}`;
+  },
+
   getBadgeColor: (workStatus) => {
     switch (workStatus) {
       case workStatuses.NOT_COMPLETED:
@@ -147,6 +163,7 @@ export default {
 
   getStudentsFetch: () => getFetch('/api/students/'),
   getStudentsWithoutGroupFetch: () => getFetch('/api/studentsWithoutGroup/'),
+  getStudentByLoginFetch: (login) => getFetch(`/api/studentByLogin/${login}`),
   createStudentFetch: (student) => createFetch('/api/student/',
     {
       first_name: student.first_name,

@@ -6,19 +6,11 @@ import {useQuasar} from "quasar";
 import {useStore} from "vuex";
 import {computed} from "vue";
 
-const subjectByRooms = computed(() => store.getters.getUserSubjects);
-
-const props = defineProps({
-  room : Object,
-});
-
-const teacher = computed(() => {
-  return store.getters.getUserData;
-});
-
 const $q = useQuasar();
 const store = useStore();
-const newSubjectName = ref('');
+const subjectByRooms = computed(() => store.getters.getTeacherSubjects);
+const teacher = computed(() => store.getters.getUserData);
+const newSubjectName = ref([]);
 
 function createSubject(subject){
   store.dispatch(actionsTypes.CREATE_SUBJECT, subject)
@@ -45,7 +37,7 @@ function deleteSubject(subject) {
 
 </script>
 <template>
-  <div class="subject-block" v-for="room in subjectByRooms">
+  <div class="subject-block" v-for="(room, index) in subjectByRooms">
     <div class="subject-block__title">
       <hr/>
       {{room.roomName}}
@@ -55,20 +47,16 @@ function deleteSubject(subject) {
         <subject-card v-for="subject in room.roomSubjects"
           :key="subject.id"
           :subject="subject"
-          v-on:info="(subject) => store.dispatch(actionsTypes.SET_ACTIVE_SUBJECT, subject)"
+          v-on:info="store.dispatch(actionsTypes.SET_ACTIVE_SUBJECT, subject)"
           v-on:delete="deleteSubject"
           v-on:cancel="roomIsNotInfo = true"
         />
         <div key="add-el" class="subject-card-add">
           <div key="add-el" class="room-card-add">
-            <q-input v-model="newSubjectName" label="Название предмета"/>
+            <q-input v-model="newSubjectName[index]" label="Название предмета"/>
           </div>
           <button class="subject-card-add__button"
-            v-on:click="createSubject({
-            name: newSubjectName,
-            teacherId:  teacher.id,
-            roomId: room.roomId,
-            })">
+            v-on:click="createSubject({name: newSubjectName[index], teacherId:  teacher.id, roomId: room.roomId,}); newSubjectName[index] = ''">
             <img class="subject-card-add__icon" src="../../img/add.svg"/>
           </button>
         </div>

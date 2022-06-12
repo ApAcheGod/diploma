@@ -21,7 +21,7 @@ const toggleLeftDrawer = () => {
 
 onMounted(() => {
   teacherLogin.value = store.getters.getUserLogin;
-  store.dispatch(actionsTypes.DATA_INIT, teacherLogin.value)
+  store.dispatch(actionsTypes.TEACHER_DATA_INIT, teacherLogin.value)
   .then(() => {
     teacher.value = store.getters.getUserData;
   })

@@ -5,6 +5,7 @@ import { useStore } from 'vuex';
 
 import BaseCard from '../../base/BaseCard.vue';
 import BaseCardWrapper from '../../base/BaseCardWrapper.vue';
+import EmptyMessage from "../../base/EmptyMessage.vue";
 
 import actionsTypes from "../../../store/actionsTypes";
 import workStatuses from "../../../models/workStatuses";
@@ -75,23 +76,12 @@ const notCorrectSolution = (solution) => {
       </template>
     </base-card-wrapper>
   </template>
-  <template v-else>
-    <div class="journal-room-block journal-group-block__title done-message">
-      <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-        <path fill="#1d1d1d" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
-      </svg>
-      Все задания проверены!
-    </div>
-  </template>
+  <empty-message v-else>
+    <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+      <path fill="#1d1d1d" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
+    </svg>
+    Все задания проверены!
+  </empty-message>
 </template>
-<style lang="scss" scoped>
-  .done-message {
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    font-size: 16px;
-    margin-top: 160px;
-  }
+<style lang="scss">
 </style>

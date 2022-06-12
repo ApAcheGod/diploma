@@ -33,7 +33,9 @@
   &__title {
     display: flex;
     flex-direction: column;
-    // justify-content: center;
+    gap: 4px;
+    align-items: flex-start;
+    justify-content: flex-start;
     text-transform: uppercase;
     font-weight: 500;
     font-size: 19px;

@@ -47,7 +47,39 @@ const actions = {
     router.push('/signin');
   },
   
-  dataInit({ commit }, payload){
+  studentDataInit({ commit }, payload){
+    const studentLogin = payload;
+    return Promise.all([
+      methods.getStudentByLoginFetch(studentLogin),
+      methods.getGroupsFetch(),
+      methods.getSubjectsFetch(),
+      methods.getStudentsFetch(),
+      methods.getSolutionsFetch(),
+      methods.getExaminationsFetch(),
+      methods.getTasksFetch(),
+    ])
+    .then((results) => {
+      const [ 
+        studentData, 
+        studentGroups, 
+        subjects,
+        students,
+        solutions, 
+        examinations,
+        tasks,
+      ] = results;
+      
+      commit(mutationsTypes.SET_USER_DATA, studentData);
+      commit(mutationsTypes.SET_STUDENT_GROUPS_DATA, studentGroups);
+      commit(mutationsTypes.SET_SUBJECTS_DATA, subjects);
+      commit(mutationsTypes.SET_STUDENTS_DATA, students);
+      commit(mutationsTypes.SET_SOLUTIONS_DATA, solutions);
+      commit(mutationsTypes.SET_EXAMINATIONS_DATA, examinations);
+      commit(mutationsTypes.SET_TASKS_DATA, tasks);
+    });
+  },
+
+  teacherDataInit({ commit }, payload){
     const teacherLogin = payload;
     return Promise.all([
       methods.getTeacherByLoginFetch(teacherLogin),
@@ -70,12 +102,12 @@ const actions = {
         subjects, 
         tasks, 
         solutions, 
-        examinations
+        examinations,
       ] = results;
       
       commit(mutationsTypes.SET_USER_DATA, teacherData);
       commit(mutationsTypes.SET_ROOMS_DATA, rooms);
-      commit(mutationsTypes.SET_STUDENTS_DATA, students)
+      commit(mutationsTypes.SET_STUDENTS_DATA, students);
       commit(mutationsTypes.SET_STUDENT_GROUPS_DATA, studentGroups);
       commit(mutationsTypes.SET_MATERIALS_DATA, materials);
       commit(mutationsTypes.SET_SUBJECTS_DATA, subjects);

@@ -7,6 +7,7 @@ import BaseCard from '../../base/BaseCard.vue';
 import BaseCardWrapper from '../../base/BaseCardWrapper.vue';
 import BaseAddNew from '../../base/BaseAddNew.vue';
 
+import methods from "../../../store/methods";
 import actionsTypes from "../../../store/actionsTypes";
 
 const q = useQuasar();
@@ -76,21 +77,7 @@ function deleteTask(task){
       triggerNegative('Не удалось удалить задание');
     });
 }
-function dateFormated(dateAtString){
-  const parsedDate = Date.parse(dateAtString);
-  if (isNaN(parsedDate)) return;
-  const publicAtRuLocale = 'Добавлено';
-  const now = new Date();
-  const date = new Date(parsedDate);
-  const dayDiff = Math.abs(now.getDay() - date.getDay());
-  if (now.getMonth() !== date.getMonth() || now.getFullYear() !== date.getFullYear() || dayDiff > 2)
-    return `${publicAtRuLocale}: ${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-  if (dayDiff === 2) 
-    return `${publicAtRuLocale}: позавчера ${date.toLocaleTimeString()}`;
-  if (dayDiff === 1) 
-    return `${publicAtRuLocale}: вчера ${date.toLocaleTimeString()}`;
-  return `${publicAtRuLocale}: сегодня ${date.toLocaleTimeString()}`;
-}
+
 
 </script>
 <template>
@@ -100,7 +87,7 @@ function dateFormated(dateAtString){
       <base-card v-for="task in activeSubject?.tasks" :key="task.id">
         <template #title>
           {{task.name}}
-          <div class="base-card__subtitle">{{dateFormated(task.date_of_creation)}}</div>
+          <div class="base-card__subtitle">{{methods.dateFormated(task.date_of_creation)}}</div>
         </template>
         <template #body>
 

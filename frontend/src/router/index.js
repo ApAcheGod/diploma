@@ -4,6 +4,11 @@ import NotFound from '../views/NotFound.vue';
 import SigninView from '../views/SigninView.vue';
 
 import StudentView from '../views/StudentView.vue';
+import StudentMain from '../components/student/StudentMain.vue';
+import StudentSubjects from '../components/student/StudentSubjects.vue';
+import StudentJournal from '../components/student/StudentJournal.vue';
+import StudentSubjectTasks from '../components/student/subject/SubjectTasks.vue';
+import StudentSubjectMaterials from '../components/student/subject/SubjectMaterials.vue';
 
 import TeacherView from '../views/TeacherView.vue';
 import TeacherMain from '../components/teacher/TeacherMain.vue';
@@ -33,6 +38,49 @@ const routes = [
     name: 'StudentView',
     component: StudentView,
     meta: { requiredStudent: true },
+    children: [
+      {
+        path: 'main',
+        name: 'StudentMain',
+        component: StudentMain
+      },
+      {
+        path: 'subjects',
+        name: 'StudentSubjects',
+        component: StudentSubjects
+      },
+      {
+        path: 'journal',
+        name: 'StudentJournal',
+        component: StudentJournal
+      },
+      {
+        path: 'subject/tasks',
+        name: 'StudentSubjectTasks',
+        component: StudentSubjectTasks,
+        meta: { requiredActiveSubject: true },
+      },
+      {
+        path: 'subject/materials',
+        name: 'StudentSubjectMaterials',
+        component: StudentSubjectMaterials,
+        meta: { requiredActiveSubject: true },
+      },
+    ],
+    beforeEnter(to, from, next) {
+      const requiredActiveSubject = to.matched.some((record) => record.meta.requiredActiveSubject);
+      const hasActiveSubject = localStorage.getItem('hasActiveSubject');
+      const didntHasActiveSubject = requiredActiveSubject && !hasActiveSubject;
+      const notRequiredActiveSubject = !requiredActiveSubject && hasActiveSubject;
+      
+      if (to.name === 'StudentView' || didntHasActiveSubject) {
+        next('/student/subjects');
+      }
+      if (notRequiredActiveSubject) {
+        next('/student/subject/tasks');
+      }
+      else next();
+    },
   },
   {
     path: '/teacher',
@@ -92,11 +140,11 @@ const routes = [
       const didntHasActiveSubject = requiredActiveSubject && !hasActiveSubject;
       const notRequiredActiveSubject = !requiredActiveSubject && hasActiveSubject;
       
-      if (to.path === '/teacher' || didntHasActiveSubject) {
+      if (to.name === 'TeacherView' || didntHasActiveSubject) {
         next('/teacher/main');
       }
       if (notRequiredActiveSubject) {
-        next('/teacher/subject/journal');
+        next('/teacher/subject/tasks');
       }
       else next();
     },
