@@ -37,7 +37,11 @@ export default {
       if (examination) task.status = examination.examinationStatus;
       if (!task.status) task.status = workStatuses.NOT_COMPLETED;
     });
-    console.log(tasks);
+    tasks.sort((taskA, taskB) => {
+      if (taskA.status === workStatuses.NOT_COMPLETED) return 1;
+      if (taskB.status === workStatuses.NOT_COMPLETED) return -1;
+      return taskA.name.localeCompare(taskB.name);
+    });
     return tasks;
   },
 }
