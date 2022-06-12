@@ -106,8 +106,12 @@ const createSolution = () => {
         <div class="text-h5">{{currentTask.name}}</div>
       </q-card-section>
 
+      <q-card-section>
+        <div>{{methods.dateFormated(currentTask.date_of_creation)}}</div>
+      </q-card-section>
+
       <q-card-section class="q-pt-none">
-        <div>{{currentTask.text}}</div>
+        <div>Задание: {{currentTask.text}}</div>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
