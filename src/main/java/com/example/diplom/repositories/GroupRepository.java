@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -16,5 +17,9 @@ public interface GroupRepository extends JpaRepository<Group, UUID> {
     @Modifying
     @Query("delete from Group g where g.id = ?1")
     void deleteById(UUID uuid);
+
+    @Query("select g from Group g order by g.name")
+    @Override
+    List<Group> findAll();
 }
 
