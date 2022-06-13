@@ -237,19 +237,28 @@ const actions = {
         });
     },
 
-    setActiveSubject({ commit }, payload) {
+    setActiveSubject({ commit, getters }, payload) {
       const subject = payload;
       return new Promise((resolve, reject) => {
         commit(mutationsTypes.SET_ACTIVE_SUBJECT, subject);
-        router.push('/teacher/subject/journal');
+        
+        const userRole = getters.getUserRole;
+        if (userRole === userRoles.ROLE_TEACHER) router.push('/teacher/subject/journal');
+        else if (userRole === userRoles.ROLE_STUDENT) router.push('/student/subject/tasks');
+
         resolve(true);
       });
     },
   
-    deleteActiveSubject({ commit }, payload) {
+    deleteActiveSubject({ commit, getters }, payload) {
       return new Promise((resolve, reject) => {
         commit(mutationsTypes.DELETE_ACTIVE_SUBJECT);
-        router.push('/teacher/subjects');
+
+        const userRole = getters.getUserRole;
+        console.log(userRole);
+        if (userRole === userRoles.ROLE_TEACHER) router.push('/teacher/main');
+        else if (userRole === userRoles.ROLE_STUDENT) router.push('/student/subjects');
+
         resolve(true);
       });
     },

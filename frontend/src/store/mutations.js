@@ -9,10 +9,21 @@ const mutations = {
     localStorage.setItem('isAuthenticated', userRole !== userRoles.ROLE_ANONYMOUS);
   },
   clearUser(state) {
+    localStorage.clear();
+
     state.user = null;
-    localStorage.removeItem('user');
-    localStorage.removeItem('userRole');
-    localStorage.removeItem('isAuthenticated');
+    state.activeSubjectId = '';
+    state.error = null;
+    state.loading = false;
+
+    state.rooms = [];
+    state.students = [];
+    state.studentGroups = [];
+    state.materials = [];
+    state.subjects = [];
+    state.solutions = [];
+    state.examinations = [];
+    state.tasks = [];
   },
   setUserLogin(state, payload) {
     state.userLogin = payload;

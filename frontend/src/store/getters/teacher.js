@@ -69,7 +69,7 @@ export default {
         return workStatuses.NOT_COMPLETED;
       };
       group.students?.forEach(student => {
-        subject.tasks.forEach(task => {
+        subject.tasks?.forEach(task => {
           student[task.id] = getMark(student.id, task.id); 
         })
       });
@@ -128,7 +128,7 @@ export default {
       };
 
       group.students?.forEach(student => {
-        subject.tasks.forEach(task => {
+        subject.tasks?.forEach(task => {
           student[task.id] = getMark(student.id, task.id); 
         })
       });

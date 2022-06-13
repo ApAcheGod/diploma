@@ -242,11 +242,11 @@ router.beforeEach((to, from, next) => {
   } 
   else if (!userHasRightRole || isNotFoundPage) {
     if (userRole === userRoles.ROLE_ADMIN)
-      router.push('/admin');
+      next('/admin');
     else if (userRole === userRoles.ROLE_TEACHER)
-      router.push('/teacher');
+      next('/teacher');
     else if (userRole === userRoles.ROLE_STUDENT)
-      router.push('/student');
+      next('/student');
   }
   else {
     next();
