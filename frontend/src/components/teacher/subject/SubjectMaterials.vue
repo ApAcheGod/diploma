@@ -22,12 +22,10 @@ const promptTitle = ref(titles.NEW)
 
 const createOrUpdateMaterial = () => {
   const material = newMaterial.value;
+  material.teacherId = activeSubject.value.teacherId;
+  material.subjectId = activeSubject.value.id;
   if (!material.name && !material.text) return;
-  
-  if (!material) {
-    material.teacherId = activeSubject.value.teacherId;
-    material.subjectId = activeSubject.value.id;
-  }
+
   store.dispatch(material.id ? actionsTypes.UPDATE_MATERIAL : actionsTypes.CREATE_MATERIAL, material)
     .then(() => {
       q.notify({
