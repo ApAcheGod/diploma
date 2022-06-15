@@ -3,6 +3,7 @@ import { computed, ref } from "vue";
 import { useStore } from 'vuex';
 import { useQuasar } from "quasar";
 
+import BaseDialog from "../../base/BaseDialog.vue";
 import BaseCard from '../../base/BaseCard.vue';
 import BaseCardWrapper from '../../base/BaseCardWrapper.vue';
 import BaseAddNew from '../../base/BaseAddNew.vue';
@@ -17,6 +18,7 @@ const q = useQuasar();
 const store = useStore();
 const activeSubject = computed(() => store.getters.getActiveSubject);
 const newMaterial = ref({});
+
 const promptIsOpen = ref(false);
 const promptTitle = ref(titles.NEW)
 
@@ -84,8 +86,9 @@ const deleteMaterial = (deletedMaterial) => {
           </button>
           <button 
             class="base-card__button base-card__button_delete" 
-            @click="deleteMaterial(material)">
-              Удалить
+            @click="deleteMaterial(material)"
+          >
+            Удалить
           </button>
         </template>
       </base-card>
@@ -104,28 +107,24 @@ const deleteMaterial = (deletedMaterial) => {
         </template>
       </base-add-new>
 
-      <q-dialog v-model="promptIsOpen" persistent>
-        <q-card style="min-width: 350px" @keyup.esc="promptIsOpen=false" @keyup.enter="updateTask(newTask)">
-          <q-card-section>
-            <div class="text-h5">{{promptTitle}}</div>
-          </q-card-section>
+      <base-dialog 
+        :title="promptTitle"
+        :promptIsOpen="promptIsOpen"
+        v-on:change-open-status="promptIsOpen = !promptIsOpen"
+        >
+        <template #body>
+          <q-input padding="8px" dense v-model="newMaterial.name" autofocus label="Название"/>
+          <q-input padding="8px" dense autogrow v-model="newMaterial.text" autofocus label="Текст материала"/>
+        </template>
+        <template #actions>
+          <q-btn padding="8px" flat label="Отмена"  @click="promptIsOpen=false; newMaterial={};"/>
+          <q-btn padding="8px" flat label="Добавить" @click="createOrUpdateMaterial(); promptIsOpen=false" />
+        </template>
+      </base-dialog>
 
-          <q-card-section class="q-pt-none">
-            <q-input dense v-model="newMaterial.name" autofocus label="Название"/>
-          </q-card-section>
-
-          <q-card-section class="q-pt-none">
-            <q-input dense autogrow v-model="newMaterial.text" autofocus label="Текст материала"/>
-          </q-card-section>
-
-          <q-card-actions align="right" class="text-primary">
-            <q-btn flat label="Отмена"  @click="promptIsOpen=false; newMaterial={};"/>
-            <q-btn flat label="Добавить" @click="createOrUpdateMaterial(); promptIsOpen=false" />
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
     </template>
   </base-card-wrapper>
 </template>
 <style lang="scss" scoped>
+
 </style>

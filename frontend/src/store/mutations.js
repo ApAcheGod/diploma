@@ -156,16 +156,25 @@ const mutations = {
 
   createMaterial(state, payload){
     const material = payload;
+
     state.materials.push(material);
+    state.userData.materials = state.userData.materials ?? [];
+    state.userData.materials.push(material); // Teacher
   },
   deleteMaterial(state, payload){
     const material = payload;
+
     state.materials.splice(state.materials.findIndex(m => material.id === m.id), 1);
+    state.userData.materials?.splice(state.materials?.findIndex(m => material.id === m.id), 1); // Teacher
   },
   updateMaterial(state, payload){
     const material = payload;
-    const updateMaterialId = state.userData.materials.findIndex(m => material.id === m.id);
-    state.userData.materials[updateMaterialId] = material;
+
+    const updateMaterialId = state.materials.findIndex(m => material.id === m.id);
+    const userUpdateMaterialId = state.userData.materials.findIndex(m => material.id === m.id); // Teacher
+
+    state.materials[updateMaterialId] = material;
+    state.userData.materials[userUpdateMaterialId] = material;
   },
 
   setActiveSubject(state, payload) {
