@@ -44,4 +44,8 @@ export default {
     });
     return tasks;
   },
+  getStudentJournal(state, getters) {
+    const activeSubject = getters.getActiveSubject;
+    
+  },
 }

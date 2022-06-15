@@ -2,6 +2,7 @@
 import { computed } from '@vue/reactivity';
 import { useStore } from 'vuex';
 import methods from '../../store/methods';
+import EmptyMessage from "../base/EmptyMessage.vue";
 
 const store = useStore();
 const formattedJournalData = computed(() => {
@@ -10,50 +11,60 @@ const formattedJournalData = computed(() => {
 
 </script>
 <template>
-  <div class="journal-room-block" v-for="room in formattedJournalData">
-    <div class="journal-room-block__title">
-      <hr/>
-      {{room.roomName}}
-    </div>
-    <div class="journal-subject-block" v-for="subject in room.roomSubjects">
-      <div class="journal-subject-block__title">
+  <template v-if="formattedJournalData && formattedJournalData.length > 0">
+    <div class="journal-room-block" v-for="room in formattedJournalData">
+      <div class="journal-room-block__title">
         <hr/>
-        {{subject.name}}
+        {{room.roomName}}
       </div>
-      <template v-if="subject.groups && subject.groups.length > 0">
-        <div class="journal-group-block" v-for="group in subject.groups">
-          <div class="journal-group-block__title">
+      <template v-if="room.roomSubjects && room.roomSubjects.length > 0">
+        <div class="journal-subject-block" v-for="subject in room.roomSubjects">
+          <div class="journal-subject-block__title">
             <hr/>
-            {{group.name}}
+            {{subject.name}}
           </div>
-          <div class="journal-group-block__table">
-            <q-table
-              :rows="group.students"
-              :columns="subject.tasksTableHead"
-              row-key="name"
-              no-data-label="В группе нет студентов"
-            >
-              <template v-slot:body-cell="props">
-                <q-td :props="props">
-                  <q-badge outline :color="methods.getBadgeColor(props.value)" :label="props.value" />
-                </q-td>
-              </template>
-              <template v-slot:body-cell-name="props">
-                <q-td :props="props">
-                  {{props.value}}
-                </q-td> 
-              </template>
-            </q-table>
-          </div>
+          <template v-if="subject.groups && subject.groups.length > 0">
+            <div class="journal-group-block" v-for="group in subject.groups">
+              <div class="journal-group-block__title">
+                <hr/>
+                {{group.name}}
+              </div>
+              <div class="journal-group-block__table">
+                <q-table
+                  :rows="group.students"
+                  :columns="subject.tasksTableHead"
+                  row-key="name"
+                  no-data-label="В группе нет студентов"
+                >
+                  <template v-slot:body-cell="props">
+                    <q-td :props="props">
+                      <q-badge outline :color="methods.getBadgeColor(props.value)" :label="props.value" />
+                    </q-td>
+                  </template>
+                  <template v-slot:body-cell-name="props">
+                    <q-td :props="props">
+                      {{props.value}}
+                    </q-td> 
+                  </template>
+                </q-table>
+              </div>
+            </div>
+          </template>
+          <template v-else>
+            <div class="journal-group-block journal-group-block__title">
+              Нет групп
+            </div>
+          </template>
         </div>
       </template>
       <template v-else>
-        <div class="journal-group-block journal-group-block__title">
-          Нет групп
-        </div>
+        <empty-message>Нет доступных предметов</empty-message>
       </template>
     </div>
-  </div>
+  </template>
+  <template v-else>
+    <empty-message>Нет доступных комнат</empty-message>
+  </template>
 </template>
 <style lang="scss">
 hr {

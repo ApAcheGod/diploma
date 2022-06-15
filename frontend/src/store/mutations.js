@@ -77,7 +77,10 @@ const mutations = {
   },
   createRoom(state, payload){
     const room = payload;
-    state.userData.rooms?.push(room); // Teacher
+    state.subjects = state.subjects ?? [];
+    state.userData.rooms = state.userData.rooms ?? [];
+
+    state.userData.rooms.push(room); // Teacher
     state.rooms.push(room);
   },
   updateRoom(state, payload){
@@ -91,8 +94,11 @@ const mutations = {
 
   createSubject(state, payload) {
     const subject = payload;
-    state.subjects.push(subject);
+    
+    state.subjects = state.subjects ?? [];
+    state.userData.subjects = state.userData.subjects ?? [];
 
+    state.subjects.push(subject);
     state.userData.subjects.push(subject); // Teacher
   },
   deleteSubject(state, payload) {

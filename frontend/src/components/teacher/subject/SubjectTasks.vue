@@ -56,6 +56,7 @@ function updateTask(task){
 function addNewTask(task){
   task.subjectId = activeSubject.value.id;
   task.teacherId = activeSubject.value.teacherId;
+  
   store.dispatch(actionsTypes.CREATE_TASK, task)
     .then(() => {
       triggerPositive('Успешно добавлено новое задание!');
@@ -108,7 +109,7 @@ function deleteTask(task){
       </base-add-new>
       
       <q-dialog v-model="promptIsOpen" persistent>
-        <q-card style="min-width: 350px" @keyup.esc="promptIsOpen=false" @keyup.enter="updateTask(newTask)">
+        <q-card style="min-width: 350px" @keyup.esc="promptIsOpen=false">
           <q-card-section>
             <div class="text-h5">{{promptTitle}}</div>
           </q-card-section>

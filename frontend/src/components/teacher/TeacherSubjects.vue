@@ -1,6 +1,7 @@
 <script setup>
 import SubjectCard from "./SubjectCard.vue";
 import actionsTypes from "../../store/actionsTypes";
+import EmptyMessage from "../base/EmptyMessage.vue";
 import {ref} from "vue";
 import {useQuasar} from "quasar";
 import {useStore} from "vuex";
@@ -37,6 +38,7 @@ function deleteSubject(subject) {
 
 </script>
 <template>
+<template v-if="subjectByRooms && subjectByRooms.length > 0">
   <div class="subject-block" v-for="(room, index) in subjectByRooms">
     <div class="subject-block__title">
       <hr/>
@@ -63,6 +65,11 @@ function deleteSubject(subject) {
       </transition-group>
     </div>
   </div>
+</template>
+<template v-else>
+  <empty-message>Нет доступных комнат</empty-message>
+</template>
+  
 </template>
 <style lang="scss">
 

@@ -17,6 +17,7 @@
 
 <style lang="scss">
 .base-card {
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   gap: 16px;
