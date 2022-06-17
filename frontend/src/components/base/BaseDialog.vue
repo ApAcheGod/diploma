@@ -50,8 +50,8 @@ onMounted(() => {
 </template>
 <style lang="scss">
 .base-dialog {
-  min-width: 500px; 
-  min-height: 400px;
+  min-width: 400px; 
+  min-height: 480px;
   display: flex;
   flex-direction: column;
   &__title {
@@ -62,8 +62,8 @@ onMounted(() => {
   &__body {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    margin: 16px;
+    gap: 24px;
+    padding: 24px;
   }
   &__actions {
     margin: 16px;

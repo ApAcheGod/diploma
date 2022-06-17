@@ -6,6 +6,8 @@ import { useQuasar } from "quasar";
 import BaseCard from '../../base/BaseCard.vue';
 import BaseCardWrapper from '../../base/BaseCardWrapper.vue';
 import BaseAddNew from '../../base/BaseAddNew.vue';
+import BaseDialog from "../../base/BaseDialog.vue";
+import BaseRichText from "../../base/BaseRichText.vue";
 
 import methods from "../../../store/methods";
 import actionsTypes from "../../../store/actionsTypes";
@@ -91,8 +93,7 @@ function deleteTask(task){
           <div class="base-card__subtitle">{{methods.dateFormated(task.date_of_creation)}}</div>
         </template>
         <template #body>
-
-          {{task.text}}
+          <q-card-section v-html="task.text" />
         </template>
         <template #actions>
           <button class="base-card__button base-card__button_edit" @click="() => {promptType = promptTypes.EDIT; newTask = task; promptIsOpen = true;}">Изменить</button>
@@ -108,26 +109,21 @@ function deleteTask(task){
         </template>
       </base-add-new>
       
-      <q-dialog v-model="promptIsOpen" persistent>
-        <q-card style="min-width: 350px" @keyup.esc="promptIsOpen=false">
-          <q-card-section>
-            <div class="text-h5">{{promptTitle}}</div>
-          </q-card-section>
+      <base-dialog 
+        :title="promptTitle"
+        :promptIsOpen="promptIsOpen"
+        v-on:change-open-status="promptIsOpen = !promptIsOpen"
+        >
+        <template #body>
+          <q-input padding="8px" dense v-model="newTask.name" autofocus label="Название"/>
+          <base-rich-text v-model="newTask.text" />
+        </template>
+        <template #actions>
+          <q-btn padding="8px" flat label="Отмена"  @click="() => {promptIsOpen=false; clearActiveSubject();}"/>
+          <q-btn padding="8px" flat :label="promptActionName" @click="promptAction(newTask)" />
+        </template>
+      </base-dialog>
 
-          <q-card-section class="q-pt-none">
-            <q-input dense v-model="newTask.name" autofocus label="Название"/>
-          </q-card-section>
-
-          <q-card-section class="q-pt-none">
-            <q-input dense autogrow v-model="newTask.text" autofocus label="Текст задания"/>
-          </q-card-section>
-
-          <q-card-actions align="right" class="text-primary">
-            <q-btn flat label="Отмена"  @click="() => {promptIsOpen=false; clearActiveSubject();}"/>
-            <q-btn flat :label="promptActionName" @click="promptAction(newTask)" />
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
     </template>
   </base-card-wrapper>
 </template>

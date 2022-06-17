@@ -7,12 +7,13 @@ import BaseDialog from "../../base/BaseDialog.vue";
 import BaseCard from '../../base/BaseCard.vue';
 import BaseCardWrapper from '../../base/BaseCardWrapper.vue';
 import BaseAddNew from '../../base/BaseAddNew.vue';
+import BaseRichText from "../../base/BaseRichText.vue";
 
 import actionsTypes from "../../../store/actionsTypes";
 
 const titles = {
-  NEW : 'Добавить',
-  EDIT : 'Редактировать',
+  NEW : 'Добавить новый материал',
+  EDIT : 'Редактировать материал',
 };
 const q = useQuasar();
 const store = useStore();
@@ -72,7 +73,7 @@ const deleteMaterial = (deletedMaterial) => {
           {{material.name}}
         </template>
         <template #body>
-          {{material.text}}
+          <q-card-section v-html="material.text" />
         </template>
         <template #actions>
           <button 
@@ -114,7 +115,7 @@ const deleteMaterial = (deletedMaterial) => {
         >
         <template #body>
           <q-input padding="8px" dense v-model="newMaterial.name" autofocus label="Название"/>
-          <q-input padding="8px" dense autogrow v-model="newMaterial.text" autofocus label="Текст материала"/>
+          <base-rich-text v-model="newMaterial.text" />
         </template>
         <template #actions>
           <q-btn padding="8px" flat label="Отмена"  @click="promptIsOpen=false; newMaterial={};"/>
@@ -126,5 +127,4 @@ const deleteMaterial = (deletedMaterial) => {
   </base-card-wrapper>
 </template>
 <style lang="scss" scoped>
-
 </style>

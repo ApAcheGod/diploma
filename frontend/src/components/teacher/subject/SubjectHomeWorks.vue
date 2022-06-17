@@ -65,7 +65,7 @@ const notCorrectSolution = (solution) => {
               <div class="base-card__subtitle">{{solution.studentName}}</div>
             </template>
             <template #body>
-              {{solution.text}}
+              <q-card-section v-html="solution.text" />
             </template>
             <template #actions>
               <button class="base-card__button" @click="correctSolution(solution)">Верно</button>
