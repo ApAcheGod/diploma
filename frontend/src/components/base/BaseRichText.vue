@@ -81,8 +81,4 @@ const fonts = Object.freeze(
   />
 </template>
 <style scoped lang="scss">
-  a {
-    text-decoration: underline;
-    color: #2020CC;
-  }
 </style>

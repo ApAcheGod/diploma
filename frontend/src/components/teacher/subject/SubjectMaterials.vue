@@ -27,7 +27,16 @@ const createOrUpdateMaterial = () => {
   const material = newMaterial.value;
   material.teacherId = activeSubject.value.teacherId;
   material.subjectId = activeSubject.value.id;
-  if (!material.name && !material.text) return;
+
+  if (!material.name) {
+    q.notify({ type: 'negative', message: 'Материал не может иметь пустое имя', });
+    return; 
+  }
+
+  if (!material.teacherId || !material.subjectId) {
+    q.notify({ type: 'negative', message: 'Системная ошибка при изменении материала', });
+    return; 
+  }
 
   store.dispatch(material.id ? actionsTypes.UPDATE_MATERIAL : actionsTypes.CREATE_MATERIAL, material)
     .then(() => {
@@ -114,12 +123,12 @@ const deleteMaterial = (deletedMaterial) => {
         v-on:change-open-status="promptIsOpen = !promptIsOpen"
         >
         <template #body>
-          <q-input padding="8px" dense v-model="newMaterial.name" autofocus label="Название"/>
+          <q-input padding="8px" dense v-model="newMaterial.name" autofocus label="Название" :rules="[val => !!val || 'Название обязательно']"/>
           <base-rich-text v-model="newMaterial.text" />
         </template>
         <template #actions>
-          <q-btn padding="8px" flat label="Отмена"  @click="promptIsOpen=false; newMaterial={};"/>
-          <q-btn padding="8px" flat label="Добавить" @click="createOrUpdateMaterial(); promptIsOpen=false" />
+          <q-btn class="base-card__button" padding="8px" flat label="Отмена"  @click="promptIsOpen=false; newMaterial={};"/>
+          <q-btn class="base-card__button" padding="8px" flat label="Добавить" @click="createOrUpdateMaterial(); promptIsOpen=false" />
         </template>
       </base-dialog>
 

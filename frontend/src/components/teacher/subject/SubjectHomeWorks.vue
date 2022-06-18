@@ -3,6 +3,7 @@ import { computed, ref } from "vue";
 import { useQuasar } from "quasar";
 import { useStore } from 'vuex';
 
+import BaseDialog from "../../base/BaseDialog.vue";
 import BaseCard from '../../base/BaseCard.vue';
 import BaseCardWrapper from '../../base/BaseCardWrapper.vue';
 import EmptyMessage from "../../base/EmptyMessage.vue";
@@ -13,6 +14,8 @@ import workStatuses from "../../../models/workStatuses";
 const q = useQuasar();
 const store = useStore();
 const homeWorks = computed(() => store.getters.getHomeWorks);
+const promptIsOpen = ref(false);
+const currentSolution = ref({});
 
 const correctSolution = (solution) => {
   const exam = { examinationStatus: workStatuses.CORRECTLY, solutionId: solution.id};
@@ -68,8 +71,7 @@ const notCorrectSolution = (solution) => {
               <q-card-section v-html="solution.text" />
             </template>
             <template #actions>
-              <button class="base-card__button" @click="correctSolution(solution)">Верно</button>
-              <button class="base-card__button base-card__button_delete" @click="notCorrectSolution(solution)">Неверно</button>
+              <button class="base-card__button" @click="currentSolution=solution; promptIsOpen=true">Проверка</button>
             </template>
           </base-card>
         </template>
@@ -82,6 +84,21 @@ const notCorrectSolution = (solution) => {
     </svg>
     Все задания проверены!
   </empty-message>
+
+  <base-dialog 
+    title="Проверка работы"
+    :promptIsOpen="promptIsOpen"
+    v-on:change-open-status="promptIsOpen = !promptIsOpen"
+    >
+    <template #body>
+      {{currentSolution.studentName}}
+      <q-card-section v-html="currentSolution.text" />
+    </template>
+    <template #actions>
+      <q-btn class="base-card__button" padding="8px" flat @click="correctSolution(currentSolution)">Верно</q-btn>
+      <q-btn class="base-card__button base-card__button_delete" padding="8px" flat @click="notCorrectSolution(currentSolution)">Неверно</q-btn>
+    </template>
+  </base-dialog>
 </template>
 <style lang="scss">
 </style>

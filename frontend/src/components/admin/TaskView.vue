@@ -5,7 +5,7 @@ import {useQuasar} from 'quasar';
 import TaskCard from './TaskCard.vue';
 import TaskDialog from './TaskDialog.vue';
 
-let $q = useQuasar();
+let q = useQuasar();
 
 let tasks = ref();
 let subjects = ref();
@@ -33,14 +33,14 @@ onMounted(async () => {
 });
 
 function triggerPositive(msg) {
-  $q.notify({
+  q.notify({
     type: 'positive',
     message: msg
   })
 }
 
 function triggerNegative(msg) {
-  $q.notify({
+  q.notify({
     type: 'negative',
     message: msg
   })

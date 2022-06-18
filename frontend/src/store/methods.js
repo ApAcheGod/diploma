@@ -80,6 +80,18 @@ export default {
     return `${publicAtRuLocale}: сегодня ${date.toLocaleTimeString()}`;
   },
 
+  getMark: (studentId, taskId, examsByStudentIdTaskId, solutionsByStudentIdTaskId) => {
+    const examinationResult = examsByStudentIdTaskId.get(studentId).get(taskId);
+    const solutionResult = solutionsByStudentIdTaskId.get(studentId).get(taskId);
+    const examination = examinationResult ? examinationResult[0] : examinationResult;
+    const solution = solutionResult ? solutionResult[0] : solutionResult;
+    if (examination)
+      return examination.examinationStatus;
+    if (solution)
+      return workStatuses.COMPLETED;
+    return workStatuses.NOT_COMPLETED;
+  },
+
   getBadgeColor: (workStatus) => {
     switch (workStatus) {
       case workStatuses.NOT_COMPLETED:

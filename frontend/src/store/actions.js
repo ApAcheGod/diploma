@@ -256,7 +256,7 @@ const actions = {
 
         const userRole = getters.getUserRole;
         console.log(userRole);
-        if (userRole === userRoles.ROLE_TEACHER) router.push('/teacher/main');
+        if (userRole === userRoles.ROLE_TEACHER) router.push('/teacher/subjects');
         else if (userRole === userRoles.ROLE_STUDENT) router.push('/student/subjects');
 
         resolve(true);

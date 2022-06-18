@@ -2,7 +2,7 @@
 import { useQuasar } from 'quasar'
 import { ref } from 'vue';
 
-const $q = useQuasar();
+const q = useQuasar();
 const props = defineProps({
   room: Object,
   allowEditing: Boolean,

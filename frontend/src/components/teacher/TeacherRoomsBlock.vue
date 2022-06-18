@@ -5,7 +5,7 @@ import { useStore } from 'vuex';
 import actionsTypes from '../../store/actionsTypes';
 import RoomCard from './RoomCard.vue';
 
-const $q = useQuasar();
+const q = useQuasar();
 const store = useStore();
 const newRoomName = ref('');
 const roomIsNotEditing = ref(true);
@@ -19,38 +19,45 @@ const teacher = computed(() => {
 });
 
 function createRoom(room) {
+  if (!newRoomName.value) {
+    q.notify({
+      type: 'negative',
+      message: 'Название комнаты не может быть пустым',
+    });
+    return; 
+  }
   store.dispatch(actionsTypes.CREATE_ROOM, room)
   .then(() => {
-    $q.notify({type: 'positive', message: 'Комната успешно создана'})
+    q.notify({type: 'positive', message: 'Комната успешно создана'})
     newRoomName.value = '';
   })
   .catch(error => {
     console.error(error);
-    $q.notify({type: 'negative', message: 'Ошибка при создании комнаты'})
+    q.notify({type: 'negative', message: 'Ошибка при создании комнаты'})
   })
 }
 function updateRoom(room) {
   store.dispatch(actionsTypes.UPDATE_ROOM, room)
   .then(() => {
-    $q.notify({type: 'positive', message: 'Комната успешно обновлена'})
+    q.notify({type: 'positive', message: 'Комната успешно обновлена'})
     newRoomName.value = '';
     roomIsNotEditing.value = true
   })
   .catch(error => {
     console.error(error);
-    $q.notify({type: 'negative', message: 'Ошибка при обновлении комнаты'})
+    q.notify({type: 'negative', message: 'Ошибка при обновлении комнаты'})
   })
 }
 function deleteRoom(room) {
   store.dispatch(actionsTypes.DELETE_ROOM, room)
   .then(() => {
-    $q.notify({type: 'positive', message: 'Комната успешно удалена'})
+    q.notify({type: 'positive', message: 'Комната успешно удалена'})
     newRoomName.value = '';
     roomIsNotEditing.value = true
   })
   .catch(error => {
     console.error(error);
-    $q.notify({type: 'negative', message: 'Ошибка при удалении комнаты'})
+    q.notify({type: 'negative', message: 'Ошибка при удалении комнаты'})
   })
 }
 

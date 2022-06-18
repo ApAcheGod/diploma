@@ -6,7 +6,7 @@ import actionsTypes from '../store/actionsTypes'
 import mutationsTypes from '../store/mutationsTypes';
 import methods from '../store/methods';
 
-const $q = useQuasar();
+const q = useQuasar();
 const store = useStore();
 const leftDrawerOpen = ref(true);
 
@@ -27,7 +27,7 @@ onMounted(() => {
   })
   .catch(error => {
     console.error(error);
-    $q.notify({
+    q.notify({
       type: 'negative',
       message: 'Ошибка при получении информации'
     });

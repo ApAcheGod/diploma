@@ -45,6 +45,13 @@ const triggerNegative = (msg) => q.notify({ type: 'negative', message: msg });
 const clearActiveSubject = () => newTask.value = { name : '', text: '', subjectId : '', teacherId : '' };
 
 function updateTask(task){
+  if (!task.id) {
+    q.notify({
+      type: 'negative',
+      message: 'Системная ошибка при обновлении задания',
+    });
+    return; 
+  }
   store.dispatch(actionsTypes.UPDATE_TASK, task)
     .then(() => {
       triggerPositive('Успешно обновлено новое задание!');
@@ -58,7 +65,17 @@ function updateTask(task){
 function addNewTask(task){
   task.subjectId = activeSubject.value.id;
   task.teacherId = activeSubject.value.teacherId;
-  
+
+  if (!task.subjectId || !task.teacherId) {
+    q.notify({ type: 'negative', message: 'Системная ошибка при обновлении задания', });
+    return; 
+  }
+
+  if (!task.name) {
+    q.notify({ type: 'negative', message: 'Имя задание не может быть пустым', });
+    return; 
+  }
+
   store.dispatch(actionsTypes.CREATE_TASK, task)
     .then(() => {
       triggerPositive('Успешно добавлено новое задание!');
@@ -96,7 +113,7 @@ function deleteTask(task){
           <q-card-section v-html="task.text" />
         </template>
         <template #actions>
-          <button class="base-card__button base-card__button_edit" @click="() => {promptType = promptTypes.EDIT; newTask = task; promptIsOpen = true;}">Изменить</button>
+          <button class="base-card__button base-card__button_edit" @click="() => {promptType = promptTypes.EDIT; newTask = {...task}; promptIsOpen = true;}">Изменить</button>
           <button class="base-card__button base-card__button_delete" @click="deleteTask(task)">Удалить</button>
         </template>
       </base-card>
@@ -115,12 +132,12 @@ function deleteTask(task){
         v-on:change-open-status="promptIsOpen = !promptIsOpen"
         >
         <template #body>
-          <q-input padding="8px" dense v-model="newTask.name" autofocus label="Название"/>
+          <q-input padding="8px" dense v-model="newTask.name" autofocus label="Название" :rules="[val => !!val || 'Название обязательно']"/>
           <base-rich-text v-model="newTask.text" />
         </template>
         <template #actions>
-          <q-btn padding="8px" flat label="Отмена"  @click="() => {promptIsOpen=false; clearActiveSubject();}"/>
-          <q-btn padding="8px" flat :label="promptActionName" @click="promptAction(newTask)" />
+          <q-btn class="base-card__button" padding="8px" flat label="Отмена"  @click="() => {promptIsOpen=false; clearActiveSubject();}"/>
+          <q-btn class="base-card__button" padding="8px" flat :label="promptActionName" @click="promptAction(newTask)" />
         </template>
       </base-dialog>
 

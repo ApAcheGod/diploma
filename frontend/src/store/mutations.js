@@ -126,8 +126,8 @@ const mutations = {
   },
   updateTask(state, payload) {
     const task = payload;
-    const updateTaskId = state.userData.tasks.findIndex(t => task.id === t.id);
-    state.userData.tasks[updateTaskId] = task;
+    const updateTaskId = state.tasks.findIndex(t => task.id === t.id);
+    state.tasks[updateTaskId] = task;
   },
 
   createSolution(state, payload){

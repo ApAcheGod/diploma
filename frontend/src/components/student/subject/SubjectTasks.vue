@@ -5,6 +5,8 @@ import { useStore } from 'vuex';
 import { ref } from 'vue';
 
 import BaseCard from '../../base/BaseCard.vue';
+import BaseDialog from '../../base/BaseDialog.vue';
+import BaseRichText from '../../base/BaseRichText.vue';
 import BaseCardWrapper from '../../base/BaseCardWrapper.vue';
 import EmptyMessage from '../../base/EmptyMessage.vue';
 import actionsTypes from '../../../store/actionsTypes';
@@ -43,7 +45,13 @@ const createSolution = () => {
     studentId: user.value.id,
   };
 
-  if (!solution.taskId || !solution.studentId) return;
+  if (!solution.taskId || !solution.studentId) {
+    q.notify({
+      type: 'negative',
+      message: 'Ошибка системы при сдачи задания',
+    });
+    return; 
+  }
 
   store.dispatch(actionsTypes.CREATE_SOLUTION, solution)
     .then(() => {
@@ -73,7 +81,7 @@ const createSolution = () => {
           <q-badge class="text-transforn-none" :color="methods.getBadgeColor(task.status)" :label="task.status" />
         </template>
         <template #body>
-          {{task.text}}
+          <q-card-section v-html="task.text" />
         </template>
         <template #actions>
           <button 
@@ -98,32 +106,28 @@ const createSolution = () => {
   <empty-message v-else>
     Нет доступных заданий по этому предмету
   </empty-message>
-  <!-- @keyup.esc="promptIsOpen=false" @keyup.enter="updateTask(newTask)" -->
-  <q-dialog v-model="promptIsOpen" persistent>
 
-    <q-card style="min-width: 350px" >
-      <q-card-section>
-        <div class="text-h5">{{currentTask.name}}</div>
-      </q-card-section>
+  <base-dialog 
+    :title="currentTask.name"
+    :promptIsOpen="promptIsOpen"
+    v-on:change-open-status="promptIsOpen = !promptIsOpen"
+    >
+    <template #body>
+      <div>{{methods.dateFormated(currentTask.date_of_creation)}}</div>
+      <div>Задание:</div>
+      <q-card-section v-html="currentTask.text" />
+      <template v-if="promptSolutionIsReadOnly">
+        <div>Решение:</div>
+        <q-card-section  v-html="newSolutionText" />
+      </template>
+      <base-rich-text v-else placeholder="Решение" v-model="newSolutionText" />
+    </template>
+    <template #actions>
+      <q-btn flat label="Отмена"  @click="promptIsOpen=false; currentTask={};"/>
+      <q-btn v-if="promptShowAction" flat label="Отправить" @click="createSolution" />
+    </template>
+  </base-dialog>
 
-      <q-card-section>
-        <div>{{methods.dateFormated(currentTask.date_of_creation)}}</div>
-      </q-card-section>
-
-      <q-card-section class="q-pt-none">
-        <div>Задание: {{currentTask.text}}</div>
-      </q-card-section>
-
-      <q-card-section class="q-pt-none">
-        <q-input :readonly="promptSolutionIsReadOnly" dense autogrow v-model="newSolutionText" autofocus label="Решение"/>
-      </q-card-section>
-
-      <q-card-actions align="right" class="text-primary">
-        <q-btn flat label="Отмена"  @click="promptIsOpen=false; currentTask={};"/>
-        <q-btn v-if="promptShowAction" flat label="Отправить" @click="createSolution" />
-      </q-card-actions>
-    </q-card>
-  </q-dialog>
 </template>
 <style scoped lang="scss">
 .text-transforn-none {

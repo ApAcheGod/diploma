@@ -1,7 +1,8 @@
 import workStatuses from "../../models/workStatuses";
+import methods from "../methods";
 
 export default {
-  getGroup(state) {
+  getStudentGroups(state) {
     const student = state.userData;
     if (!student) return;
 
@@ -10,11 +11,12 @@ export default {
 
     return JSON.parse(JSON.stringify(groups[0]));
   },
-  getSubjects(state, getters) {
-    const group = getters.getGroup;
+  getStudentSubjects(state, getters) {
+    const group = getters.getStudentGroups;
     if (!group) return;
-    
-    return group.subjects;
+
+    const subjectMapBySubjectId = getters.getSubjectMapBySubjectId;
+    return group.subjects.map(subject => subjectMapBySubjectId.get(subject.id));
   },
   getActiveSubjectFormattedTasks(state, getters) {
     const activeSubject = getters.getActiveSubject;
@@ -24,6 +26,7 @@ export default {
     const solutionsMapByStudentIdTaskId = getters.getSolutionsMapByStudentIdTaskId;
     const examsMapByStudentIdTaskId = getters.getExamsMapByStudentIdTaskId;
     const tasks = activeSubject.tasks;
+    
     tasks.forEach(task => {
       const examinationResult = examsMapByStudentIdTaskId?.get(student.id)?.get(task.id);
       const solutionResult = solutionsMapByStudentIdTaskId?.get(student.id)?.get(task.id);
@@ -45,7 +48,17 @@ export default {
     return tasks;
   },
   getStudentJournal(state, getters) {
-    const activeSubject = getters.getActiveSubject;
-    
+    const student = getters.getUserData;
+    const subjects = getters.getStudentSubjects;
+    console.log(subjects);
+    const solutionsByStudentIdTaskId = getters.getSolutionsMapByStudentIdTaskId;
+    const examsByStudentIdTaskId = getters.getExamsMapByStudentIdTaskId;
+    const getMark = methods.getMark;
+
+    subjects?.forEach(
+      subject => subject.tasks?.forEach(
+        task => task.mark = getMark(student.id, task.id, examsByStudentIdTaskId, solutionsByStudentIdTaskId)));
+
+    return subjects;
   },
 }

@@ -10,7 +10,7 @@ import actionsTypes from '../../store/actionsTypes';
 
 const q = useQuasar();
 const store = useStore();
-const subjects = computed(() => store.getters.getSubjects);
+const subjects = computed(() => store.getters.getStudentSubjects);
 
 </script>
 <template>

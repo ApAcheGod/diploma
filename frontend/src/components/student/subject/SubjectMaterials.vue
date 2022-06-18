@@ -1,14 +1,12 @@
 <script setup>
 import { computed } from '@vue/reactivity';
-import { useQuasar } from 'quasar';
 import { useStore } from 'vuex';
 
 import BaseCard from '../../base/BaseCard.vue';
+import BaseDialog from '../../base/BaseDialog.vue';
 import BaseCardWrapper from '../../base/BaseCardWrapper.vue';
 import EmptyMessage from '../../base/EmptyMessage.vue';
-import actionsTypes from '../../../store/actionsTypes';
 
-const q = useQuasar();
 const store = useStore();
 const activeSubject = computed(() => store.getters.getActiveSubject);
 
@@ -21,7 +19,7 @@ const activeSubject = computed(() => store.getters.getActiveSubject);
           {{material.name}}
         </template>
         <template #body>
-          {{material.text}}
+          <q-card-section v-html="material.text" />
         </template>
       </base-card>
     </template>

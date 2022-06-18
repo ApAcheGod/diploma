@@ -7,32 +7,53 @@ import {useQuasar} from "quasar";
 import {useStore} from "vuex";
 import {computed} from "vue";
 
-const $q = useQuasar();
+const q = useQuasar();
 const store = useStore();
 const subjectByRooms = computed(() => store.getters.getTeacherSubjects);
 const teacher = computed(() => store.getters.getUserData);
 const newSubjectName = ref([]);
 
 function createSubject(subject){
+  if (!subject.name) {
+    q.notify({
+      type: 'negative',
+      message: 'Название предмета не может быть пустым',
+    });
+    return; 
+  }
+  if (!subject.teacherId || !subject.roomId) {
+    q.notify({
+      type: 'negative',
+      message: 'Системная ошибка при создании предмета',
+    });
+    return; 
+  }
   store.dispatch(actionsTypes.CREATE_SUBJECT, subject)
       .then(() => {
-        $q.notify({type: 'positive', message: 'Предмет успешно создан'})
+        q.notify({type: 'positive', message: 'Предмет успешно создан'})
         newSubjectName.value = '';
       })
       .catch(error => {
         console.error(error);
-        $q.notify({type: 'negative', message: 'Ошибка при создании предмета'})
+        q.notify({type: 'negative', message: 'Ошибка при создании предмета'})
       })
 }
 
 function deleteSubject(subject) {
+  if (!subject.id) {
+    q.notify({
+      type: 'negative',
+      message: 'Системная ошибка при удалении предмета',
+    });
+    return; 
+  }
   store.dispatch(actionsTypes.DELETE_SUBJECT, subject)
       .then(() => {
-        $q.notify({type: 'positive', message: 'Предмет успешно удален'})
+        q.notify({type: 'positive', message: 'Предмет успешно удален'})
       })
       .catch(error => {
         console.error(error);
-        $q.notify({type: 'negative', message: 'Ошибка при удалении предмета'})
+        q.notify({type: 'negative', message: 'Ошибка при удалении предмета'})
       })
 }
 

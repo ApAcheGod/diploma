@@ -5,7 +5,7 @@ import {useQuasar} from 'quasar'
 import GroupCard from './GroupCard.vue';
 import GroupDialog from './GroupDialog.vue';
 
-let $q = useQuasar();
+let q = useQuasar();
 
 let groups = ref();
 let tasks = ref();
@@ -33,14 +33,14 @@ onMounted(async () => {
 });
 
 function triggerPositive(msg) {
-  $q.notify({
+  q.notify({
     type: 'positive',
     message: msg
   })
 }
 
 function triggerNegative(msg) {
-  $q.notify({
+  q.notify({
     type: 'negative',
     message: msg
   })
