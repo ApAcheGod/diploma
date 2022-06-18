@@ -17,8 +17,10 @@ const homeWorks = computed(() => store.getters.getHomeWorks);
 const promptIsOpen = ref(false);
 const currentSolution = ref({});
 
-const correctSolution = (solution) => {
-  const exam = { examinationStatus: workStatuses.CORRECTLY, solutionId: solution.id};
+const comment = ref();
+
+const correctSolution = (solution, comment) => {
+  const exam = { examinationStatus: workStatuses.CORRECTLY, solutionId: solution.id, comment: comment};
   store.dispatch(actionsTypes.CREATE_EXAMINATION, exam)
   .then(() => {
     q.notify({
@@ -34,8 +36,8 @@ const correctSolution = (solution) => {
     })
   });
 }
-const notCorrectSolution = (solution) => {
-  const exam = { examinationStatus: workStatuses.INCORRECTLY, solutionId: solution.id};
+const notCorrectSolution = (solution, comment) => {
+  const exam = { examinationStatus: workStatuses.INCORRECTLY, solutionId: solution.id, comment: comment};
   store.dispatch(actionsTypes.CREATE_EXAMINATION, exam)
   .then(() => {
     q.notify({
@@ -94,9 +96,12 @@ const notCorrectSolution = (solution) => {
       {{currentSolution.studentName}}
       <q-card-section v-html="currentSolution.text" />
     </template>
+    <template #comment>
+      <q-input dense autogrow v-model="comment" label="Комментарий"/>
+    </template>
     <template #actions>
-      <q-btn class="base-card__button" padding="8px" flat @click="correctSolution(currentSolution)">Верно</q-btn>
-      <q-btn class="base-card__button base-card__button_delete" padding="8px" flat @click="notCorrectSolution(currentSolution)">Неверно</q-btn>
+      <q-btn class="base-card__button" padding="8px" flat @click="correctSolution(currentSolution, comment)">Верно</q-btn>
+      <q-btn class="base-card__button base-card__button_delete" padding="8px" flat @click="notCorrectSolution(currentSolution, comment)">Неверно</q-btn>
     </template>
   </base-dialog>
 </template>

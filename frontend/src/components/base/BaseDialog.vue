@@ -41,6 +41,7 @@ onMounted(() => {
       </q-bar>
       <div class="base-dialog__body">
         <slot name="body"></slot>
+        <slot name="comment"></slot>
       </div>
       <div class="base-dialog__actions">
         <slot name="actions"></slot>
@@ -60,6 +61,12 @@ onMounted(() => {
     font-size: 16px;
   }
   &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+  }
+  &__comment {
     display: flex;
     flex-direction: column;
     gap: 24px;

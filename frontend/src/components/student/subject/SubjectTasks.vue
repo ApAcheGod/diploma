@@ -17,6 +17,11 @@ const q = useQuasar();
 const store = useStore();
 const tasks = computed(() => store.getters.getActiveSubjectFormattedTasks);
 const user = computed(() => store.getters.getUserData);
+const examinations = computed(() => store.getters.getExamsMapByStudentIdTaskId);
+
+const findExamination = () => {
+  return JSON.parse(JSON.stringify(...examinations.value.get(user.value.id).get(currentTask.value.id))).comment;
+};
 
 const promptTypes = Object.freeze({SOLVE: 'SOLVE', READONLY: 'READONLY'});
 const _prompt = Object.freeze({
@@ -94,7 +99,7 @@ const createSolution = () => {
           <button 
             v-else 
             class="base-card__button"
-            @click="promptType=promptTypes.READONLY; currentTask=task; newSolutionText=currentTask.solution?.text; promptIsOpen=true;"
+            @click="promptType=promptTypes.READONLY; currentTask=task; newSolutionText=currentTask.solution?.text, comment=findExamination(); promptIsOpen=true;"
           >
             Просмотр решения
           </button>
@@ -119,6 +124,8 @@ const createSolution = () => {
       <template v-if="promptSolutionIsReadOnly">
         <div>Решение:</div>
         <q-card-section  v-html="newSolutionText" />
+        <div>Комментарий преподавателя:</div>
+        <q-card-section  v-html="comment" />
       </template>
       <base-rich-text v-else placeholder="Решение" v-model="newSolutionText" />
     </template>
