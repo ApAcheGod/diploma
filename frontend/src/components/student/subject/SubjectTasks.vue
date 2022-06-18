@@ -20,7 +20,11 @@ const user = computed(() => store.getters.getUserData);
 const examinations = computed(() => store.getters.getExamsMapByStudentIdTaskId);
 
 const findExamination = () => {
-  return JSON.parse(JSON.stringify(...examinations.value.get(user.value.id).get(currentTask.value.id))).comment;
+  try{
+    return JSON.parse(JSON.stringify(...examinations.value.get(user.value.id).get(currentTask.value.id))).comment;
+  }catch (e){
+    return "";
+  }
 };
 
 const promptTypes = Object.freeze({SOLVE: 'SOLVE', READONLY: 'READONLY'});
