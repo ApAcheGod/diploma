@@ -85,7 +85,7 @@ async function deleteRoom(room){
     <q-btn 
       fab 
       icon="add" 
-      color="accent"
+       color="primary"
       @click="roomPromptIsOpen = true"/>
   </q-page-sticky>
 

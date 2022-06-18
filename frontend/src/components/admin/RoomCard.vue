@@ -14,7 +14,7 @@ let promptIsOpen = ref(false);
 </script>
 <template>
   <q-card class="my-card">
-    <q-card-section class="bg-secondary text-white">
+    <q-card-section class=" ">
       <div class="text-h6">   
         {{props.room.name}}
       </div>
@@ -33,7 +33,7 @@ let promptIsOpen = ref(false);
         Изменить
       </q-btn>
       <q-btn 
-        color="accent" 
+         color="primary" 
         flat
         @click="() => emits('delete-click', props.room)"
       >

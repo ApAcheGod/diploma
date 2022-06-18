@@ -16,7 +16,7 @@ let promptIsOpen = ref(false);
 </script>
 <template>
   <q-card class="my-card">
-    <q-card-section class="bg-secondary text-white">
+    <q-card-section class=" ">
       <div class="text-h6" style="display: flex; justify-content: space-between">
         <div>{{props.group.name}}</div>
         <div>Студентов в группе: {{props.group.countOfStudents}}</div>
@@ -52,7 +52,7 @@ let promptIsOpen = ref(false);
         Изменить
       </q-btn>
       <q-btn 
-        color="accent" 
+         color="primary" 
         flat
         @click="() => emits('delete-click', props.group)"
       >

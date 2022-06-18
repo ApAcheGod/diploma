@@ -100,7 +100,7 @@ async function deleteGroup(group){
     <q-btn 
       fab 
       icon="add" 
-      color="accent"
+       color="primary"
       @click="groupPromptIsOpen = true"/>
   </q-page-sticky>
 

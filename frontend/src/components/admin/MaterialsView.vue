@@ -93,7 +93,7 @@ async function deleteMaterial(material){
     <q-btn 
       fab 
       icon="add" 
-      color="accent"
+       color="primary"
       @click="materialPromptIsOpen = true"/>
   </q-page-sticky>
 

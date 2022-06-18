@@ -17,7 +17,7 @@ let promptIsOpen = ref(false);
 </script>
 <template>
   <q-card class="my-card">
-    <q-card-section class="bg-secondary text-white">
+    <q-card-section class=" ">
 
       <div class="ml-2 text-h6 font-semibold">   
         {{props.teacher.login ? props.teacher.login : "Нет логина"}}
@@ -88,7 +88,7 @@ let promptIsOpen = ref(false);
         Изменить
       </q-btn>
       <q-btn 
-        color="accent" 
+         color="primary" 
         flat
         @click="() => emits('delete-click', props.teacher)"
       >

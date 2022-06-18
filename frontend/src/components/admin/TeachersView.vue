@@ -98,7 +98,7 @@ async function deleteTeacher(teacher){
     <q-btn 
       fab 
       icon="add" 
-      color="accent"
+       color="primary"
       @click="teacherPromptIsOpen = true"/>
   </q-card>
 

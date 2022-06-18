@@ -94,7 +94,7 @@ async function deleteTask(task){
     <q-btn 
       fab 
       icon="add" 
-      color="accent"
+       color="primary"
       @click="taskPromptIsOpen = true"/>
   </q-page-sticky>
 

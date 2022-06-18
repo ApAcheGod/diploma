@@ -105,7 +105,7 @@ async function deleteSubject(subject){
     <q-btn 
       fab 
       icon="add" 
-      color="accent"
+       color="primary"
       @click="subjectPromptIsOpen = true"/>
   </q-page-sticky>
 

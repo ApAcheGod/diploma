@@ -85,7 +85,7 @@ async function deleteStudent(student){
     <q-btn 
       fab 
       icon="add" 
-      color="accent"
+       color="primary"
       @click="studentPromptIsOpen = true"/>
   </q-page-sticky>
 
