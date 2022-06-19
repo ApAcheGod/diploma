@@ -12,7 +12,7 @@ const journal = computed(() => store.getters.getStudentJournal)
 <template>
   <template v-if="journal && journal.length > 0">
     <div class="journal-subject-block" v-for="subject in journal">
-      <div class="journal-subject-block__title">{{subject.name}}</div>
+      <div class="journal-subject-block__title">{{subject.name + " | " + subject.teacherName}}</div>
       <hr>
         <div class="journal-group-block__table">
           <q-table

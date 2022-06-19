@@ -128,7 +128,7 @@ const deleteMaterial = (deletedMaterial) => {
         </template>
         <template #actions>
           <q-btn class="base-card__button" padding="8px" flat label="Отмена"  @click="promptIsOpen=false; newMaterial={};"/>
-          <q-btn class="base-card__button" padding="8px" flat label="Добавить" @click="createOrUpdateMaterial(); promptIsOpen=false" />
+          <q-btn class="base-card__button" padding="8px" flat label="Добавить" :disable="!newMaterial.name" @click="createOrUpdateMaterial(); promptIsOpen=false" />
         </template>
       </base-dialog>
 

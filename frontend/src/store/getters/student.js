@@ -50,7 +50,6 @@ export default {
   getStudentJournal(state, getters) {
     const student = getters.getUserData;
     const subjects = getters.getStudentSubjects;
-    console.log(subjects);
     const solutionsByStudentIdTaskId = getters.getSolutionsMapByStudentIdTaskId;
     const examsByStudentIdTaskId = getters.getExamsMapByStudentIdTaskId;
     const getMark = methods.getMark;

@@ -136,8 +136,8 @@ function deleteTask(task){
           <base-rich-text v-model="newTask.text" />
         </template>
         <template #actions>
-          <q-btn class="base-card__button" padding="8px" flat label="Отмена"  @click="() => {promptIsOpen=false; clearActiveSubject();}"/>
-          <q-btn class="base-card__button" padding="8px" flat :label="promptActionName" @click="promptAction(newTask)" />
+          <q-btn class="base-card__button" padding="8px" flat label="Отмена" @click="() => {promptIsOpen=false; clearActiveSubject();}"/>
+          <q-btn class="base-card__button" padding="8px" flat :label="promptActionName" :disable="!newTask.name" @click="promptAction(newTask)" />
         </template>
       </base-dialog>
 

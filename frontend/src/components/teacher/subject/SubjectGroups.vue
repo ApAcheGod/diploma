@@ -11,6 +11,7 @@ import actionsTypes from "../../../store/actionsTypes";
 
 const q = useQuasar();
 const store = useStore();
+const promptIsOpen = ref(false);
 const activeSubject = computed(() => store.getters.getActiveSubject);
 const activeSubjectEmpty = computed(() => store.getters.getActiveSubjectEmpty);
 const availableStudentGroups = computed(() => {
@@ -96,7 +97,7 @@ const removeGroup = (removedGroup) => {
           </p>
         </template>
         <template #actions>
-          <button class="base-card__button base-card__button_delete" @click="removeGroup(group)">Удалить</button>
+          <button class="base-card__button base-card__button_delete" @click="removeGroup(group)">Открепить</button>
         </template>
       </base-card>
       <base-add-new key="add-new" v-if="availableStudentGroups.length > 0">
