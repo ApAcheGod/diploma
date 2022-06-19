@@ -128,7 +128,7 @@ const createSolution = () => {
       <template v-if="promptSolutionIsReadOnly">
         <div>Решение:</div>
         <q-card-section  v-html="newSolutionText" />
-        <div>Комментарий преподавателя:</div>
+        <div v-if="comment !== ''">Комментарий преподавателя:</div>
         <q-card-section  v-html="comment" />
       </template>
       <base-rich-text v-else placeholder="Решение" v-model="newSolutionText" />
