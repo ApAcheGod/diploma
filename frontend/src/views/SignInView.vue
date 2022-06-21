@@ -9,31 +9,39 @@ const showingPassword = ref(true);
 
 </script>
 <template>
-<div class="sign-in__block">
-  <div class="sign-in__form">
-    <h2 class="sign-in__title">Вход</h2>
-    <q-input 
-      outlined 
-      v-model="user.login" 
-      label="Логин" 
-      hint="Введите логин"/>
-    <q-input 
-      outlined 
-      v-model="user.password" 
-      label="Пароль" 
-      hint="Введите пароль"
-      :type="showingPassword ? 'password' : 'text'" >
-      <template v-slot:append>
-        <q-icon
-          :name="showingPassword ? 'visibility_off' : 'visibility'"
-          class="cursor-pointer"
-          @click="showingPassword = !showingPassword"
-        />
-      </template>
-    </q-input>  
-    <q-btn flat class="sign-in__button" label="Войти" @click="state.dispatch(actionsTypes.USER_SIGNIN, user)"/>
+  <div class="sign-in__block">
+    <q-form
+      @submit="state.dispatch(actionsTypes.USER_SIGNIN, user)"
+      @reset="user={}"
+      class="sign-in__form"
+    >
+      <h2 class="sign-in__title">Вход</h2>
+
+      <q-input 
+        outlined 
+        v-model="user.login" 
+        label="Логин" 
+        hint="Введите логин"/>
+
+      <q-input 
+        outlined 
+        v-model="user.password" 
+        label="Пароль" 
+        hint="Введите пароль"
+        :type="showingPassword ? 'password' : 'text'" >
+        <template v-slot:append>
+          <q-icon
+            :name="showingPassword ? 'visibility_off' : 'visibility'"
+            class="cursor-pointer"
+            @click="showingPassword = !showingPassword"
+          />
+        </template>
+      </q-input> 
+
+      <q-btn flat class="sign-in__button" label="Войти" type="submit"/>
+
+    </q-form>
   </div>
-</div>
 </template>
 <style>
 .sign-in__block {

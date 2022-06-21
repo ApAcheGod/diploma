@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import {useStore} from "vuex";
+import { useStore } from "vuex";
 import actionsTypes from "../../store/actionsTypes";
 
 const props = defineProps({
@@ -8,7 +8,7 @@ const props = defineProps({
 });
 
 const store = useStore();
-const emits = defineEmits(['delete', 'save', 'cancel']);
+const emits = defineEmits(['delete', 'save', 'cancel', 'info']);
 
 const tasksRuLocale = (tasksCount) => {
   const tasksCountNums = tasksCount.toString();
@@ -54,12 +54,12 @@ const formatNamableArray = (array) => {
     <div class="subject-card__actions">
       <button 
           class="subject-card__button subject-card__button_edit"
-          @click="store.dispatch(actionsTypes.SET_ACTIVE_SUBJECT, props.subject)">
+          @click="emits('info', props.subject)">
           Подробнее
         </button>
         <button
           class="subject-card__button subject-card__button_delete"
-          @click="() => emits('delete', props.subject)">
+          @click="emits('delete', props.subject)">
           Удалить
         </button>
     </div>
@@ -73,21 +73,17 @@ const formatNamableArray = (array) => {
   background: white;
   filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.161));
   padding: 16px;
-  // width: min-content;
-  // min-height: 368px;
-  // min-width: 256px;
   width: 304px;
-  height: 344px;
-
+  min-height: 344px;
+  font-family: 'Montserrat';
+  color: #1d1d1d;
   &__title {
     margin-bottom: 24px;
     display: flex;
     flex-direction: column;
     justify-content: left;
-    font-family: 'Montserrat';
     font-size: 17px;
     font-weight: 500;
-    color: #1d1d1d;
     height: 51px;
   }
   &__count {
@@ -95,8 +91,6 @@ const formatNamableArray = (array) => {
     display: flex;
     flex-direction: column;
     justify-content: left;
-    font-family: 'Montserrat';
-    color: #1d1d1d;
     height: 64px;
   }
   &__actions {
@@ -107,7 +101,6 @@ const formatNamableArray = (array) => {
     height: 16px;
   }
   &__button {
-    font-family: 'Montserrat';
     font-weight: 500;
     font-size: 14px;
     line-height: 16px;
@@ -115,12 +108,10 @@ const formatNamableArray = (array) => {
     color: #6200EE;
     transition: .3s;
     opacity: 1;
-
     &:hover {
       transition: .3s;
       opacity: .8;
     }
-
     &_edit {
       color: #2020CC;
       text-decoration: underline;

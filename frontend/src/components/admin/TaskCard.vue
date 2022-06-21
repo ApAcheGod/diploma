@@ -24,7 +24,7 @@ const formattedDate = computed(() => {
 </script>
 <template>
   <q-card class="my-card">
-    <q-card-section class="bg-secondary text-white">
+    <q-card-section class=" ">
       <div class="text-h6" style="display: flex; justify-content: space-between">
         <div>
         {{props.task.name}}
@@ -63,7 +63,7 @@ const formattedDate = computed(() => {
         Изменить
       </q-btn>
       <q-btn 
-        color="accent" 
+         color="primary" 
         flat
         @click="() => emits('delete-click', props.task)"
       >

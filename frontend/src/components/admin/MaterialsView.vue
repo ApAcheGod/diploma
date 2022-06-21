@@ -6,7 +6,7 @@ import {useQuasar} from 'quasar'
 import MaterialCard from './MaterialCard.vue';
 import MaterialDialog from './MaterialDialog.vue';
 
-let $q = useQuasar();
+let q = useQuasar();
 
 let materials = ref();
 
@@ -31,14 +31,14 @@ onMounted(async () => {
 });
 
 function triggerPositive(msg) {
-  $q.notify({
+  q.notify({
     type: 'positive',
     message: msg
   })
 }
 
 function triggerNegative(msg) {
-  $q.notify({
+  q.notify({
     type: 'negative',
     message: msg
   })
@@ -93,7 +93,7 @@ async function deleteMaterial(material){
     <q-btn 
       fab 
       icon="add" 
-      color="accent"
+       color="primary"
       @click="materialPromptIsOpen = true"/>
   </q-page-sticky>
 

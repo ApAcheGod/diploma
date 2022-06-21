@@ -24,6 +24,11 @@ export default {
 
   CREATE_SUBJECT : 'createSubject',
   DELETE_SUBJECT : 'deleteSubject',
+  UPDATE_SUBJECT : 'updateSubject',
+
+  CREATE_TASK : 'createTask',
+  DELETE_TASK : 'deleteTask',
+  UPDATE_TASK : 'updateTask',
 
   CREATE_SOLUTION : 'createSolution',
   UPDATE_SOLUTION : 'updateSolution',
@@ -33,7 +38,10 @@ export default {
   UPDATE_EXAMINATION : 'updateExamination',
   DELETE_EXAMINATION : 'deleteExamination',
 
+  CREATE_MATERIAL : 'createMaterial',
+  DELETE_MATERIAL : 'deleteMaterial',
+  UPDATE_MATERIAL : 'updateMaterial',
+
   SET_ACTIVE_SUBJECT : 'setActiveSubject',
   DELETE_ACTIVE_SUBJECT : 'deleteActiveSubject',
-  UPDATE_SUBJECT : 'updateSubject',
 }

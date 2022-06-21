@@ -47,7 +47,39 @@ const actions = {
     router.push('/signin');
   },
   
-  dataInit({ commit }, payload){
+  studentDataInit({ commit }, payload){
+    const studentLogin = payload;
+    return Promise.all([
+      methods.getStudentByLoginFetch(studentLogin),
+      methods.getGroupsFetch(),
+      methods.getSubjectsFetch(),
+      methods.getStudentsFetch(),
+      methods.getSolutionsFetch(),
+      methods.getExaminationsFetch(),
+      methods.getTasksFetch(),
+    ])
+    .then((results) => {
+      const [ 
+        studentData, 
+        studentGroups, 
+        subjects,
+        students,
+        solutions, 
+        examinations,
+        tasks,
+      ] = results;
+      
+      commit(mutationsTypes.SET_USER_DATA, studentData);
+      commit(mutationsTypes.SET_STUDENT_GROUPS_DATA, studentGroups);
+      commit(mutationsTypes.SET_SUBJECTS_DATA, subjects);
+      commit(mutationsTypes.SET_STUDENTS_DATA, students);
+      commit(mutationsTypes.SET_SOLUTIONS_DATA, solutions);
+      commit(mutationsTypes.SET_EXAMINATIONS_DATA, examinations);
+      commit(mutationsTypes.SET_TASKS_DATA, tasks);
+    });
+  },
+
+  teacherDataInit({ commit }, payload){
     const teacherLogin = payload;
     return Promise.all([
       methods.getTeacherByLoginFetch(teacherLogin),
@@ -70,12 +102,12 @@ const actions = {
         subjects, 
         tasks, 
         solutions, 
-        examinations
+        examinations,
       ] = results;
       
       commit(mutationsTypes.SET_USER_DATA, teacherData);
       commit(mutationsTypes.SET_ROOMS_DATA, rooms);
-      commit(mutationsTypes.SET_STUDENTS_DATA, students)
+      commit(mutationsTypes.SET_STUDENTS_DATA, students);
       commit(mutationsTypes.SET_STUDENT_GROUPS_DATA, studentGroups);
       commit(mutationsTypes.SET_MATERIALS_DATA, materials);
       commit(mutationsTypes.SET_SUBJECTS_DATA, subjects);
@@ -165,7 +197,6 @@ const actions = {
         });
     },
 
-
     deleteSolution({ commit }, payload){
       const solution = payload;
       return methods.deleteSolutionFetch(solution)
@@ -201,26 +232,132 @@ const actions = {
       return methods.deleteExaminationFetch(examination)
         .then(isSuccess => {
           if (isSuccess) {
-            commit(mutationsTypes.DELETE_SOLUTION, examination);
+            commit(mutationsTypes.DELETE_EXAMINATION, examination);
           }
         });
     },
-    setActiveSubject({ commit }, payload) {
+
+    setActiveSubject({ commit, getters }, payload) {
       const subject = payload;
       return new Promise((resolve, reject) => {
         commit(mutationsTypes.SET_ACTIVE_SUBJECT, subject);
-        router.push('/teacher/subject/journal');
+        
+        const userRole = getters.getUserRole;
+        if (userRole === userRoles.ROLE_TEACHER) router.push('/teacher/subject/journal');
+        else if (userRole === userRoles.ROLE_STUDENT) router.push('/student/subject/tasks');
+
         resolve(true);
       });
     },
   
-    deleteActiveSubject({ commit }, payload) {
+    deleteActiveSubject({ commit, getters }, payload) {
       return new Promise((resolve, reject) => {
         commit(mutationsTypes.DELETE_ACTIVE_SUBJECT);
-        router.push('/teacher/subjects');
+
+        const userRole = getters.getUserRole;
+        console.log(userRole);
+        if (userRole === userRoles.ROLE_TEACHER) router.push('/teacher/subjects');
+        else if (userRole === userRoles.ROLE_STUDENT) router.push('/student/subjects');
+
         resolve(true);
       });
     },
+
+  createTask({ commit, getters }, payload){
+    const task = payload;
+    return methods.createTaskFetch(task)
+      .then(createdTask => {
+        commit(mutationsTypes.CREATE_TASK, createdTask);
+
+        const activeSubject = getters.getActiveSubjectEmpty;
+        activeSubject.tasks ? activeSubject.tasks.push(createdTask) : [createdTask];
+        commit(mutationsTypes.UPDATE_SUBJECT, activeSubject);
+
+        const teacherCurr = getters.getUserData;
+        teacherCurr.tasks ? teacherCurr.tasks.push(createdTask) : [createdTask];
+      });
+  },
+
+  updateTask({ commit, getters }, payload){
+    const task = payload;
+    return methods.updateTaskFetch(task)
+      .then(updatedTask => {
+        if (updatedTask) {
+          commit(mutationsTypes.UPDATE_TASK, updatedTask);
+
+          const activeSubject = getters.getActiveSubjectEmpty;
+          const taskIdInSubject = activeSubject.tasks.findIndex(s => s.id === updatedTask.id);
+          activeSubject.tasks[taskIdInSubject] = updatedTask;
+          commit(mutationsTypes.UPDATE_SUBJECT, activeSubject);
+  
+          const teacherCurr = getters.getUserData;
+          const taskIdInTeacherCurr = teacherCurr.tasks.findIndex(s => s.id === updatedTask.id);
+          teacherCurr.tasks[taskIdInTeacherCurr] = updatedTask;
+        }
+      });
+  },
+
+  deleteTask({ commit, getters }, payload){
+    const task = payload;
+    return methods.deleteTaskFetch(task)
+      .then(isSuccess => {
+        if (isSuccess) {
+          commit(mutationsTypes.DELETE_TASK, task);
+
+          const activeSubject = getters.getActiveSubjectEmpty;
+          activeSubject.tasks = activeSubject.tasks.filter(t => t.id !== task.id);
+          commit(mutationsTypes.UPDATE_SUBJECT, activeSubject);
+          
+          const teacherCurr = getters.getUserData;
+          teacherCurr.tasks = activeSubject.tasks.filter(t => t.id !== task.id);
+        }
+      });
+  },
+
+  createMaterial({ commit, getters }, payload){
+    const material = payload;
+    return methods.createMaterialFetch(material)
+        .then(createdMaterial => {
+          if (createdMaterial) {
+            commit(mutationsTypes.CREATE_MATERIAL, material);
+
+            const activeSubject = getters.getActiveSubjectEmpty;
+            activeSubject.materials.push(createdMaterial);
+            commit(mutationsTypes.UPDATE_SUBJECT, activeSubject);
+          }
+        });
+  },
+
+  updateMaterial({ commit, getters }, payload){
+    const material = payload;
+    return methods.updateMaterialFetch(material)
+        .then(updatedSubject => {
+          if (updatedSubject) {
+            commit(mutationsTypes.UPDATE_MATERIAL, material);
+
+            const activeSubject = getters.getActiveSubjectEmpty;
+            const materialIdinSubject = activeSubject.materials.findIndex(m => m.id === material.id);
+            activeSubject.materials[materialIdinSubject] = material;
+
+            commit(mutationsTypes.UPDATE_SUBJECT, activeSubject);
+          }
+        });
+  },
+
+  deleteMaterial({ commit, getters }, payload){
+    const material = payload;
+    return methods.deleteMaterialFetch(material)
+        .then(isSuccess => {
+          if (isSuccess) {
+            commit(mutationsTypes.DELETE_MATERIAL, material);
+
+            const activeSubject = getters.getActiveSubjectEmpty;
+            activeSubject.materials = activeSubject.materials.filter(m => m.id !== material.id);
+            
+            commit(mutationsTypes.UPDATE_SUBJECT, activeSubject);
+          }
+        });
+  },
 };
 
 export default actions;

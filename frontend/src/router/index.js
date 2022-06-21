@@ -4,17 +4,22 @@ import NotFound from '../views/NotFound.vue';
 import SigninView from '../views/SigninView.vue';
 
 import StudentView from '../views/StudentView.vue';
+import StudentMain from '../components/student/StudentMain.vue';
+import StudentSubjects from '../components/student/StudentSubjects.vue';
+import StudentJournal from '../components/student/StudentJournal.vue';
+import StudentSubjectTasks from '../components/student/subject/SubjectTasks.vue';
+import StudentSubjectMaterials from '../components/student/subject/SubjectMaterials.vue';
 
 import TeacherView from '../views/TeacherView.vue';
 import TeacherMain from '../components/teacher/TeacherMain.vue';
 import TeacherSubjects from '../components/teacher/TeacherSubjects.vue';
 import TeacherJournal from '../components/teacher/TeacherJournal.vue';
 
-import SubjectGroups from '../components/teacher/SubjectGroups.vue';
-import SubjectHomeWorks from '../components/teacher/SubjectHomeWorks.vue';
-import SubjectJournal from '../components/teacher/SubjectJournal.vue';
-import SubjectMaterials from '../components/teacher/SubjectMaterials.vue';
-import SubjectTasks from '../components/teacher/SubjectTasks.vue';
+import SubjectGroups from '../components/teacher/subject/SubjectGroups.vue';
+import SubjectHomeWorks from '../components/teacher/subject/SubjectHomeWorks.vue';
+import SubjectJournal from '../components/teacher/subject/SubjectJournal.vue';
+import SubjectMaterials from '../components/teacher/subject/SubjectMaterials.vue';
+import SubjectTasks from '../components/teacher/subject/SubjectTasks.vue';
 
 import AdminView from '../views/AdminView.vue';
 import AdminStudents from '../components/admin/StudentsView.vue';
@@ -33,6 +38,49 @@ const routes = [
     name: 'StudentView',
     component: StudentView,
     meta: { requiredStudent: true },
+    children: [
+      {
+        path: 'main',
+        name: 'StudentMain',
+        component: StudentMain
+      },
+      {
+        path: 'subjects',
+        name: 'StudentSubjects',
+        component: StudentSubjects
+      },
+      {
+        path: 'journal',
+        name: 'StudentJournal',
+        component: StudentJournal
+      },
+      {
+        path: 'subject/tasks',
+        name: 'StudentSubjectTasks',
+        component: StudentSubjectTasks,
+        meta: { requiredActiveSubject: true },
+      },
+      {
+        path: 'subject/materials',
+        name: 'StudentSubjectMaterials',
+        component: StudentSubjectMaterials,
+        meta: { requiredActiveSubject: true },
+      },
+    ],
+    beforeEnter(to, from, next) {
+      const requiredActiveSubject = to.matched.some((record) => record.meta.requiredActiveSubject);
+      const hasActiveSubject = localStorage.getItem('hasActiveSubject');
+      const didntHasActiveSubject = requiredActiveSubject && !hasActiveSubject;
+      const notRequiredActiveSubject = !requiredActiveSubject && hasActiveSubject;
+      
+      if (to.name === 'StudentView' || didntHasActiveSubject) {
+        next('/student/subjects');
+      }
+      if (notRequiredActiveSubject) {
+        next('/student/subject/tasks');
+      }
+      else next();
+    },
   },
   {
     path: '/teacher',
@@ -92,11 +140,11 @@ const routes = [
       const didntHasActiveSubject = requiredActiveSubject && !hasActiveSubject;
       const notRequiredActiveSubject = !requiredActiveSubject && hasActiveSubject;
       
-      if (to.path === '/teacher' || didntHasActiveSubject) {
+      if (to.name === 'TeacherView' || didntHasActiveSubject) {
         next('/teacher/main');
       }
       if (notRequiredActiveSubject) {
-        next('/teacher/subject/journal');
+        next('/teacher/subject/tasks');
       }
       else next();
     },
@@ -194,11 +242,11 @@ router.beforeEach((to, from, next) => {
   } 
   else if (!userHasRightRole || isNotFoundPage) {
     if (userRole === userRoles.ROLE_ADMIN)
-      router.push('/admin');
+      next('/admin');
     else if (userRole === userRoles.ROLE_TEACHER)
-      router.push('/teacher');
+      next('/teacher');
     else if (userRole === userRoles.ROLE_STUDENT)
-      router.push('/student');
+      next('/student');
   }
   else {
     next();

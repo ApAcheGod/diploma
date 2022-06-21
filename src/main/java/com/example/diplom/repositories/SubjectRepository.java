@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -16,4 +17,8 @@ public interface SubjectRepository extends JpaRepository<Subject, UUID> {
     @Modifying
     @Query("delete from Subject g where g.id = ?1")
     void deleteById(UUID uuid);
+
+    @Query("select s from Subject s order by s.name")
+    @Override
+    List<Subject> findAll();
 }

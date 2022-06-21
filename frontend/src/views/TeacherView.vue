@@ -6,7 +6,7 @@ import actionsTypes from '../store/actionsTypes'
 import mutationsTypes from '../store/mutationsTypes';
 import methods from '../store/methods';
 
-const $q = useQuasar();
+const q = useQuasar();
 const store = useStore();
 const leftDrawerOpen = ref(true);
 
@@ -21,13 +21,13 @@ const toggleLeftDrawer = () => {
 
 onMounted(() => {
   teacherLogin.value = store.getters.getUserLogin;
-  store.dispatch(actionsTypes.DATA_INIT, teacherLogin.value)
+  store.dispatch(actionsTypes.TEACHER_DATA_INIT, teacherLogin.value)
   .then(() => {
     teacher.value = store.getters.getUserData;
   })
   .catch(error => {
     console.error(error);
-    $q.notify({
+    q.notify({
       type: 'negative',
       message: 'Ошибка при получении информации'
     });

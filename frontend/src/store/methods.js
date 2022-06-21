@@ -1,16 +1,113 @@
 import axios from 'axios';
 
+import workStatuses from '../models/workStatuses';
 import userRoles from "../models/userRoles";
 import URL from './consts';
 
 axios.defaults.withCredentials = true;
 
-export default {
-  // HELPERS
+const getFetch = (route) => {
+  const header = {
+    method: 'GET',
+  };
+  return fetch(`${URL}${route}`, header)
+    .then(res => {
+      if (res.ok) return res.json();  
+      throw `${res.status} ${res.statusText}`;
+    })
+    .then(json => json)
+}
+const createFetch = (route, object) => {
+  const header = {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json;charset=utf-8',
+    'Accept': 'application/json'
+    },
+    body: JSON.stringify(object),
+  };
+  return fetch(`${URL}${route}`, header)
+    .then(res => {
+      if (res.ok) return res.json();  
+      throw `${res.status} ${res.statusText}`;
+    })
+    .then(json => json)
+}
+const updateFetch = (route, object) => {
+  const header = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(object),
+  };
+  return fetch(`${URL}${route}`, header)
+    .then(res => {
+      if (res.ok) return res.json();  
+      throw `${res.status} ${res.statusText}`;
+    })
+    .then(json => json)
+}
+const deleteFetch = (route, object) => {
+  const header = {
+    method: 'DELETE',
+  };
+  return fetch(`${URL}${route}${object.id}`, header)
+    .then(res => {
+      if (res.ok) return res.ok;  
+      throw `${res.status} ${res.statusText}`;
+    })
+    .then(json => json)
+}
 
-  getUserRole(user) {
-    return user ? user.authentication.authorities[0].authority : userRoles.ROLE_ANONYMOUS;
+
+export default {
+
+  dateFormated: (dateAtString) => {
+    const parsedDate = Date.parse(dateAtString);
+    if (isNaN(parsedDate)) return;
+    const publicAtRuLocale = 'Добавлено';
+    const now = new Date();
+    const date = new Date(parsedDate);
+    const dayDiff = Math.abs(now.getDay() - date.getDay());
+    if (now.getMonth() !== date.getMonth() || now.getFullYear() !== date.getFullYear() || dayDiff > 2)
+      return `${publicAtRuLocale}: ${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+    if (dayDiff === 2) 
+      return `${publicAtRuLocale}: позавчера ${date.toLocaleTimeString()}`;
+    if (dayDiff === 1) 
+      return `${publicAtRuLocale}: вчера ${date.toLocaleTimeString()}`;
+    return `${publicAtRuLocale}: сегодня ${date.toLocaleTimeString()}`;
   },
+
+  getMark: (studentId, taskId, examsByStudentIdTaskId, solutionsByStudentIdTaskId) => {
+    const examinationResult = examsByStudentIdTaskId.get(studentId).get(taskId);
+    const solutionResult = solutionsByStudentIdTaskId.get(studentId).get(taskId);
+    const examination = examinationResult ? examinationResult[0] : examinationResult;
+    const solution = solutionResult ? solutionResult[0] : solutionResult;
+    if (examination)
+      return examination.examinationStatus;
+    if (solution)
+      return workStatuses.COMPLETED;
+    return workStatuses.NOT_COMPLETED;
+  },
+
+  getBadgeColor: (workStatus) => {
+    switch (workStatus) {
+      case workStatuses.NOT_COMPLETED:
+        return 'blue';
+        case workStatuses.COMPLETED:
+          return 'orange';
+        case workStatuses.CORRECTLY:
+          return 'green';
+        case workStatuses.INCORRECTLY:
+          return 'red';
+      default:
+        return 'black';
+    }
+  },
+
+  getUserRole: (user) => user ? user.authentication.authorities[0].authority : userRoles.ROLE_ANONYMOUS,
   
   idArrToObjs(array){
     if (array) {
@@ -24,10 +121,6 @@ export default {
     }
     return [];
   },
-
-  // FETCHS
-
-  //  AUTHORIZATION/AUTENTIFICATION/LOGOUT
 
   userLogin(credentials) {
     const header = {
@@ -80,635 +173,58 @@ export default {
       .then(json => json)
   },
 
-  //  END AUTHORIZATION/AUTENTIFICATION/LOGOUT
+  getStudentsFetch: () => getFetch('/api/students/'),
+  getStudentsWithoutGroupFetch: () => getFetch('/api/studentsWithoutGroup/'),
+  getStudentByLoginFetch: (login) => getFetch(`/api/studentByLogin/${login}`),
+  createStudentFetch: (student) => createFetch('/api/student/',
+    {
+      first_name: student.first_name,
+      last_name: student.last_name,
+      patronymic: student.patronymic,
+      email: student.email
+    }
+  ),
+  updateStudentFetch: (student) => updateFetch('/api/student/', student),
+  deleteStudentFetch: (student) => deleteFetch('/api/student/', student),
 
-  //  STUDENTS
+  getMaterialsFetch: () => getFetch('/api/materials/'),
+  createMaterialFetch: (material) => createFetch('/api/material/', material),
+  updateMaterialFetch: (material) => updateFetch('/api/material/', material),
+  deleteMaterialFetch: (material) => deleteFetch('/api/material/', material),
 
-  getStudentsFetch(){
-    const header = {
-      method: 'GET',
-    };
-    return fetch(`${URL}/api/students`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
+  getSubjectsFetch: () => getFetch('/api/subjects/'),
+  createSubjectFetch: (subject) => createFetch('/api/subject/', subject),
+  updateSubjectFetch: (subject) => updateFetch('/api/subject/', subject),
+  deleteSubjectFetch: (subject) => deleteFetch('/api/subject/', subject),
 
-  getStudentsWithoutGroupFetch(){
-    const header = {
-      method: 'GET',
-    };
-    return fetch(`${URL}/api/studentsWithoutGroup`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
+  getTeachersFetch: () => getFetch('/api/teachers/'),
+  getTeacherByLoginFetch: (login) => getFetch(`/api/teacherByLogin/${login}`),
+  createTeacherFetch: (teacher) => createFetch('/api/teacher/', teacher),
+  updateTeacherFetch: (teacher) => updateFetch('/api/teacher/', teacher),
+  deleteTeacherFetch: (teacher) => deleteFetch('/api/teacher/', teacher),
 
-  createStudentFetch(student){
-    const header = {
-      method: 'POST',
-      headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-      'Accept': 'application/json'
-      },
-      body: JSON.stringify(
-        {
-          first_name: student.first_name,
-          last_name: student.last_name,
-          patronymic: student.patronymic,
-          email: student.email
-        }
-      ),
-    };
-    return fetch(`${URL}/api/student`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
+  getTasksFetch: () => getFetch('/api/tasks/'),
+  createTaskFetch: (task) => createFetch('/api/task/', task),
+  updateTaskFetch: (task) => updateFetch('/api/task/', task),
+  deleteTaskFetch: (task) => deleteFetch('/api/task/', task),
+  
+  getRoomsFetch: () => getFetch('/api/rooms/'),
+  createRoomFetch: (room) => createFetch('/api/room/', room),
+  updateRoomFetch: (room) => updateFetch('/api/room/', room),
+  deleteRoomFetch: (room) => deleteFetch('/api/room/', room),
 
-  updateStudentFetch(student){
-    const header = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(student),
-    };
-    return fetch(`${URL}/api/student`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
+  getGroupsFetch: () => getFetch('/api/groups/'),
+  createGroupFetch: (group) => createFetch('/api/group/', group),
+  updateGroupFetch: (group) => updateFetch('/api/group/', group),
+  deleteGroupFetch: (group) => deleteFetch('/api/group/', group),
 
-  deleteStudentFetch(student){
-    const header = {
-      method: 'DELETE',
-    };
-    return fetch(`${URL}/api/student/${student.id}`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
+  getSolutionsFetch: () => getFetch('/api/solutions/'),
+  createSolutionFetch: (solution) => createFetch('/api/solution/', solution),
+  updateSolutionFetch: (solution) => updateFetch('/api/solution/', solution),
+  deleteSolutionFetch: (solution) => deleteFetch('/api/solution/', solution),
 
-  //  END STUDENTS
-
-  //  MATERIALS
-
-  getMaterialsFetch(){
-    const header = {
-      method: 'GET',
-    };
-    return fetch(`${URL}/api/materials`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  createMaterialFetch(material){
-    const header = {
-      method: 'POST',
-      headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-      'Accept': 'application/json'
-      },
-      body: JSON.stringify(material),
-    };
-    return fetch(`${URL}/api/material`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  updateMaterialFetch(material){
-    const header = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(material),
-    };
-    return fetch(`${URL}/api/material`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  deleteMaterialFetch(material){
-    const header = {
-      method: 'DELETE',
-    };
-    return fetch(`${URL}/api/material/${material.id}`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  //  END MATERIALS
-
-  //  SUBJECTS
-
-  getSubjectsFetch(){
-    const header = {
-      method: 'GET',
-    };
-    return fetch(`${URL}/api/subjects`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  createSubjectFetch(subject){
-    const header = {
-      method: 'POST',
-      headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-      'Accept': 'application/json'
-      },
-      body: JSON.stringify(subject),
-    };
-    return fetch(`${URL}/api/subject`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  updateSubjectFetch(subject){
-    const header = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(subject),
-    };
-    return fetch(`${URL}/api/subject`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  deleteSubjectFetch(subject){
-    const header = {
-      method: 'DELETE',
-    };
-    return fetch(`${URL}/api/subject/${subject.id}`, header)
-      .then(res => {
-        if (res.ok)
-          return res.ok;
-        throw `${res.status} ${res.statusText}`;
-      })
-      // .then(json => json)
-  },
-
-  // END SUBJECTS
-
-  //  TEACHERS
-
-  getTeachersFetch(){
-    const header = {
-      method: 'GET',
-    };
-    return fetch(`${URL}/api/teachers`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  getTeacherByLoginFetch(login){
-    const header = {
-      method: 'GET',
-    };
-    return fetch(`${URL}/api/teacherByLogin/${login}`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },  
-
-  createTeacherFetch(teacher){
-    const header = {
-      method: 'POST',
-      headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-      'Accept': 'application/json'
-      },
-      body: JSON.stringify(teacher),
-    };
-    return fetch(`${URL}/api/teacher`, header)
-    .then(res => {
-      if (res.ok)
-        return res.json();  
-      throw `${res.status} ${res.statusText}`;
-    })
-    .then(json => json)
-  },
-
-  updateTeacherFetch(teacher){
-    const header = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(teacher),
-    };
-    return fetch(`${URL}/api/teacher`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  deleteTeacherFetch(teacher){
-    const header = {
-      method: 'DELETE',
-    };
-    return fetch(`${URL}/api/teacher/${teacher.id}`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  // END TEACHERS
-
-  //  TASKS
-
-  getTasksFetch(){
-    const header = {
-      method: 'GET',
-    };
-    return fetch(`${URL}/api/tasks`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  createTaskFetch(task){
-    const header = {
-      method: 'POST',
-      headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-      'Accept': 'application/json'
-      },
-      body: JSON.stringify(task),
-    };
-    return fetch(`${URL}/api/task`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  updateTaskFetch(task){
-    const header = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(task),
-    };
-    return fetch(`${URL}/api/task`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-
-  },
-
-  deleteTaskFetch(task){
-    const header = {
-      method: 'DELETE',
-    };
-    return fetch(`${URL}/api/task/${task.id}`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-
-  },
-
-  //  END TASKS
-
-  //  ROOMS
-
-  getRoomsFetch(){
-    const header = {
-      method: 'GET',
-    };
-    return fetch(`${URL}/api/rooms`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-
-  },
-
-  createRoomFetch(room){
-    const header = {
-      method: 'POST',
-      headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-      'Accept': 'application/json'
-      },
-      body: JSON.stringify(room),
-    };
-    return fetch(`${URL}/api/room`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  updateRoomFetch(room){
-    const header = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(room),
-    };
-    return fetch(`${URL}/api/room`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  deleteRoomFetch(room){
-    const header = {
-      method: 'DELETE',
-    };
-    return fetch(`${URL}/api/room/${room.id}`, header)
-      .then(res => {
-        if (res.ok)
-          return res.ok;  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  // END ROOMS
-
-  //  GROUPS
-
-  getGroupsFetch(){
-    const header = {
-      method: 'GET',
-    };
-    return fetch(`${URL}/api/groups`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  createGroupFetch(group){
-    const header = {
-      method: 'POST',
-      headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-      'Accept': 'application/json'
-      },
-      body: JSON.stringify(group),
-    };
-    return fetch(`${URL}/api/group`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  updateGroupFetch(group){
-    const header = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(group),
-    };
-    return fetch(`${URL}/api/group`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-    .then(json => json)
-  },
-
-  deleteGroupFetch(group){
-    const header = {
-      method: 'DELETE',
-    };
-    return fetch(`${URL}/api/group/${group.id}`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-    .then(json => json)
-  },
-
-  // END GROUPS
-
-  //  SOLUTIONS
-
-  getSolutionsFetch(){
-    const header = {
-      method: 'GET',
-    };
-    return fetch(`${URL}/api/solutions`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  createSolutionFetch(solution){
-    const header = {
-      method: 'POST',
-      headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-      'Accept': 'application/json'
-      },
-      body: JSON.stringify(solution),
-    };
-    return fetch(`${URL}/api/solution`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  updateSolutionFetch(solution){
-    const header = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(solution),
-    };
-    return fetch(`${URL}/api/solution`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  deleteSolutionFetch(solution){
-    const header = {
-      method: 'DELETE',
-    };
-    return fetch(`${URL}/api/solution/${solution.id}`, header)
-      .then(res => {
-        if (res.ok)
-          return res.json();  
-        throw `${res.status} ${res.statusText}`;
-      })
-      .then(json => json)
-  },
-
-  //  END SOLUTIONS
-
-  // EXAMINATIONS
-
-  getExaminationsFetch(){
-    const header = {
-      method: 'GET',
-    };
-    return fetch(`${URL}/api/examinations`, header)
-        .then(res => {
-          if (res.ok)
-            return res.json();
-          throw `${res.status} ${res.statusText}`;
-        })
-        .then(json => json)
-  },
-
-
-  createExaminationFetch(examination){
-    const header = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(examination),
-    };
-    return fetch(`${URL}/api/examination`, header)
-        .then(res => {
-          if (res.ok)
-            return res.json();
-          throw `${res.status} ${res.statusText}`;
-        })
-        .then(json => json)
-  },
-
-  updateExaminationFetch(examination){
-    const header = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(examination),
-    };
-    return fetch(`${URL}/api/examination`, header)
-        .then(res => {
-          if (res.ok)
-            return res.json();
-          throw `${res.status} ${res.statusText}`;
-        })
-        .then(json => json)
-  },
-
-  deleteExaminationFetch(examination){
-    const header = {
-      method: 'DELETE',
-    };
-    return fetch(`${URL}/api/examination/${examination.id}`, header)
-        .then(res => {
-          if (res.ok)
-            return res.json();
-          throw `${res.status} ${res.statusText}`;
-        })
-        .then(json => json)
-  },
-
+  getExaminationsFetch: () => getFetch('/api/examinations/'),
+  createExaminationFetch: (examination) => createFetch('/api/examination/', examination),
+  updateExaminationFetch: (examination) => updateFetch('/api/examination/', examination),
+  deleteExaminationFetch: (examination) => deleteFetch('/api/examination/', examination),
 };

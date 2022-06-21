@@ -6,7 +6,7 @@ import axios from 'axios';
 import StudentCard from './StudentCard.vue';
 import StudentDialog from './StudentDialog.vue';
 
-let $q = useQuasar();
+let q = useQuasar();
 
 let students = ref();
 
@@ -19,14 +19,14 @@ onMounted(async () => {
 });
 
 function triggerPositive(msg) {
-  $q.notify({
+  q.notify({
     type: 'positive',
     message: msg
   })
 }
 
 function triggerNegative(msg) {
-  $q.notify({
+  q.notify({
     type: 'negative',
     message: msg
   })
@@ -85,7 +85,7 @@ async function deleteStudent(student){
     <q-btn 
       fab 
       icon="add" 
-      color="accent"
+       color="primary"
       @click="studentPromptIsOpen = true"/>
   </q-page-sticky>
 

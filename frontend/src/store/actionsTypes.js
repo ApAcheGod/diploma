@@ -3,6 +3,8 @@ export default {
     USER_SIGNOUT : 'userSignOut',
 
     DATA_INIT : 'dataInit',
+    TEACHER_DATA_INIT : 'teacherDataInit',
+    STUDENT_DATA_INIT : 'studentDataInit',
 
     CREATE_ROOM : 'createRoom',
     DELETE_ROOM : 'deleteRoom',
@@ -30,4 +32,6 @@ export default {
 
     SET_ACTIVE_SUBJECT : 'setActiveSubject',
     DELETE_ACTIVE_SUBJECT : 'deleteActiveSubject',
+
+    UPDATE_SUBJECT : 'updateSubject',
 }

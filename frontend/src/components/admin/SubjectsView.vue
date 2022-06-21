@@ -6,7 +6,7 @@ import {useQuasar} from 'quasar'
 import SubjectCard from './SubjectCard.vue';
 import SubjectDialog from './SubjectDialog.vue';
 
-let $q = useQuasar();
+let q = useQuasar();
 
 let materials = ref();
 
@@ -40,14 +40,14 @@ onMounted(async () => {
 });
 
 function triggerPositive(msg) {
-  $q.notify({
+  q.notify({
     type: 'positive',
     message: msg
   })
 }
 
 function triggerNegative(msg) {
-  $q.notify({
+  q.notify({
     type: 'negative',
     message: msg
   })
@@ -105,7 +105,7 @@ async function deleteSubject(subject){
     <q-btn 
       fab 
       icon="add" 
-      color="accent"
+       color="primary"
       @click="subjectPromptIsOpen = true"/>
   </q-page-sticky>
 

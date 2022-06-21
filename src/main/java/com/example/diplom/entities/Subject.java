@@ -43,12 +43,12 @@ public class Subject {
     @BatchSize(size = 20)
     private Set<Material> materials = new HashSet<>();
 
-    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
     @ToString.Exclude
     @BatchSize(size = 20)
     private Set<Task> tasks = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "subjects_groups",
             joinColumns = {@JoinColumn(name = "subjects_id")},

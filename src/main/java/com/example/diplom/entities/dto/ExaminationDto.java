@@ -50,4 +50,6 @@ public class ExaminationDto {
     private String roomName;
 
     private UUID roomId;
+
+    private String comment;
 }

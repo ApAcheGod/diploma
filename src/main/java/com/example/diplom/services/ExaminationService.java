@@ -18,7 +18,7 @@ public class ExaminationService {
     private final ExaminationRepository examinationRepository;
 
     @Transactional
-    @Modifying
+//    @Modifying
     public void save(Examination examination){
         examinationRepository.save(examination);
     }

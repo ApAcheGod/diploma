@@ -43,4 +43,6 @@ public class Examination {
     @BatchSize(size = 20)
     private ExaminationStatus examinationStatus;
 
+    private String comment;
+
 }

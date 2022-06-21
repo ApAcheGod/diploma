@@ -5,7 +5,7 @@ import {useQuasar} from 'quasar';
 import RoomCard from './RoomCard.vue';
 import RoomDialog from './RoomDialog.vue';
 
-let $q = useQuasar();
+let q = useQuasar();
 
 let rooms = ref();
 let teachers = ref ();
@@ -26,14 +26,14 @@ onMounted(async () => {
 });
 
 function triggerPositive(msg) {
-  $q.notify({
+  q.notify({
     type: 'positive',
     message: msg
   })
 }
 
 function triggerNegative(msg) {
-  $q.notify({
+  q.notify({
     type: 'negative',
     message: msg
   })
@@ -85,7 +85,7 @@ async function deleteRoom(room){
     <q-btn 
       fab 
       icon="add" 
-      color="accent"
+       color="primary"
       @click="roomPromptIsOpen = true"/>
   </q-page-sticky>
 
