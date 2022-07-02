@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { Notify, Quasar } from 'quasar';
+import { Notify, Quasar, Loading } from 'quasar';
 
 import '@quasar/extras/roboto-font/roboto-font.css';
 import '@quasar/extras/material-icons/material-icons.css';
@@ -16,7 +16,7 @@ const app = createApp(App)
 app.use(store)
 app.use(router)
 app.use(Quasar, {
-  plugins: { Notify },
+  plugins: { Notify, Loading },
   lang: ru,
 })
 

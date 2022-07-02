@@ -1,4 +1,23 @@
 <script setup>
+import { computed } from '@vue/reactivity';
+import { useQuasar } from 'quasar';
+import { watchEffect } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore();
+const q = useQuasar();
+const isLoading = computed(() => store.getters.getLoading);
+
+watchEffect(() => {
+  if (isLoading.value) {
+    q.loading.show({
+      message: 'Загрузка данных, пожалуйста, подождите'
+    })
+  }
+  else 
+    q.loading.hide();
+});
+
 </script>
 
 <template>

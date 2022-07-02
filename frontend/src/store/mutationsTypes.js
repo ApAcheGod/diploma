@@ -1,4 +1,7 @@
 export default {
+  SET_LOGIN : 'setLogin',
+  TOGGLE_LOADING : 'toggleLoading',
+  
   SET_USER : 'setUser',
   CLEAR_USER : 'clearUser',
   SET_USER_LOGIN : 'setUserLogin',

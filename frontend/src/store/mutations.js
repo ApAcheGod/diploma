@@ -1,6 +1,12 @@
 import userRoles from "../models/userRoles";
 
 const mutations = {
+  setLoading(state, payload) {
+    state.loading = payload;
+  },
+  toggleLoading(state) {
+    state.loading = !state.loading;
+  },
   setUser(state, payload) {
     state.user = payload;
     localStorage.setItem('user', JSON.stringify(payload));
