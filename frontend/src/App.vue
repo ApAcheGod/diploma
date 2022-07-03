@@ -11,7 +11,6 @@ const isLoading = computed(() => store.getters.getLoading);
 watchEffect(() => {
   if (isLoading.value) {
     q.loading.show({
-      message: 'Загрузка данных, пожалуйста, подождите'
     })
   }
   else 
